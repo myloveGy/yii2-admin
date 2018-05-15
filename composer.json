@@ -1,0 +1,28 @@
+{
+    "name": "jinxing/yii2-admin",
+    "description": "RBAC Auth manager for Yii2",
+    "keywords": ["yii2", "admin", "auth", "rbac", "ace-admin"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "minimum-stability": "stable",
+    "support": {
+        "issues": "https://github.com/myloveGy/yii2-admin/issues",
+        "source": "https://github.com/myloveGy/yii2-admin"
+    },
+    "authors": [
+        {
+            "name": "jinxing.liu",
+            "email": "jinxing.liu@qq.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": ">=2.0.13",
+        "yurkinx/yii2-image": "^1.1",
+        "phpoffice/phpexcel": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "jinxing\\admin\\": "src"
+        }
+    }
+}
