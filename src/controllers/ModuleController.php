@@ -193,7 +193,7 @@ class ModuleController extends Controller
             $model              = new Auth();
             $model->name        = $model->newName = $strPrefix . $key;
             $model->type        = Auth::TYPE_PERMISSION;
-            $model->description = $value . '-' . $title;
+            $model->description = $title . '-' . $value;
             $model->save();
         }
     }

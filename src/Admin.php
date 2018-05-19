@@ -3,16 +3,18 @@
 namespace jinxing\admin;
 
 use Yii;
+use yii\base\Module;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\UnauthorizedHttpException;
 use jinxing\admin\traits\JsonTrait;
+use jinxing\admin\helpers\Helper;
 
 /**
  * admin module definition class
  */
-class Admin extends \yii\base\Module
+class Admin extends Module
 {
     use JsonTrait;
 
@@ -83,7 +85,7 @@ class Admin extends \yii\base\Module
      * @var int 允许开启iFrame 个数
      */
     public $frameNumberSize = 8;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -131,8 +133,9 @@ class Admin extends \yii\base\Module
         }
 
         // 验证权限
-        list($url) = explode('?', Yii::$app->request->url);
-        if (!Yii::$app->get($this->user)->can(trim($url, '/')) && Yii::$app->getErrorHandler()->exception === null) {
+        $module = Helper::getModuleIds($action->controller->module);
+        array_push($module, $action->controller->id, $action->id);
+        if (!Yii::$app->get($this->user)->can(implode('/', $module)) && Yii::$app->getErrorHandler()->exception === null) {
             // 没有权限AJAX返回
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->content = Json::encode($this->error(216));

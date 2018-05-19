@@ -2,8 +2,10 @@
 
 namespace jinxing\admin\helpers;
 
+use yii\base\Module;
 use yii\helpers\ArrayHelper;
 use Closure;
+use yii\web\Application;
 
 /**
  * Class Helper
@@ -271,5 +273,33 @@ class Helper
         $objWriter->save('php://output');
         \Yii::$app->end();
         return;
+    }
+
+    /**
+     * 获取模块ID
+     *
+     * @param      $module
+     *
+     * @param bool $get_application
+     *
+     * @return array
+     */
+    public static function getModuleIds($module, $get_application = false)
+    {
+        $array = [];
+        if ($module instanceof Application) {
+            if ($get_application) {
+                $array[] = $module->id;
+            }
+        } else if ($module instanceof Module) {
+            $array[] = $module->id;
+            if ($ids = static::getModuleIds($module->module)) {
+                foreach ($ids as $id) {
+                    array_unshift($array, $id);
+                }
+            }
+        }
+
+        return $array;
     }
 }
