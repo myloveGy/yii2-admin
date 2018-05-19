@@ -48,10 +48,8 @@ class AdminUser extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [
-                'class'              => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                'value'              => new Expression('UNIX_TIMESTAMP()'),
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('UNIX_TIMESTAMP()'),
             ],
             UpdateBehavior::className(),
         ];

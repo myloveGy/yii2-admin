@@ -16,10 +16,8 @@ class AdminModel extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class'              => TimestampBehavior::className(),
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                'value'              => new Expression('UNIX_TIMESTAMP()'),
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('UNIX_TIMESTAMP()'),
             ],
             UpdateBehavior::className(),
         ];

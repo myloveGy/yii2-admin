@@ -2,13 +2,13 @@
 
 namespace jinxing\admin\controllers;
 
-use jinxing\admin\models\forms\AdminForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use jinxing\admin\helpers\Helper;
 use jinxing\admin\models\Menu;
 use jinxing\admin\models\Admin;
+use jinxing\admin\models\forms\AdminForm;
 
 /**
  * Class DefaultController 后台首页处理

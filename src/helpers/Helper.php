@@ -179,6 +179,10 @@ class Helper
      * @param null|object|string $function     处理函数
      *
      * @return mixed
+     * @throws \PHPExcel_Exception
+     * @throws \PHPExcel_Reader_Exception
+     * @throws \PHPExcel_Writer_Exception
+     * @throws \yii\base\ExitException
      */
     public static function excel($title, $columns, $query, $handleParams = [], $function = null)
     {
