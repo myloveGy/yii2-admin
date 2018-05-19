@@ -2,10 +2,10 @@
 
 namespace backend\controllers;
 
-use common\helpers\Helper;
+use jinxing\admin\helpers\Helper;
 use Yii;
-use backend\models\Menu;
-use backend\models\Auth;
+use jinxing\admin\models\Menu;
+use jinxing\admin\models\Auth;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;

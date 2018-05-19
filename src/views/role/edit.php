@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\widgets\Alert;
+use jinxing\admin\widgets\Alert;
 use yii\helpers\Json;
 
 $this->title = '角色信息分配权限';

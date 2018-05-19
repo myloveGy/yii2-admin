@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use backend\models\AdminLog;
+use jinxing\admin\models\AdminLog;
 use Yii;
-use common\models\Admin;
-use common\models\UploadForm;
-use common\strategy\Substance;
-use common\helpers\Helper;
+use jinxing\admin\models\Admin;
+use jinxing\admin\models\UploadForm;
+use jinxing\admin\strategy\Substance;
+use jinxing\admin\helpers\Helper;
 use yii\db\Query;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;

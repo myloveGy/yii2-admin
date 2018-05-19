@@ -2,7 +2,7 @@
 
 namespace backend\widgets;
 
-use backend\assets\AdminAsset;
+use jinxing\admin\assets\AdminAsset;
 use yii\helpers\Html;
 use yii\base\Widget;
 

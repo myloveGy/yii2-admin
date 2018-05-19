@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use backend\models\Admin;
-use common\helpers\Helper;
-use common\helpers\Tree;
+use jinxing\admin\models\Admin;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\helpers\Tree;
 use Yii;
-use backend\models\Auth;
-use backend\models\Menu;
+use jinxing\admin\models\Auth;
+use jinxing\admin\models\Menu;
 use yii\web\HttpException;
 use \yii\web\UnauthorizedHttpException;
 

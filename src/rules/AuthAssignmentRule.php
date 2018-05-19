@@ -2,8 +2,8 @@
 
 namespace backend\rules;
 
-use backend\models\Admin;
-use backend\models\Auth;
+use jinxing\admin\models\Admin;
+use jinxing\admin\models\Auth;
 use yii;
 use yii\rbac\Rule;
 

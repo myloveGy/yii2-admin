@@ -2,11 +2,11 @@
 
 namespace backend\controllers;
 
-use backend\models\AdminLog;
-use common\helpers\Helper;
+use jinxing\admin\models\AdminLog;
+use jinxing\admin\helpers\Helper;
 use Yii;
-use backend\models\Admin;
-use common\models\China;
+use jinxing\admin\models\Admin;
+use jinxing\admin\models\China;
 use yii\image\drivers\Image;
 
 /**

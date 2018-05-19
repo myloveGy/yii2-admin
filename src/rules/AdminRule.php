@@ -2,7 +2,7 @@
 
 namespace backend\rules;
 
-use backend\models\Admin;
+use jinxing\admin\models\Admin;
 use yii;
 use yii\rbac\Rule;
 

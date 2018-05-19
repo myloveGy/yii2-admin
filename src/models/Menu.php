@@ -2,9 +2,9 @@
 
 namespace backend\models;
 
-use common\helpers\Tree;
+use jinxing\admin\helpers\Tree;
 use Yii;
-use common\models\AdminModel;
+use jinxing\admin\models\AdminModel;
 use yii\helpers\ArrayHelper;
 
 /**

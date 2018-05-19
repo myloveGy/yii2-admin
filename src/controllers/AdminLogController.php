@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\Admin;
+use jinxing\admin\models\Admin;
 use yii;
 
 /**

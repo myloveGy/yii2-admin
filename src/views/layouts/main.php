@@ -1,6 +1,6 @@
 <?php
 
-use backend\assets\AdminAsset;
+use jinxing\admin\assets\AdminAsset;
 use yii\helpers\Html;
 
 AdminAsset::register($this);

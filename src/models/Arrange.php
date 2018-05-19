@@ -2,7 +2,7 @@
 
 namespace backend\models;
 
-use common\models\AdminModel;
+use jinxing\admin\models\AdminModel;
 
 /**
  * This is the model class for table "{{%arrange}}".

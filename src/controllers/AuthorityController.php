@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
-use backend\models\AuthRule;
+use jinxing\admin\models\AuthRule;
 use yii;
-use backend\models\Auth;
+use jinxing\admin\models\Auth;
 
 /**
  * Class AuthorityController 权限管理类

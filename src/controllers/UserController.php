@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\User;
+use jinxing\admin\models\User;
 
 /**
  * Class UserController 用户信息

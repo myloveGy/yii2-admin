@@ -2,11 +2,11 @@
 
 namespace backend\controllers;
 
-use backend\models\Admin;
-use backend\models\Auth;
-use backend\models\AuthAssignment;
+use jinxing\admin\models\Admin;
+use jinxing\admin\models\Auth;
+use jinxing\admin\models\AuthAssignment;
 use yii\helpers\Json;
-use common\helpers\Helper;
+use jinxing\admin\helpers\Helper;
 use yii;
 
 /**

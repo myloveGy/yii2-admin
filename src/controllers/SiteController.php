@@ -5,10 +5,10 @@ namespace backend\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use common\models\AdminForm;
-use common\helpers\Helper;
-use backend\models\Menu;
-use backend\models\Admin;
+use jinxing\admin\models\AdminForm;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\models\Menu;
+use jinxing\admin\models\Admin;
 
 /**
  * Class SiteController 后台首页处理

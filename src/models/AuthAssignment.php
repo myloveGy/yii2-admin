@@ -2,7 +2,7 @@
 
 namespace backend\models;
 
-use common\behaviors\TimestampBehavior;
+use jinxing\admin\behaviors\TimestampBehavior;
 use \yii\db\ActiveRecord;
 
 /**

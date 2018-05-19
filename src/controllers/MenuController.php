@@ -2,8 +2,8 @@
 
 namespace backend\controllers;
 
-use backend\models\Menu;
-use common\helpers\Tree;
+use jinxing\admin\models\Menu;
+use jinxing\admin\helpers\Tree;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 

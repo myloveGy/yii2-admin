@@ -1,7 +1,7 @@
 <?php
 
 use yii\widgets\DetailView;
-use common\widgets\Alert;
+use jinxing\admin\widgets\Alert;
 use \backend\widgets\Nestable;
 
 $this->title = '角色信息详情';

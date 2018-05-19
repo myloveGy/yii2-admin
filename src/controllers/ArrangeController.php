@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
-use backend\models\Admin;
+use jinxing\admin\models\Admin;
 use Yii;
-use backend\models\Arrange;
+use jinxing\admin\models\Arrange;
 
 /**
  * Class ArrangeController 日程安排控制器

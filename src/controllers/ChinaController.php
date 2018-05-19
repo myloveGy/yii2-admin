@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use common\models\China;
+use jinxing\admin\models\China;
 use yii\helpers\ArrayHelper;
 
 /**
