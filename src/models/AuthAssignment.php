@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models;
+namespace jinxing\admin\models;
 
 use jinxing\admin\behaviors\TimestampBehavior;
 use \yii\db\ActiveRecord;

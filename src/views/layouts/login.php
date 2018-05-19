@@ -4,54 +4,59 @@
  * Date: 2016/7/18
  * Time: 19:17
  */
+
+use \yii\helpers\ArrayHelper;
+use jinxing\admin\AppAsset;
+
+list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
 ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta charset="<?= Yii::$app->charset ?>" />
-    <meta name="description" content="overview &amp; stats" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title><?=Yii::$app->params['projectTitle']?></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="<?= Yii::$app->charset ?>"/>
+    <meta name="description" content="overview &amp; stats"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <title><?= ArrayHelper::getValue(Yii::$app->params, 'projectTitle', 'Yii2 Admin') ?></title>
     <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="/public/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="<?=$url?>/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<?=$url?>/css/font-awesome.min.css"/>
     <!-- text fonts -->
-    <link rel="stylesheet" href="/public/assets/css/ace-fonts.css" />
+    <link rel="stylesheet" href="<?=$url?>/css/ace-fonts.css"/>
     <!-- ace styles -->
-    <link rel="stylesheet" href="/public/assets/css/ace.min.css" id="main-ace-style" />
+    <link rel="stylesheet" href="<?=$url?>/css/ace.min.css" id="main-ace-style"/>
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="/public/css/ace-part2.min.css" />
+    <link rel="stylesheet" href="<?=$url?>/css/ace-part2.min.css"/>
     <![endif]-->
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="/public/css/ace-ie.min.css" />
+    <link rel="stylesheet" href="<?=$url?>/css/ace-ie.min.css"/>
     <![endif]-->
     <!-- inline styles related to this page -->
     <!-- ace settings handler -->
-    <script src="/public/assets/js/ace-extra.min.js"></script>
+    <script src="<?=$url?>/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
-    <script src="/public/assets/js/html5shiv.min.js"></script>
-    <script src="/public/assets/js/respond.min.js"></script>
+    <script src="<?=$url?>/js/html5shiv.min.js"></script>
+    <script src="<?=$url?>/js/respond.min.js"></script>
     <![endif]-->
 
     <!-- 公共的JS文件 -->
     <!--[if !IE]> -->
     <script type="text/javascript">
-        window.jQuery || document.write("<script src='/public/assets/js/jquery.min.js'>"+"<"+"/script>");
+        window.jQuery || document.write("<script src='<?=$url?>/js/jquery.min.js'>" + "<" + "/script>");
     </script>
     <!-- <![endif]-->
     <!--[if IE]>
     <script type="text/javascript">
-        window.jQuery || document.write("<script src='/public/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+        window.jQuery || document.write("<script src='<?=$url?>/js/jquery1x.min.js'>" + "<" + "/script>");
     </script>
     <![endif]-->
     <script type="text/javascript">
-        if('ontouchstart' in document.documentElement) document.write("<script src='/public/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+        if ('ontouchstart' in document.documentElement) document.write("<script src='<?=$url?>/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
-    <script src="/public/assets/js/bootstrap.min.js"></script>
+    <script src="<?=$url?>/js/bootstrap.min.js"></script>
     <!--[if lte IE 8]>
-    <script src="/public/assets/js/excanvas.min.js"></script>
+    <script src="<?=$url?>/js/excanvas.min.js"></script>
     <![endif]-->
 </head>
 <body class="login-layout light-login">
@@ -62,7 +67,7 @@
                 <div class="login-container">
                     <div class="center">
                         <h1>
-                            <span class="red"><?=Yii::$app->params['projectName']?></span>
+                            <span class="red"><?= ArrayHelper::getValue(Yii::$app->params, 'projectName', 'Yii2 Admin') ?></span>
                         </h1>
                     </div>
 
@@ -115,7 +120,7 @@
                                         <fieldset>
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="email" class="form-control" placeholder="Email" />
+                                                    <input type="email" class="form-control" placeholder="Email"/>
                                                     <i class="ace-icon fa fa-envelope"></i>
                                                 </span>
                                             </label>
@@ -153,34 +158,34 @@
                                         <fieldset>
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="email" class="form-control" placeholder="Email" />
+                                                    <input type="email" class="form-control" placeholder="Email"/>
                                                     <i class="ace-icon fa fa-envelope"></i>
                                                 </span>
                                             </label>
 
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="text" class="form-control" placeholder="用户名" />
+                                                    <input type="text" class="form-control" placeholder="用户名"/>
                                                     <i class="ace-icon fa fa-user"></i>
                                                 </span>
                                             </label>
 
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="password" class="form-control" placeholder="密码" />
+                                                    <input type="password" class="form-control" placeholder="密码"/>
                                                     <i class="ace-icon fa fa-lock"></i>
                                                 </span>
                                             </label>
 
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="password" class="form-control" placeholder="确认密码" />
+                                                    <input type="password" class="form-control" placeholder="确认密码"/>
                                                     <i class="ace-icon fa fa-retweet"></i>
                                                 </span>
                                             </label>
 
                                             <label class="block">
-                                                <input type="checkbox" class="ace" />
+                                                <input type="checkbox" class="ace"/>
                                                 <span class="lbl">
                                                     我同意
                                                     <a href="#">用户协议</a>
@@ -193,7 +198,8 @@
                                                     <span class="bigger-110"> 重 置 </span>
                                                 </button>
 
-                                                <button type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                                <button type="button"
+                                                        class="width-65 pull-right btn btn-sm btn-success">
                                                     <span class="bigger-110"> 注 册 </span>
                                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                                 </button>
@@ -213,7 +219,7 @@
                     </div><!-- /.position-relative -->
 
                     <div class="navbar-fixed-top align-right">
-                        <br />
+                        <br/>
                         &nbsp;
                         <a id="btn-login-dark" href="#">暗黑</a>
                         &nbsp;
@@ -233,8 +239,8 @@
 </div><!-- /.main-container -->
 
 <script type="text/javascript">
-    jQuery(function($) {
-        $(document).on('click', '.toolbar a[data-target]', function(e) {
+    jQuery(function ($) {
+        $(document).on('click', '.toolbar a[data-target]', function (e) {
             e.preventDefault();
             var target = $(this).data('target');
             $('.widget-box.visible').removeClass('visible');//hide others
@@ -243,21 +249,21 @@
     });
 
     //you don't need this, just used for changing background
-    jQuery(function($) {
-        $('#btn-login-dark').on('click', function(e) {
+    jQuery(function ($) {
+        $('#btn-login-dark').on('click', function (e) {
             $('body').attr('class', 'login-layout');
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'blue');
             e.preventDefault();
         });
 
-        $('#btn-login-light').on('click', function(e) {
+        $('#btn-login-light').on('click', function (e) {
             $('body').attr('class', 'login-layout light-login');
             $('#id-text2').attr('class', 'grey');
             $('#id-company-text').attr('class', 'blue');
             e.preventDefault();
         });
-        $('#btn-login-blur').on('click', function(e) {
+        $('#btn-login-blur').on('click', function (e) {
             $('body').attr('class', 'login-layout blur-login');
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'light-blue');

@@ -65,7 +65,7 @@ php composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
 
 1. 后台控制器配置
     ```php
-    namespace backend\controllers;
+    namespace jinxing\admin\controllers;
     
     /**
      * Class ChinaController

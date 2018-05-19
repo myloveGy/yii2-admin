@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models;
+namespace jinxing\admin\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
  * @property string $last_ip
  * @property string $password write-only password
  */
-class Admin extends \common\models\Admin
+class Admin extends AdminUser
 {
     public $password;
     public $repassword;

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace jinxing\admin\controllers;
 
 use jinxing\admin\helpers\Helper;
 use Yii;
@@ -373,7 +373,7 @@ html;
         $strControllers = <<<Html
 <?php
 
-namespace backend\controllers;
+namespace jinxing\admin\controllers;
 
 /**
  * Class {$strName} {$title} 执行操作控制器

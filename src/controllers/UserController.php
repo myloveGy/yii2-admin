@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\User;
 

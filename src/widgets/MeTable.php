@@ -1,8 +1,8 @@
 <?php
 
-namespace backend\widgets;
+namespace jinxing\admin\widgets;
 
-use jinxing\admin\assets\AdminAsset;
+use jinxing\admin\AdminAsset;
 use yii\helpers\Html;
 use yii\base\Widget;
 

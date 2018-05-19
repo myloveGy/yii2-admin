@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\rules;
+namespace jinxing\admin\rules;
 
 use jinxing\admin\models\Admin;
 use jinxing\admin\models\Auth;

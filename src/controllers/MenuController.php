@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\Menu;
 use jinxing\admin\helpers\Tree;

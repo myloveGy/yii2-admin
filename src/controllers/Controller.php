@@ -1,11 +1,12 @@
 <?php
 
-namespace backend\controllers;
+namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\AdminLog;
+use jinxing\admin\traits\JsonTrait;
 use Yii;
 use jinxing\admin\models\Admin;
-use jinxing\admin\models\UploadForm;
+use jinxing\admin\models\forms\UploadForm;
 use jinxing\admin\strategy\Substance;
 use jinxing\admin\helpers\Helper;
 use yii\db\Query;
@@ -20,15 +21,15 @@ use yii\web\UnauthorizedHttpException;
  * @author  liujx
  * @package backend\controllers
  */
-class Controller extends \common\controllers\UserController
+class Controller extends \yii\web\Controller
 {
     // 引入json 返回处理类
-    use \common\traits\Json;
+    use JsonTrait;
 
     /**
      * @var string 定义使用的model
      */
-    protected $modelClass = '\backend\models\Admin';
+    protected $modelClass = '\jinxing\admin\models\Admin';
 
     /**
      * @var string pk 定义表使用的主键名称
@@ -57,7 +58,9 @@ class Controller extends \common\controllers\UserController
 
     /**
      * 请求之前的数据验证
+     *
      * @param \yii\base\Action $action
+     *
      * @return bool
      * @throws UnauthorizedHttpException
      * @throws \yii\web\BadRequestHttpException
@@ -84,7 +87,7 @@ class Controller extends \common\controllers\UserController
                 $this->admins = ArrayHelper::map(Admin::findAll(['status' => Admin::STATUS_ACTIVE]), 'id', 'username');
                 // 注入变量信息
                 Yii::$app->view->params['admins'] = $this->admins;
-                Yii::$app->view->params['user'] = Yii::$app->getUser()->identity;
+                Yii::$app->view->params['user']   = Yii::$app->getUser()->identity;
             }
 
             return true;
@@ -105,7 +108,9 @@ class Controller extends \common\controllers\UserController
     /**
      * 获取查询的配置信息(查询参数)
      * @access protected
+     *
      * @param  array $params 查询的请求参数
+     *
      * @return array 返回一个数组用来查询
      */
     protected function where($params)
@@ -117,6 +122,7 @@ class Controller extends \common\controllers\UserController
      * 获取查询对象(查询结果一定要为数组)
      *
      * @param mixed|array $where 查询条件
+     *
      * @return \yii\db\Query 返回查询对象
      * @see actionSearch()
      * @see actionExport()
@@ -143,10 +149,10 @@ class Controller extends \common\controllers\UserController
         $strategy = Substance::getInstance($this->strategy);
 
         // 获取查询参数
-        $search = $strategy->getRequest(); // 处理查询参数
-        $search['field'] = $search['field'] ? $search['field'] : $this->sort;
+        $search            = $strategy->getRequest(); // 处理查询参数
+        $search['field']   = $search['field'] ? $search['field'] : $this->sort;
         $search['orderBy'] = [$search['field'] => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
-        $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
+        $search['where']   = Helper::handleWhere($search['params'], $this->where($search['params']));
 
         // 查询数据
         $query = $this->getQuery($search['where']);
@@ -167,9 +173,11 @@ class Controller extends \common\controllers\UserController
     /**
      * 查询之后的数据处理函数
      * @access protected
+     *
      * @param  mixed $array 查询出来的数组对象
+     *
      * @return void  对数据进行处理
-     * @see actionSearch()
+     * @see    actionSearch()
      */
     protected function afterSearch(&$array)
     {
@@ -221,7 +229,7 @@ class Controller extends \common\controllers\UserController
     public function actionUpdate()
     {
         // 接收参数判断
-        $data = Yii::$app->request->post();
+        $data  = Yii::$app->request->post();
         $model = $this->findOne();
         if (!$model) {
             return $this->returnJson();
@@ -257,7 +265,7 @@ class Controller extends \common\controllers\UserController
     public function actionDelete()
     {
         // 接收参数判断
-        $data = Yii::$app->request->post();
+        $data  = Yii::$app->request->post();
         $model = $this->findOne();
         if (!$model) {
             return $this->returnJson();
@@ -328,9 +336,9 @@ class Controller extends \common\controllers\UserController
     public function actionEditable()
     {
         // 接收参数
-        $request = Yii::$app->request;
-        $mixPk = $request->post('pk');    // 主键值
-        $strAttr = $request->post('name');  // 字段名
+        $request  = Yii::$app->request;
+        $mixPk    = $request->post('pk');    // 主键值
+        $strAttr  = $request->post('name');  // 字段名
         $mixValue = $request->post('value'); // 字段值
 
         // 第一步验证： 主键值、修改字段、修改的值不能为空字符串
@@ -359,9 +367,11 @@ class Controller extends \common\controllers\UserController
     /**
      * 文件上传成功的处理信息
      * @access protected
-     * @param  object $object 文件上传类
+     *
+     * @param  object $object      文件上传类
      * @param  string $strFilePath 文件保存路径
-     * @param  string $strField 上传文件表单名
+     * @param  string $strField    上传文件表单名
+     *
      * @return bool 上传成功返回true
      */
     protected function afterUpload($object, &$strFilePath, $strField)
@@ -377,7 +387,7 @@ class Controller extends \common\controllers\UserController
     public function actionUpload()
     {
         // 接收参数
-        $request = Yii::$app->request;
+        $request  = Yii::$app->request;
         $strField = $request->get('sField');    // 上传文件表单名称
         if (empty($strField)) {
             return $this->error(201);
@@ -451,10 +461,10 @@ class Controller extends \common\controllers\UserController
     public function actionExport()
     {
         // 接收参数
-        $request = Yii::$app->request;
+        $request   = Yii::$app->request;
         $arrFields = $request->post('fields');    // 字段信息
-        $strTitle = $request->post('title');     // 标题信息
-        $params = $request->post('params');       // 查询条件信息
+        $strTitle  = $request->post('title');     // 标题信息
+        $params    = $request->post('params');       // 查询条件信息
 
         // 判断数据的有效性
         if (empty($arrFields) || empty($strTitle)) {

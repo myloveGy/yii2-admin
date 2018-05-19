@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models;
+namespace jinxing\admin\models;
 
 use Yii;
 use yii\db\Expression;

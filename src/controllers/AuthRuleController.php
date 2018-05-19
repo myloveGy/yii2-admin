@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace jinxing\admin\controllers;
 
 /**
  * Class AuthRuleController 规则管理 执行操作控制器

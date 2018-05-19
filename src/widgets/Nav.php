@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\widgets;
+namespace jinxing\admin\widgets;
 
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
