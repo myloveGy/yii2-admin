@@ -1,6 +1,6 @@
 <?php
 
-namespace jinxing\models\forms;
+namespace jinxing\admin\models\forms;
 
 use \yii\base\Model;
 

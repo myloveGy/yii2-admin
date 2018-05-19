@@ -23,7 +23,7 @@ class AuthAssignmentController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = 'backend\models\AuthAssignment';
+    public $modelClass = 'jinxing\admin\models\AuthAssignment';
 
     /**
      * 查询处理
@@ -49,7 +49,7 @@ class AuthAssignmentController extends Controller
     public function actionIndex()
     {
         // 查询出全部角色
-        $arrRoles = Admin::getArrayRole();
+        $arrRoles = Admin::getArrayRole($this->module->getUserId());
 
         // 载入视图
         return $this->render('index', [

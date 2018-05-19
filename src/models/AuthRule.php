@@ -3,18 +3,19 @@
 namespace jinxing\admin\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%auth_rule}}".
  *
- * @property string $name
- * @property string $data
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string     $name
+ * @property string     $data
+ * @property integer    $created_at
+ * @property integer    $updated_at
  *
  * @property AuthItem[] $authItems
  */
-class AuthRule extends \yii\db\ActiveRecord
+class AuthRule extends ActiveRecord
 {
     /**
      * @var string 定义使用的旧名称
@@ -53,8 +54,8 @@ class AuthRule extends \yii\db\ActiveRecord
     {
         return [
             'default' => ['name', 'data'],
-            'create' => ['newName', 'data'],
-            'update' => ['name', 'newName', 'data']
+            'create'  => ['newName', 'data'],
+            'update'  => ['name', 'newName', 'data']
         ];
     }
 
@@ -64,12 +65,12 @@ class AuthRule extends \yii\db\ActiveRecord
     public function classExists()
     {
         if (!class_exists($this->data)) {
-            $message = Yii::t('app', "Unknown class '{class}'", ['class' => $this->data]);
+            $message = Yii::t('admin', "Unknown class '{class}'", ['class' => $this->data]);
             $this->addError('data', $message);
             return;
         }
         if (!is_subclass_of($this->data, \yii\rbac\Rule::className())) {
-            $message = Yii::t('app', "'{class}' must extend from 'yii\rbac\Rule' or its child class", [
+            $message = Yii::t('admin', "'{class}' must extend from 'yii\rbac\Rule' or its child class", [
                 'class' => $this->data]);
             $this->addError('data', $message);
         }
@@ -81,9 +82,9 @@ class AuthRule extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
-            'data' => 'Data',
-            'newName' => '名称',
+            'name'       => 'Name',
+            'data'       => 'Data',
+            'newName'    => '名称',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -91,17 +92,20 @@ class AuthRule extends \yii\db\ActiveRecord
 
     /**
      * 修改数
+     *
      * @param bool $runValidation
      * @param null $attributeNames
+     *
      * @return bool
+     * @throws \Exception
      */
     public function save($runValidation = true, $attributeNames = null)
     {
         // 先走验证
         if ($this->validate()) {
             /* @var $manager \yii\rbac\DbManager */
-            $manager = Yii::$app->getAuthManager();
-            $class = new $this->data;
+            $manager     = Yii::$app->getAuthManager();
+            $class       = new $this->data;
             $class->name = $this->newName;
             // 新增数据
             if ($this->isNewRecord) {
@@ -124,8 +128,8 @@ class AuthRule extends \yii\db\ActiveRecord
     {
         if ($this->data) {
             /* @var $manager \yii\rbac\DbManager */
-            $manager = Yii::$app->getAuthManager();
-            $class = unserialize($this->data);
+            $manager     = Yii::$app->getAuthManager();
+            $class       = unserialize($this->data);
             $class->name = $this->name;
             return $manager->remove($class);
         }
@@ -135,8 +139,10 @@ class AuthRule extends \yii\db\ActiveRecord
 
     /**
      * 多删除操作
-     * @param null $condition
+     *
+     * @param null  $condition
      * @param array $params
+     *
      * @return bool
      */
     public static function deleteAll($condition = null, $params = [])
@@ -158,6 +164,6 @@ class AuthRule extends \yii\db\ActiveRecord
      */
     public function getAuthItems()
     {
-        return $this->hasMany(AuthItem::className(), ['rule_name' => 'name']);
+        return $this->hasMany(Auth::className(), ['rule_name' => 'name']);
     }
 }

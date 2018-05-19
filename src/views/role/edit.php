@@ -1,15 +1,16 @@
 <?php
 
+use jinxing\admin\AdminAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use jinxing\admin\widgets\Alert;
 use yii\helpers\Json;
 
 $this->title = '角色信息分配权限';
-
-$depends = ['depends' => 'backend\assets\AdminAsset'];
-$this->registerJsFile('@web/public/assets/js/jstree/jstree.min.js', $depends);
-$this->registerCssFile('@web/public/assets/js/jstree/default/style.css', $depends);
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$this->registerJsFile($url . '/js/jstree/jstree.min.js', $depends);
+$this->registerCssFile($url . '/js/jstree/default/style.css', $depends);
 
 ?>
 <?= Alert::widget() ?>
@@ -19,7 +20,7 @@ $this->registerCssFile('@web/public/assets/js/jstree/default/style.css', $depend
         <!-- #section:custom/widget-box -->
         <div class="widget-box  ui-sortable-handle">
             <div class="widget-header">
-                <h5 class="widget-title"><?= Yii::t('app', 'Role'); ?></h5>
+                <h5 class="widget-title"><?= Yii::t('admin', 'Role'); ?></h5>
                 <!-- #section:custom/widget-box.toolbar -->
                 <div class="widget-toolbar">
                     <a class="orange2" data-action="fullscreen" href="#">
@@ -42,7 +43,7 @@ $this->registerCssFile('@web/public/assets/js/jstree/default/style.css', $depend
                     <?php
                     echo $form->field($model, 'name')->textInput($model->isNewRecord ? [] : ['disabled' => 'disabled']) .
                         $form->field($model, 'description')->textarea(['style' => 'height: 100px']) .
-                        Html::submitButton($model->isNewRecord ? Yii::t('app', 'Save') : Yii::t('app', 'Update'), [
+                        Html::submitButton($model->isNewRecord ? Yii::t('admin', 'Save') : Yii::t('admin', 'Update'), [
                             'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'
                         ]);
                     ?>
@@ -85,7 +86,7 @@ $this->registerCssFile('@web/public/assets/js/jstree/default/style.css', $depend
     <!-- #section:custom/widget-box -->
     <div class="widget-box ui-sortable-handle">
         <div class="widget-header">
-            <h5 class="widget-title"><?= Yii::t('app', 'Permissions'); ?></h5>
+            <h5 class="widget-title"><?= Yii::t('admin', 'Permissions'); ?></h5>
             <!-- #section:custom/widget-box.toolbar -->
             <div class="widget-toolbar">
                 <a class="orange2" data-action="fullscreen" href="#">
@@ -142,7 +143,15 @@ $this->registerCssFile('@web/public/assets/js/jstree/default/style.css', $depend
                 array_attributes.push.apply(array_attributes, getChildrenAttributes(tmp_data, parent_object));
             }
         } else if (data.data != null) {
-            array_attributes.push(data.data.split("/")[0]);
+            var array_data = data.data.split("/");
+
+            if (array_data && array_data.length > 0) {
+                array_data.pop();
+            }
+
+            if (array_data.length > 0) {
+                array_attributes.push(array_data.join("/"));
+            }
         }
 
         return array_attributes;

@@ -1,15 +1,16 @@
 <?php
 
 use yii\helpers\Json;
-use \backend\models\Auth;
+use jinxing\admin\models\Auth;
+use jinxing\admin\widgets\MeTable;
 
 // 获取权限
-$auth = Auth::getDataTableAuth('auth-rule');
+$auth = Auth::getDataTableAuth(Yii::$app->request->url);
 
 // 定义标题和面包屑信息
 $this->title = '规则管理';
 ?>
-<?=\backend\widgets\MeTable::widget()?>
+<?=MeTable::widget()?>
 <?php $this->beginBlock('javascript') ?>
 <script type="text/javascript">
     var m = meTables({

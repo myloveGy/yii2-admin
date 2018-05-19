@@ -13,7 +13,7 @@ class UserController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = 'backend\models\User';
+    public $modelClass = 'jinxing\admin\models\User';
 
     /**
      * 查询处理

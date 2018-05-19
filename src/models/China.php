@@ -2,6 +2,8 @@
 
 namespace jinxing\admin\models;
 
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "{{%china}}".
  *
@@ -12,7 +14,7 @@ namespace jinxing\admin\models;
  * @property China $p
  * @property China[] $chinas
  */
-class China extends \yii\db\ActiveRecord
+class China extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -31,7 +33,6 @@ class China extends \yii\db\ActiveRecord
             [['id', 'name'], 'required'],
             [['id', 'pid'], 'integer'],
             [['name'], 'string', 'min' => 2, 'max' => 40],
-            // [['pid'], 'exist', 'skipOnError' => true, 'targetClass' => China::className(), 'targetAttribute' => ['Pid' => 'Id']],
         ];
     }
 

@@ -1,27 +1,25 @@
 <?php
 
+use jinxing\admin\AdminAsset;
 use yii\helpers\Json;
-use \backend\models\Auth;
-
-// 获取权限
-$auth = Auth::getDataTableAuth('admin');
+use jinxing\admin\widgets\MeTable;
 
 // 定义标题和面包屑信息
 $this->title = '管理员信息';
 
-$url = '@web/public/assets';
-$depends = ['depends' => 'backend\assets\AdminAsset'];
-$this->registerCssFile($url.'/css/chosen.css', $depends);
-$this->registerJsFile($url.'/js/chosen.jquery.min.js', $depends);
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$this->registerCssFile($url . '/css/chosen.css', $depends);
+$this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 
 ?>
-<?=\backend\widgets\MeTable::widget()?>
+<?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript') ?>
 <script type="text/javascript">
     var aStatus = <?=Json::encode($status)?>,
         aStatusColor = <?=Json::encode($statusColor)?>,
         aAdmins = <?=Json::encode($this->params['admins'])?>,
-        aRoles  = <?=Json::encode($roles)?>,
+        aRoles = <?=Json::encode($roles)?>,
         m = meTables({
             title: "管理员信息",
             fileSelector: ["#file"],
@@ -30,7 +28,7 @@ $this->registerJsFile($url.'/js/chosen.jquery.min.js', $depends);
                 buttons: <?=Json::encode($auth['operations'])?>
             },
             table: {
-                "aoColumns":[
+                "aoColumns": [
                     {
                         "title": "管理员ID",
                         "data": "id",
@@ -95,7 +93,7 @@ $this->registerJsFile($url.'/js/chosen.jquery.min.js', $depends);
                         "value": aRoles,
                         "edit": {"type": "select", "required": true},
                         "bSortable": false,
-                        "createdCell": function(td, data) {
+                        "createdCell": function (td, data) {
                             $(td).html(aRoles[data] ? aRoles[data] : data);
                         }
                     },
@@ -134,11 +132,11 @@ $this->registerJsFile($url.'/js/chosen.jquery.min.js', $depends);
         });
     var $file = null;
     mt.fn.extend({
-        beforeShow: function(data) {
+        beforeShow: function (data) {
             $file.ace_file_input("reset_input");
 
             // 修改复值
-            if (this.action == "update" && ! empty(data.face)) {
+            if (this.action == "update" && !empty(data.face)) {
                 $file.ace_file_input("show_file_list", [data.face]);
             }
 
@@ -146,7 +144,7 @@ $this->registerJsFile($url.'/js/chosen.jquery.min.js', $depends);
         }
     });
 
-    $(function(){
+    $(function () {
         m.init();
         $file = $("#file");
     });

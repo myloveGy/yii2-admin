@@ -2,6 +2,7 @@
 
 namespace jinxing\admin\controllers;
 
+use jinxing\admin\models\Auth;
 use jinxing\admin\models\Menu;
 use jinxing\admin\helpers\Tree;
 use yii\helpers\ArrayHelper;
@@ -16,22 +17,24 @@ class MenuController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = 'backend\models\Menu';
+    public $modelClass = 'jinxing\admin\models\Menu';
 
     /**
      * 查询参数配置
+     *
      * @param array $params
+     *
      * @return array
      */
     public function where($params)
     {
         return [
-            'id' => '=',
-            'menu_name' => 'like',
-            'url' => '=',
+            'id'          => '=',
+            'menu_name'   => 'like',
+            'url'         => '=',
             'action_name' => 'like',
-            'status' => '=',
-            'pid' => '='
+            'status'      => '=',
+            'pid'         => '='
         ];
     }
 

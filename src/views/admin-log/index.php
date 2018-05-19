@@ -1,18 +1,20 @@
 <?php
 
 use yii\helpers\Json;
-use \backend\models\Auth;
+use jinxing\admin\models\AdminLog;
+use jinxing\admin\models\Auth;
+use jinxing\admin\widgets\MeTable;
 
 // 获取权限
-$auth = Auth::getDataTableAuth('admin-log');
+$auth = Auth::getDataTableAuth(Yii::$app->request->url);
 
 // 定义标题和面包屑信息
 $this->title = '操作日志';
 ?>
-<?= \backend\widgets\MeTable::widget() ?>
+<?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
-        var oTypes = <?=Json::encode(\backend\models\AdminLog::getTypeDescription())?>,
+        var oTypes = <?=Json::encode(AdminLog::getTypeDescription())?>,
             aAdmins = <?=Json::encode($this->params['admins'])?>;
         var m = meTables({
             title: "操作日志",

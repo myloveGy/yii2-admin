@@ -4,14 +4,15 @@ namespace jinxing\admin\models;
 
 use yii\behaviors\TimestampBehavior;
 use \yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%uploads}}".
  *
  * @property integer $id
- * @property string $title
- * @property string $url
+ * @property string  $title
+ * @property string  $url
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -24,7 +25,12 @@ class Uploads extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            [
+                'class'              => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value'              => new Expression('UNIX_TIMESTAMP()'),
+            ],
         ];
     }
 
@@ -43,7 +49,6 @@ class Uploads extends ActiveRecord
     {
         return [
             [['title', 'url'], 'required'],
-//            [['url'], 'string'],
             [['title'], 'string', 'max' => 250],
         ];
     }
@@ -54,9 +59,9 @@ class Uploads extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'Id',
-            'title' => '标题',
-            'url' => '文件访问地址',
+            'id'         => 'Id',
+            'title'      => '标题',
+            'url'        => '文件访问地址',
             'created_at' => '创建时间',
             'updated_at' => '修改时间',
         ];
@@ -66,11 +71,15 @@ class Uploads extends ActiveRecord
      * 修改之前的处理
      *
      * @param bool $insert
+     *
      * @return bool
      */
     public function beforeSave($insert)
     {
-        if (is_array($this->url)) $this->url = Json::encode($this->url);
+        if (is_array($this->url)) {
+            $this->url = Json::encode($this->url);
+        }
+
         return parent::beforeSave($insert);
     }
 }

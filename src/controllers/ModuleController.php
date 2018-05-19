@@ -304,10 +304,12 @@ HTML;
 
         $sHtml = <<<html
 <?php
+
+use jinxing\admin\widgets\MeTable;
 // 定义标题和面包屑信息
 \$this->title = '{$title}';
 ?>
-<?=\backend\widgets\MeTable::widget()?>
+<?=MeTable::widget()?>
 <?php \$this->beginBlock('javascript') ?>
 <script type="text/javascript">
     var m = meTables({
@@ -384,7 +386,7 @@ class {$strName} extends Controller
     /**
      * @var string 定义使用的model
      */
-    public \$modelClass = 'backend\models\\{$strModel}';
+    public \$modelClass = 'jinxing\admin\models\{$strModel}';
      
     /**
      * 查询处理

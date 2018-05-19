@@ -4,17 +4,15 @@ namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\AdminLog;
 use jinxing\admin\traits\JsonTrait;
+use jinxing\admin\models\forms\UploadForm;
 use Yii;
 use jinxing\admin\models\Admin;
-use jinxing\admin\models\forms\UploadForm;
 use jinxing\admin\strategy\Substance;
 use jinxing\admin\helpers\Helper;
 use yii\db\Query;
 use yii\helpers\FileHelper;
-use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
-use yii\web\UnauthorizedHttpException;
 
 /**
  * Class Controller 后台的基础控制器
@@ -62,38 +60,20 @@ class Controller extends \yii\web\Controller
      * @param \yii\base\Action $action
      *
      * @return bool
-     * @throws UnauthorizedHttpException
      * @throws \yii\web\BadRequestHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function beforeAction($action)
     {
-        // 主控制器验证
-        if (parent::beforeAction($action)) {
-            // 验证权限
-            if (!Yii::$app->user->can($action->controller->id . '/' . $action->id)
-                && Yii::$app->getErrorHandler()->exception === null
-            ) {
-                // 没有权限AJAX返回
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->content = Json::encode($this->error(216));
-                    return false;
-                }
-
-                throw new UnauthorizedHttpException('对不起，您现在还没获得该操作的权限!');
-            }
-
-            // 处理获取数据(默认不提前注入)
-            if (!in_array($action->id, ['create', 'update', 'delete', 'delete-all', 'editable', 'upload', 'export'])) {
-                $this->admins = ArrayHelper::map(Admin::findAll(['status' => Admin::STATUS_ACTIVE]), 'id', 'username');
-                // 注入变量信息
-                Yii::$app->view->params['admins'] = $this->admins;
-                Yii::$app->view->params['user']   = Yii::$app->getUser()->identity;
-            }
-
-            return true;
+        // 处理获取数据(默认不提前注入)
+        if (!in_array($action->id, ['create', 'update', 'delete', 'delete-all', 'editable', 'upload', 'export'])) {
+            $this->admins = ArrayHelper::map(Admin::findAll(['status' => Admin::STATUS_ACTIVE]), 'id', 'username');
+            // 注入变量信息
+            Yii::$app->view->params['admins'] = $this->admins;
+            Yii::$app->view->params['user']   = Yii::$app->get($this->module->user)->identity;
         }
 
-        return false;
+        return parent::beforeAction($action);
     }
 
     /**
@@ -145,7 +125,7 @@ class Controller extends \yii\web\Controller
     public function actionSearch()
     {
         // 实例化数据显示类
-        /* @var $strategy \common\strategy\Strategy */
+        /* @var $strategy \jinxing\admin\strategy\Strategy */
         $strategy = Substance::getInstance($this->strategy);
 
         // 获取查询参数

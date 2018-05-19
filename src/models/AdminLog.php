@@ -109,7 +109,7 @@ class AdminLog extends ActiveRecord
         $log->action = Yii::$app->controller->action->id;
         $log->url = Yii::$app->request->url;
         $log->index = $index;
-        $log->created_id = Yii::$app->user->id;
+        $log->created_id = Yii::$app->controller->module->getUserId();
         $log->created_at = new Expression('UNIX_TIMESTAMP()');
         return $log->save();
     }

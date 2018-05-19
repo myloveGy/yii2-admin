@@ -1,16 +1,17 @@
 <?php
 
-use \yii\helpers\Url;
+use jinxing\admin\AdminAsset;
+use yii\helpers\Url;
+use jinxing\admin\widgets\MeTable;
 
 // 定义标题和面包屑信息
 $this->title = '上传文件';
-$url = '@web/public/assets';
-$depends = ['depends' => 'backend\assets\AdminAsset'];
-
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$depends = ['depends' => 'jinxing\admin\AdminAsset'];
 $this->registerCssFile($url . '/css/dropzone.css', $depends);
 $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
 ?>
-<?= \backend\widgets\MeTable::widget() ?>
+<?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
         var myDropzone = null;
@@ -94,7 +95,7 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
                     try {
                         var imgs = JSON.parse(data["url"]);
                         for (var i in imgs) {
-                            var mockFile = { name: "Filename" + i, size: 12345 };
+                            var mockFile = {name: "Filename" + i, size: 12345};
                             myDropzone.emit("addedfile", mockFile);
                             myDropzone.emit("thumbnail", mockFile, imgs[i]);
                             myDropzone.emit("complete", mockFile);
@@ -147,7 +148,7 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
                             }
                         });
 
-                        this.on("removedfile", function(file){
+                        this.on("removedfile", function (file) {
                             $form.find("input[data-name='" + file.name + "']").remove();
                         })
                     }

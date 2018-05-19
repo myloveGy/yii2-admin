@@ -1,6 +1,7 @@
 <?php
 
 namespace jinxing\admin\controllers;
+use jinxing\admin\models\AuthRule;
 
 /**
  * Class AuthRuleController 规则管理 执行操作控制器
@@ -22,7 +23,7 @@ class AuthRuleController extends Controller
      * 定义使用的model
      * @var string
      */
-    public $modelClass = 'backend\models\AuthRule';
+    public $modelClass = 'jinxing\admin\models\AuthRule';
 
     /**
      * 查询处理

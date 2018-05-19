@@ -2,15 +2,16 @@
 
 use yii\widgets\DetailView;
 use jinxing\admin\widgets\Alert;
-use \backend\widgets\Nestable;
+use jinxing\admin\widgets\Nestable;
+use jinxing\admin\AdminAsset;
 
 $this->title = '角色信息详情';
-
-$this->registerJsFile('@web/public/assets/js/jquery.nestable.min.js', [
-    'depends' => 'backend\assets\AdminAsset'
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$this->registerJsFile($url . '/js/jquery.nestable.min.js', [
+    'depends' => 'jinxing\admin\AdminAsset'
 ]);
 
-/* @var $model \backend\models\Auth */
+/* @var $model jinxing\admin\models\Auth */
 ?>
 <?= Alert::widget() ?>
     <div class="col-xs-12 col-sm-4">
@@ -39,7 +40,7 @@ $this->registerJsFile('@web/public/assets/js/jquery.nestable.min.js', [
                     <div class="widget-main">
                         <?php
                         echo DetailView::widget([
-                            'model' => $model,
+                            'model'      => $model,
                             'attributes' => [
                                 'name',
                                 'description',
@@ -76,11 +77,11 @@ $this->registerJsFile('@web/public/assets/js/jquery.nestable.min.js', [
                 <div class="widget-body">
                     <div class="widget-main">
                         <div id="nestable" class="dd">
-                            <?=Nestable::widget([
-                                'items' => $menus,
+                            <?= Nestable::widget([
+                                'items'     => $menus,
                                 'labelName' => 'menu_name',
                                 'itemsName' => 'child'
-                            ])?>
+                            ]) ?>
                         </div>
                     </div>
                 </div>
@@ -133,7 +134,6 @@ $this->registerJsFile('@web/public/assets/js/jquery.nestable.min.js', [
     <script type="text/javascript">
         $(function () {
             $('.dd').add('.myclass').nestable();
-
             $('.dd-handle a').on('mousedown', function (e) {
                 e.stopPropagation();
             });

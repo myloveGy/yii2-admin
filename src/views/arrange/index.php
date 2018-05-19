@@ -1,9 +1,13 @@
 <?php
 
+use yii\helpers\Json;
+use jinxing\admin\AdminAsset;
+use jinxing\admin\widgets\MeTable;
+
 // 定义标题和面包屑信息
 $this->title = '管理员日程安排';
-$url = '@web/public/assets';
-$depends = ['depends' => 'backend\assets\AdminAsset'];
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$depends = ['depends' => 'jinxing\admin\AdminAsset'];
 
 $this->registerCssFile($url.'/css/jquery-ui.custom.min.css', $depends);
 $this->registerCssFile($url.'/css/bootstrap-editable.css', $depends);
@@ -16,14 +20,14 @@ $this->registerJsFile($url.'/js/date-time/moment.min.js', $depends);
 $this->registerJsFile($url.'/js/date-time/bootstrap-datetimepicker.min.js', $depends);
 
 ?>
-<?=\backend\widgets\MeTable::widget()?>
+<?=MeTable::widget()?>
 <?php $this->beginBlock('javascript') ?>
 <script type="text/javascript">
-    var aAdmins = <?=\yii\helpers\Json::encode($this->params['admins'])?>,
-        aStatus = <?=\yii\helpers\Json::encode($status)?>,
-        aTimeStatus = <?=\yii\helpers\Json::encode($timeStatus)?>,
-        aColors = <?=\yii\helpers\Json::encode($statusColors)?>,
-        aTimeColors = <?=\yii\helpers\Json::encode($timeColors)?>;
+    var aAdmins = <?=Json::encode($this->params['admins'])?>,
+        aStatus = <?=Json::encode($status)?>,
+        aTimeStatus = <?=Json::encode($timeStatus)?>,
+        aColors = <?=Json::encode($statusColors)?>,
+        aTimeColors = <?=Json::encode($timeColors)?>;
     aAdmins['0'] = '待定';
 
     var m = mt({

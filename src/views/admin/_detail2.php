@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-3 center">
 							<span class="profile-picture">
-								<img src="<?=$this->params['user']->face ? dirname($this->params['user']->face).'/thumb_'.basename($this->params['user']->face) : '/public/assets/avatars/profile-pic.jpg'?>" id="avatar2" alt="Alex's Avatar" class="editable img-responsive">
+								<img src="<?=$this->params['user']->face ? $this->params['user']->face : '/public/assets/avatars/profile-pic.jpg'?>" id="avatar2" alt="Alex's Avatar" class="editable img-responsive">
 							</span>
 
                             <div class="space space-4"></div>

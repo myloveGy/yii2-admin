@@ -14,7 +14,7 @@ class AdminLogController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = 'backend\models\AdminLog';
+    public $modelClass = 'jinxing\admin\models\AdminLog';
 
     /**
      * 查询处理
@@ -32,7 +32,7 @@ class AdminLogController extends Controller
             'where' => [],
         ];
 
-        if (Yii::$app->user->id != Admin::SUPER_ADMIN_ID) {
+        if ($this->module->getUserId() != Admin::SUPER_ADMIN_ID) {
             $where['where'] = [
                 ['!=', 'created_id', Admin::SUPER_ADMIN_ID]
             ];

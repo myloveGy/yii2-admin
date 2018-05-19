@@ -19,7 +19,7 @@ class ChinaController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = '\common\models\China';
+    public $modelClass = 'jinxing\admin\models\China';
 
     /**
      * 查询参数配置

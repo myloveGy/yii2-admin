@@ -1,20 +1,20 @@
 <?php
 
 use yii\helpers\Json;
-use \backend\models\Auth;
+use yii\helpers\ArrayHelper;
+use jinxing\admin\models\Auth;
+use jinxing\admin\widgets\MeTable;
 
-// 获取权限
-$auth = Auth::getDataTableAuth('menu');
-
+$auth = Auth::getDataTableAuth(Yii::$app->request->url);
 // 定义标题和面包屑信息
 $this->title = '导航栏目信息';
 ?>
-<?= \backend\widgets\MeTable::widget() ?>
+<?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
         var aAdmins = <?=Json::encode($this->params['admins'])?>,
             aParents = <?= $parents ?>,
-            arrStatus = <?=Json::encode(Yii::$app->params['status'])?>;
+            arrStatus = <?=Json::encode(ArrayHelper::getValue(Yii::$app->params, 'status', ['停用', '启用']))?>;
 
         // 显示上级分类
         function parentStatus(td, data) {
@@ -31,7 +31,7 @@ $this->title = '导航栏目信息';
                 return '<label for="' + params.id + '"> ' + params.title + ': <select ' + mt.handleParams(params) + '>' +
                     '<option value="All">请选择</option>' +
                     '<option value="0">顶级分类</option>' +
-                    '<?=$options?>'   +
+                    '<?=$options?>' +
                     '</select></label>';
             }
         });
@@ -129,7 +129,7 @@ $this->title = '导航栏目信息';
                     // 自己不能选
                     $("#select-options option[value='" + data.id + "']").prop("disabled", true);
                     // 子类不能选
-                    $("#select-options option[data-pid='" + data.id + "']").prop("disabled", true).each(function(){
+                    $("#select-options option[data-pid='" + data.id + "']").prop("disabled", true).each(function () {
                         $("#select-options option[data-pid='" + $(this).val() + "']").prop("disabled", true)
                     });
                 }

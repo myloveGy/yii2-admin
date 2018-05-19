@@ -2,8 +2,8 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\helpers\Tree;
 use Yii;
+use jinxing\admin\helpers\Tree;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -80,7 +80,7 @@ class Menu extends AdminModel
      */
     public function afterSave($insert, $changedAttributes)
     {
-        self::setNavigation(Yii::$app->user->id);
+        self::setNavigation(Yii::$app->controller->module->getUserId());
         return true;
     }
 
@@ -89,7 +89,7 @@ class Menu extends AdminModel
      */
     public function afterDelete()
     {
-        self::setNavigation(Yii::$app->user->id);
+        self::setNavigation(Yii::$app->controller->module->getUserId());
         parent::afterDelete();
     }
 

@@ -23,14 +23,15 @@ class Substance
     }
 
     /**
-     * @param $type
+     * @param       $type
      * @param array $config
+     *
      * @return null
      * @throws \Exception
      */
     public static function getInstance($type, array $config = [])
     {
-        $className = '\\common\\strategy\\'.ucfirst($type);
+        $className = '\\jinxing\\admin\\strategy\\' . ucfirst($type);
         if (class_exists($className)) {
             if (!self::$strategy) {
                 self::$strategy = new $className($config);

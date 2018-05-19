@@ -2,14 +2,15 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\behaviors\TimestampBehavior;
-use \yii\db\ActiveRecord;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%auth_assignment}}".
  *
- * @property string $item_name
- * @property string $user_id
+ * @property string  $item_name
+ * @property string  $user_id
  * @property integer $created_at
  */
 class AuthAssignment extends ActiveRecord
@@ -18,10 +19,11 @@ class AuthAssignment extends ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
+                'class'      => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at']
                 ],
+                'value'      => new Expression('UNIX_TIMESTAMP()'),
             ]
         ];
     }
@@ -54,8 +56,8 @@ class AuthAssignment extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'item_name' => '角色',
-            'user_id' => '管理员',
+            'item_name'  => '角色',
+            'user_id'    => '管理员',
             'created_at' => '创建时间',
         ];
     }

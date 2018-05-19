@@ -1,10 +1,14 @@
 <?php
+
+use yii\helpers\Json;
+use jinxing\admin\widgets\MeTable;
+
 $this->title = '地址信息';
 ?>
-<?=\backend\widgets\MeTable::widget()?>
+<?=MeTable::widget()?>
 <?php $this->beginBlock('javascript') ?>
 <script type="text/javascript">
-    var arrParent = <?=\yii\helpers\Json::encode($parent)?>,
+    var arrParent = <?=Json::encode($parent)?>,
         m = meTables({
             title: "地址信息",
             table: {

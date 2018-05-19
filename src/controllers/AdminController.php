@@ -2,12 +2,14 @@
 
 namespace jinxing\admin\controllers;
 
+use Yii;
+use yii\image\drivers\Image;
 use jinxing\admin\models\AdminLog;
 use jinxing\admin\helpers\Helper;
-use Yii;
+use jinxing\admin\models\Auth;
 use jinxing\admin\models\Admin;
 use jinxing\admin\models\China;
-use yii\image\drivers\Image;
+use yii\image\drivers\Kohana_Image;
 
 /**
  * Class AdminController 后台管理员操作控制器
@@ -18,7 +20,7 @@ class AdminController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = 'backend\models\Admin';
+    public $modelClass = 'jinxing\admin\models\Admin';
 
     /**
      * @var string 定义上传文件的目录
@@ -27,37 +29,41 @@ class AdminController extends Controller
 
     /**
      * 搜索配置
+     *
      * @param  array $params 查询参数
+     *
      * @return array
      */
     public function where($params)
     {
-        $where = [];
-        $intUid = (int)Yii::$app->user->id;
+        $where  = [];
+        $intUid = (int)$this->module->getUserId();
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
             $where = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
         }
 
         return [
-            'id' => '=',
+            'id'       => '=',
             'username' => 'like',
-            'email' => 'like',
-            'where' => $where,
-            'status' => '='
+            'email'    => 'like',
+            'where'    => $where,
+            'status'   => '='
         ];
     }
 
     /**
      * 首页显示
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {
         // 查询用户数据
         return $this->render('index', [
-            'roles' => Admin::getArrayRole(),      // 用户角色
-            'status' => Admin::getArrayStatus(),    // 状态
-            'statusColor' => Admin::getStatusColor(), // 状态对应颜色
+            'roles'       => Admin::getArrayRole($this->module->getUserId()),      // 用户角色
+            'status'      => Admin::getArrayStatus(),    // 状态
+            'statusColor' => Admin::getStatusColor(), // 状态对应颜色,'
+            'auth'        => Auth::getDataTableAuth(Yii::$app->request->url, $this->module->user)
         ]);
     }
 
@@ -67,8 +73,8 @@ class AdminController extends Controller
      */
     public function actionView()
     {
-        $address = '选择县';
-        $user = Yii::$app->view->params['user'];
+        $address  = '选择县';
+        $user     = Yii::$app->view->params['user'];
         $arrChina = [];
         if ($user->address) {
             $arrAddress = explode(',', $user->address);
@@ -94,17 +100,21 @@ class AdminController extends Controller
         // 载入视图文件
         return $this->render('view', [
             'address' => $address,  // 县
-            'china' => $arrChina, // 省市信息
-            'logs' => $logs,  // 日志信息
+            'china'   => $arrChina, // 省市信息
+            'logs'    => $logs,  // 日志信息
         ]);
     }
 
     /**
      * 上传文件之后的处理
+     *
      * @param object $objFile
      * @param string $strFilePath
      * @param string $strField
+     *
      * @return bool
+     * @throws \yii\base\ErrorException
+     * @throws \yii\base\InvalidConfigException
      */
     public function afterUpload($objFile, &$strFilePath, $strField)
     {
@@ -120,27 +130,35 @@ class AdminController extends Controller
             // 处理图片
             $strTmpPath = dirname($strFilePath) . '/thumb_' . basename($strFilePath);
 
-            /* @var $image yii\image\ImageDriver */
-            $imageComponent = Yii::$app->get('image');
-            if ($imageComponent) {
-                /* @var $image yii\image\drivers\Kohana_Image_GD */
-                $image = $imageComponent->load($strFilePath);
-                $image->resize(180, 180, Image::CROP)->save($strTmpPath);
-                $image->resize(48, 48, Image::CROP)->save();
+            try {
+                /* @var $imageComponent yii\image\ImageDriver */
+                $imageComponent = Yii::createObject([
+                    'class'  => 'yii\image\ImageDriver',
+                    'driver' => 'GD'
+                ]);
 
-                // 管理员页面修改头像
-                $admin = Admin::findOne(Yii::$app->user->id);
-                if ($admin && $strField === 'avatar') {
-                    // 删除之前的图像信息
-                    if ($admin->face && file_exists('.' . $admin->face)) {
-                        @unlink('.' . $admin->face);
-                        @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
-                    }
+//                if ($imageComponent) {
+//                    /* @var $image yii\image\drivers\Kohana_Image_GD */
+//                    $image = $imageComponent->load($strFilePath);
+//                    $image->resize(180, 180, Image::CROP)->save($strTmpPath);
+//                    $image->resize(48, 48, Image::CROP)->save();
+//
+//                    // 管理员页面修改头像
+//                    $admin = Admin::findOne($this->module->getUserId());
+//                    if ($admin && $strField === 'avatar') {
+//                        // 删除之前的图像信息
+//                        if ($admin->face && file_exists('.' . $admin->face)) {
+//                            @unlink('.' . $admin->face);
+//                            @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
+//                        }
+//
+//                        $admin->face = ltrim($strFilePath, '.');
+//                        $admin->save();
+//                        $strFilePath = $strTmpPath;
+//                    }
+//                }
+            } catch (\Exception $e) {
 
-                    $admin->face = ltrim($strFilePath, '.');
-                    $admin->save();
-                    $strFilePath = $strTmpPath;
-                }
             }
         }
 
@@ -154,9 +172,9 @@ class AdminController extends Controller
      */
     public function actionAddress()
     {
-        $request = Yii::$app->request;
-        $strName = $request->get('query');                     // 查询参数
-        $intPid = (int)$request->get('iPid', 0);   // 父类ID
+        $request    = Yii::$app->request;
+        $strName    = $request->get('query');                     // 查询参数
+        $intPid     = (int)$request->get('iPid', 0);   // 父类ID
         $arrCountry = China::find()->select(['id', 'name as text'])
             ->where([
                 'and',
@@ -193,10 +211,10 @@ class AdminController extends Controller
             return $this->error(201);
         }
 
-        /* @var $model \backend\models\Admin */
-        $model = $this->modelClass;
+        /* @var $model \jinxing\admin\models\Admin */
+        $model                    = $this->modelClass;
         $this->arrJson['errCode'] = 220;
-        $admins = $model::findAll([$this->pk => $arrIds]);
+        $admins                   = $model::findAll([$this->pk => $arrIds]);
         if (empty($admins)) {
             return $this->error(220);
         }

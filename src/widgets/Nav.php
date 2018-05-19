@@ -2,10 +2,12 @@
 
 namespace jinxing\admin\widgets;
 
+use http\Url;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\web\UrlRule;
 
 
 /**
@@ -90,8 +92,10 @@ class Nav extends Widget
 
     /**
      * Renders a widget's item.
+     *
      * @param string|array $item the item to render.
-     * @param bool $isRenderSpan
+     * @param bool         $isRenderSpan
+     *
      * @return string
      * @throws InvalidConfigException
      * @throws \Exception
@@ -107,15 +111,15 @@ class Nav extends Widget
         }
 
         $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
-        $label = $encodeLabel ? Html::encode($item[$this->labelName]) : $item[$this->labelName];
-        $icons = ArrayHelper::getValue($item, 'icons');
-        $a = $icons ? Html::tag('i', '', ['class' => $icons]) : '';
-        $a .= $isRenderSpan ? Html::tag('span', $label, ['class' => 'menu-text']) : $label;
-        $options = ArrayHelper::getValue($item, 'options', []);
-        $items = ArrayHelper::getValue($item, $this->itemsName);
-        $url = ArrayHelper::getValue($item, 'url', '#');
+        $label       = $encodeLabel ? Html::encode($item[$this->labelName]) : $item[$this->labelName];
+        $icons       = ArrayHelper::getValue($item, 'icons');
+        $a           = $icons ? Html::tag('i', '', ['class' => $icons]) : '';
+        $a           .= $isRenderSpan ? Html::tag('span', $label, ['class' => 'menu-text']) : $label;
+        $options     = ArrayHelper::getValue($item, 'options', []);
+        $items       = ArrayHelper::getValue($item, $this->itemsName);
+        $url         = ArrayHelper::getValue($item, 'url', '#');
         $linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
-        $id = ArrayHelper::getValue($item, 'id');
+        $id          = ArrayHelper::getValue($item, 'id');
         if ($id) {
             $linkOptions['data-id'] = $id;
         }
@@ -133,11 +137,12 @@ class Nav extends Widget
             }
         }
 
-        return Html::tag('li', Html::a($a, $url ? $url : '#', $linkOptions) . $items, $options);
+        return Html::tag('li', Html::a($a, $url ? '/' . trim($url, '/') : '#', $linkOptions) . $items, $options);
     }
 
     /**
      * @param $items
+     *
      * @return string
      * @throws InvalidConfigException
      * @throws \Exception

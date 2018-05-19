@@ -199,19 +199,19 @@ class m170801_081237_insert_rabc extends Migration
         $this->batchInsert($this->ruleTable, ['name', 'data', 'created_at', 'updated_at'], [
             [
                 'admin',
-                serialize(unserialize('O:23:"jinxing\admin\rules\AdminRule":3:{s:4:"name";s:5:"admin";s:9:"createdAt";i:1499006069;s:9:"updatedAt";i:1499006069;}')),
+                serialize(unserialize('O:29:"jinxing\admin\rules\AdminRule":3:{s:4:"name";s:5:"admin";s:9:"createdAt";i:1526723554;s:9:"updatedAt";i:1526723554;}')),
                 $time,
                 $time
             ],
             [
                 'auth-assignment',
-                serialize(unserialize('O:32:"jinxing\admin\rules\AuthAssignmentRule":5:{s:4:"name";s:15:"auth-assignment";s:47:" backend\rules\AuthAssignmentRule adminRoleName";s:13:"administrator";s:43:" backend\rules\AuthAssignmentRule intUserId";i:1;s:9:"createdAt";i:1500105238;s:9:"updatedAt";i:1500105238;}')),
+                serialize(unserialize('O:38:"jinxing\admin\rules\AuthAssignmentRule":3:{s:4:"name";s:15:"auth-assignment";s:9:"createdAt";i:1526723606;s:9:"updatedAt";i:1526723606;}')),
                 $time,
                 $time
             ],
             [
                 'admin-delete',
-                serialize(unserialize('O:29:"jinxing\admin\rules\AdminDeleteRule":3:{s:4:"name";s:12:"admin-delete";s:9:"createdAt";i:1501919066;s:9:"updatedAt";i:1501919066;}')),
+                serialize(unserialize('O:35:"jinxing\admin\rules\AdminDeleteRule":3:{s:4:"name";s:12:"admin-delete";s:9:"createdAt";i:1526723573;s:9:"updatedAt";i:1526723573;}')),
                 $time,
                 $time
             ],
@@ -238,19 +238,4 @@ class m170801_081237_insert_rabc extends Migration
         echo "m170801_081237_insert_rabc cannot be reverted.\n";
         return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m170801_081237_insert_rabc cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

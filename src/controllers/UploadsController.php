@@ -11,17 +11,5 @@ class UploadsController extends Controller
     /**
      * @var string 定义使用的model
      */
-    public $modelClass = 'common\models\Uploads';
-     
-    /**
-     * 查询处理
-     * @param  array $params
-     * @return array 返回数组
-     */
-    public function where($params)
-    {
-        return [
-            
-        ];
-    }
+    public $modelClass = 'jinxing\admin\models\Uploads';
 }

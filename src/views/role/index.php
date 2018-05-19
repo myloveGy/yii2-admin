@@ -2,16 +2,16 @@
 
 use yii\helpers\Url;
 use yii\helpers\Json;
-use \backend\models\Auth;
+use jinxing\admin\models\Auth;
+use jinxing\admin\widgets\MeTable;
 
+$url = trim(str_replace('/index', '', Yii::$app->request->url), '/');
 // 获取权限
-$auth = Auth::getDataTableAuth('role');
-
+$auth = Auth::getDataTableAuth(Yii::$app->request->url);
 // 定义标题和面包屑信息
 $this->title = '角色信息';
-
 ?>
-<?= \backend\widgets\MeTable::widget() ?>
+<?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript'); ?>
 <script type="text/javascript">
     var iType = <?=$type?>,
@@ -22,7 +22,7 @@ $this->title = '角色信息';
     oButtons.deleteAll = {bShow: false};
     oOperationsButtons.see = {"cClass": "role-see"};
     oOperationsButtons.other = {
-        bShow: <?=Yii::$app->user->can('role/edit') ? 'true' : 'false' ?>,
+        bShow: <?=Yii::$app->controller->module->getUser()->can($url . '/edit') ? 'true' : 'false' ?>,
         "title": "编辑权限",
         "button-title": "编辑权限",
         "className": "btn-warning",

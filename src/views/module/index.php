@@ -1,11 +1,13 @@
 <?php
+
+use jinxing\admin\AdminAsset;
 use yii\helpers\Url;
 // 定义标题和面包屑信息
 $this->title = '模块生成';
 
 // 注入需要的JS
-$url = '@web/public/assets';
-$depends = ['depends' => 'backend\assets\AdminAsset'];
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$depends = ['depends' => 'jinxing\admin\AdminAsset'];
 
 $this->registerJsFile($url.'/js/fuelux/fuelux.spinner.min.js', $depends);
 $this->registerJsFile($url.'/js/fuelux/fuelux.wizard.min.js', $depends);

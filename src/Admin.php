@@ -54,6 +54,13 @@ class Admin extends \yii\base\Module
             ],
         ];
         Yii::$app->errorHandler->errorAction = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix') . '/default/error';
+        if (!isset(Yii::$app->i18n->translations['admin'])) {
+            Yii::$app->i18n->translations['admin'] = [
+                'class'          => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'en',
+                'basePath'       => '@jinxing/admin/messages'
+            ];
+        }
     }
 
     /**
@@ -77,7 +84,7 @@ class Admin extends \yii\base\Module
 
         // 验证权限
         $url = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix') . '/' . $action->controller->id . '/' . $action->id;
-        if (Yii::$app->get($this->user)->can($url) && Yii::$app->getErrorHandler()->exception === null) {
+        if (!Yii::$app->get($this->user)->can($url) && Yii::$app->getErrorHandler()->exception === null) {
             // 没有权限AJAX返回
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->content = Json::encode($this->error(216));
@@ -88,5 +95,19 @@ class Admin extends \yii\base\Module
         }
 
         return true;
+    }
+
+    /**
+     * @return null|object
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getUser()
+    {
+        return Yii::$app->get($this->user);
+    }
+
+    public function getUserId()
+    {
+        return $this->getUser()->id;
     }
 }

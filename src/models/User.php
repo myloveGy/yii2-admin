@@ -21,7 +21,7 @@ use Yii;
  * @property integer $created_id
  * @property string $password write-only password
  */
-class User extends \common\models\User
+class User extends AdminUser
 {
     /**
      * @var string 定义密码
@@ -34,6 +34,14 @@ class User extends \common\models\User
     public $repassword;
 
     /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%user}}';
+    }
+
+    /**
      * 获取状态说明信息
      * @param  int $intStatus 状态
      * @return array|string
@@ -41,8 +49,8 @@ class User extends \common\models\User
     public static function getArrayStatus($intStatus = null)
     {
         $array = [
-            self::STATUS_ACTIVE => Yii::t('app', 'STATUS_ACTIVE'),
-            self::STATUS_DELETED => Yii::t('app', 'STATUS_DELETED'),
+            self::STATUS_ACTIVE => Yii::t('admin', 'STATUS_ACTIVE'),
+            self::STATUS_DELETED => Yii::t('admin', 'STATUS_DELETED'),
         ];
 
         if ($intStatus !== null && isset($array[$intStatus])) {
@@ -129,8 +137,11 @@ class User extends \common\models\User
 
     /**
      * beforeSave() 新增之前的处理
+     *
      * @param  bool $insert 是否是新增数据
+     *
      * @return bool 处理是否成功
+     * @throws \yii\base\Exception
      */
     public function beforeSave($insert)
     {

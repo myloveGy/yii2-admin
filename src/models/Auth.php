@@ -4,22 +4,23 @@ namespace jinxing\admin\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auth_item".
  *
- * @property string $name
- * @property integer $type
- * @property string $description
- * @property string $rule_name
- * @property string $data
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $menus
+ * @property string           $name
+ * @property integer          $type
+ * @property string           $description
+ * @property string           $rule_name
+ * @property string           $data
+ * @property integer          $created_at
+ * @property integer          $updated_at
+ * @property string           $menus
  *
  * @property AuthAssignment[] $authAssignments
- * @property AuthRule $ruleName
- * @property AuthItemChild[] $authItemChildren
+ * @property AuthRule         $ruleName
+ * @property AuthItemChild[]  $authItemChildren
  */
 class Auth extends ActiveRecord
 {
@@ -82,8 +83,8 @@ class Auth extends ActiveRecord
     {
         return [
             'default' => ['name', 'data', 'type', 'rule_name', 'description'],
-            'create' => ['newName', 'data', 'type', 'rule_name', 'description'],
-            'update' => ['name', 'newName', 'data', 'type', 'rule_name', 'description']
+            'create'  => ['newName', 'data', 'type', 'rule_name', 'description'],
+            'update'  => ['name', 'newName', 'data', 'type', 'rule_name', 'description']
         ];
     }
 
@@ -93,13 +94,13 @@ class Auth extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => '名称',
+            'name'        => '名称',
             'description' => '说明',
-            'rule_name' => '规则名称',
-            'data' => '数据',
-            'newName' => '名称',
-            'created_at' => '创建时间',
-            'updated_at' => '修改时间',
+            'rule_name'   => '规则名称',
+            'data'        => '数据',
+            'newName'     => '名称',
+            'created_at'  => '创建时间',
+            'updated_at'  => '修改时间',
         ];
     }
 
@@ -118,8 +119,10 @@ class Auth extends ActiveRecord
 
     /**
      * 修改数据
-     * @param bool $runValidation 是否严重
+     *
+     * @param bool $runValidation  是否严重
      * @param null $attributeNames 修改字段
+     *
      * @return bool
      * @throws \Exception
      * @throws \yii\base\Exception
@@ -128,7 +131,7 @@ class Auth extends ActiveRecord
     {
         if ($this->validate()) {
             $this->type = (int)$this->type;
-            $auth = Yii::$app->getAuthManager();
+            $auth       = Yii::$app->getAuthManager();
             // 判断是否新增
             if ($this->isNewRecord) {
                 if ($this->type === self::TYPE_ROLE) {
@@ -151,13 +154,13 @@ class Auth extends ActiveRecord
                 $auth->add($item);
                 if ($this->type === self::TYPE_PERMISSION) {
                     // 添加权限的话，要给管理员加上
-                    $admin = $auth->getRole(Yii::$app->params['adminRoleName']);
+                    $admin = $auth->getRole(ArrayHelper::getValue(Yii::$app->params, 'adminRoleName', 'administrator'));
                     if ($admin) {
                         $auth->addChild($admin, $item);
                     }
                 } else {
                     // 将角色添加给用户
-                    $uid = (int)Yii::$app->user->id;
+                    $uid = (int)Yii::$app->controller->module->getUserId();
                     if ($uid !== Admin::SUPER_ADMIN_ID) {
                         $auth->assign($item, $uid);
                     }
@@ -174,7 +177,7 @@ class Auth extends ActiveRecord
                     }
                 }
 
-                $item->name = $this->newName;
+                $item->name        = $this->newName;
                 $item->description = $this->description;
                 if ($this->data) {
                     $item->data = $this->data;
@@ -195,7 +198,7 @@ class Auth extends ActiveRecord
      */
     public function delete()
     {
-        $auth = Yii::$app->getAuthManager();
+        $auth       = Yii::$app->getAuthManager();
         $this->type = (int)$this->type;
 
         // 权限
@@ -211,7 +214,7 @@ class Auth extends ActiveRecord
         }
 
         // 清除这个角色的所有权限
-        $role = $auth->getRole($this->name);
+        $role        = $auth->getRole($this->name);
         $permissions = $auth->getPermissionsByRole($this->name);
         foreach ($permissions as $permission) {
             $auth->removeChild($role, $permission);
@@ -223,8 +226,10 @@ class Auth extends ActiveRecord
 
     /**
      * 删除多个数据
-     * @param null $condition
+     *
+     * @param null  $condition
      * @param array $params
+     *
      * @return bool
      */
     public static function deleteAll($condition = null, $params = [])
@@ -243,8 +248,10 @@ class Auth extends ActiveRecord
 
     /**
      * 修改角色
+     *
      * @param string $name
-     * @param $permissions
+     * @param        $permissions
+     *
      * @return bool
      * @throws \Exception
      * @throws \yii\base\Exception
@@ -252,8 +259,8 @@ class Auth extends ActiveRecord
     public function updateRole($name, $permissions)
     {
         if ($this->validate()) {
-            $auth = Yii::$app->getAuthManager();
-            $role = $auth->getRole($name);
+            $auth              = Yii::$app->getAuthManager();
+            $role              = $auth->getRole($name);
             $role->description = $this->description;
             // save role
             if ($auth->update($name, $role)) {
@@ -303,36 +310,40 @@ class Auth extends ActiveRecord
 
     /**
      * 获取dataTable 表格需要的权限
+     *
+     * @param        $user
      * @param string $controller 权限对应的控制器名称
-     * @param string $join 链接字符串
+     * @param string $join       链接字符串
+     *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
-    public static function getDataTableAuth($controller, $join = '/')
+    public static function getDataTableAuth($controller, $user = 'admin', $join = '/')
     {
-        $controller .= $join;
-        $arrReturn = [
-            'buttons' => [
+        $controller = trim(str_replace('/index', '', $controller), '/') . $join;
+        $arrReturn  = [
+            'buttons'    => [
                 'create' => [
-                    'bShow' => Yii::$app->user->can($controller . 'create')
+                    'bShow' => Yii::$app->get($user)->can($controller . 'create')
                 ],
 
                 'deleteAll' => [
-                    'bShow' => Yii::$app->user->can($controller . 'delete-all'),
+                    'bShow' => Yii::$app->get($user)->can($controller . 'delete-all'),
                 ],
 
                 'export' => [
-                    'bShow' => Yii::$app->user->can($controller . 'export')
+                    'bShow' => Yii::$app->get($user)->can($controller . 'export')
                 ]
             ],
             'operations' => [
                 'delete' => [
-                    'bShow' => Yii::$app->user->can($controller . 'delete')
+                    'bShow' => Yii::$app->get($user)->can($controller . 'delete')
                 ]
             ],
         ];
 
         // 修改
-        if (Yii::$app->user->can($controller . 'update')) {
+        if (Yii::$app->get($user)->can($controller . 'update')) {
             $arrReturn['buttons']['updateAll'] = $arrReturn['operations']['update'] = ['bShow' => true];
         } else {
             $arrReturn['buttons']['updateAll'] = $arrReturn['operations']['update'] = ['bShow' => false];

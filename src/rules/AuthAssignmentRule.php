@@ -20,19 +20,20 @@ class AuthAssignmentRule extends Rule
 
     /**
      * 执行验证
-     * @param int|string $user
+     *
+     * @param int|string     $user
      * @param \yii\rbac\Item $item
-     * @param array $params
+     * @param array          $params
+     *
      * @return bool
      */
     public function execute($user, $item, $params)
     {
-        $isReturn = false;
         $strItemName = empty($params['item_name']) ? Yii::$app->request->post('item_name') : $params['item_name'];
         if ($strItemName !== Auth::SUPER_ADMIN_NAME || $user !== Admin::SUPER_ADMIN_ID) {
-            $isReturn = true;
+            return true;
         }
 
-        return $isReturn;
+        return false;
     }
 }

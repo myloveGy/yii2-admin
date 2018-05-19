@@ -45,9 +45,9 @@ class Admin extends AdminUser
     public static function getArrayStatus($intStatus = null)
     {
         $array = [
-            self::STATUS_ACTIVE => Yii::t('app', 'STATUS_ACTIVE'),
-            self::STATUS_INACTIVE => Yii::t('app', 'STATUS_INACTIVE'),
-            self::STATUS_DELETED => Yii::t('app', 'STATUS_DELETED'),
+            self::STATUS_ACTIVE => Yii::t('admin', 'STATUS_ACTIVE'),
+            self::STATUS_INACTIVE => Yii::t('admin', 'STATUS_INACTIVE'),
+            self::STATUS_DELETED => Yii::t('admin', 'STATUS_DELETED'),
         ];
 
         if ($intStatus !== null && isset($array[$intStatus])) {
@@ -79,15 +79,17 @@ class Admin extends AdminUser
 
     /**
      * 获取角色信息
+     *
+     * @param      $user_id
      * @param bool $isDelete
+     *
      * @return array
      */
-    public static function getArrayRole($isDelete = true)
+    public static function getArrayRole($user_id, $isDelete = true)
     {
-        $uid = Yii::$app->user->id;    // 用户ID
         $auth = Yii::$app->authManager; // 权限对象
         // 管理员
-        $roles = $uid == self::SUPER_ADMIN_ID ? $auth->getRoles() : $auth->getRolesByUser($uid);
+        $roles = $user_id == self::SUPER_ADMIN_ID ? $auth->getRoles() : $auth->getRolesByUser($user_id);
         if ($roles && $isDelete && isset($roles[Auth::SUPER_ADMIN_NAME])) {
             unset($roles[Auth::SUPER_ADMIN_NAME]);
         }
@@ -98,7 +100,7 @@ class Admin extends AdminUser
     public function getRoleLabel()
     {
         if ($this->_roleLabel === null) {
-            $roles = self::getArrayRole();
+            $roles = self::getArrayRole(Yii::$app->controller->module->getUserId());
             $this->_roleLabel = $roles[$this->role];
         }
         return $this->_roleLabel;
@@ -127,7 +129,7 @@ class Admin extends AdminUser
             //['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             // Status
-            ['role', 'in', 'range' => array_keys(self::getArrayRole(false))],
+            ['role', 'in', 'range' => array_keys(self::getArrayRole(Yii::$app->controller->module->getUserId(), false))],
         ];
     }
 
@@ -160,8 +162,11 @@ class Admin extends AdminUser
 
     /**
      * 新增之前的处理
+     *
      * @param  bool $insert 是否是新增数据
+     *
      * @return bool 处理是否成功
+     * @throws \yii\base\Exception
      */
     public function beforeSave($insert)
     {
@@ -177,8 +182,11 @@ class Admin extends AdminUser
 
     /**
      * 修改之后的处理
-     * @param bool $insert 是否是新增数据
+     *
+     * @param bool  $insert            是否是新增数据
      * @param array $changedAttributes 修改的字段
+     *
+     * @throws \Exception
      */
     public function afterSave($insert, $changedAttributes)
     {
@@ -218,7 +226,7 @@ class Admin extends AdminUser
             return false;
         }
 
-        if ($this->id == Yii::$app->user->id) {
+        if ($this->id == Yii::$app->controller->module->getUserId()) {
             $this->addError('username', '不能删除自己');
             return false;
         }

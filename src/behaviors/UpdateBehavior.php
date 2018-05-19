@@ -55,7 +55,10 @@ class UpdateBehavior extends AttributeBehavior
      */
     protected function getValue($event)
     {
-        if ($this->value === null) return Yii::$app->getUser()->id;
+        if ($this->value === null) {
+            return Yii::$app->controller->module->getUserId();
+        }
+
         return parent::getValue($event);
     }
 

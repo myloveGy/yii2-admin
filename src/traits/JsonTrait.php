@@ -2,8 +2,9 @@
 
 namespace jinxing\admin\traits;
 
-use yii;
-use \yii\web\Response;
+use Yii;
+use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 /**
  * Trait Json
@@ -36,8 +37,10 @@ trait JsonTrait
 
         // 没有错误信息使用code 确定错误信息
         if (empty($this->arrJson['errMsg'])) {
-            $errCode                 = Yii::t('error', 'errCode');
-            $this->arrJson['errMsg'] = $errCode[$this->arrJson['errCode']];
+            $this->arrJson['errMsg'] = ArrayHelper::getValue(
+                (array)Yii::t('admin', 'error_code'),
+                $this->arrJson['errCode']
+            );
         }
 
         // 设置JSON返回

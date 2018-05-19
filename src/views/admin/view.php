@@ -1,9 +1,11 @@
 <?php
 
+use jinxing\admin\AdminAsset;
+
 $this->title = '管理员个人信息';
 
-$url = '@web/public/assets';
-$depends = ['depends' => 'backend\assets\AdminAsset'];
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$depends = ['depends' => 'jinxing\admin\AdminAsset'];
 
 $this->registerCssFile($url.'/css/bootstrap-editable.css', $depends);
 $this->registerCssFile($url.'/css/jquery-ui.custom.min.css', $depends);

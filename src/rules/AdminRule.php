@@ -2,9 +2,9 @@
 
 namespace jinxing\admin\rules;
 
-use jinxing\admin\models\Admin;
 use yii;
 use yii\rbac\Rule;
+use jinxing\admin\models\Admin;
 
 /**
  * Class AdminRule 管理员编辑权限控制
@@ -20,9 +20,11 @@ class AdminRule extends Rule
 
     /**
      * 执行验证
-     * @param int|string $user
+     *
+     * @param int|string     $user
      * @param \yii\rbac\Item $item
-     * @param array $params
+     * @param array          $params
+     *
      * @return bool
      */
     public function execute($user, $item, $params)
@@ -30,15 +32,15 @@ class AdminRule extends Rule
         // 管理员不做验证
         if ($user === Admin::SUPER_ADMIN_ID) {
             return true;
-        } else {
-            // 先使用传递的值，再使用请求的值
-            $id = empty($params['id']) ? Yii::$app->request->post('id') : $params['id'];
-            if ($id) {
-                // 查询数据，先验证自己的修改自己或者修改自己添加的
-                $admin = Admin::findOne($id);
-                if ($admin && ($admin->id === $user || $admin->created_id === $user)) {
-                    return true;
-                }
+        }
+
+        // 先使用传递的值，再使用请求的值
+        $id = empty($params['id']) ? Yii::$app->request->post('id') : $params['id'];
+        if ($id) {
+            // 查询数据，先验证自己的修改自己或者修改自己添加的
+            $admin = Admin::findOne($id);
+            if ($admin && ($admin->id === $user || $admin->created_id === $user)) {
+                return true;
             }
         }
 
