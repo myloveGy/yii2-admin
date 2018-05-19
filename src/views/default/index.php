@@ -5,6 +5,7 @@ use jinxing\admin\widgets\Nav;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
+
 AppAsset::register($this);
 list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
 ?>
@@ -20,7 +21,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
     <?= Html::csrfMetaTags() ?>
     <?php $this->head(); ?>
     <!-- ace styles -->
-    <link rel="stylesheet" href="<?=$url?>/css/ace.min.css" id="main-ace-style"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="<?=$url?>/css/ace-part2.min.css"/>
     <![endif]-->
@@ -29,7 +30,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
     <![endif]-->
     <!-- inline styles related to this page -->
     <!-- ace settings handler -->
-    <script src="<?=$url?>/js/ace-extra.min.js"></script>
+    <script src="<?= $url ?>/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
     <script src="<?=$url?>/js/html5shiv.min.js"></script>
@@ -151,27 +152,18 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                     </a>
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <?php foreach (Yii::$app->controller->module->userLinks as $link) : ?>
                         <li>
-                            <a class="window-iframe" data-id="index" title="登录信息"
-                               data-url="<?= Url::toRoute(['site/system']) ?>"
-                               href="<?= Url::toRoute(['default/system']) ?>">
-                                <i class="ace-icon fa fa-desktop"></i>登录信息
+                            <a class="window-iframe"
+                               data-id="<?=ArrayHelper::getValue($link, 'id')?>"
+                               title="<?=ArrayHelper::getValue($link, 'title')?>"
+                               data-url="<?= Url::toRoute([ArrayHelper::getValue($link, 'url')]) ?>"
+                            >
+                                <i class="ace-icon <?=ArrayHelper::getValue($link, 'icon')?>"></i>
+                                <?=ArrayHelper::getValue($link, 'title')?>
                             </a>
                         </li>
-                        <li>
-                            <a class="window-iframe" data-id="my-info" title="个人信息"
-                               data-url="<?= Url::toRoute(['admin/view']) ?>"
-                               href="<?= Url::toRoute(['admin/view']) ?>">
-                                <i class="ace-icon fa fa-user"></i>个人信息
-                            </a>
-                        </li>
-                        <li>
-                            <a class="window-iframe" data-id="my-arrange" title="我的日程"
-                               data-url="<?= Url::toRoute(['arrange/calendar']) ?>"
-                               href="<?= Url::toRoute(['arrange/calendar']) ?>">
-                                <i class="ace-icon fa fa-calendar"></i>我的日程
-                            </a>
-                        </li>
+                        <?php endforeach; ?>
                         <li class="divider"></li>
                         <li>
                             <?= Html::beginForm(['default/logout'], 'post'); ?>
@@ -183,7 +175,6 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                         </li>
                     </ul>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -207,31 +198,26 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
             }
         </script>
 
-        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-            <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button class="btn btn-success window-iframe" title="我的日程信息" data-id="my-arrange"
-                        data-url="<?= Url::toRoute(['arrange/calendar']) ?>">
-                    <i class="ace-icon fa fa-calendar"></i>
-                </button>
-                <button class="btn btn-info">
-                    <i class="ace-icon fa fa-pencil"></i>
-                </button>
-                <button class="btn btn-warning window-iframe" title="个人信息" data-id="my-info"
-                        data-url="<?= Url::toRoute(['admin/view']) ?>">
-                    <i class="ace-icon glyphicon glyphicon-user"></i>
-                </button>
-                <button class="btn btn-danger window-iframe" title="登录信息" data-id="index"
-                        data-url="<?= Url::toRoute(['default/system']) ?>">
-                    <i class="ace-icon fa fa-cogs"></i>
-                </button>
+        <?php if (Yii::$app->controller->module->leftTopButtons) : ?>
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <?php foreach (Yii::$app->controller->module->leftTopButtons as $button) : ?>
+                        <button class="btn <?= ArrayHelper::getValue($button, 'btn-class') ?> window-iframe"
+                                title="<?= ArrayHelper::getValue($button, 'title') ?>"
+                                data-id="<?= ArrayHelper::getValue($button, 'id') ?>"
+                                data-url="<?= Url::toRoute([ArrayHelper::getValue($button, 'url')]) ?>">
+                            <i class="ace-icon <?=ArrayHelper::getValue($button, 'icon')?>"></i>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+                    <span class="btn btn-info"></span>
+                    <span class="btn btn-warning"></span>
+                    <span class="btn btn-danger"></span>
+                </div>
             </div>
-            <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-                <span class="btn btn-success"></span>
-                <span class="btn btn-info"></span>
-                <span class="btn btn-warning"></span>
-                <span class="btn btn-danger"></span>
-            </div>
-        </div>
+        <?php endif; ?>
         <!--左侧导航栏信息-->
         <?php
         try {
@@ -325,7 +311,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
 <script type="text/javascript">
     if ('ontouchstart' in document.documentElement) document.write("<script src='<?=$url?>/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
-<script src="<?=$url?>/js/bootstrap.min.js"></script>
+<script src="<?= $url ?>/js/bootstrap.min.js"></script>
 <!--[if lte IE 8]>
 <script src="<?=$url?>/js/excanvas.min.js"></script>
 <![endif]-->
@@ -334,7 +320,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
     authHeight();
     var $windowDiv = $("#me-window"),
         $divContent = $("#page-content"),
-        intSize = <?=ArrayHelper::getValue(Yii::$app->params, 'iframeNumberSize', 8)?>;
+        intSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberSize', 10)?>;
 
     function authHeight() {
         $("#page-content").css("height", $(window).height() - $("#page-content").offset()["top"] - $(".footer").innerHeight() + "px")

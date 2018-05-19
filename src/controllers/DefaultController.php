@@ -67,14 +67,13 @@ class DefaultController extends \yii\web\Controller
      */
     public function actionIndex()
     {
-
         $this->layout = false;
         // 获取用户导航栏信息
         $user                            = Yii::$app->get($this->module->user);
         $menus                           = Menu::getUserMenus($user->id);
         Yii::$app->view->params['user']  = $user->identity;
         Yii::$app->view->params['menus'] = $menus ? $menus : [];
-        return $this->render('index');
+        return $this->render('@jinxing/admin/views/default/index');
     }
 
     /**
@@ -87,7 +86,7 @@ class DefaultController extends \yii\web\Controller
     {
         // 用户信息
         Yii::$app->view->params['user'] = Yii::$app->get($this->module->user)->identity;
-        return $this->render('system', [
+        return $this->render('@jinxing/admin/views/default/system', [
             'yii'    => 'Yii ' . Yii::getVersion(),                      // Yii 版本
             'upload' => ini_get('upload_max_filesize'),      // 上传文件大小
         ]);

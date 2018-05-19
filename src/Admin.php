@@ -5,9 +5,9 @@ namespace jinxing\admin;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use Yii\helpers\Url;
+use yii\helpers\Url;
 use yii\web\UnauthorizedHttpException;
-use \jinxing\admin\traits\JsonTrait;
+use jinxing\admin\traits\JsonTrait;
 
 /**
  * admin module definition class
@@ -36,6 +36,54 @@ class Admin extends \yii\base\Module
      */
     public $allowControllers = ['default'];
 
+    /**
+     * @var bool 左边头部按钮
+     */
+    public $leftTopButtons = [
+        [
+            'id'        => 'my-arrange',
+            'url'       => 'arrange/calendar',
+            'title'     => '我的日程',
+            'icon'      => 'fa fa-calendar',
+            'btn-class' => 'btn-success'
+        ],
+        [
+            'id'        => '',
+            'url'       => '',
+            'title'     => '',
+            'icon'      => 'fa fa-pencil',
+            'btn-class' => 'btn-info'
+        ],
+        [
+            'id'        => 'my-info',
+            'url'       => 'admin/view',
+            'title'     => '个人信息',
+            'icon'      => 'glyphicon glyphicon-user',
+            'btn-class' => 'btn-warning'
+        ],
+        [
+            'id'        => 'index',
+            'url'       => 'default/system',
+            'title'     => '登录信息',
+            'icon'      => 'fa fa-cogs',
+            'btn-class' => 'btn-danger'
+        ]
+    ];
+
+    /**
+     * @var array 用户点击相关按钮
+     */
+    public $userLinks = [
+        ['title' => '登录信息', 'id' => 'index', 'url' => 'default/system', 'icon' => 'fa fa-desktop'],
+        ['title' => '个人信息', 'id' => 'my-info', 'url' => 'admin/view', 'icon' => 'fa fa-user'],
+        ['title' => '我的日程', 'id' => 'my-arrange', 'url' => 'arrange/calendar', 'icon' => 'fa fa-calendar']
+    ];
+
+    /**
+     * @var int 允许开启iFrame 个数
+     */
+    public $frameNumberSize = 8;
+    
     /**
      * {@inheritdoc}
      */
@@ -79,12 +127,12 @@ class Admin extends \yii\base\Module
 
         // 验证用户登录
         if (Yii::$app->get($this->user)->isGuest) {
-            return Yii::$app->response->redirect(Url::toRoute('site/login'));
+            return Yii::$app->response->redirect(Url::toRoute('default/login'));
         }
 
         // 验证权限
-        $url = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix') . '/' . $action->controller->id . '/' . $action->id;
-        if (!Yii::$app->get($this->user)->can($url) && Yii::$app->getErrorHandler()->exception === null) {
+        list($url) = explode('?', Yii::$app->request->url);
+        if (!Yii::$app->get($this->user)->can(trim($url, '/')) && Yii::$app->getErrorHandler()->exception === null) {
             // 没有权限AJAX返回
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->content = Json::encode($this->error(216));

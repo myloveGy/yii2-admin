@@ -109,10 +109,10 @@ class Auth extends ActiveRecord
         if (!$this->hasErrors()) {
             $auth = Yii::$app->getAuthManager();
             if ($this->isNewRecord && $auth->getPermission($this->newName)) {
-                $this->addError('name', Yii::t('auth', 'This name already exists.'));
+                $this->addError('name', Yii::t('admin', 'This name already exists.'));
             }
             if ($this->isNewRecord && $auth->getRole($this->newName)) {
-                $this->addError('name', Yii::t('auth', 'This name already exists.'));
+                $this->addError('name', Yii::t('admin', 'This name already exists.'));
             }
         }
     }
@@ -154,7 +154,7 @@ class Auth extends ActiveRecord
                 $auth->add($item);
                 if ($this->type === self::TYPE_PERMISSION) {
                     // 添加权限的话，要给管理员加上
-                    $admin = $auth->getRole(ArrayHelper::getValue(Yii::$app->params, 'adminRoleName', 'administrator'));
+                    $admin = $auth->getRole(self::SUPER_ADMIN_NAME);
                     if ($admin) {
                         $auth->addChild($admin, $item);
                     }
@@ -208,7 +208,7 @@ class Auth extends ActiveRecord
         }
 
         // 角色
-        if (Auth::hasUsersByRole($this->name) || $this->name == Yii::$app->params['adminRoleName']) {
+        if (Auth::hasUsersByRole($this->name) || $this->name == self::SUPER_ADMIN_NAME) {
             $this->addError('name', '角色还在使用');
             return false;
         }

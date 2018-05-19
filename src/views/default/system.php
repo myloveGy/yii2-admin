@@ -1,4 +1,7 @@
 <?php
+
+use yii\helpers\ArrayHelper;
+
 $this->title = 'Yii2 Admin 登录信息';
 ?>
 <div class="row">
@@ -34,8 +37,7 @@ $this->title = 'Yii2 Admin 登录信息';
             </div>
         </div>
         <div class="hr hr16 dotted"></div>
-
-        <?php if (\yii\helpers\ArrayHelper::getValue(Yii::$app->params, 'projectOther')) : ?>
+        <?php if (ArrayHelper::getValue(Yii::$app->params, 'project_open_other')) : ?>
             <h4 class="blue">
                 <span class="middle"><i class="fa fa-desktop light-blue bigger-110"></i></span>
                 其他信息
@@ -68,7 +70,8 @@ $this->title = 'Yii2 Admin 登录信息';
                     </div>
                 </div>
             </div>
+
+            <div class="hr hr16 dotted"></div>
         <?php endif; ?>
-        <div class="hr hr16 dotted"></div>
     </div>
 </div>
