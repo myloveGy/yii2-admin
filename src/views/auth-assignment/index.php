@@ -95,7 +95,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                 "order": [],
                 "aoColumns": [
                     {
-                        "title": "管理员", "data": "user_id", "sName": "user_id",
+                        "title": "管理员",
+                        "data": "user_id",
                         "value": aAdmins,
                         "edit": {"type": "select", "required": true},
                         "bSortable": false,
@@ -108,7 +109,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
 //                    }
                     },
                     {
-                        "title": "对应角色", "data": "item_name", "sName": "item_name",
+                        "title": "对应角色",
+                        "data": "item_name",
                         "value": roles,
                         "edit": {
                             "type": "select",
@@ -130,7 +132,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
 //                    }
                     },
                     {
-                        "title": "最初分配时间", "data": "created_at", "sName": "created_at",
+                        "title": "最初分配时间",
+                        "data": "created_at",
                         "createdCell": meTables.dateTimeString
                     }
                 ]

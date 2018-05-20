@@ -46,7 +46,6 @@ $this->title = '角色信息';
                 {
                     "title": "类型",
                     "data": "type",
-                    "sName": "type",
                     "isHide": true,
                     "isExport": false,
                     "edit": {"type": "hidden", "value": iType}
@@ -54,7 +53,6 @@ $this->title = '角色信息';
                 {
                     "title": "名称",
                     "data": "name",
-                    "sName": "name",
                     "isHide": true,
                     "edit": {"type": "hidden"},
                     "search": {"type": "text"}
@@ -62,9 +60,9 @@ $this->title = '角色信息';
                 {
                     "title": "角色名称",
                     "data": "name",
-                    "sName": "newName",
                     "edit": {
                         "type": "text",
+                        "name": "newName",
                         "required": true,
                         "rangelength": "[2, 64]",
                         placeholder: "请输入英文字母、数字、_、/等字符串"
@@ -74,7 +72,6 @@ $this->title = '角色信息';
                 {
                     "title": "说明描述",
                     "data": "description",
-                    "sName": "description",
                     "edit": {
                         "type": "text",
                         "required": true,
@@ -87,11 +84,14 @@ $this->title = '角色信息';
                 {
                     "title": "创建时间",
                     "data": "created_at",
-                    "sName": "created_at",
                     "defaultOrder": "desc",
                     "createdCell": mt.dateTimeString
                 },
-                {"title": "修改时间", "data": "updated_at", "sName": "updated_at", "createdCell": mt.dateTimeString}
+                {
+                    "title": "修改时间",
+                    "data": "updated_at",
+                    "createdCell": mt.dateTimeString
+                }
             ]
         }
     });
