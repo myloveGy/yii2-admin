@@ -5,6 +5,7 @@ namespace jinxing\admin\models;
 use jinxing\admin\helpers\Helper;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auth_item".
@@ -38,6 +39,19 @@ class Auth extends ActiveRecord
      * @var string 定义超级管理员角色
      */
     const SUPER_ADMIN_NAME = 'administrator';
+
+    /**
+     * @var array 默认的权限
+     */
+    public $array_default_auth = [
+        'index'      => '显示数据',
+        'search'     => '搜索数据',
+        'create'     => '添加数据',
+        'update'     => '修改数据',
+        'delete'     => '删除数据',
+        'delete-all' => '批量删除',
+        'export'     => '导出数据'
+    ];
 
     /**
      * @var array 权限信息
@@ -114,6 +128,49 @@ class Auth extends ActiveRecord
             if ($this->isNewRecord && $auth->getRole($this->newName)) {
                 $this->addError('name', Yii::t('admin', 'This name already exists.'));
             }
+        }
+    }
+
+    /**
+     * 获取默认权限名称
+     *
+     * @param $auth
+     *
+     * @return mixed
+     */
+    public function getArrayDefaultAuthName($auth)
+    {
+        return ArrayHelper::getValue($this->array_default_auth, $auth);
+    }
+
+    /**
+     * @param $array
+     * @param $prefix
+     * @param $title
+     *
+     * @return bool
+     * @throws \yii\base\Exception
+     */
+    public function batchInsert($array, $prefix, $title)
+    {
+        try {
+            foreach ($array as $name) {
+                $auth_name = $prefix . $name;
+                // 存在不处理
+                if (self::findOne(['name' => $auth_name, 'type' => self::TYPE_PERMISSION])) {
+                    continue;
+                }
+
+                $model              = new Auth();
+                $model->name        = $model->newName = $auth_name;
+                $model->type        = Auth::TYPE_PERMISSION;
+                $model->description = $title . '-' . $model->getArrayDefaultAuthName($name);
+                $model->save();
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 

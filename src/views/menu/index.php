@@ -5,7 +5,8 @@ use yii\helpers\ArrayHelper;
 use jinxing\admin\models\Auth;
 use jinxing\admin\widgets\MeTable;
 
-$auth = Auth::getDataTableAuth(Yii::$app->controller->module->user);
+$array_default_auth = (new Auth())->array_default_auth;
+$auth               = Auth::getDataTableAuth(Yii::$app->controller->module->user);
 // 定义标题和面包屑信息
 $this->title = '导航栏目信息';
 ?>
@@ -36,6 +37,8 @@ $this->title = '导航栏目信息';
             }
         });
 
+        var auth_item = <?=Json::encode($array_default_auth)?>;
+
         var m = mt({
             title: "导航栏目",
             buttons: <?=Json::encode($auth['buttons'])?>,
@@ -46,7 +49,6 @@ $this->title = '导航栏目信息';
                 "aoColumns": [
                     {
                         "data": "id",
-                        "sName": "id",
                         "title": "Id",
                         "defaultOrder": "desc",
                         "edit": {"type": "hidden"},
@@ -54,7 +56,6 @@ $this->title = '导航栏目信息';
                     },
                     {
                         "data": "pid",
-                        "sName": "pid",
                         "title": "上级分类",
                         "edit": {"type": "selectOptions", "number": 1, id: "select-options"},
                         search: {type: "selectOptions"},
@@ -62,7 +63,6 @@ $this->title = '导航栏目信息';
                     },
                     {
                         "data": "menu_name",
-                        "sName": "menu_name",
                         "title": "栏目名称",
                         "edit": {"required": 1, "rangelength": "[2, 50]"},
                         "search": {"type": "text"},
@@ -70,21 +70,21 @@ $this->title = '导航栏目信息';
                     },
                     {
                         "data": "icons",
-                        "sName": "icons",
                         "title": "图标",
-                        "edit": {"rangelength": "[2, 50]"},
+                        "edit": {"rangelength": "[2, 50]", "value": "menu-icon fa fa-globe"},
                         "bSortable": false
                     },
                     {
                         "data": "url",
-                        "sName": "url",
                         "title": "访问地址",
                         "edit": {"rangelength": "[2, 50]"},
                         "search": {"type": "text"},
                         "bSortable": false
                     },
                     {
-                        "data": "status", "sName": "status", "title": "状态", "value": arrStatus,
+                        "data": "status",
+                        "title": "状态",
+                        "value": arrStatus,
                         "edit": {"type": "radio", "default": 1, "required": 1, "number": 1},
                         "search": {"type": "select"},
                         "createdCell": mt.statusString,
@@ -92,23 +92,40 @@ $this->title = '导航栏目信息';
                     },
                     {
                         "data": "sort",
-                        "sName": "sort",
                         "title": "排序",
                         "edit": {"type": "text", "required": 1, "number": 1, "value": 100}
                     },
+                    {
+                        "data": null,
+                        "defaultContent": "",
+                        "isHide": true,
+                        "title": "权限",
+                        "value": auth_item,
+                        "edit": {
+                            "type": "checkbox",
+                            "name": "auth[]",
+                            "all": true
+                        }
+                    },
                     // 公共属性字段信息
-                    {"data": "created_at", "sName": "created_at", "title": "创建时间", "createdCell": mt.dateTimeString},
+                    {
+                        "data": "created_at",
+                        "title": "创建时间",
+                        "createdCell": mt.dateTimeString
+                    },
                     {
                         "data": "created_id",
-                        "sName": "created_id",
                         "title": "创建用户",
                         "createdCell": mt.adminString,
                         "bSortable": false
                     },
-                    {"data": "updated_at", "sName": "updated_at", "title": "修改时间", "createdCell": mt.dateTimeString},
+                    {
+                        "data": "updated_at",
+                        "title": "修改时间",
+                        "createdCell": mt.dateTimeString
+                    },
                     {
                         "data": "updated_id",
-                        "sName": "updated_id",
                         "title": "修改用户",
                         "createdCell": mt.adminString,
                         "bSortable": false
@@ -121,6 +138,11 @@ $this->title = '导航栏目信息';
         mt.fn.extend({
             beforeShow: function (data) {
                 $("#select-options option").prop("disabled", false);
+                if (this.action === "update") {
+                    $(".div-left-auth").parent().addClass("hide");
+                } else {
+                    $(".div-left-auth").parent().removeClass("hide");
+                }
                 return true;
             },
 

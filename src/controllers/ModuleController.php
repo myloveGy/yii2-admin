@@ -180,7 +180,7 @@ class ModuleController extends Controller
      * @param  string  $title     标题
      * @param   string $auth_name 权限名称
      *
-     * @return void
+     * @return bool
      *
      * @throws \yii\base\Exception
      */
@@ -188,29 +188,8 @@ class ModuleController extends Controller
     {
         $name    = $auth_name ?: $prefix;
         $name    = trim($name, '/') . '/';
-        $arrAuth = [
-            'index'      => '显示数据',
-            'search'     => '搜索数据',
-            'create'     => '添加数据',
-            'update'     => '修改数据',
-            'delete'     => '删除数据',
-            'delete-all' => '批量删除',
-            'export'     => '导出数据'
-        ];
-
-        foreach ($arrAuth as $key => $value) {
-            $str_prefix = $name . $key;
-            // 存在不处理
-            if (Auth::findOne(['name' => $str_prefix, 'type' => Auth::TYPE_PERMISSION])) {
-                continue;
-            }
-
-            $model              = new Auth();
-            $model->name        = $model->newName = $str_prefix;
-            $model->type        = Auth::TYPE_PERMISSION;
-            $model->description = $title . '-' . $value;
-            $model->save();
-        }
+        $auth    = new Auth();
+        return $auth->batchInsert($auth->array_default_auth, $name, $title);
     }
 
     /**
@@ -234,7 +213,7 @@ class ModuleController extends Controller
         $model            = new Menu();
         $model->menu_name = $title;
         $model->pid       = 0;
-        $model->icons     = 'icon-cog';
+        $model->icons     = 'menu-icon fa fa-globe';
         $model->url       = trim($url, '/') . '/index';
         $model->status    = 1;
         return $model->save(false);
