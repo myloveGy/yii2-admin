@@ -129,35 +129,31 @@ class AdminController extends Controller
             // 处理图片
             $strTmpPath = dirname($strFilePath) . '/thumb_' . basename($strFilePath);
 
-            try {
-                /* @var $imageComponent yii\image\ImageDriver */
-                $imageComponent = Yii::createObject([
-                    'class'  => 'yii\image\ImageDriver',
-                    'driver' => 'GD'
-                ]);
+            /* @var $imageComponent yii\image\ImageDriver */
+            $imageComponent = Yii::createObject([
+                'class'  => 'yii\image\ImageDriver',
+                'driver' => 'GD'
+            ]);
 
-//                if ($imageComponent) {
-//                    /* @var $image yii\image\drivers\Kohana_Image_GD */
-//                    $image = $imageComponent->load($strFilePath);
-//                    $image->resize(180, 180, Image::CROP)->save($strTmpPath);
-//                    $image->resize(48, 48, Image::CROP)->save();
-//
-//                    // 管理员页面修改头像
-//                    $admin = Admin::findOne($this->module->getUserId());
-//                    if ($admin && $strField === 'avatar') {
-//                        // 删除之前的图像信息
-//                        if ($admin->face && file_exists('.' . $admin->face)) {
-//                            @unlink('.' . $admin->face);
-//                            @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
-//                        }
-//
-//                        $admin->face = ltrim($strFilePath, '.');
-//                        $admin->save();
-//                        $strFilePath = $strTmpPath;
-//                    }
-//                }
-            } catch (\Exception $e) {
+            if ($imageComponent) {
+                /* @var $image yii\image\drivers\Kohana_Image_GD */
+                $image = $imageComponent->load($strFilePath);
+                $image->resize(180, 180, Image::CROP)->save($strTmpPath);
+                $image->resize(48, 48, Image::CROP)->save();
 
+                // 管理员页面修改头像
+                $admin = Admin::findOne($this->module->getUserId());
+                if ($admin && $strField === 'avatar') {
+                    // 删除之前的图像信息
+                    if ($admin->face && file_exists('.' . $admin->face)) {
+                        @unlink('.' . $admin->face);
+                        @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
+                    }
+
+                    $admin->face = ltrim($strFilePath, '.');
+                    $admin->save();
+                    $strFilePath = $strTmpPath;
+                }
             }
         }
 
