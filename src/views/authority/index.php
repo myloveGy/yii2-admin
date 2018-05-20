@@ -5,7 +5,7 @@ use jinxing\admin\models\Auth;
 use jinxing\admin\widgets\MeTable;
 
 // 获取权限
-$auth = Auth::getDataTableAuth(Yii::$app->request->url);
+$auth = Auth::getDataTableAuth(Yii::$app->controller->module->user);
 
 // 定义标题
 $this->title = '权限信息';

@@ -2,9 +2,9 @@
 
 namespace jinxing\admin\models;
 
+use jinxing\admin\helpers\Helper;
 use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auth_item".
@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property AuthAssignment[] $authAssignments
  * @property AuthRule         $ruleName
- * @property AuthItemChild[]  $authItemChildren
+ * @property Auth[]           $authItemChildren
  */
 class Auth extends ActiveRecord
 {
@@ -311,16 +311,17 @@ class Auth extends ActiveRecord
     /**
      * 获取dataTable 表格需要的权限
      *
-     * @param        $user
-     * @param string $controller 权限对应的控制器名称
-     * @param string $join       链接字符串
+     * @param string $user 使用的用户名称
+     * @param string $join 链接字符串
      *
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getDataTableAuth($controller, $user = 'admin', $join = '/')
+    public static function getDataTableAuth($user = 'admin', $join = '/')
     {
-        $controller = trim(str_replace('/index', '', $controller), '/') . $join;
+        $module = Helper::getModuleIds(Yii::$app->controller->module);
+        array_push($module, Yii::$app->controller->id);
+        $controller = implode($join, $module) . $join;
         $arrReturn  = [
             'buttons'    => [
                 'create' => [

@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 use jinxing\admin\models\Auth;
 use jinxing\admin\widgets\MeTable;
 
-$auth = Auth::getDataTableAuth(Yii::$app->request->url);
+$auth = Auth::getDataTableAuth(Yii::$app->controller->module->user);
 // 定义标题和面包屑信息
 $this->title = '导航栏目信息';
 ?>

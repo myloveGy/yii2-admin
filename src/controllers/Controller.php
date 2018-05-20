@@ -2,17 +2,17 @@
 
 namespace jinxing\admin\controllers;
 
-use jinxing\admin\models\AdminLog;
-use jinxing\admin\traits\JsonTrait;
-use jinxing\admin\models\forms\UploadForm;
 use Yii;
-use jinxing\admin\models\Admin;
-use jinxing\admin\strategy\Substance;
-use jinxing\admin\helpers\Helper;
 use yii\db\Query;
 use yii\helpers\FileHelper;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
+use jinxing\admin\models\Admin;
+use jinxing\admin\strategy\Substance;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\models\AdminLog;
+use jinxing\admin\traits\JsonTrait;
+use jinxing\admin\models\forms\UploadForm;
 
 /**
  * Class Controller 后台的基础控制器
@@ -87,6 +87,7 @@ class Controller extends \yii\web\Controller
 
     /**
      * 获取查询的配置信息(查询参数)
+     *
      * @access protected
      *
      * @param  array $params 查询的请求参数

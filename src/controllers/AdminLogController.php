@@ -3,7 +3,6 @@
 namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\Admin;
-use yii;
 
 /**
  * Class AdminLogController 操作日志 执行操作控制器

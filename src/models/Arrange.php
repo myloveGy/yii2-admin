@@ -2,14 +2,12 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\models\AdminModel;
-
 /**
  * This is the model class for table "{{%arrange}}".
  *
  * @property integer $id
- * @property string $title
- * @property string $desc
+ * @property string  $title
+ * @property string  $desc
  * @property integer $start_at
  * @property integer $status
  * @property integer $time_status
@@ -59,32 +57,39 @@ class Arrange extends AdminModel
     public function attributeLabels()
     {
         return [
-            'id'         => 'id ',
-            'title'      => '事件标题',
-            'desc'       => '事件描述',
-            'status'     => '事件状态',
-            'time_status'=> '时间状态',
-            'admin_id'   => '处理人',
-            'start_at'   => '开始时间',
-            'end_at'     => '结束时间',
-            'created_at' => '创建时间',
-            'created_id' => '添加用户',
-            'updated_at' => '修改时间',
-            'updated_id' => '修改用户',
+            'id'          => 'id ',
+            'title'       => '事件标题',
+            'desc'        => '事件描述',
+            'status'      => '事件状态',
+            'time_status' => '时间状态',
+            'admin_id'    => '处理人',
+            'start_at'    => '开始时间',
+            'end_at'      => '结束时间',
+            'created_at'  => '创建时间',
+            'created_id'  => '添加用户',
+            'updated_at'  => '修改时间',
+            'updated_id'  => '修改用户',
         ];
     }
 
     // 验证之前的处理
     public function beforeValidate()
     {
-        if (! empty($this->start_at) && strpos($this->start_at, '-')) $this->start_at = strtotime($this->start_at);
-        if (! empty($this->end_at) && strpos($this->end_at, '-')) $this->end_at = strtotime($this->end_at);
+        if (!empty($this->start_at) && strpos($this->start_at, '-')) {
+            $this->start_at = strtotime($this->start_at);
+        }
+        if (!empty($this->end_at) && strpos($this->end_at, '-')) {
+            $this->end_at = strtotime($this->end_at);
+        }
+
         return parent::beforeValidate();
     }
 
     /**
      * getStatus() 获取状态信息
+     *
      * @param null $intStatus 状态值
+     *
      * @return array|mixed
      */
     public static function getStatus($intStatus = null)
@@ -105,7 +110,9 @@ class Arrange extends AdminModel
 
     /**
      * getTimeStatus() 获取时间状态信息
+     *
      * @param null $intStatus 状态值
+     *
      * @return array|mixed
      */
     public static function getTimeStatus($intStatus = null)
@@ -125,7 +132,9 @@ class Arrange extends AdminModel
 
     /**
      * getStatus() 获取状态信息
+     *
      * @param null $intStatus 状态值
+     *
      * @return array|mixed
      */
     public static function getStatusColors($intStatus = null)
@@ -146,7 +155,9 @@ class Arrange extends AdminModel
 
     /**
      * getTimeStatus() 获取时间状态信息
+     *
      * @param null $intStatus 状态值
+     *
      * @return array|mixed
      */
     public static function getTimeColors($intStatus = null)

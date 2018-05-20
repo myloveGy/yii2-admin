@@ -9,7 +9,6 @@ use jinxing\admin\helpers\Helper;
 use jinxing\admin\models\Auth;
 use jinxing\admin\models\Admin;
 use jinxing\admin\models\China;
-use yii\image\drivers\Kohana_Image;
 
 /**
  * Class AdminController 后台管理员操作控制器
@@ -63,7 +62,7 @@ class AdminController extends Controller
             'roles'       => Admin::getArrayRole($this->module->getUserId()),      // 用户角色
             'status'      => Admin::getArrayStatus(),    // 状态
             'statusColor' => Admin::getStatusColor(), // 状态对应颜色,'
-            'auth'        => Auth::getDataTableAuth(Yii::$app->request->url, $this->module->user)
+            'auth'        => Auth::getDataTableAuth($this->module->user)
         ]);
     }
 

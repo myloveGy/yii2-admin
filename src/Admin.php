@@ -149,6 +149,8 @@ class Admin extends Module
     }
 
     /**
+     * 获取登录用户
+     * 
      * @return null|object
      * @throws \yii\base\InvalidConfigException
      */
@@ -157,6 +159,12 @@ class Admin extends Module
         return Yii::$app->get($this->user);
     }
 
+    /**
+     * 获取登录用户ID
+     *
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     */
     public function getUserId()
     {
         return $this->getUser()->id;

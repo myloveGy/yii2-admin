@@ -2,15 +2,16 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\behaviors\UpdateBehavior;
-use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use jinxing\admin\behaviors\UpdateBehavior;
 
 /**
  * Class AdminModel 后台处理有新增和修改字段的model
  * @package common\models
  */
-class AdminModel extends \yii\db\ActiveRecord
+class AdminModel extends ActiveRecord
 {
     public function behaviors()
     {
