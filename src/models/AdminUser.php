@@ -7,6 +7,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -26,7 +27,7 @@ use yii\web\IdentityInterface;
  * @property integer $updated_time
  * @property string  $password write-only password
  */
-class AdminUser extends \yii\db\ActiveRecord implements IdentityInterface
+class AdminUser extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED  = 0;
     const STATUS_INACTIVE = 20;

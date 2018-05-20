@@ -122,6 +122,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                         </div>
                         <form class="form-horizontal produce" action="<?= Url::toRoute('module/produce') ?>"
                               method="POST">
+                            <input type="hidden" id="input-primary-key" value="" name="primary_key"/>
                             <div class="form-group">
                                 <label for="input-html"
                                        class="control-label col-xs-12 col-sm-3 no-padding-right">HTML文件</label>
@@ -129,7 +130,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                     <div class="clearfix">
                                         <input type="text" class="col-xs-12 col-sm-6" id="input-html" name="html"
                                                required="true" rangelength="[2, 60]"/>
-                                        <label class="m_error"></label>
+                                        <label class="error" style="margin-left:5px;color:red"></label>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +140,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                     <div class="clearfix">
                                         <input type="text" class="col-xs-12 col-sm-6" id="input-controller"
                                                name="controller" required="true" rangelength="[2, 60]"/>
-                                        <label class="m_error"></label>
+                                        <label class="error" style="margin-left:5px;color:red"></label>
                                     </div>
                                 </div>
                             </div>
@@ -157,6 +158,11 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                         <input type="radio" value="0" class="ace" name="menu" number="1" required="1">
                                         <span class="lbl"> 不生成 </span>
                                     </label>
+                                    <?php if (!$is_application) : ?>
+                                        <span style="margin-left:10px">
+                                            <input type="text" id="input-menu-name" name="menu_prefix">
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -173,6 +179,11 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                         <input type="radio" value="0" class="ace" name="auth" number="1" required="1">
                                         <span class="lbl"> 不生成 </span>
                                     </label>
+                                    <?php if (!$is_application) : ?>
+                                        <span style="margin-left:10px">
+                                        <input type="text" name="auth_prefix" id="input-auth-name" value="">
+                                    </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -180,7 +191,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 <div class="col-xs-12 col-sm-9">
                                     &#12288;
                                     <label class="line-height-1 blue">
-                                        <input type="radio" value="1" class="ace" checked="checked" name="allow" number="1" required="1">
+                                        <input type="radio" value="1" class="ace" checked="checked" name="allow"
+                                               number="1" required="1">
                                         <span class="lbl"> 允许 </span>
                                     </label>
                                     &#12288;
@@ -194,7 +206,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-4 col-sm-offset-3">
                                     <label>
-                                        <input type="checkbox" class="ace" id="agree" checked name="agree" required="true">
+                                        <input type="checkbox" class="ace" id="agree" checked name="agree"
+                                               required="true">
                                         <span class="lbl"> 同意生成 </span>
                                     </label>
                                 </div>
@@ -254,7 +267,6 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 $(e).remove();
                             }
                         }).form()) {
-
                             $.ajax({
                                 'async': false,
                                 'url': f.attr('action'),
@@ -262,10 +274,13 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 'type': 'POST',
                                 'dataType': 'json'
                             }).done(function (json) {
-                                layer.msg(json.errMsg, {icon: json.errCode == 0 ? 6 : 5});
-                                if (json.errCode == 0) {
+                                layer.msg(json.errMsg, {icon: json.errCode === 0 ? 6 : 5});
+                                if (json.errCode === 0) {
                                     // 第一步提交
-                                    if (info.step === 1) $('#my-content').html(json.data);
+                                    if (info.step === 1) {
+                                        $('#my-content').html(json.data);
+                                    }
+
                                     // 第二步提交
                                     if (info.step === 2) {
                                         $('.code').html(json.data.html).parent().show();
@@ -282,6 +297,16 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                             controller = json.data.controller[0]
                                             $('#input-controller').next().html(' ( * 文件已经存在,需要重新定义文件名 )');
                                         }
+
+                                        // 当文件存在、不允许覆盖
+                                        if (json.data.file[1] == true || json.data.controller[1] == true) {
+                                            $("input[name='allow'][value='0']").prop("checked", true);
+                                        }
+
+                                        // 主键
+                                        $("#input-primary-key").val(json.data.primary_key);
+                                        $("#input-auth-name").val(json.data.auth_name);
+                                        $("#input-menu-name").val(json.data.menu_name);
                                     }
                                     return true;
                                 } else {
@@ -304,8 +329,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 dataType: "json",
                                 type: "POST"
                             }).done(function (json) {
-                                layer.msg(json.errMsg, {icon: json.errCode == 0 ? 6 : 5});
-                                if (json.errCode == 0) {
+                                layer.msg(json.errMsg, {icon: json.errCode === 0 ? 6 : 5});
+                                if (json.errCode === 0) {
                                     if ($('input[name=menu]:checked').val() == 1)
                                         window.location.href = json.data;
                                     else
@@ -322,12 +347,14 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                 }).on('stepclick', function (e) {
                 //e.preventDefault();//this will prevent clicking and selecting steps
             });
+
             // 表单编辑的显示与隐藏
             $(document).on('change', '.is-hide', function () {
-                if ($(this).val() == 0)
+                if ($(this).val() == 0) {
                     $(this).next('select').hide().next('input').hide();
-                else
+                } else {
                     $(this).next('select').show().next('input').show();
+                }
             });
         });
     </script>

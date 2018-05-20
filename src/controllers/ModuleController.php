@@ -10,6 +10,7 @@ use yii\helpers\Url;
 use jinxing\admin\models\Menu;
 use jinxing\admin\models\Auth;
 use jinxing\admin\helpers\Helper;
+use yii\web\Application;
 
 /**
  * Class ModuleController 模块生成测试文件
@@ -29,7 +30,8 @@ class ModuleController extends Controller
         $tables = Yii::$app->db->getSchema()->getTableSchemas();
         $tables = ArrayHelper::map($tables, 'name', 'name');
         return $this->render('index', [
-            'tables' => $tables,
+            'tables'         => $tables,
+            'is_application' => $this->module->module instanceof Application
         ]);
     }
 
@@ -75,9 +77,10 @@ class ModuleController extends Controller
     public function actionUpdate()
     {
         // 1、获取验证参数
-        $request = Yii::$app->request;
-        $attr    = $request->post('attr');
-        $table   = $request->post('table');
+        $request     = Yii::$app->request;
+        $attr        = $request->post('attr');
+        $table       = $request->post('table');
+        $primary_key = $request->post('pk');
         if (empty($table) || empty($attr)) {
             return $this->error(201);
         }
@@ -88,17 +91,22 @@ class ModuleController extends Controller
         }
 
         // 拼接字符串
-        $dirName  = Yii::$app->basePath . '/';
         $strCName = Helper::strToUpperWords($name) . 'Controller.php';
-
-        // 返回数据
-        $basePath = str_replace('\\', '/', $this->module->controllerNamespace);
+        $name     = str_replace('_', '-', $name);
+        $basePath = '@' . str_replace(['\\', '/controllers'], ['/', ''], $this->module->module->controllerNamespace);
         $strCName = $basePath . '/controllers/' . $strCName;
-        $strVName = $basePath . '/views/' . str_replace('_', '-', $name) . '/index.php';
+        $strVName = $basePath . '/views/' . $name . '/index.php';
+        if (!($this->module->module instanceof Application)) {
+            $name = $this->module->module->id . '/' . $name;
+        }
+
         return $this->success([
-            'html'       => highlight_string($this->createPHP($attr, $request->post('title')), true),
-            'file'       => [$strVName, file_exists($dirName . $strVName)],
-            'controller' => [$strCName, file_exists($dirName . $strCName)],
+            'html'        => highlight_string($this->createView($attr, $request->post('title'), '', $primary_key), true),
+            'file'        => [$strVName, file_exists(Yii::getAlias($strCName))],
+            'controller'  => [$strCName, file_exists(Yii::getAlias($strCName))],
+            'primary_key' => $primary_key,
+            'auth_name'   => $name,
+            'menu_name'   => $name
         ]);
     }
 
@@ -110,56 +118,55 @@ class ModuleController extends Controller
     public function actionProduce()
     {
         // 接收参数
-        $request = Yii::$app->request;
-        $attr    = $request->post('attr');       // 表单信息
-        $table   = $request->post('table');      // 操作表
-        $title   = $request->post('title');      // 标题信息
-        $html    = $request->post('html');       // HTML 文件名
-        $php     = $request->post('controller'); // PHP  文件名
-        $auth    = (int)$request->post('auth');  // 生成权限
-        $menu    = (int)$request->post('menu');  // 生成导航
-        $allow   = (int)$request->post('allow'); // 允许文件覆盖
+        $request     = Yii::$app->request;
+        $attr        = $request->post('attr');       // 表单信息
+        $table       = $request->post('table');      // 操作表
+        $title       = $request->post('title');      // 标题信息
+        $html        = $request->post('html');       // HTML 文件名
+        $php         = $request->post('controller'); // PHP  文件名
+        $auth        = (int)$request->post('auth');  // 生成权限
+        $menu        = (int)$request->post('menu');  // 生成导航
+        $allow       = (int)$request->post('allow'); // 允许文件覆盖
+        $primary_key = $request->post('primary_key'); // 主键
+        $auth_name   = $request->post('auth_prefix');
+        $menu_name   = $request->post('menu_prefix');
 
         // 第一步验证参数：
         if (empty($attr) || empty($table) || empty($html) || empty($php)) {
             return $this->error(201);
         }
 
+        // 表名字不能为空
         $name = str_replace(Yii::$app->db->tablePrefix, '', $table);
         if (empty($name)) {
             return $this->error(217);
         }
 
-        // 试图文件目录、导航栏目、权限名称使用字符串,拼接字符串
-        $strName       = str_replace('_', '-', $name);
-        $arrController = explode('/', $php);
-        $arrHtml       = explode(',', $html);
-        $php           = array_pop($arrController);
-        $html          = array_pop($arrHtml);
-        $dirName       = Yii::$app->basePath;
-        $strCName      = $dirName . '/' . implode('/', $arrController) . '/' . (stripos(Helper::strToUpperWords($php), '.php') ? $php : $php . '.php');
-        $strVName      = $dirName . '/' . implode('/', $arrHtml) . '/' . (stripos($html, '.php') ? $html : $html . '.php');
+        // 获取文件目录
+        $view_path       = Yii::getAlias($html);
+        $controller_path = Yii::getAlias($php);
+        $str_name        = str_replace('_', '-', $name);
 
         // 验证文件不存在
-        if ($allow !== 1 && (file_exists($strCName) || file_exists($strVName))) {
+        if ($allow !== 1 && (file_exists($view_path) || file_exists($controller_path))) {
             return $this->error(219);
         }
 
         // 生成权限
         if ($auth == 1) {
-            $this->createAuth($strName, $title);
+            $this->createAuth($str_name, $title, $auth_name);
         }
 
         // 生成导航栏目
         if ($menu == 1) {
-            $this->createMenu($strName, $title);
+            $this->createMenu($str_name, $title, $menu_name);
         }
 
         // 生成视图文件
-        $strWhere = $this->createView($attr, $title, $strVName);
+        $strWhere = $this->createView($attr, $title, $view_path, $primary_key);
 
         // 生成控制器
-        $this->createController($name, $title, $strCName, $strWhere);
+        $this->createController($name, $title, $controller_path, $strWhere, $primary_key);
 
         // 返回数据
         return $this->success(Url::toRoute([$name . '/index']));
@@ -169,17 +176,19 @@ class ModuleController extends Controller
      * 生成权限操作
      * @access private
      *
-     * @param  string $prefix 前缀名称
-     * @param  string $title  标题
+     * @param  string  $prefix    前缀名称
+     * @param  string  $title     标题
+     * @param   string $auth_name 权限名称
      *
      * @return void
      *
      * @throws \yii\base\Exception
      */
-    private function createAuth($prefix, $title)
+    private function createAuth($prefix, $title, $auth_name = '')
     {
-        $strPrefix = trim($prefix, '/') . '/';
-        $arrAuth   = [
+        $name    = $auth_name ?: $prefix;
+        $name    = trim($name, '/') . '/';
+        $arrAuth = [
             'index'      => '显示数据',
             'search'     => '搜索数据',
             'create'     => '添加数据',
@@ -190,8 +199,14 @@ class ModuleController extends Controller
         ];
 
         foreach ($arrAuth as $key => $value) {
+            $str_prefix = $name . $key;
+            // 存在不处理
+            if (Auth::findOne(['name' => $str_prefix, 'type' => Auth::TYPE_PERMISSION])) {
+                continue;
+            }
+
             $model              = new Auth();
-            $model->name        = $model->newName = $strPrefix . $key;
+            $model->name        = $model->newName = $str_prefix;
             $model->type        = Auth::TYPE_PERMISSION;
             $model->description = $title . '-' . $value;
             $model->save();
@@ -200,25 +215,29 @@ class ModuleController extends Controller
 
     /**
      * 生成导航栏信息
+     *
      * @access private
      *
-     * @param  string $name  权限名称
-     * @param  string $title 导航栏目标题
+     * @param  string $name      权限名称
+     * @param  string $title     导航栏目标题
+     * @param  string $menu_name 栏目名称
      *
-     * @return void
+     * @return bool
      */
-    private function createMenu($name, $title)
+    private function createMenu($name, $title, $menu_name = '')
     {
-        $prefix = $this->module instanceof Module ? $this->module->id . '/' : '';
-        if (!Menu::find()->where(['menu_name' => $title])->one()) {
-            $model            = new Menu();
-            $model->menu_name = $title;
-            $model->pid       = 0;
-            $model->icons     = 'icon-cog';
-            $model->url       = $prefix . '/' . $name . '/index';
-            $model->status    = 1;
-            $model->save(false);
+        if (Menu::findOne(['menu_name' => $title])) {
+            return true;
         }
+
+        $url              = $menu_name ?: $name;
+        $model            = new Menu();
+        $model->menu_name = $title;
+        $model->pid       = 0;
+        $model->icons     = 'icon-cog';
+        $model->url       = trim($url, '/') . '/index';
+        $model->status    = 1;
+        return $model->save(false);
     }
 
     /**
@@ -230,6 +249,14 @@ class ModuleController extends Controller
      */
     private function createForm($array)
     {
+        $primary_key = '';
+        foreach ($array as $value) {
+            if (ArrayHelper::getValue($value, 'Key') == 'PRI') {
+                $primary_key = ArrayHelper::getValue($value, 'Field');
+                break;
+            }
+        }
+
         $strHtml = '<div class="alert alert-info">
     <button data-dismiss="alert" class="close" type="button">×</button>
     <strong>填写配置表格信息!</strong>
@@ -244,6 +271,14 @@ class ModuleController extends Controller
                 $sOption .= '"rangelength": "[2, ' . $sLen . ']"';
             }
 
+            // 主键修改隐藏
+            if ($key == $primary_key) {
+                $sOption = '';
+                $select  = '<option value="hidden" selected="selected">hidden</option>';
+            } else {
+                $select = '<option value="text" selected="selected">text</option>';
+            }
+
             $sOther = stripos($value['Field'], '_at') !== false ? 'meTables.dateTimeString' : '';
 
             $strHtml .= <<<HTML
@@ -256,8 +291,9 @@ class ModuleController extends Controller
             <option value="0" >关闭</option>
         </select>
         <select name="attr[{$key}][type]">
-            <option value="text" selected="selected">text</option>
-            <option value="hidden">hidden</option>
+            {$select}
+            <option value="text">text</option>
+            <option value="hidden" >hidden</option>
             <option value="select">select</option>
             <option value="radio">radio</option>
             <option value="password">password</option>
@@ -280,21 +316,23 @@ class ModuleController extends Controller
 HTML;
         }
 
-        return $strHtml;
+        return $strHtml . '<input type="hidden" name="pk" value="' . $primary_key . '">';
     }
 
     /**
      * 生成预览HTML文件
      * @access private
      *
-     * @param  array  $array 接收表单配置文件
-     * @param  string $title 标题信息
-     * @param  string $path  文件地址
+     * @param  array  $array       接收表单配置文件
+     * @param  string $title       标题信息
+     * @param  string $path        文件地址
+     *
+     * @param string  $primary_key 主键名称
      *
      * @return string 返回 字符串
      * @throws \yii\base\Exception
      */
-    private function createView($array, $title, $path = '')
+    private function createView($array, $title, $path = '', $primary_key = 'id')
     {
         $strHtml = $strWhere = '';
         if ($array) {
@@ -302,7 +340,9 @@ HTML;
                 $html = "\t\t\t{\"title\": \"{$value['title']}\", \"data\": \"{$key}\", \"sName\": \"{$key}\", ";
 
                 // 编辑
-                if ($value['edit'] == 1) $html .= "\"edit\": {\"type\": \"{$value['type']}\", " . trim($value['options'], ',') . "}, ";
+                if ($value['edit'] == 1) {
+                    $html .= "\"edit\": {\"type\": \"{$value['type']}\", " . trim($value['options'], ',') . "}, ";
+                }
 
                 // 搜索
                 if ($value['search'] == 1) {
@@ -311,16 +351,21 @@ HTML;
                 }
 
                 // 排序
-                if ($value['bSortable'] == 0) $html .= '"bSortable": false, ';
+                if ($value['bSortable'] == 0) {
+                    $html .= '"bSortable": false, ';
+                }
 
                 // 回调
-                if (!empty($value['createdCell'])) $html .= '"createdCell" : ' . $value['createdCell'] . ', ';
+                if (!empty($value['createdCell'])) {
+                    $html .= '"createdCell" : ' . $value['createdCell'] . ', ';
+                }
 
                 $strHtml .= trim($html, ', ') . "}, \n";
             }
         }
 
-        $sHtml = <<<html
+        $primary_key_config = $primary_key && $primary_key != 'id' ? 'pk: "' . $primary_key . '",' : '';
+        $sHtml              = <<<html
 <?php
 
 use jinxing\admin\widgets\MeTable;
@@ -332,6 +377,7 @@ use jinxing\admin\widgets\MeTable;
 <script type="text/javascript">
     var m = meTables({
         title: "{$title}",
+        {$primary_key_config}
         table: {
             "aoColumns": [
                 {$strHtml}
@@ -380,18 +426,22 @@ html;
      * 生成控制器文件
      * @access private
      *
-     * @param  string $name  控制器名
-     * @param  string $title 标题
-     * @param  string $path  文件名
-     * @param  string $where 查询条件
+     * @param  string $name        控制器名
+     * @param  string $title       标题
+     * @param  string $path        文件名
+     * @param  string $where       查询条件
+     * @param string  $primary_key 主键名称
      *
      * @return void
      */
-    private function createController($name, $title, $path, $where)
+    private function createController($name, $title, $path, $where, $primary_key = 'id')
     {
-        $strFile        = trim(strrchr($path, '/'), '/');
-        $strName        = trim($strFile, '.class.php');
-        $strModel       = Helper::strToUpperWords($name);
+        $strFile  = trim(strrchr($path, '/'), '/');
+        $strName  = trim($strFile, '.class.php');
+        $strModel = str_replace('controllers', 'models', $this->module->module->controllerNamespace) . '\\' . Helper::strToUpperWords($name);
+        $pk       = $primary_key && $primary_key != 'id' ? 'protected $pk = \'' . $primary_key . '\';' : '';
+
+        // 模板
         $strControllers = <<<Html
 <?php
 
@@ -405,10 +455,12 @@ use jinxing\admin\controllers\Controller;
  */
 class {$strName} extends Controller
 {
+    {$pk}
+    
     /**
      * @var string 定义使用的model
      */
-    public \$modelClass = 'jinxing\admin\models\\$strModel';
+    public \$modelClass = '{$strModel}';
      
     /**
      * 查询处理
