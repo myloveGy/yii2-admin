@@ -1,8 +1,8 @@
-Yii2 ace Admin 后台模板
+Yii2 Ace Admin 后台扩展
 =======================
 
-### 简介
-系统基于yii2高级版本开发，后台模板使用的ace admin。对于一般的后台开发，比较方便; 对于数据表的CURL操作都有封装，且所有操作都有权限控制。
+为yii2开发的扩展，后台模板使用的ace admin。对于一般的后台开发，比较方便; 对于数据表的CURL操作都有封装，且所有操作都有权限控制。
+
 #### 特点
 * 使用RBAC权限管理，所有操作基于权限控制
 * 视图使用JS控制，数据显示使用的jquery.DataTables
@@ -15,6 +15,7 @@ Yii2 ace Admin 后台模板
 * 账号： admin
 * 密码： admin888
 ### 安装
+
 * 提示：请先确定安装了[Composer Asset插件:](https://github.com/fxpio/composer-asset-plugin)
 ```
 php composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
@@ -185,51 +186,13 @@ php composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
             m.init();
         })
     ```
-[meTables配置说明](./backend/web/public/assets/js/common/README.md)
 
 ### 预览
 1. 登录页
-![登录页](./backend/web/public/assets/images/desc1.png)
+![登录页](./dosc/images/desc1.png)
 2. 数据显示
-![数据显示](./backend/web/public/assets/images/desc2.png)
+![数据显示](./dosc/images/desc2.png)
 3. 权限分配
-![权限分配](./backend/web/public/assets/images/desc3.png)
+![权限分配](./dosc/images/desc3.png)
 4. 模块生成
-![模块生成](./backend/web/public/assets/images/desc4.png)
-
-目录结构
--------------------
-
-```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
-tests                    contains various tests for the advanced application
-    codeception/         contains tests developed with Codeception PHP Testing Framework
-```
+![模块生成](./dosc/images/desc4.png)
