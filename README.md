@@ -59,8 +59,39 @@ return [
             'idParam' => '_adminId',
             'identityCookie' => ['name' => '_admin','httpOnly' => true],
         ],
+        
+        // This step is not necessary, but you use it outside the module. The controller, view in the module must be added!
+        'i18n' => [
+            'translations' => [
+                'admin' => [
+                    'class'          => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en',
+                    'basePath'       => '@jinxing/admin/messages'
+                ],
+            ],
+        ],
                 
     ]
+];
+```
+
+There are also some param configuration, not mandatory, with default values
+
+```
+// Need to configure params.php
+return [
+    // Background prefix, used to import data, the prefix of the permission name; currently there is no good solution, all use this configuration item
+    'admin_rule_prefix' => 'admin/admin', 
+    
+     // Login navigation menu cache time
+    'cacheTime'         => 86400,    
+    
+    // Universal status                       
+    'status'            => ['停用', '启用'],
+               
+    'projectName'       => 'Yii2 后台管理系统',              
+    'projectTitle'      => 'Yii2 后台管理系统',
+    'companyName'       => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
 ];
 ```
 
