@@ -141,8 +141,7 @@ class Menu extends AdminModel
                 ->all();
         } else {
             // 其他用户登录成功获取权限
-            $permissions = Yii::$app->getAuthManager()->getPermissionsByUser($intUserId);
-            if ($permissions) {
+            if ($permissions = Yii::$app->getAuthManager()->getPermissionsByUser($intUserId)) {
                 $menus = self::getMenusByPermissions($permissions);
             }
         }
@@ -164,10 +163,8 @@ class Menu extends AdminModel
             if ($cache->get($index)) $cache->delete($index);
             return $cache->set($index, $navigation, ArrayHelper::getValue(Yii::$app->params, 'cacheTime', 86400));
         } else {
-            $cache->delete($index);
+            return $cache->delete($index);
         }
-
-        return false;
     }
 
     /**
@@ -200,8 +197,7 @@ class Menu extends AdminModel
     public static function getMenusByPermissions($permissions)
     {
         // 查询导航栏目
-        $menus = static::findMenus(['url' => array_keys($permissions), 'status' => static::STATUS_ACTIVE]);
-        if ($menus) {
+        if ($menus = static::findMenus(['url' => array_keys($permissions), 'status' => static::STATUS_ACTIVE])) {
             $sort = ArrayHelper::getColumn($menus, 'sort');
             array_multisort($sort, SORT_ASC, $menus);
         }
@@ -218,8 +214,7 @@ class Menu extends AdminModel
      */
     public static function findMenus($where)
     {
-        $parents = static::find()->where($where)->asArray()->indexBy('id')->all();
-        if ($parents) {
+        if ($parents = static::find()->where($where)->asArray()->indexBy('id')->all()) {
             $arrParentIds = [];
             foreach ($parents as $value) {
                 if ($value['pid'] != 0 && !isset($parents[$value['pid']])) {
@@ -228,8 +223,7 @@ class Menu extends AdminModel
             }
 
             if ($arrParentIds) {
-                $arrParents = static::findMenus(['id' => $arrParentIds]);
-                if ($arrParents) {
+                if ($arrParents = static::findMenus(['id' => $arrParentIds])) {
                     $parents += $arrParents;
                 }
             }

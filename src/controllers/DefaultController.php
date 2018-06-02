@@ -2,6 +2,7 @@
 
 namespace jinxing\admin\controllers;
 
+use jinxing\admin\traits\JsonTrait;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -16,6 +17,8 @@ use jinxing\admin\models\forms\AdminForm;
  */
 class DefaultController extends \yii\web\Controller
 {
+    use JsonTrait;
+
     /**
      * @inheritdoc
      */
@@ -53,11 +56,10 @@ class DefaultController extends \yii\web\Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction'
+                'class' => 'jinxing\admin\actions\ErrorAction',
             ],
         ];
     }
-
 
     /**
      * 管理员登录欢迎页

@@ -140,7 +140,7 @@ class Module extends yii\base\Module
 
         // 验证权
         if ($this->verifyAuthority) {
-            if (!Yii::$app->get($this->user)->can($this->getUniqueId() . '/' . $action->controller->id . '/' . $action->id)) {
+            if (!Yii::$app->get($this->user)->can($action->getUniqueId())) {
                 // 没有权限AJAX返回
                 if (Yii::$app->request->isAjax) {
                     Yii::$app->response->content = Json::encode($this->error(216));
