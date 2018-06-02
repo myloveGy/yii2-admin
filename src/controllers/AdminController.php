@@ -27,13 +27,11 @@ class AdminController extends Controller
     public $strUploadPath = './uploads/avatars/';
 
     /**
-     * 搜索配置
-     *
-     * @param  array $params 查询参数
+     * 搜索处理
      *
      * @return array
      */
-    public function where($params)
+    public function where()
     {
         $where  = [];
         $intUid = (int)$this->module->getUserId();
@@ -59,6 +57,7 @@ class AdminController extends Controller
     {
         // 查询用户数据
         return $this->render('index', [
+            'admins'      => Admin::getAdmins(),
             'roles'       => Admin::getArrayRole($this->module->getUserId()),      // 用户角色
             'status'      => Admin::getArrayStatus(),    // 状态
             'statusColor' => Admin::getStatusColor(), // 状态对应颜色,'
@@ -72,15 +71,18 @@ class AdminController extends Controller
      */
     public function actionView()
     {
-        $address  = '选择县';
-        $user     = Yii::$app->view->params['user'];
-        $arrChina = [];
-        if ($user->address) {
-            $arrAddress = explode(',', $user->address);
+        $address = Yii::t('admin', 'Select county');
+        $admin   = $this->module->getUser()->identity;
+        $china   = [];
+        if ($admin->address) {
+            $arrAddress = explode(',', $admin->address);
             if ($arrAddress) {
-                if (isset($arrAddress[2])) $address = $arrAddress[2];
+                if (isset($arrAddress[2])) {
+                    $address = $arrAddress[2];
+                }
+
                 // 查询省市信息
-                $arrChina = China::find()
+                $china = China::find()
                     ->where(['name' => array_slice($arrAddress, 0, 2)])
                     ->orderBy(['pid' => SORT_ASC])
                     ->all();
@@ -89,19 +91,11 @@ class AdminController extends Controller
 
         // 操作日志
         $logs = AdminLog::find()->where([
-            'created_id' => $user->id
-        ])
-            ->orderBy(['id' => SORT_DESC])
-            ->limit(100)
-            ->asArray()
-            ->all();
+            'created_id' => $admin->id
+        ])->orderBy(['id' => SORT_DESC])->limit(100)->asArray()->all();
 
         // 载入视图文件
-        return $this->render('view', [
-            'address' => $address,  // 县
-            'china'   => $arrChina, // 省市信息
-            'logs'    => $logs,  // 日志信息
-        ]);
+        return $this->render('view', compact('admin', 'address', 'china', 'logs'));
     }
 
     /**
@@ -214,12 +208,12 @@ class AdminController extends Controller
             return $this->error(220);
         }
 
-        $message = '处理成功! <br>';
+        $message = Yii::t('admin', 'Successfully processed') . ' <br>';
         foreach ($admins as $admin) {
             if ($admin->delete()) {
-                $message .= $admin->username . ' 删除成功; <br>';
+                $message .= $admin->username . Yii::t('admin', 'successfully deleted') . ' ; <br>';
             } else {
-                $message .= $admin->username . '删除失败：' . Helper::arrayToString($admin->getErrors()) . ' <br>';
+                $message .= $admin->username . Yii::t('admin', 'failed to delete') . Helper::arrayToString($admin->getErrors()) . ' <br>';
             }
         }
 

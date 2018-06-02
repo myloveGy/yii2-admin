@@ -7,7 +7,6 @@ use yii\db\Query;
 use yii\helpers\FileHelper;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
-use jinxing\admin\models\Admin;
 use jinxing\admin\strategy\Substance;
 use jinxing\admin\helpers\Helper;
 use jinxing\admin\models\AdminLog;
@@ -55,48 +54,12 @@ class Controller extends \yii\web\Controller
     protected $admins = null;
 
     /**
-     * 请求之前的数据验证
-     *
-     * @param \yii\base\Action $action
-     *
-     * @return bool
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function beforeAction($action)
-    {
-        // 处理获取数据(默认不提前注入)
-        if (!in_array($action->id, ['create', 'update', 'delete', 'delete-all', 'editable', 'upload', 'export'])) {
-            $this->admins = ArrayHelper::map(Admin::findAll(['status' => Admin::STATUS_ACTIVE]), 'id', 'username');
-            // 注入变量信息
-            Yii::$app->view->params['admins'] = $this->admins;
-            Yii::$app->view->params['user']   = Yii::$app->get($this->module->user)->identity;
-        }
-
-        return parent::beforeAction($action);
-    }
-
-    /**
      * 首页显示
      * @return string
      */
     public function actionIndex()
     {
         return $this->render('index');
-    }
-
-    /**
-     * 获取查询的配置信息(查询参数)
-     *
-     * @access protected
-     *
-     * @param  array $params 查询的请求参数
-     *
-     * @return array 返回一个数组用来查询
-     */
-    protected function where($params)
-    {
-        return [];
     }
 
     /**
@@ -133,10 +96,12 @@ class Controller extends \yii\web\Controller
         $search            = $strategy->getRequest(); // 处理查询参数
         $search['field']   = $search['field'] ? $search['field'] : $this->sort;
         $search['orderBy'] = [$search['field'] => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
-        $search['where']   = Helper::handleWhere($search['params'], $this->where($search['params']));
+        if (method_exists($this, 'where')) {
+            $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
+        }
 
         // 查询数据
-        $query = $this->getQuery($search['where']);
+        $query = $this->getQuery(ArrayHelper::getValue($search, 'where'));
         if (YII_DEBUG) $this->arrJson['other'] = $query->createCommand()->getRawSql();
 
         // 查询数据条数
@@ -387,7 +352,7 @@ class Controller extends \yii\web\Controller
             // 上传文件
             $objFile = $model->$strField = UploadedFile::getInstance($model, $strField);
             if (empty($objFile)) {
-                throw new \UnexpectedValueException('没有文件上传');
+                throw new \UnexpectedValueException(Yii::t('admin', 'No file upload'));
             }
 
             // 验证
@@ -399,7 +364,7 @@ class Controller extends \yii\web\Controller
             $dirName = $this->strUploadPath;
             FileHelper::createDirectory($dirName);
             if (!file_exists($dirName)) {
-                throw new \UnexpectedValueException('目录创建失败:' . $dirName);
+                throw new \UnexpectedValueException(Yii::t('admin', 'Directory creation failed') . $dirName);
             }
 
             // 生成文件随机名
@@ -435,6 +400,10 @@ class Controller extends \yii\web\Controller
      * 文件导出处理
      *
      * @return mixed|string
+     * @throws \PHPExcel_Exception
+     * @throws \PHPExcel_Reader_Exception
+     * @throws \PHPExcel_Writer_Exception
+     * @throws \yii\base\ExitException
      * @see where()
      * @see getQuery()
      * @see getExportHandleParams()
@@ -452,7 +421,14 @@ class Controller extends \yii\web\Controller
             return $this->error(201);
         }
 
-        $query = $this->getQuery(Helper::handleWhere($params, $this->where($params)));
+        // 存在查询方法
+        if (method_exists($this, 'where')) {
+            $where = Helper::handleWhere($params, $this->where($params));
+        } else {
+            $where = [];
+        }
+
+        $query = $this->getQuery($where);
         $query->orderBy([$this->sort => SORT_DESC]);
 
         // 数据导出

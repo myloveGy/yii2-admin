@@ -7,29 +7,29 @@ $this->title = '管理员个人信息';
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
 $depends = ['depends' => 'jinxing\admin\AdminAsset'];
 
-$this->registerCssFile($url.'/css/bootstrap-editable.css', $depends);
-$this->registerCssFile($url.'/css/jquery-ui.custom.min.css', $depends);
-$this->registerCssFile($url.'/css/select2.css', $depends);
-$this->registerCssFile($url.'/css/jquery.gritter.css', $depends);
-$this->registerJsFile($url.'/js/date-time/moment.min.js', $depends);
-$this->registerJsFile($url.'/js/date-time/bootstrap-datepicker.min.js', $depends);
-$this->registerJsFile($url.'/js/date-time/locales/bootstrap-datepicker.zh-CN.js', $depends);
-$this->registerJsFile($url.'/js/date-time/bootstrap-timepicker.min.js', $depends);
-$this->registerJsFile($url.'/js/date-time/bootstrap-datetimepicker.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery-ui.custom.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery.ui.touch-punch.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery.gritter.min.js', $depends);
-$this->registerJsFile($url.'/js/bootbox.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery.easypiechart.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery.hotkeys.min.js', $depends);
-$this->registerJsFile($url.'/js/bootstrap-wysiwyg.min.js', $depends);
-$this->registerJsFile($url.'/js/select2.min.js', $depends);
-$this->registerJsFile($url.'/js/fuelux/fuelux.spinner.min.js', $depends);
-$this->registerJsFile($url.'/js/x-editable/bootstrap-editable.min.js', $depends);
-$this->registerJsFile($url.'/js/x-editable/ace-editable.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery.maskedinput.min.js', $depends);
-$this->registerJsFile($url.'/js/jquery.validate.min.js', $depends);
-$this->registerJsFile($url.'/js/validate.message.js', $depends);
+$this->registerCssFile($url . '/css/bootstrap-editable.css', $depends);
+$this->registerCssFile($url . '/css/jquery-ui.custom.min.css', $depends);
+$this->registerCssFile($url . '/css/select2.css', $depends);
+$this->registerCssFile($url . '/css/jquery.gritter.css', $depends);
+$this->registerJsFile($url . '/js/date-time/moment.min.js', $depends);
+$this->registerJsFile($url . '/js/date-time/bootstrap-datepicker.min.js', $depends);
+$this->registerJsFile($url . '/js/date-time/locales/bootstrap-datepicker.zh-CN.js', $depends);
+$this->registerJsFile($url . '/js/date-time/bootstrap-timepicker.min.js', $depends);
+$this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery-ui.custom.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery.ui.touch-punch.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery.gritter.min.js', $depends);
+$this->registerJsFile($url . '/js/bootbox.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery.easypiechart.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery.hotkeys.min.js', $depends);
+$this->registerJsFile($url . '/js/bootstrap-wysiwyg.min.js', $depends);
+$this->registerJsFile($url . '/js/select2.min.js', $depends);
+$this->registerJsFile($url . '/js/fuelux/fuelux.spinner.min.js', $depends);
+$this->registerJsFile($url . '/js/x-editable/bootstrap-editable.min.js', $depends);
+$this->registerJsFile($url . '/js/x-editable/ace-editable.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery.maskedinput.min.js', $depends);
+$this->registerJsFile($url . '/js/jquery.validate.min.js', $depends);
+$this->registerJsFile($url . '/js/validate.message.js', $depends);
 
 ?>
 <div class="clearfix">
@@ -64,16 +64,16 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
 
 <div class="hr dotted"></div>
 <!-- 用户信息的显示 -->
-<?=$this->render('_detail1', ['address' => $address, 'china' => $china, 'logs' => $logs])?>
-<?=$this->render('_detail2')?>
-<?=$this->render('_detail3')?>
+<?= $this->render('_detail1', ['address' => $address, 'china' => $china, 'logs' => $logs, 'admin' => $admin]) ?>
+<?= $this->render('_detail2', compact('admin')) ?>
+<?= $this->render('_detail3', compact('admin')) ?>
 <?php $this->beginBlock('javascript') ?>
-<?=$this->blocks['javascript-1']?>
-<?=$this->blocks['javascript-3']?>
+<?= $this->blocks['javascript-1'] ?>
+<?= $this->blocks['javascript-3'] ?>
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         // 详情中图片上传
-        $('#avatar2').on('click', function(){
+        $('#avatar2').on('click', function () {
             var modal =
                 '<div class="modal fade">\
                   <div class="modal-dialog">\
@@ -99,20 +99,22 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
                 </div>';
             var modal = $(modal);
             // 取消
-            modal.modal("show").on("hidden", function(){ modal.remove();});
+            modal.modal("show").on("hidden", function () {
+                modal.remove();
+            });
 
             var working = false,
-                form 	= modal.find('form:eq(0)');
-            file 	= form.find('input[type=file]').eq(0);
+                form = modal.find('form:eq(0)');
+            file = form.find('input[type=file]').eq(0);
 
             // 图片上传
             file.ace_file_input({
-                style:'well',
-                btn_choose:'点击选择新的头像',
-                btn_change:null,
-                no_icon:'ace-icon fa fa-picture-o',
-                thumbnail:'small',
-                before_remove: function() {
+                style: 'well',
+                btn_choose: '点击选择新的头像',
+                btn_change: null,
+                no_icon: 'ace-icon fa fa-picture-o',
+                thumbnail: 'small',
+                before_remove: function () {
                     return !working;
                 },
 
@@ -123,24 +125,24 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
 
             // 表单提交
             var ie_timeout = null;
-            form.on('submit', function(){
-                if( ! file.data('ace_input_files')) return false;
+            form.on('submit', function () {
+                if (!file.data('ace_input_files')) return false;
                 // return false;
                 var $form = $(form);
                 var file_input = file;
                 var upload_in_progress = false;
-                var deferred ;
-                if( "FormData" in window ) {
+                var deferred;
+                if ("FormData" in window) {
                     formData_object = new FormData();
-                    $.each($form.serializeArray(), function(i, item) {
+                    $.each($form.serializeArray(), function (i, item) {
                         formData_object.append(item.name, item.value);
                     });
 
-                    $form.find('input[type=file]').each(function(){
+                    $form.find('input[type=file]').each(function () {
                         var field_name = $(this).attr('name');
                         var files = $(this).data('ace_input_files');
-                        if(files && files.length > 0) {
-                            for(var f = 0; f < files.length; f++) {
+                        if (files && files.length > 0) {
+                            for (var f = 0; f < files.length; f++) {
                                 formData_object.append(field_name, files[f]);
                             }
                         }
@@ -159,18 +161,17 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
                     })
 
                 }
-                else
-                {
+                else {
                     deferred = new $.Deferred;
-                    var temporary_iframe_id = 'temporary-iframe-'+(new Date()).getTime()+'-'+(parseInt(Math.random()*1000));
+                    var temporary_iframe_id = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
                     var temp_iframe =
-                        $('<iframe id="'+temporary_iframe_id+'" name="'+temporary_iframe_id+'" \
+                        $('<iframe id="' + temporary_iframe_id + '" name="' + temporary_iframe_id + '" \
 							frameborder="0" width="0" height="0" src="about:blank"\
 							style="position:absolute; z-index:-1; visibility: hidden;"></iframe>')
                             .insertAfter($form)
 
-                    $form.append('<input type="hidden" name="temporary-iframe-id" value="'+temporary_iframe_id+'" />');
-                    temp_iframe.data('deferrer' , deferred);
+                    $form.append('<input type="hidden" name="temporary-iframe-id" value="' + temporary_iframe_id + '" />');
+                    temp_iframe.data('deferrer', deferred);
                     $form.attr({
                         method: 'POST',
                         enctype: 'multipart/form-data',
@@ -180,17 +181,16 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
                     upload_in_progress = true;
                     file_input.ace_file_input('loading', true);
                     $form.get(0).submit();
-                    ie_timeout = setTimeout(function(){
+                    ie_timeout = setTimeout(function () {
                         ie_timeout = null;
                         temp_iframe.attr('src', 'about:blank').remove();
-                        deferred.reject({'status':'fail', 'message':'Timeout!'});
-                    } , 30000);
+                        deferred.reject({'status': 'fail', 'message': 'Timeout!'});
+                    }, 30000);
                 }
 
                 deferred
-                    .done(function(result) {// 成功
-                        if (result.errCode == 0)
-                        {
+                    .done(function (result) {// 成功
+                        if (result.errCode == 0) {
                             form.find('button').removeAttr('disabled');
                             form.find('input[type=file]').ace_file_input('enable');
                             form.find('.modal-body > :last-child').remove();
@@ -198,15 +198,15 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
                             $('#avatar2').get(0).src = result.data.sFilePath;
                             working = false;
                         } else {
-                            layer.msg(result.errMsg, {icon:5})
+                            layer.msg(result.errMsg, {icon: 5})
                         }
 
                     })
-                    .fail(function(result) {//failure
+                    .fail(function (result) {//failure
                         layer.msg("页面没有响应");
                     })
-                    .always(function() {//called on both success and failure
-                        if(ie_timeout) clearTimeout(ie_timeout)
+                    .always(function () {//called on both success and failure
+                        if (ie_timeout) clearTimeout(ie_timeout)
                         ie_timeout = null;
                         upload_in_progress = false;
                         file_input.ace_file_input('loading');
@@ -218,7 +218,7 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
 
         });
 
-        $('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
+        $('#user-profile-2 .memberdiv').on('mouseenter touchstart', function () {
             var $this = $(this);
             var $parent = $this.closest('.tab-pane');
             var off1 = $parent.offset();
@@ -226,28 +226,28 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
             var off2 = $this.offset();
             var w2 = $this.width();
             var place = 'left';
-            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) place = 'right';
+            if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) place = 'right';
             $this.find('.popover').removeClass('right left').addClass(place);
-        }).on('click', function(e) {
+        }).on('click', function (e) {
             e.preventDefault();
         });
 
         // 图片上传
         $('#user-profile-3')
             .find('input[type=file]').ace_file_input({
-                style:'well',
-                btn_choose:'Change avatar',
-                btn_change:null,
-                no_icon:'ace-icon fa fa-picture-o',
-                thumbnail:'large',
-                droppable:true,
-                allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-                allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-            })
-            .end().find('button[type=reset]').on(ace.click_event, function(){
-                $('#user-profile-3 input[type=file]').ace_file_input('reset_input');
-            })
-            .end().find('.date-picker').datepicker().next().on(ace.click_event, function(){
+            style: 'well',
+            btn_choose: 'Change avatar',
+            btn_change: null,
+            no_icon: 'ace-icon fa fa-picture-o',
+            thumbnail: 'large',
+            droppable: true,
+            allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+            allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        })
+            .end().find('button[type=reset]').on(ace.click_event, function () {
+            $('#user-profile-3 input[type=file]').ace_file_input('reset_input');
+        })
+            .end().find('.date-picker').datepicker().next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
 
@@ -255,11 +255,11 @@ $this->registerJsFile($url.'/js/validate.message.js', $depends);
 
         ////////////////////
         //change profile
-        $('[data-toggle="buttons"] .btn').on('click', function(e){
+        $('[data-toggle="buttons"] .btn').on('click', function (e) {
             var target = $(this).find('input[type=radio]');
             var which = parseInt(target.val());
             $('.user-profile').parent().addClass('hide');
-            $('#user-profile-'+which).parent().removeClass('hide');
+            $('#user-profile-' + which).parent().removeClass('hide');
         });
     });
 </script>

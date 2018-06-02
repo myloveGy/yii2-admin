@@ -18,7 +18,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 <script type="text/javascript">
     var aStatus = <?=Json::encode($status)?>,
         aStatusColor = <?=Json::encode($statusColor)?>,
-        aAdmins = <?=Json::encode($this->params['admins'])?>,
+        aAdmins = <?=Json::encode($admins)?>,
         aRoles = <?=Json::encode($roles)?>,
         m = meTables({
             title: "管理员信息",

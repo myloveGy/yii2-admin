@@ -3,8 +3,9 @@
 namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\AuthRule;
-use yii;
 use jinxing\admin\models\Auth;
+use Yii;
+use yii\helpers\Json;
 
 /**
  * Class AuthorityController 权限管理类
@@ -14,15 +15,15 @@ class AuthorityController extends RoleController
 {
     /**
      * 查询参数配置
-     * @param array $params
+     *
      * @return array
      */
-    public function where($params)
+    public function where()
     {
         return [
-            'name' => 'like',
+            'name'        => 'like',
             'description' => 'like',
-            'where' => [['=', 'type', Auth::TYPE_PERMISSION]],
+            'where'       => [['=', 'type', Auth::TYPE_PERMISSION]],
         ];
     }
 
@@ -33,8 +34,8 @@ class AuthorityController extends RoleController
     public function actionIndex()
     {
         // 查询出全部的规则
-        $rules = AuthRule::find()->asArray()->all();
-        $arrRules = ['' => '请选择'];
+        $rules    = AuthRule::find()->asArray()->all();
+        $arrRules = ['' => Yii::t('admin', 'please choose')];
         if ($rules) {
             foreach ($rules as $value) {
                 if ($value['data']) {
@@ -50,8 +51,8 @@ class AuthorityController extends RoleController
 
         // 载入试图
         return $this->render('index', [
-            'type' => Auth::TYPE_PERMISSION, // 权限类型
-            'rules' => yii\helpers\Json::encode($arrRules) // 所有规则
+            'type'  => Auth::TYPE_PERMISSION, // 权限类型
+            'rules' => Json::encode($arrRules) // 所有规则
         ]);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace jinxing\admin\controllers;
-use jinxing\admin\models\AuthRule;
 
 /**
  * Class AuthRuleController 规则管理 执行操作控制器
@@ -27,10 +26,10 @@ class AuthRuleController extends Controller
 
     /**
      * 查询处理
-     * @param  array $params
+     *
      * @return array 返回数组
      */
-    public function where($params)
+    public function where()
     {
         return [
             'name' => 'like'

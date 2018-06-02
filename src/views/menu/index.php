@@ -13,7 +13,7 @@ $this->title = '导航栏目信息';
 <?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
-        var aAdmins = <?=Json::encode($this->params['admins'])?>,
+        var aAdmins = <?=Json::encode($admins)?>,
             aParents = <?= $parents ?>,
             arrStatus = <?=Json::encode(ArrayHelper::getValue(Yii::$app->params, 'status', ['停用', '启用']))?>;
 

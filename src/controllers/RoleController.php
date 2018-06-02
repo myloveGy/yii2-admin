@@ -35,11 +35,9 @@ class RoleController extends Controller
     /**
      * 设置查询参数
      *
-     * @param array $params
-     *
      * @return array
      */
-    public function where($params)
+    public function where()
     {
         $uid   = $this->module->getUserId();
         $where = [['=', 'type', Auth::TYPE_ROLE]]; // 查询角色信息
@@ -79,6 +77,7 @@ class RoleController extends Controller
      * @return string|\yii\web\Response
      * @throws \yii\web\UnauthorizedHttpException
      * @throws HttpException
+     * @throws \yii\base\Exception
      */
     public function actionEdit($name)
     {
@@ -96,12 +95,13 @@ class RoleController extends Controller
         $objAuth  = Yii::$app->getAuthManager();                 // 权限对象
         $mixRoles = $objAuth->getAssignment($name, $uid);       // 获取用户是否有改权限
         if (!$mixRoles && $uid != Admin::SUPER_ADMIN_ID) {
-            throw new UnauthorizedHttpException('对不起，您没有修改该角色的权限!');
+            throw new UnauthorizedHttpException(Yii::t('admin', 'Sorry, you do not have permission to modify this role!'));
         }
 
         $request = Yii::$app->request;                          // 请求信息
-        $model   = $this->findModel($name);                       // 查询对象
-        $array   = $request->post();                              // 请求参数信息
+        /* @var $model \jinxing\admin\models\Auth */
+        $model = $this->findModel($name);                       // 查询对象
+        $array = $request->post();                              // 请求参数信息
         if ($array && $model->load($array, '')) {
             // 修改权限
             $permissions = $this->preparePermissions($array);
@@ -145,7 +145,7 @@ class RoleController extends Controller
     public function actionView($name)
     {
         // 查询角色信息
-        /* @var $model \backend\models\Auth */
+        /* @var $model \jinxing\admin\models\Auth */
         $model = $this->findModel($name);
 
         // 获取角色权限信息
@@ -170,7 +170,7 @@ class RoleController extends Controller
      *
      * @param  string $name
      *
-     * @return \backend\models\Auth
+     * @return \jinxing\admin\models\Auth
      * @throws \yii\web\HttpException
      */
     protected function findModel($name)

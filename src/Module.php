@@ -3,18 +3,15 @@
 namespace jinxing\admin;
 
 use Yii;
-use yii\base\Module;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\UnauthorizedHttpException;
 use jinxing\admin\traits\JsonTrait;
-use jinxing\admin\helpers\Helper;
 
 /**
  * admin module definition class
  */
-class Admin extends Module
+class Module extends yii\base\Module
 {
     use JsonTrait;
 
@@ -37,6 +34,16 @@ class Admin extends Module
      * @var array 不验证的控制器名称
      */
     public $allowControllers = ['default'];
+
+    /**
+     * @var int 允许开启iFrame 个数
+     */
+    public $frameNumberSize = 8;
+
+    /**
+     * @var bool 权限验证
+     */
+    public $verifyAuthority = true;
 
     /**
      * @var bool 左边头部按钮
@@ -82,16 +89,13 @@ class Admin extends Module
     ];
 
     /**
-     * @var int 允许开启iFrame 个数
-     */
-    public $frameNumberSize = 8;
-
-    /**
      * {@inheritdoc}
      */
     public function init()
     {
         parent::init();
+        
+        // 资源处理
         Yii::$app->assetManager->bundles     = [
             // 去掉自己的bootstrap 资源
             'yii\bootstrap\BootstrapAsset' => [
@@ -103,7 +107,9 @@ class Admin extends Module
                 'js'         => [],
             ],
         ];
-        Yii::$app->errorHandler->errorAction = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix') . '/default/error';
+        
+        // 设置错误处理页面
+        Yii::$app->errorHandler->errorAction = $this->getUniqueId() . '/default/error';
         if (!isset(Yii::$app->i18n->translations['admin'])) {
             Yii::$app->i18n->translations['admin'] = [
                 'class'          => 'yii\i18n\PhpMessageSource',
@@ -132,17 +138,17 @@ class Admin extends Module
             return Yii::$app->response->redirect(Url::toRoute('default/login'));
         }
 
-        // 验证权限
-        $module = Helper::getModuleIds($action->controller->module);
-        array_push($module, $action->controller->id, $action->id);
-        if (!Yii::$app->get($this->user)->can(implode('/', $module)) && Yii::$app->getErrorHandler()->exception === null) {
-            // 没有权限AJAX返回
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->content = Json::encode($this->error(216));
-                return false;
-            }
+        // 验证权
+        if ($this->verifyAuthority) {
+            if (!Yii::$app->get($this->user)->can($this->getUniqueId() . '/' . $action->controller->id . '/' . $action->id)) {
+                // 没有权限AJAX返回
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->content = Json::encode($this->error(216));
+                    return false;
+                }
 
-            throw new UnauthorizedHttpException('对不起，您现在还没获得该操作的权限!');
+                throw new UnauthorizedHttpException('对不起，您现在还没获得该操作的权限!');
+            }
         }
 
         return true;
@@ -150,7 +156,7 @@ class Admin extends Module
 
     /**
      * 获取登录用户
-     * 
+     *
      * @return null|object
      * @throws \yii\base\InvalidConfigException
      */

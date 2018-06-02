@@ -10,7 +10,7 @@ use \jinxing\admin\models\AdminLog;
             <div>
                 <span class="profile-picture">
                     <img id="avatar" class="editable img-responsive editable-click editable-empty" alt="Alex's Avatar"
-                         src="<?= $this->params['user']->face ? $this->params['user']->face : '/public/assets/avatars/profile-pic.jpg' ?>"/>
+                         src="<?= $admin->face ? $admin->face : '/public/assets/avatars/profile-pic.jpg' ?>"/>
                 </span>
                 <div class="space-4"></div>
                 <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
@@ -18,7 +18,7 @@ use \jinxing\admin\models\AdminLog;
                         <a href="#" class="user-title-label dropdown-toggle" data-toggle="dropdown">
                             <i class="ace-icon fa fa-circle light-green"></i>
                             &nbsp;
-                            <span class="white"><?= $this->params['user']->username ?></span>
+                            <span class="white"><?= $admin->username ?></span>
                         </a>
 
                         <ul class="align-left dropdown-menu dropdown-caret dropdown-lighter">
@@ -122,7 +122,7 @@ use \jinxing\admin\models\AdminLog;
 
                     <div class="profile-info-value">
                         <span id="username"
-                              class="editable editable-click"><?= $this->params['user']->username ?></span>
+                              class="editable editable-click"><?= $admin->username ?></span>
                     </div>
                 </div>
 
@@ -153,7 +153,7 @@ use \jinxing\admin\models\AdminLog;
                     <div class="profile-info-name"> 添加时间</div>
                     <div class="profile-info-value">
                         <span id="login_time"
-                              class="editable editable-click"><?= date('Y-m-d H:i:s', $this->params['user']->created_at) ?></span>
+                              class="editable editable-click"><?= date('Y-m-d H:i:s', $admin->created_at) ?></span>
                     </div>
                 </div>
 
@@ -162,7 +162,7 @@ use \jinxing\admin\models\AdminLog;
 
                     <div class="profile-info-value">
                         <span id="login"
-                              class="editable editable-click"><?= date('Y-m-d H:i:s', $this->params['user']->last_time) ?></span>
+                              class="editable editable-click"><?= date('Y-m-d H:i:s', $admin->last_time) ?></span>
                     </div>
                 </div>
 
@@ -170,7 +170,7 @@ use \jinxing\admin\models\AdminLog;
                     <div class="profile-info-name"> 上一次登录IP</div>
 
                     <div class="profile-info-value">
-                        <span id="login" class="editable editable-click"><?= $this->params['user']->last_ip ?></span>
+                        <span id="login" class="editable editable-click"><?= $admin->last_ip ?></span>
                     </div>
                 </div>
 
@@ -209,7 +209,7 @@ use \jinxing\admin\models\AdminLog;
                             <?php if ($logs) : foreach ($logs as $value) : ?>
                                 <div class="profile-activity clearfix">
                                     <div>
-                                        <img class="pull-left" alt="用户头像" src="<?= $this->params['user']->face ?>"/>
+                                        <img class="pull-left" alt="用户头像" src="<?= $admin->face ?>"/>
                                         <a class="user" href="#"> <?= AdminLog::getTypeDescription($value['type']) ?>
                                             -- <?= $value['index'] ?> </a>
                                         <?= $value['params'] ?>
@@ -243,7 +243,7 @@ use \jinxing\admin\models\AdminLog;
 <?php $this->beginBlock('javascript-1') ?>
 <script type="text/javascript">
     var sBaseUrl = "<?=Url::toRoute(['admin/editable'])?>",                             // 行内编辑提交地址
-        iUserId = <?=$this->params['user']->id?>,                                      // 用户唯一ID
+        iUserId = <?=$admin->id?>,                                      // 用户唯一ID
         fSuccess = function (response, newValue) {// 成功执行函数
             if (response.errCode == 0) return true;
             layer.msg(response.errMsg, {icon: 5, time: 1000});

@@ -17,10 +17,10 @@ class AdminLogController extends Controller
 
     /**
      * 查询处理
-     * @param  array $params
+     *
      * @return array 返回数组
      */
-    public function where($params)
+    public function where()
     {
         $where = [
             'type' => '=',
@@ -38,6 +38,12 @@ class AdminLogController extends Controller
         }
 
         return $where;
+    }
+
+    public function actionIndex()
+    {
+        $admins = Admin::getAdmins();
+        return $this->render('index', compact('admins'));
     }
 
     /**

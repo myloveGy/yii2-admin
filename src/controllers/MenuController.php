@@ -2,7 +2,7 @@
 
 namespace jinxing\admin\controllers;
 
-use jinxing\admin\models\Auth;
+use jinxing\admin\models\Admin;
 use jinxing\admin\models\Menu;
 use jinxing\admin\helpers\Tree;
 use yii\helpers\ArrayHelper;
@@ -22,11 +22,9 @@ class MenuController extends Controller
     /**
      * 查询参数配置
      *
-     * @param array $params
-     *
      * @return array
      */
-    public function where($params)
+    public function where()
     {
         return [
             'id'          => '=',
@@ -54,6 +52,7 @@ class MenuController extends Controller
             ->getTree(0, '<option value="{id}" data-pid="{pid}"> {extend_space}{menu_name} </option>');
 
         return $this->render('index', [
+            'admins' => Admin::getAdmins(),
             'options' => $strOptions,
             'parents' => Json::encode(ArrayHelper::map($parents, 'id', 'menu_name'))
         ]);

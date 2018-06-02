@@ -15,7 +15,7 @@ $this->title = '操作日志';
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
         var oTypes = <?=Json::encode(AdminLog::getTypeDescription())?>,
-            aAdmins = <?=Json::encode($this->params['admins'])?>;
+            aAdmins = <?=Json::encode($admins)?>;
         var m = meTables({
             title: "操作日志",
             buttons: <?=Json::encode($auth['buttons'])?>,

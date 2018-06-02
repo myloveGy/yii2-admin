@@ -23,10 +23,10 @@ class ChinaController extends Controller
 
     /**
      * 查询参数配置
-     * @param array $params
+     *
      * @return array
      */
-    public function where($params)
+    public function where()
     {
         return [
             'id' => ['and' => '=', 'func' => 'intval'],

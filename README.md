@@ -11,24 +11,58 @@ Yii2 Ace Admin 后台扩展
 * PHP >= 5.4
 * MySQL
 
-### 安装
+### Installation
 
-1. 执行 composer 安装项目
-    
-    ```
-    php composer require jinxing/yii2-admin
-    ```
-2. 配置好数据库配置后,导入数据表结构
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-需要顺序执行
-* 导入rbac migration 权限控制数据表
-    ```
-    php yii migrate --migrationPath=@yii/rbac/migrations
-    ``` 
-* 导入admin migration 后台基础数据
-    ```
-    php yii migrate --migrationPath=@jinxing/yii2-admin/migrations
-    ```
+Either run
+```
+php composer.phar require jinxing/yii2-admin "~1.0"
+```
+
+Basic Configuration
+-------------------
+
+Once the extension is installed, simply modify your application configuration as follows:
+
+```php
+return [
+    'modules' => [
+        'admin' => [
+            'class' => 'jinxing\admin\Admin',
+            
+            // Make use of that kind of user
+            'user' => 'admin'
+            ...
+        ]
+        ...
+    ],
+    ...
+    'components' => [
+        ...
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        ],
+        
+        // Front desk user
+        'user' => [
+            'identityClass'   => 'app\models\User',
+            'enableAutoLogin' => true,
+        ],
+        
+        // Background user
+        'admin' => [
+            'class' => '\yii\web\User',
+            'identityClass' => 'jinxing\admin\models\Admin',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['/admin/admin/default/login'],
+            'idParam' => '_adminId',
+            'identityCookie' => ['name' => '_admin','httpOnly' => true],
+        ],
+                
+    ]
+];
+```
 
 ### 使用说明
 

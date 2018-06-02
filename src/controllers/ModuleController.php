@@ -3,7 +3,6 @@
 namespace jinxing\admin\controllers;
 
 use Yii;
-use yii\base\Module;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
@@ -443,10 +442,10 @@ class {$strName} extends Controller
      
     /**
      * 查询处理
-     * @param  array \$params
+     * 
      * @return array 返回数组
      */
-    public function where(\$params)
+    public function where()
     {
         return [
             {$where}

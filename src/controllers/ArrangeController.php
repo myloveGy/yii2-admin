@@ -20,11 +20,9 @@ class ArrangeController extends Controller
     /**
      * 查询参数配置
      *
-     * @param array $params
-     *
      * @return array
      */
-    public function where($params)
+    public function where()
     {
         $intUid = (int)$this->module->getUserId();
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
@@ -49,6 +47,7 @@ class ArrangeController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
+            'admins'       => Admin::getAdmins(),
             'status'       => Arrange::getStatus(),         // 状态
             'timeStatus'   => Arrange::getTimeStatus(),     // 时间状态
             'statusColors' => Arrange::getStatusColors(),   // 状态颜色
@@ -81,6 +80,7 @@ class ArrangeController extends Controller
 
     /**
      * 查询管理员日程信息
+     *
      * @return \yii\web\Response
      */
     public function actionArrange()

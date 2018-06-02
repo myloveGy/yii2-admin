@@ -3,7 +3,6 @@
 namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\Admin;
-use jinxing\admin\models\Auth;
 use jinxing\admin\models\AuthAssignment;
 use yii\helpers\Json;
 use jinxing\admin\helpers\Helper;
@@ -27,13 +26,13 @@ class AuthAssignmentController extends Controller
 
     /**
      * 查询处理
-     * @param  array $params
+     *
      * @return array 返回数组
      */
-    public function where($params)
+    public function where()
     {
         return [
-            'user_id' => function ($value) {
+            'user_id'   => function ($value) {
                 return ['in', 'user_id', $value];
             },
             'item_name' => function ($value) {
@@ -50,11 +49,13 @@ class AuthAssignmentController extends Controller
     {
         // 查询出全部角色
         $arrRoles = Admin::getArrayRole($this->module->getUserId());
+        $admins   = Admin::getAdmins();
 
         // 载入视图
         return $this->render('index', [
+            'admins'   => $admins,
             'arrRoles' => $arrRoles,
-            'roles' => Json::encode($arrRoles),
+            'roles'    => Json::encode($arrRoles),
         ]);
     }
 
@@ -71,11 +72,11 @@ class AuthAssignmentController extends Controller
         }
 
         foreach ($data['item_name'] as $name) {
-            $model = new AuthAssignment();
+            $model            = new AuthAssignment();
             $model->item_name = $name;
-            $model->user_id = $data['user_id'];
+            $model->user_id   = $data['user_id'];
             if ($model->save()) {
-                $this->arrJson['errMsg'] .= $model->item_name . ': 处理成功';
+                $this->arrJson['errMsg'] .= $model->item_name . ':' . Yii::t('admin', 'Successfully processed');
             } else {
                 $this->arrJson['errMsg'] .= $model->item_name . ': ';
                 $this->arrJson['errMsg'] .= Helper::arrayToString($model->getErrors());
@@ -87,7 +88,10 @@ class AuthAssignmentController extends Controller
 
     /**
      * 删除分配信息
+     *
      * @return mixed|string
+     * @throws \Throwable
+     * @throws yii\db\StaleObjectException
      */
     public function actionDelete()
     {

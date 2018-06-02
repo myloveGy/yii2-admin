@@ -243,4 +243,14 @@ class Admin extends AdminUser
         Yii::$app->authManager->revokeAll($this->id);
         parent::afterDelete();
     }
+
+    /**
+     * 获取管理员信息
+     * 
+     * @return array
+     */
+    public static function getAdmins()
+    {
+        return ArrayHelper::map(static::findAll(['status' => static::STATUS_ACTIVE]), 'id', 'username');
+    }
 }

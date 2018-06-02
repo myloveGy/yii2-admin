@@ -23,7 +23,7 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
 <?= MeTable::widget() ?>
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
-        var aAdmins = <?=Json::encode($this->params['admins'])?>,
+        var aAdmins = <?=Json::encode($admins)?>,
             aStatus = <?=Json::encode($status)?>,
             aTimeStatus = <?=Json::encode($timeStatus)?>,
             aColors = <?=Json::encode($statusColors)?>,

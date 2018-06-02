@@ -28,7 +28,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                             <?= Html::dropDownList(
                                 'user_id',
                                 null,
-                                $this->params['admins'],
+                                $admins,
                                 [
                                     'multiple'         => 'multiple',
                                     'class'            => 'chosen-select tag-input-style',
@@ -71,7 +71,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
         var roles = <?=$roles?>,
-            aAdmins = <?=Json::encode($this->params['admins'])?>,
+            aAdmins = <?=Json::encode($admins)?>,
             oButtons = <?=Json::encode($auth['buttons'])?>,
             oOperationsButtons = <?=Json::encode($auth['operations'])?>;
         oButtons.updateAll = {bShow: false};
