@@ -54,6 +54,11 @@ class Controller extends \yii\web\Controller
     protected $admins = null;
 
     /**
+     * @var string 上传使用uploadForm 类名
+     */
+    protected $uploadFromClass = 'jinxing\admin\models\forms\UploadForm';
+
+    /**
      * 首页显示
      * @return string
      */
@@ -346,7 +351,8 @@ class Controller extends \yii\web\Controller
         }
 
         // 初始化上次表单model对象，并定义好验证场景
-        $model = new UploadForm(['scenario' => $strField]);
+        $className = $this->uploadFromClass;
+        $model = new $className(['scenario' => $strField]);
 
         try {
             // 上传文件
