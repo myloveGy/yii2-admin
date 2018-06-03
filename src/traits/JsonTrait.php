@@ -36,7 +36,7 @@ trait JsonTrait
         if ($array) $this->arrJson = array_merge($this->arrJson, $array);
 
         // 没有错误信息使用code 确定错误信息
-        if (empty($this->arrJson['errMsg'])) {
+        if (empty($this->arrJson['errMsg']) && isset(Yii::$app->i18n->translations['admin'])) {
             $this->arrJson['errMsg'] = ArrayHelper::getValue(
                 (array)Yii::t('admin', 'error_code'),
                 $this->arrJson['errCode']
