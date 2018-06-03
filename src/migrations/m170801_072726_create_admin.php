@@ -97,19 +97,4 @@ class m170801_072726_create_admin extends Migration
         $this->dropTable($this->table);
         return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m170801_072726_create_admin cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

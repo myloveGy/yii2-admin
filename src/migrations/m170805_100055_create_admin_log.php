@@ -14,7 +14,7 @@ class m170805_100055_create_admin_log extends Migration
         $tableOptions = null;
 
         if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB comment "管理员信息表"';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB comment "管理员操作日志记录信息表"';
         }
 
         // 创建表

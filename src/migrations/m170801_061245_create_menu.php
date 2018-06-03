@@ -63,7 +63,7 @@ class m170801_061245_create_menu extends Migration
         ]);
 
         $intPid = $this->db->getLastInsertID();
-        if ($prefix = \yii\helpers\ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', '')) {
+        if ($prefix = \yii\helpers\ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', 'admin')) {
             $prefix = trim($prefix, '/') . '/';
         }
 
@@ -101,7 +101,6 @@ class m170801_061245_create_menu extends Migration
 
         $this->batchInsert($this->table, $insertKey, [
             [0, '地址信息', 'menu-icon fa fa-bank', $prefix . 'china/index', 2, $time, 1, $time, 1],
-            [0, '用户信息', 'menu-icon fa fa-user', $prefix . 'user/index', 3, $time, 1, $time, 1],
             [0, '日程管理', 'menu-icon fa fa-calendar', $prefix . 'arrange/index', 4, $time, 1, $time, 1],
             [0, '上传文件', 'menu-icon fa fa-upload', $prefix . 'uploads/index', 5, $time, 1, $time, 1],
         ]);
@@ -113,19 +112,4 @@ class m170801_061245_create_menu extends Migration
         $this->dropTable($this->table);
         return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m170801_061245_create_menu cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

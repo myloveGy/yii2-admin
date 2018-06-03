@@ -85,13 +85,6 @@ class m170801_081237_insert_rabc extends Migration
             ['role/search', 2, '角色信息-搜索数据', $time, $time],
             ['role/update', 2, '角色信息-修改数据', $time, $time],
             ['role/view', 2, '角色权限-查看详情', $time, $time],
-            ['user/index', 2, '用户信息-显示页面', $time, $time],
-            ['user/search', 2, '用户信息-搜索数据', $time, $time],
-            ['user/create', 2, '用户信息-添加数据', $time, $time],
-            ['user/update', 2, '用户信息-修改数据', $time, $time],
-            ['user/delete', 2, '用户信息-删除数据', $time, $time],
-            ['user/delete-all', 2, '用户信息-批量删除', $time, $time],
-            ['user/export', 2, '用户信息-导出数据', $time, $time],
             ['admin-log/index', 2, '操作日志-显示页面', $time, $time],
             ['admin-log/search', 2, '操作日志-搜索数据', $time, $time],
             ['admin-log/delete', 2, '操作日志-删除数据', $time, $time],
@@ -107,7 +100,7 @@ class m170801_081237_insert_rabc extends Migration
             ['uploads/upload', 2, '上传文件-文件上传', $time, $time],
         ];
 
-        if ($prefix = \yii\helpers\ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', '')) {
+        if ($prefix = \yii\helpers\ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', 'admin')) {
             $prefix = trim($prefix, '/');
             foreach ($batchInsertArray as &$value) {
                 list(, $type) = $value;
@@ -130,13 +123,6 @@ class m170801_081237_insert_rabc extends Migration
 
         // 管理员信息
         $admin = [
-            'user/update',
-            'user/search',
-            'user/index',
-            'user/export',
-            'user/delete-all',
-            'user/delete',
-            'user/create',
             'uploads/upload',
             'uploads/update',
             'uploads/search',
