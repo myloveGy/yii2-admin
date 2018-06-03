@@ -1,13 +1,13 @@
-Yii2 Ace Admin 后台扩展
+Yii2 Ace Admin Background extension
 =======================
 
-为yii2开发的扩展，后台模板使用的ace admin。对于一般的后台开发，比较方便; 对于数据表的CURL操作都有封装，且所有操作都有权限控制。
+Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
 
-#### 特点
-* 使用RBAC权限管理，所有操作基于权限控制
-* 视图使用JS控制，数据显示使用的jquery.DataTables
-* 基于数据表的增、删、改、查都有封装，添加新的数据表操作方便
-### 安装要求
+#### Features
+* Use RBAC rights management, all operations based on privilege control
+* View using JS control, data display using jquery.DataTables
+* Based on the data table add, delete, change, check have package, add new data table operation is convenient
+### Installation requirements
 * PHP >= 5.4
 * MySQL
 
@@ -32,10 +32,10 @@ return [
             'class' => 'jinxing\admin\Admin',
             
             // Make use of that kind of user
-            'user' => 'admin'
+            'user' => 'admin',
             
             // Do not verify permissions
-            ''
+            'verifyAuthority' => false,
             ...
         ]
         ...
@@ -92,30 +92,73 @@ return [
     'companyName'       => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
 ];
 ```
+
 About the configuration of permissions
 ------------------------------------------
+```
+return [
+    'components' => [
+        'modules' => [
+            'admin' => [
+                'class' => 'jinxing\admin\Admin',
+                
+                // Make use of that kind of user
+                'user' => 'admin'
+                ...
+            ]
+            ...
+        ],
+        // authority management
+        'authManager'  => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        ...
+    ],
+]
+```
 
-### 使用说明
+### Import permission information table structure
+```
+php yii migrate --migrationPath=@yii/rbac/migrations
+```
 
-基本操作的权限(以管理员操作为例)：
+### Importing data information such as table structure and permission configuration required in the background
+```
+php yii migrate --migrationPath=@jinxing/yii2-admin/migrations
+```
 
-* admin/index       (显示管理员页面 + 左侧导航显示)
-* admin/search      (管理员数据显示表格数据显示)
-* admin/create      (添加管理员信息)
-* admin/update      (修改管理员信息)
-* admin/delete      (删除管理员信息)
-* admin/delete-all  (批量删除管理员数据)
-* admin/upload      (上传管理员头像)
-* admin/export      (管理员数据信息导出)
+#### Now you can preview your background
+##### Default account: super
+##### Default password: admin888
 
-每一个请求对应一个权限，请求路径就是权限名称，权限验证在Controller beforeAction 方法中验证
+```
 
-### 预览
-1. 登录页
+// Login address
+http://localhost/path/to?index.php?r=admin/default/login
+
+```
+
+### Routing permission control description
+
+Basic operation permissions (take administrators as an example)：
+
+* admin/index       (Display Administrator Page + Left Navigation Display)
+* admin/search      (Administrator data display form data display)
+* admin/create      (Add administrator information)
+* admin/update      (Modify administrator information)
+* admin/delete      (Delete administrator information)
+* admin/delete-all  (Batch delete administrator data)
+* admin/upload      (Upload an administrator picture)
+* admin/export      (Administrator data information export)
+
+Each request corresponds to a permission, the request path is the name of the permission, and the permission validation is verified in the beforeAction method in the Module
+
+### Preview
+1. Login page
 ![登录页](./dosc/images/desc1.png)
-2. 数据显示
+2. Data Display
 ![数据显示](./dosc/images/desc2.png)
-3. 权限分配
+3. Rights allocation
 ![权限分配](./dosc/images/desc3.png)
-4. 模块生成
+4. Module generation
 ![模块生成](./dosc/images/desc4.png)
