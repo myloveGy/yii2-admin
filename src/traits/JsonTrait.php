@@ -57,9 +57,7 @@ trait JsonTrait
      */
     protected function handleJson($data, $errCode = 0, $errMsg = '')
     {
-        $this->arrJson['errCode'] = $errCode;
-        $this->arrJson['data']    = $data;
-        $this->arrJson['errMsg']  = $errMsg;
+        list($this->arrJson['data'], $this->arrJson['errCode'], $this->arrJson['errMsg']) = [$data, $errCode, $errMsg];
     }
 
     /**
