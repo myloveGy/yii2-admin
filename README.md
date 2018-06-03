@@ -33,17 +33,15 @@ return [
             
             // Make use of that kind of user
             'user' => 'admin'
+            
+            // Do not verify permissions
+            ''
             ...
         ]
         ...
     ],
     ...
     'components' => [
-        ...
-        'authManager' => [
-            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
-        ],
-        
         // Front desk user
         'user' => [
             'identityClass'   => 'app\models\User',
@@ -94,6 +92,8 @@ return [
     'companyName'       => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
 ];
 ```
+About the configuration of permissions
+------------------------------------------
 
 ### 使用说明
 

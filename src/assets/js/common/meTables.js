@@ -1321,7 +1321,7 @@
                         <div class="modal-body">' + oModal['html'] + '</fieldset></form></div> \
                         <div class="modal-footer"> \
                             <button type="button" class="btn btn-default" data-dismiss="modal">' + meTables.fn.getLanguage("sBtnCancel") + '</button> \
-                            <button type="button" class="btn btn-primary btn-image ' + (oModal['bClass'] ? oModal['bClass'] : '') + '" ' + (oModal["button-id"] ? 'id="' + oModal["button-id"] + '"' : "") + '>' + meTables.fn.getLanguage("sBtnSubmit") + '</button> \
+                            <button type="button" class="btn btn-primary ' + (oModal['bClass'] ? oModal['bClass'] : '') + '" ' + (oModal["button-id"] ? 'id="' + oModal["button-id"] + '"' : "") + '>' + meTables.fn.getLanguage("sBtnSubmit") + '</button> \
                         </div> \
                     </div> \
                 </div> \
