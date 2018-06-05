@@ -369,16 +369,13 @@ class Auth extends ActiveRecord
      * 获取dataTable 表格需要的权限
      *
      * @param string $user 使用的用户名称
-     * @param string $join 链接字符串
      *
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getDataTableAuth($user = 'admin', $join = '/')
+    public static function getDataTableAuth($user = 'admin')
     {
-        $module = Helper::getModuleIds(Yii::$app->controller->module);
-        array_push($module, Yii::$app->controller->id);
-        $controller = implode($join, $module) . $join;
+        $controller = Yii::$app->controller->action->getUniqueId() . '/';
         $arrReturn  = [
             'buttons'    => [
                 'create' => [
