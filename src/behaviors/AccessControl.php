@@ -9,9 +9,13 @@
 
 namespace jinxing\admin\behaviors;
 
-
 use Yii;
 
+/**
+ * Class AccessControl 权限验证
+ * 
+ * @package jinxing\admin\behaviors
+ */
 class AccessControl extends \yii\filters\AccessControl
 {
     public function getRules()

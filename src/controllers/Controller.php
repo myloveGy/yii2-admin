@@ -99,21 +99,21 @@ class Controller extends \yii\web\Controller
 
         // 获取查询参数
         $search            = $strategy->getRequest(); // 处理查询参数
-        $search['field']   = $search['field'] ? $search['field'] : $this->sort;
+        $search['field']   = $search['field'] ?: $this->sort;
         $search['orderBy'] = [$search['field'] => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
         if (method_exists($this, 'where')) {
             $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
         }
 
         // 查询数据
-        $query = $this->getQuery(ArrayHelper::getValue($search, 'where'));
+        $query = $this->getQuery(ArrayHelper::getValue($search, 'where', []));
         if (YII_DEBUG) $this->arrJson['other'] = $query->createCommand()->getRawSql();
 
         // 查询数据条数
-        $total = $query->count();
-        if ($total) {
-            $array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($search['orderBy'])->all();
-            if ($array) $this->afterSearch($array);
+        if ($total = $query->count()) {
+            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($search['orderBy'])->all()) {
+                $this->afterSearch($array);
+            }
         } else {
             $array = [];
         }
@@ -137,12 +137,12 @@ class Controller extends \yii\web\Controller
 
     /**
      * 处理新增数据
+     *
      * @return mixed|string
      */
     public function actionCreate()
     {
-        $data = Yii::$app->request->post();
-        if (empty($data)) {
+        if (!$data = Yii::$app->request->post()) {
             return $this->error(201);
         }
 
@@ -151,44 +151,38 @@ class Controller extends \yii\web\Controller
         $model = new $this->modelClass();
 
         // 验证是否定义了创建对象的验证场景
-        $arrScenarios = $model->scenarios();
-        if (isset($arrScenarios['create'])) {
+        if (ArrayHelper::getValue($model->scenarios(), 'create')) {
             $model->scenario = 'create';
         }
 
         // 对model对象各个字段进行赋值
-        $this->arrJson['errCode'] = 205;
         if (!$model->load($data, '')) {
             return $this->error(205);
         }
 
         // 判断修改返回数据
         if ($model->save()) {
-            $this->handleJson($model);
-            $pk = $this->pk;
-            AdminLog::create(AdminLog::TYPE_CREATE, $data, $this->pk . '=' . $model->$pk);
             return $this->success($model);
-        } else {
-            return $this->error(1001, Helper::arrayToString($model->getErrors()));
         }
+
+        return $this->error(1001, Helper::arrayToString($model->getErrors()));
     }
 
     /**
      * 处理修改数据
+     *
      * @return mixed|string
      */
     public function actionUpdate()
     {
         // 接收参数判断
-        $data  = Yii::$app->request->post();
-        $model = $this->findOne();
-        if (!$model) {
+        $data = Yii::$app->request->post();
+        if (!$model = $this->findOne($data)) {
             return $this->returnJson();
         }
 
         // 判断是否存在指定的验证场景，有则使用，没有默认
-        $arrScenarios = $model->scenarios();
-        if (isset($arrScenarios['update'])) {
+        if (ArrayHelper::getValue($model->scenarios(), 'update')) {
             $model->scenario = 'update';
         }
 
@@ -199,11 +193,10 @@ class Controller extends \yii\web\Controller
 
         // 修改数据成功
         if ($model->save()) {
-            AdminLog::create(AdminLog::TYPE_UPDATE, $data, $this->pk . '=' . $data[$this->pk]);
             return $this->success($model);
-        } else {
-            return $this->error(1003, Helper::arrayToString($model->getErrors()));
         }
+
+        return $this->error(1003, Helper::arrayToString($model->getErrors()));
     }
 
     /**
@@ -216,31 +209,30 @@ class Controller extends \yii\web\Controller
     public function actionDelete()
     {
         // 接收参数判断
-        $data  = Yii::$app->request->post();
-        $model = $this->findOne();
-        if (!$model) {
+        if (!$model = $this->findOne(Yii::$app->request->post())) {
             return $this->returnJson();
         }
 
         // 删除数据成功
         if ($model->delete()) {
-            AdminLog::create(AdminLog::TYPE_DELETE, $data, $this->pk . '=' . $data[$this->pk]);
             return $this->success($model);
-        } else {
-            return $this->error(1004, Helper::arrayToString($model->getErrors()));
         }
+
+        return $this->error(1004, Helper::arrayToString($model->getErrors()));
     }
 
     /**
      * 查询单个数据
      *
+     * @param array $data 查询条件
+     *
      * @return boolean|\yii\db\ActiveRecord
      */
-    protected function findOne()
+    protected function findOne($data = [])
     {
         // 接收参数判断
-        $data = Yii::$app->request->post();
-        if (empty($data[$this->pk]) || !$data) {
+        $data = $data ?: Yii::$app->request->post();
+        if (!$data || empty($data[$this->pk])) {
             $this->setCode(201);
             return false;
         }
@@ -248,8 +240,7 @@ class Controller extends \yii\web\Controller
         // 通过传递过来的唯一主键值查询数据
         /* @var $model \yii\db\ActiveRecord */
         $model = $this->modelClass;
-        $model = $model::findOne($data[$this->pk]);
-        if (!$model) {
+        if (!$model = $model::findOne($data[$this->pk])) {
             $this->setCode(220);
             return false;
         }
@@ -270,13 +261,11 @@ class Controller extends \yii\web\Controller
 
         /* @var $model \yii\db\ActiveRecord */
         $model = $this->modelClass;
-        $where = [$this->pk => $arrIds];
-        if ($model::deleteAll($where)) {
-            AdminLog::create(AdminLog::TYPE_DELETE, $where, $this->pk . '=all');
+        if ($model::deleteAll([$this->pk => $arrIds])) {
             return $this->success($ids);
-        } else {
-            return $this->error(1004);
         }
+
+        return $this->error(1004);
     }
 
     /**
@@ -300,19 +289,17 @@ class Controller extends \yii\web\Controller
         // 通过主键查询数据
         /* @var $model \yii\db\ActiveRecord */
         $model = $this->modelClass;
-        $model = $model::findOne($mixPk);
-        if (empty($model)) {
+        if (!$model = $model::findOne($mixPk)) {
             return $this->error(220);
         }
 
         // 修改对应的字段
         $model->$strAttr = $mixValue;
         if ($model->save()) {
-            AdminLog::create(AdminLog::TYPE_UPDATE, $request->post(), $this->pk . '=' . $mixPk);
             return $this->success($model);
-        } else {
-            return $this->error(206, Helper::arrayToString($model->getErrors()));
         }
+
+        return $this->error(206, Helper::arrayToString($model->getErrors()));
     }
 
     /**
@@ -352,7 +339,7 @@ class Controller extends \yii\web\Controller
 
         // 初始化上次表单model对象，并定义好验证场景
         $className = $this->uploadFromClass;
-        $model = new $className(['scenario' => $strField]);
+        $model     = new $className(['scenario' => $strField]);
 
         try {
             // 上传文件
@@ -377,16 +364,13 @@ class Controller extends \yii\web\Controller
             $strFilePath = $dirName . uniqid() . '.' . $objFile->extension;
             // 执行文件上传保存，并且处理自己定义上传之后的处理
             if ($objFile->saveAs($strFilePath) && $this->afterUpload($objFile, $strFilePath, $strField)) {
-                $mixReturn = [
+                return $this->success([
                     'sFilePath' => trim($strFilePath, '.'),
                     'sFileName' => $objFile->baseName . '.' . $objFile->extension,
-                ];
-
-                AdminLog::create(AdminLog::TYPE_UPLOAD, $mixReturn, $strField);
-                return $this->success($mixReturn);
-            } else {
-                return $this->error(204);
+                ]);
             }
+
+            return $this->error(204);
         } catch (\Exception $e) {
             return $this->error(203, $e->getMessage());
         }

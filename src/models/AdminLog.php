@@ -12,11 +12,11 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $type
- * @property string $controller
- * @property string $action
- * @property string $index
- * @property string $url
- * @property string $params
+ * @property string  $controller
+ * @property string  $action
+ * @property string  $index
+ * @property string  $url
+ * @property string  $params
  * @property integer $created_id
  * @property integer $created_at
  */
@@ -28,7 +28,7 @@ class AdminLog extends ActiveRecord
     const TYPE_CREATE = 1; // 创建
     const TYPE_UPDATE = 2; // 修改
     const TYPE_DELETE = 3; // 删除
-    const TYPE_OTHER = 4;  // 其他
+    const TYPE_OTHER  = 4;  // 其他
     const TYPE_UPLOAD = 5;  // 上传
 
     /**
@@ -36,7 +36,7 @@ class AdminLog extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%admin_log}}';
+        return '{{%admin_operate_logs}}';
     }
 
     /**
@@ -45,10 +45,11 @@ class AdminLog extends ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'created_id'], 'integer'],
-            [['params'], 'string'],
-            [['controller', 'action'], 'string', 'max' => 64],
+            [['admin_id'], 'integer'],
+            [['request', 'response'], 'string'],
+            [['action'], 'string', 'max' => 64],
             [['url', 'index'], 'string', 'max' => 100],
+            [['ip'], 'string', 'max' => 20],
         ];
     }
 
@@ -58,21 +59,24 @@ class AdminLog extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => '日志ID',
-            'type' => '类型',
-            'controller' => '操作控制器',
-            'action' => '操作方法',
-            'index' => '数据唯一标识',
-            'url' => '操作的URL',
-            'params' => '请求参数',
-            'created_id' => '创建管理员ID',
+            'id'         => '日志ID',
+            'admin_id'   => '后台用户ID',
+            'admin_name' => '后台用户名称',
+            'action'     => '操作方法',
+            'index'      => '数据唯一标识',
+            'url'        => '操作的URL',
+            'request'    => '请求参数',
+            'response'   => '放回的数据',
+            'ip'         => '请求IP',
             'created_at' => '创建时间',
         ];
     }
 
     /**
      * 获取类型说明
+     *
      * @param null $type
+     *
      * @return array|mixed|null
      */
     public static function getTypeDescription($type = null)
@@ -82,7 +86,7 @@ class AdminLog extends ActiveRecord
             self::TYPE_CREATE => '创建',
             self::TYPE_UPDATE => '修改',
             self::TYPE_DELETE => '删除',
-            self::TYPE_OTHER => '其他',
+            self::TYPE_OTHER  => '其他',
             self::TYPE_UPLOAD => '上传',
         ];
 
@@ -95,20 +99,22 @@ class AdminLog extends ActiveRecord
 
     /**
      * 创建日志
-     * @param integer $type 类型
-     * @param array $params 请求参数
-     * @param string $index 数据唯一标识
+     *
+     * @param integer $type   类型
+     * @param array   $params 请求参数
+     * @param string  $index  数据唯一标识
+     *
      * @return bool
      */
     public static function create($type, $params = [], $index = '')
     {
-        $log = new AdminLog();
-        $log->type = $type;
-        $log->params = Json::encode($params);
+        $log             = new AdminLog();
+        $log->type       = $type;
+        $log->params     = Json::encode($params);
         $log->controller = Yii::$app->controller->id;
-        $log->action = Yii::$app->controller->action->id;
-        $log->url = Yii::$app->request->url;
-        $log->index = $index;
+        $log->action     = Yii::$app->controller->action->id;
+        $log->url        = Yii::$app->request->url;
+        $log->index      = $index;
         $log->created_id = Yii::$app->controller->module->getUserId();
         $log->created_at = new Expression('UNIX_TIMESTAMP()');
         return $log->save();
