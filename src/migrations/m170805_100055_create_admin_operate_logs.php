@@ -23,7 +23,6 @@ class m170805_100055_create_admin_operate_logs extends Migration
             'admin_id'   => $this->integer(11)->notNull()->defaultValue(0)->comment('操作管理员ID'),
             'admin_name' => $this->string(20)->notNull()->defaultValue('')->comment('操作管理员名称'),
             'action'     => $this->string(64)->notNull()->defaultValue('')->comment('方法'),
-            'url'        => $this->string(100)->notNull()->defaultValue('')->comment('请求地址'),
             'index'      => $this->string(100)->notNull()->defaultValue('')->comment('数据标识'),
             'request'    => $this->text()->notNull()->comment('请求参数'),
             'response'   => $this->text()->notNull()->comment('响应数据'),
