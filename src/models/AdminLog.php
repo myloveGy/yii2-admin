@@ -2,22 +2,24 @@
 
 namespace jinxing\admin\models;
 
+use jinxing\admin\helpers\Helper;
 use Yii;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%admin_log}}".
+ * This is the model class for table "{{%admin_operate_logs}}".
  *
  * @property integer $id
- * @property integer $type
- * @property string  $controller
  * @property string  $action
  * @property string  $index
- * @property string  $url
- * @property string  $params
- * @property integer $created_id
+ * @property string  $request
+ * @property string  $response
+ * @property string  $ip
+ * @property integer $admin_id
+ * @property string  $admin_name
  * @property integer $created_at
  */
 class AdminLog extends ActiveRecord
@@ -48,7 +50,7 @@ class AdminLog extends ActiveRecord
             [['admin_id'], 'integer'],
             [['request', 'response'], 'string'],
             [['action'], 'string', 'max' => 64],
-            [['url', 'index'], 'string', 'max' => 100],
+            [['index'], 'string', 'max' => 100],
             [['ip'], 'string', 'max' => 20],
         ];
     }
@@ -64,7 +66,6 @@ class AdminLog extends ActiveRecord
             'admin_name' => '后台用户名称',
             'action'     => '操作方法',
             'index'      => '数据唯一标识',
-            'url'        => '操作的URL',
             'request'    => '请求参数',
             'response'   => '放回的数据',
             'ip'         => '请求IP',
@@ -98,24 +99,25 @@ class AdminLog extends ActiveRecord
     }
 
     /**
-     * 创建日志
+     * 添加日志
      *
-     * @param integer $type   类型
-     * @param array   $params 请求参数
-     * @param string  $index  数据唯一标识
+     * @param \yii\base\Action $action
+     * @param \yii\web\User    $user
+     * @param array            $result
      *
      * @return bool
      */
-    public static function create($type, $params = [], $index = '')
+    public static function create($action, $user, $result = [])
     {
+        $key             = ArrayHelper::getValue($action, 'controller.pk', 'id');
         $log             = new AdminLog();
-        $log->type       = $type;
-        $log->params     = Json::encode($params);
-        $log->controller = Yii::$app->controller->id;
-        $log->action     = Yii::$app->controller->action->id;
-        $log->url        = Yii::$app->request->url;
-        $log->index      = $index;
-        $log->created_id = Yii::$app->controller->module->getUserId();
+        $log->index      = Yii::$app->request->post($key, '');
+        $log->request    = Json::encode(Yii::$app->request->post());
+        $log->response   = Json::encode($result);
+        $log->action     = $action->getUniqueId();
+        $log->admin_id   = ArrayHelper::getValue($user, 'id');
+        $log->admin_name = ArrayHelper::getValue($user, 'identity.username', '');
+        $log->ip         = Helper::getIpAddress();
         $log->created_at = new Expression('UNIX_TIMESTAMP()');
         return $log->save();
     }

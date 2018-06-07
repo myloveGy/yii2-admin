@@ -9,14 +9,13 @@ use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use jinxing\admin\strategy\Substance;
 use jinxing\admin\helpers\Helper;
-use jinxing\admin\models\AdminLog;
 use jinxing\admin\traits\JsonTrait;
-use jinxing\admin\models\forms\UploadForm;
+use jinxing\admin\behaviors\Logging;
 
 /**
- * Class Controller 后台的基础控制器
- * @author  liujx
- * @package backend\controllers
+ * Class Controller 后台基础控制器
+ *
+ * @package jinxing\admin\controllers
  */
 class Controller extends \yii\web\Controller
 {
@@ -66,6 +65,16 @@ class Controller extends \yii\web\Controller
                 'user'  => $this->module->user
             ],
         ];
+    }
+
+    /**
+     * 获取pk
+     *
+     * @return string
+     */
+    public function getPk()
+    {
+        return $this->pk;
     }
 
     /**

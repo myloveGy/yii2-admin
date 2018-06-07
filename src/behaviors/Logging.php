@@ -10,7 +10,10 @@
 
 namespace jinxing\admin\behaviors;
 
+use yii\web\User;
+use yii\di\Instance;
 use yii\base\ActionFilter;
+use jinxing\admin\models\AdminLog;
 
 /**
  * Class LoggingBehavior 日志记录
@@ -31,7 +34,11 @@ class Logging extends ActionFilter
      */
     public $needLogActions = ['create', 'update', 'delete', 'delete', 'edittable', 'upload'];
 
-
+    /**
+     * 初始化赋值
+     * 
+     * @throws \yii\base\InvalidConfigException
+     */
     public function init()
     {
         parent::init();
@@ -49,7 +56,7 @@ class Logging extends ActionFilter
     public function afterAction($action, $result)
     {
         if (in_array($action->id, $this->needLogActions)) {
-            
+            AdminLog::create($action, $this->user, $result);
         }
 
         return parent::afterAction($action, $result);

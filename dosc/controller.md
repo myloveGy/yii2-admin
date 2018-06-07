@@ -12,3 +12,5 @@ $sort      | string   | id       | Default sort field
 $strategy  | string   | DataTables or JqGrid| Use data processing class, corresponding to front-end data table processing
 $uploadFromClass|string| jinxing\admin\models\forms\UploadForm| Upload file processing model 
 $strUploadPath|string | ./uploads/| Upload file save path
+
+#### The public method

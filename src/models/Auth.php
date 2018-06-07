@@ -375,7 +375,9 @@ class Auth extends ActiveRecord
      */
     public static function getDataTableAuth($user = 'admin')
     {
-        $controller = Yii::$app->controller->action->getUniqueId() . '/';
+        $controller = explode('/', Yii::$app->controller->action->getUniqueId());
+        array_pop($controller);
+        $controller = implode('/', $controller) . '/';
         $arrReturn  = [
             'buttons'    => [
                 'create' => [
