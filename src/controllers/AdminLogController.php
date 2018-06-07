@@ -23,12 +23,10 @@ class AdminLogController extends Controller
     public function where()
     {
         $where = [
-            'type' => '=',
-            'controller' => 'like',
-            'action' => 'like',
-            'url' => 'like',
-            'created_id' => '=',
-            'where' => [],
+            'action'   => 'like',
+            'url'      => 'like',
+            'admin_id' => '=',
+            'where'    => [],
         ];
 
         if ($this->module->getUserId() != Admin::SUPER_ADMIN_ID) {

@@ -27,52 +27,28 @@ $this->title = '操作日志';
                 "aoColumns": [
                     {
                         "title": "操作人",
-                        "data": "created_id",
-                        "edit": {"type": "text", "required": true, "number": true},
-                        "createdCell": mt.adminString
-                    },
-                    {
-                        "title": "类型",
-                        "data": "type",
-                        "edit": {"type": "text", "required": true, "number": true},
-                        "value": oTypes,
-                        "search": {"type": "select"},
-                        "bSortable": false,
-                        "createdCell": function (td, data) {
-                            $(td).html(oTypes[data] ? oTypes[data] : data);
-                        }
-                    },
-                    {
-                        "title": "操作控制器",
-                        "data": "controller",
-                        "edit": {"type": "text", "required": true, "rangelength": "[2, 32]"},
-                        "search": {"type": "text"},
-                        "bSortable": false
+                        "data": "admin_name",
                     },
                     {
                         "title": "操作方法",
                         "data": "action",
-                        "edit": {"type": "text", "required": true, "rangelength": "[2, 32]"},
                         "search": {"type": "text"},
                         "bSortable": false
                     },
                     {
                         "title": "请求URL",
                         "data": "url",
-                        "edit": {"type": "text", "required": true, "rangelength": "[2, 64]"},
                         "search": {"type": "text"},
                         "bSortable": false
                     },
                     {
                         "title": "数据唯一标识",
                         "data": "index",
-                        "edit": {"type": "text"},
                         "bSortable": false
                     },
                     {
                         "title": "请求参数",
-                        "data": "params",
-                        "edit": {"type": "text"},
+                        "data": "request",
                         "bSortable": false,
                         "isHide": true,
                         "createdCell": function (td, data) {
@@ -89,14 +65,16 @@ $this->title = '操作日志';
                             }
 
                             html += "]";
-
                             $(td).html(html);
                         }
                     },
                     {
+                        "title": "请求IP",
+                        "data": "ip"
+                    },
+                    {
                         "title": "创建时间",
                         "data": "created_at",
-                        "edit": {"type": "text", "required": true, "number": true},
                         "createdCell": meTables.dateTimeString,
                         "defaultOrder": "desc"
                     }

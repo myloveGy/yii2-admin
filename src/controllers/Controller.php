@@ -54,6 +54,21 @@ class Controller extends \yii\web\Controller
     protected $uploadFromClass = 'jinxing\admin\models\forms\UploadForm';
 
     /**
+     * 定义使用的行为
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'logging' => [
+                'class' => Logging::className(),
+                'user'  => $this->module->user
+            ],
+        ];
+    }
+
+    /**
      * 首页显示
      * @return string
      */

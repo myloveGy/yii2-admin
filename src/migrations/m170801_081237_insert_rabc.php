@@ -1,6 +1,8 @@
 <?php
 
 use yii\db\Migration;
+use yii\helpers\ArrayHelper;
+use yii\db\Query;
 
 class m170801_081237_insert_rabc extends Migration
 {
@@ -100,11 +102,10 @@ class m170801_081237_insert_rabc extends Migration
             ['uploads/upload', 2, '上传文件-文件上传', $time, $time],
         ];
 
-        if ($prefix = \yii\helpers\ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', 'admin')) {
+        if ($prefix = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', 'admin')) {
             $prefix = trim($prefix, '/');
             foreach ($batchInsertArray as &$value) {
-                list(, $type) = $value;
-                if ($type == 2) {
+                if ($value[1] == 2) {
                     $value[0] = $prefix . '/' . $value[0];
                 }
             }
@@ -167,7 +168,7 @@ class m170801_081237_insert_rabc extends Migration
         ];
 
         // 第二步写入超级管理员的权限
-        $all = (new \yii\db\Query())->from($this->table)->select('name')->where(['type' => 2])->all();
+        $all = (new Query())->from($this->table)->select('name')->where(['type' => 2])->all();
         if ($all) {
             $insert = [];
             foreach ($all as $value) {
