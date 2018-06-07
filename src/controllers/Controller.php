@@ -49,11 +49,6 @@ class Controller extends \yii\web\Controller
     protected $strategy = 'DataTables';
 
     /**
-     * @var null admins 定义管理员信息
-     */
-    protected $admins = null;
-
-    /**
      * @var string 上传使用uploadForm 类名
      */
     protected $uploadFromClass = 'jinxing\admin\models\forms\UploadForm';
