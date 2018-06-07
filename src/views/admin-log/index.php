@@ -26,8 +26,10 @@ $this->title = '操作日志';
             table: {
                 "aoColumns": [
                     {
-                        "title": "操作人",
+                        "title": "管理员名称",
                         "data": "admin_name",
+                        "search": {type: "text"},
+                        bSortable: false
                     },
                     {
                         "title": "操作方法",
@@ -36,15 +38,10 @@ $this->title = '操作日志';
                         "bSortable": false
                     },
                     {
-                        "title": "请求URL",
-                        "data": "url",
-                        "search": {"type": "text"},
-                        "bSortable": false
-                    },
-                    {
-                        "title": "数据唯一标识",
+                        "title": "唯一标识",
                         "data": "index",
-                        "bSortable": false
+                        "bSortable": false,
+                        "search": {"type": "text"}
                     },
                     {
                         "title": "请求参数",
@@ -70,7 +67,8 @@ $this->title = '操作日志';
                     },
                     {
                         "title": "请求IP",
-                        "data": "ip"
+                        "data": "ip",
+                        "bSortable": false
                     },
                     {
                         "title": "创建时间",
