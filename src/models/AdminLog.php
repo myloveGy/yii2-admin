@@ -25,15 +25,6 @@ use yii\db\ActiveRecord;
 class AdminLog extends ActiveRecord
 {
     /**
-     * 类型
-     */
-    const TYPE_CREATE = 1; // 创建
-    const TYPE_UPDATE = 2; // 修改
-    const TYPE_DELETE = 3; // 删除
-    const TYPE_OTHER  = 4;  // 其他
-    const TYPE_UPLOAD = 5;  // 上传
-
-    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -72,32 +63,7 @@ class AdminLog extends ActiveRecord
             'created_at' => '创建时间',
         ];
     }
-
-    /**
-     * 获取类型说明
-     *
-     * @param null $type
-     *
-     * @return array|mixed|null
-     */
-    public static function getTypeDescription($type = null)
-    {
-        $mixReturn = [
-            self::TYPE_CREATE => '创建',
-            self::TYPE_CREATE => '创建',
-            self::TYPE_UPDATE => '修改',
-            self::TYPE_DELETE => '删除',
-            self::TYPE_OTHER  => '其他',
-            self::TYPE_UPLOAD => '上传',
-        ];
-
-        if ($type !== null) {
-            $mixReturn = isset($mixReturn[$type]) ? $mixReturn[$type] : null;
-        }
-
-        return $mixReturn;
-    }
-
+    
     /**
      * 添加日志
      *

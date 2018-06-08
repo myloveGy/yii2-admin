@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Url;
-use \jinxing\admin\models\AdminLog;
+use yii\helpers\ArrayHelper;
 
 ?>
 <div>
@@ -10,7 +10,7 @@ use \jinxing\admin\models\AdminLog;
             <div>
                 <span class="profile-picture">
                     <img id="avatar" class="editable img-responsive editable-click editable-empty" alt="Alex's Avatar"
-                         src="<?= $admin->face ? $admin->face : '/public/assets/avatars/profile-pic.jpg' ?>"/>
+                         src="<?= ArrayHelper::getValue($admin, 'face', '/public/assets/avatars/profile-pic.jpg') ?>"/>
                 </span>
                 <div class="space-4"></div>
                 <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
@@ -133,9 +133,9 @@ use \jinxing\admin\models\AdminLog;
                         <i class="fa fa-map-marker light-orange bigger-110"></i>
                         <span class="editable editable-click">中国</span>
                         <span id="country"
-                              class="editable editable-click"><?= isset($china[0]) ? $china[0]->name : '选择省' ?></span>
+                              class="editable editable-click"><?= ArrayHelper::getValue($china, '0.name', '选择省') ?></span>
                         <span id="city"
-                              class="editable editable-click"><?= isset($china[1]) ? $china[1]->name : '选择市' ?></span>
+                              class="editable editable-click"><?= ArrayHelper::getValue($china, '1.name', '选择市') ?></span>
                         <span id="address"
                               class="editable editable-click" <?= $address == '选择县' ? 'style="display:none"' : '' ?>><?= $address ?></span>
                     </div>
@@ -210,10 +210,9 @@ use \jinxing\admin\models\AdminLog;
                                 <div class="profile-activity clearfix">
                                     <div>
                                         <img class="pull-left" alt="用户头像" src="<?= $admin->face ?>"/>
-                                        <a class="user" href="#"> <?= AdminLog::getTypeDescription($value['type']) ?>
-                                            -- <?= $value['index'] ?> </a>
-                                        <?= $value['params'] ?>
-                                        <a href="#"><?= $value['url'] ?></a>
+                                        <a class="user" href="#"> <?= $value['index'] ?> </a>
+                                        <?= $value['request'] ?>
+                                        <a href="#"><?= $value['action'] ?></a>
                                         <div class="time">
                                             <i class="ace-icon fa fa-clock-o bigger-110"></i>
                                             <?= date('Y-m-d H:i:s', $value['created_at']) ?>

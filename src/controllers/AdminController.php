@@ -91,7 +91,7 @@ class AdminController extends Controller
 
         // 操作日志
         $logs = AdminLog::find()->where([
-            'created_id' => $admin->id
+            'admin_id' => $admin->id
         ])->orderBy(['id' => SORT_DESC])->limit(100)->asArray()->all();
 
         // 载入视图文件
