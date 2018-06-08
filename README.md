@@ -86,6 +86,9 @@ return [
     
     // Universal status                       
     'status'            => ['停用', '启用'],
+    
+    // Show other information
+    'project_open_other' => false,
                
     'projectName'       => 'Yii2 后台管理系统',              
     'projectTitle'      => 'Yii2 后台管理系统',

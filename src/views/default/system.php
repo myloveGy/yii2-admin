@@ -14,25 +14,25 @@ $this->title = 'Yii2 Admin 登录信息';
             <div class="profile-info-row">
                 <div class="profile-info-name"> 账号</div>
                 <div class="profile-info-value">
-                    <span><?= $this->params['user']->username ?></span>
+                    <span><?= $user->username ?></span>
                 </div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 角色</div>
                 <div class="profile-info-value">
-                    <span><?= $this->params['user']->role ?></span>
+                    <span><?= $user->role ?></span>
                 </div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 上次登录时间</div>
                 <div class="profile-info-value">
-                    <span><?= date('Y-m-d H:i:s', $this->params['user']->last_time) ?></span>
+                    <span><?= date('Y-m-d H:i:s', $user->last_time) ?></span>
                 </div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 上次登录IP</div>
                 <div class="profile-info-value">
-                    <span><?= $this->params['user']->last_ip ?></span>
+                    <span><?= $user->last_ip ?></span>
                 </div>
             </div>
         </div>

@@ -1,10 +1,10 @@
 <?php
 
-use jinxing\admin\AppAsset;
-use jinxing\admin\widgets\Nav;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
+use jinxing\admin\AppAsset;
+use jinxing\admin\widgets\Nav;
 
 AppAsset::register($this);
 list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
@@ -143,26 +143,26 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo"
-                             src="<?= $this->params['user']->face ? $this->params['user']->face : '<?=$url?>/avatars/avatar.jpg' ?>"
+                             src="<?= ArrayHelper::getValue($user, 'face', $url . '/avatars/avatar.jpg') ?>"
                              alt="Jason's Photo"/>
                         <span class="user-info">
-                                <small>欢迎登录</small><?= $this->params['user']->username ?>
+                                <small>欢迎登录</small><?= $user->username ?>
                             </span>
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <?php foreach (Yii::$app->controller->module->userLinks as $link) : ?>
-                        <li>
-                            <a class="window-iframe"
-                               data-id="<?=ArrayHelper::getValue($link, 'id')?>"
-                               title="<?=ArrayHelper::getValue($link, 'title')?>"
-                               data-url="<?= Url::toRoute([ArrayHelper::getValue($link, 'url')]) ?>"
-                            >
-                                <i class="ace-icon <?=ArrayHelper::getValue($link, 'icon')?>"></i>
-                                <?=ArrayHelper::getValue($link, 'title')?>
-                            </a>
-                        </li>
+                            <li>
+                                <a class="window-iframe"
+                                   data-id="<?= ArrayHelper::getValue($link, 'id') ?>"
+                                   title="<?= ArrayHelper::getValue($link, 'title') ?>"
+                                   data-url="<?= Url::toRoute([ArrayHelper::getValue($link, 'url')]) ?>"
+                                >
+                                    <i class="ace-icon <?= ArrayHelper::getValue($link, 'icon') ?>"></i>
+                                    <?= ArrayHelper::getValue($link, 'title') ?>
+                                </a>
+                            </li>
                         <?php endforeach; ?>
                         <li class="divider"></li>
                         <li>
@@ -206,7 +206,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                                 title="<?= ArrayHelper::getValue($button, 'title') ?>"
                                 data-id="<?= ArrayHelper::getValue($button, 'id') ?>"
                                 data-url="<?= Url::toRoute([ArrayHelper::getValue($button, 'url')]) ?>">
-                            <i class="ace-icon <?=ArrayHelper::getValue($button, 'icon')?>"></i>
+                            <i class="ace-icon <?= ArrayHelper::getValue($button, 'icon') ?>"></i>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -227,7 +227,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                     'class' => 'nav nav-list',
                 ],
                 'labelName' => 'menu_name',
-                'items'     => $this->params['menus'],
+                'items'     => $menus,
                 'itemsName' => 'child'
             ]);
         } catch (\Exception $e) {
