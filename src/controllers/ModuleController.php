@@ -152,13 +152,13 @@ class ModuleController extends Controller
         }
 
         // 生成权限
-        if ($auth == 1) {
-            $this->createAuth($str_name, $title, $auth_name);
+        if ($auth == 1 && !$this->createAuth($str_name, $title, $auth_name)) {
+            return $this->error(223);
         }
 
         // 生成导航栏目
-        if ($menu == 1) {
-            $this->createMenu($str_name, $title, $menu_name);
+        if ($menu == 1 && !$this->createMenu($str_name, $title, $menu_name)) {
+            return $this->error(224);
         }
 
         // 生成视图文件
@@ -168,7 +168,7 @@ class ModuleController extends Controller
         $this->createController($name, $title, $controller_path, $strWhere, $primary_key);
 
         // 返回数据
-        return $this->success(Url::toRoute([$name . '/index']));
+        return $this->success(Url::toRoute(['/' . $str_name . '/index']));
     }
 
     /**
@@ -185,10 +185,10 @@ class ModuleController extends Controller
      */
     private function createAuth($prefix, $title, $auth_name = '')
     {
-        $name    = $auth_name ?: $prefix;
-        $name    = trim($name, '/') . '/';
-        $auth    = new Auth();
-        return $auth->batchInsert($auth->array_default_auth, $name, $title);
+        $name = $auth_name ?: $prefix;
+        $name = trim($name, '/') . '/';
+        $auth = new Auth();
+        return $auth->batchInsert(array_keys($auth->array_default_auth), $name, $title);
     }
 
     /**
@@ -423,7 +423,7 @@ html;
         $strControllers = <<<Html
 <?php
 
-namespace {$this->module->controllerNamespace};
+namespace {$this->module->module->controllerNamespace};
 
 use jinxing\admin\controllers\Controller;
 
