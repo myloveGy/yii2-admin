@@ -2,6 +2,7 @@
 
 use jinxing\admin\AdminAsset;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 // 定义标题和面包屑信息
 $this->title = '模块生成';
@@ -81,7 +82,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                        class="col-xs-12 col-sm-3 control-label no-padding-right">数据库表名</label>
                                 <div class="col-xs-12 col-sm-5">
                                     <?php $tables[''] = ''; ?>
-                                    <?= \yii\helpers\Html::dropDownList('table', '', $tables, [
+                                    <?= Html::dropDownList('table', '', $tables, [
                                         'id'               => 'select-table',
                                         'class'            => 'chosen-select',
                                         'required'         => true,

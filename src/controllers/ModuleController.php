@@ -315,7 +315,7 @@ HTML;
         $strHtml = $strWhere = '';
         if ($array) {
             foreach ($array as $key => $value) {
-                $html = "\t\t\t{\"title\": \"{$value['title']}\", \"data\": \"{$key}\", \"sName\": \"{$key}\", ";
+                $html = "\t\t\t{\"title\": \"{$value['title']}\", \"data\": \"{$key}\", ";
 
                 // 编辑
                 if ($value['edit'] == 1) {
