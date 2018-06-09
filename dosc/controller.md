@@ -14,3 +14,5 @@ $uploadFromClass|string| jinxing\admin\models\forms\UploadForm| Upload file proc
 $strUploadPath|string | ./uploads/| Upload file save path
 
 #### The public method
+
+[←  Module configuration description](./config.md) | [Table configuration instructions →](./me-table.md)

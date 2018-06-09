@@ -127,7 +127,7 @@ php yii migrate --migrationPath=@yii/rbac/migrations
 
 ### Importing data information such as table structure and permission configuration required in the background
 ```
-php yii migrate --migrationPath=@jinxing/yii2-admin/migrations
+php yii migrate --migrationPath=@jinxing/admin/migrations
 ```
 
 #### Now you can preview your background
@@ -140,6 +140,10 @@ php yii migrate --migrationPath=@jinxing/yii2-admin/migrations
 http://localhost/path/to?index.php?r=admin/default/login
 
 ```
+
+## Documentation
+
+Please refer to our extensive [base config](./dosc/config.md) for more information.
 
 ### Routing permission control description
 

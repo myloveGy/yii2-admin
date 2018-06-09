@@ -38,3 +38,5 @@ return [
     ],
 ]
 ```
+
+[Controller description →](./controller.md)
