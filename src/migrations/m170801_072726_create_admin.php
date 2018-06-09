@@ -1,5 +1,6 @@
 <?php
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -63,7 +64,7 @@ class m170801_072726_create_admin extends Migration
                 'super@admin.com',
                 'administrator',
                 'gKkLFMdB2pvIXOFNpF_Aeemvdf1j0YUM',
-                '$2y$13$Nuf1mzDRoCMxrWI.rIjENu20QshJG41smdEeHFHxq0qdmS99YytHy',
+                Yii::$app->security->generatePasswordHash('admin123'),
                 '5vLaPpUS-I-XxJaoGP-GZDk474WdnaK3_1469073015',
                 $time,
                 '127.0.0.1',
@@ -78,7 +79,7 @@ class m170801_072726_create_admin extends Migration
                 'admin@admin.com',
                 'admin',
                 'tArp_Kv4z1JlzBUZYCL33N24AZL-_77p',
-                '$2y$13$RNrJ7GK1A5iZRxBpho6sbeCJKfNRxzy5axCeRjZLqvA5W6RuVYBRW',
+                Yii::$app->security->generatePasswordHash('admin888'),
                 'CgScbf1E96N3pqH01b0mVi_Z58j8QsRV_1501916190',
                 $time,
                 '127.0.0.1',
