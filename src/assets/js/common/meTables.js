@@ -583,9 +583,10 @@
             this.action = "export";
             var self = this,
                 i = null,
+                csrf_param = $('meta[name=csrf-param]').attr('content') || "_csrf",
                 html = '<form action="' + this.getUrl("export") + '" target="_blank" method="POST" class="me-export" style="display:none">';
             html += '<input type="hidden" name="title" value="' + self.options.title + '"/>';
-            html += '<input type="hidden" name="_csrf" value="' + $('meta[name=csrf-token]').attr('content') + '"/>';
+            html += '<input type="hidden" name="' + csrf_param + '" value="' + $('meta[name=csrf-token]').attr('content') + '"/>';
 
             // 添加字段信息
             this.options.table.aoColumns.forEach(function (k, v) {
