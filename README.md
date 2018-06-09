@@ -143,7 +143,7 @@ http://localhost/path/to?index.php?r=admin/default/login
 
 ## Documentation
 
-Please refer to our extensive [base config](./dosc/config.md) for more information.
+Please refer to our extensive [Module configuration description](./dosc/config.md) for more information.
 
 ### Routing permission control description
 
