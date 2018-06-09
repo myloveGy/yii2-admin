@@ -31,7 +31,7 @@ class AdminLogController extends Controller
 
         if ($this->module->getUserId() != Admin::SUPER_ADMIN_ID) {
             $where['where'] = [
-                ['!=', 'created_id', Admin::SUPER_ADMIN_ID]
+                ['!=', 'admin_id', Admin::SUPER_ADMIN_ID]
             ];
         }
 
