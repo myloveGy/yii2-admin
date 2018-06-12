@@ -24,15 +24,41 @@ actionDelete()   | Delete Data          |
 actionDeleteAll()| Delete multiple data |
 actionEditable() | Edit data inline     |
 actionUpload()   | File Upload          | [ afterUpload() File upload processing]()
-actionExport()   | Data output          | [where() Provide query conditions]()、[getQuery() Provide query object]()、[getExportHandleParams() Provide data export processing parameters ]()
+actionExport()   | Data output          | [where() Provide query conditions](#where)、[getQuery() Provide query object]()、[getExportHandleParams() Provide data export processing parameters ]()
 
 #### The public method
 
 Method  | Description
 getPk() | Get the primary key name
 
-#### Protected method
+##### where() public method 
+return an array
+Determine the query condition processing
 
+<table>
+    <tr>
+        <td colspan="3">public function where() </td>
+    </tr>
+    <tr>
+        <td>$params</td>
+        <td> array </td>
+        <td> The query condition information passed from the front end can be used without adding this parameter. </td>
+    </tr>
+</table>
+
+##### getQuery($where) protected method
+return [yii\db\Query](http://www.yiichina.com/doc/api/2.0/yii-db-query) or [yii\db\ActiveRecord](http://www.yiichina.com/doc/api/2.0/yii-db-activerecord) 
+
+##### afterSearch(&$array) protected method
+
+##### findOne($data = []) protected method
+return [yii\db\ActiveRecord](http://www.yiichina.com/doc/api/2.0/yii-db-activerecord)
+
+##### afterUpload($object, &$strFilePath, $strField) protected method
+return boolean
+
+##### getExportHandleParams() protected method
+return an array
 
 
 
