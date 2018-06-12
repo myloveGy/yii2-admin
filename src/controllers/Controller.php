@@ -437,10 +437,12 @@ class Controller extends \yii\web\Controller
             $where = [];
         }
 
-        $query = $this->getQuery($where);
-        $query->orderBy([$this->sort => SORT_DESC]);
-
         // 数据导出
-        return Helper::excel($strTitle, $arrFields, $query, $this->getExportHandleParams());
+        return Helper::excel(
+            $strTitle,
+            $arrFields,
+            $this->getQuery($where)->orderBy([$this->sort => SORT_DESC]),
+            $this->getExportHandleParams()
+        );
     }
 }
