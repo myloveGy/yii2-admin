@@ -28,7 +28,12 @@ actionExport()   | Data output          | [where() Provide query conditions]()ã€
 
 #### The public method
 
-Method | Description
+Method  | Description
+getPk() | Get the primary key name
+
+#### Protected method
+
+
 
 
 
