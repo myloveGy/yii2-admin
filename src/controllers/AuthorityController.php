@@ -23,6 +23,7 @@ class AuthorityController extends RoleController
         return [
             'name'        => 'like',
             'description' => 'like',
+            'rule_name'   => 'like',
             'where'       => [['=', 'type', Auth::TYPE_PERMISSION]],
         ];
     }
