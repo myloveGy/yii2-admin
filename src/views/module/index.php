@@ -68,7 +68,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                        class="col-xs-12 col-sm-3 control-label no-padding-right">标题名称</label>
                                 <div class="col-xs-12 col-sm-5">
                                 <span class="block input-icon input-icon-right">
-                                    <input type="text" id="me-title" name="title" required="true" rangelength="[2, 20]"
+                                    <input type="text" id="me-title" name="title" required="true" rangelength="[2, 100]"
                                            class="width-100"/>
                                     <i class="ace-icon fa fa-check-circle"></i>
                                 </span>
@@ -130,7 +130,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 <div class="col-xs-12 col-sm-9">
                                     <div class="clearfix">
                                         <input type="text" class="col-xs-12 col-sm-6" id="input-html" name="html"
-                                               required="true" rangelength="[2, 60]"/>
+                                               required="true" rangelength="[2, 200]"/>
                                         <label class="error" style="margin-left:5px;color:red"></label>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 <div class="col-xs-12 col-sm-9">
                                     <div class="clearfix">
                                         <input type="text" class="col-xs-12 col-sm-6" id="input-controller"
-                                               name="controller" required="true" rangelength="[2, 60]"/>
+                                               name="controller" required="true" rangelength="[2, 200]"/>
                                         <label class="error" style="margin-left:5px;color:red"></label>
                                     </div>
                                 </div>
