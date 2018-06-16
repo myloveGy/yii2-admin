@@ -101,8 +101,60 @@ m.fn.extend({
 Configuration name | Types of | Defaults | Description
 :-----------------------|:-----------|:--------------------|:---------------
 operations.bOpen        | boolean    | true                | Whether to open
-operations.bOpen        | boolean    | true                | Whether to open
+operations.width        | string     | 120px               | Set the width of the column
+operations.buttons.see.bShow        | boolean | true             | Whether to show
+operations.buttons.see.title        | string  |                  | Button text
+operations.buttons.see.button-title | string  |                  | Button text
+operations.buttons.see.className    | string  | btn-success      |
+operations.buttons.see.cClass       | string  | me-table-detail  |
+operations.buttons.see.icon         | string  | fa-search-plus   | 
+operations.buttons.see.sClass       | string  | blue             | 
 
+
+
+There are 3 default button groups, which are:
+1. see: see details
+2. update: change the data
+3. delete: delete data
+
+> Each button has three attribute configurations: **bShow, className, title, button-title, cClass, icon, sClass** 
+
+If you need to add a custom button, you can add your own button in the buttons, for example:
+```js
+var m = meTables({
+    buttons: {
+        operations: {
+            buttons: {
+                // Add custom button
+                other: {
+                    bShow: true,
+                    title: "编辑权限",
+                    "button-title": "编辑权限",
+                    className: "btn-warning",
+                    cClass: "role-edit",
+                    icon: "fa-pencil-square-o",
+                    sClass: "yellow"
+                },   
+            }  
+        },
+        
+    },
+    ...
+});
+
+// Corresponding to the button's processing event, the button configured cClass is the monitor object selector
+$(document).on('click', '.role-edit', function () {
+    
+    // Fixed writing to get the data for clicking this row
+    var data = m.table.data()[$(this).attr('table-data')];
+    
+    if (data) {
+        alert("My custom button");
+    }
+});
+```
+
+## About the configuration of jquery.dataTables.js
 
 
 [←  Controller description](./controller.md)
