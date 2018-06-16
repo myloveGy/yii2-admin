@@ -17,14 +17,14 @@ $strUploadPath|string | ./uploads/| Upload file save path
 Method           | Description          | Related service methods
 :----------------|:------------         |:----------------------------
 actionIndex()    | Display view file    |
-actionSearch()   | Search method to provide data for the front end| [where() Provide query conditions](#where()-public-method)、[getQuery() Provide query object](#getquery($where)-protected-method)、[afterSearch() Data processing after query](#aftersearch(&$array)-protected-method)
+actionSearch()   | Search method to provide data for the front end| [where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[afterSearch() Data processing after query](#aftersearcharray-protected-method)
 actionCreate()   | Create data          |
 actionUpdate()   | Change the data      |
 actionDelete()   | Delete Data          |
 actionDeleteAll()| Delete multiple data |
 actionEditable() | Edit data inline     |
-actionUpload()   | File Upload          | [ afterUpload() File upload processing](#afterupload($object,-&$strfilePath,-$strfield)-protected-method)
-actionExport()   | Data output          | [where() Provide query conditions](#where()-public-method)、[getQuery() Provide query object](#getquery($where)-protected-method)、[getExportHandleParams() Provide data export processing parameters ](#getexporthandleparams()-protected-method)
+actionUpload()   | File Upload          | [ afterUpload() File upload processing](#afteruploadobject-strfilepath-strfield-protected-method)
+actionExport()   | Data output          | [where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[getExportHandleParams() Provide data export processing parameters ](#getexporthandleparams-protected-method)
 
 ### The public method
 
@@ -90,7 +90,7 @@ When all queries are used, the above configuration will eventually generate the 
     ]);
 ```
 
-If it is a more complex query, such as linked table query, you need to override the [getQuery()](#getquery($where)-protected-method) method.
+If it is a more complex query, such as linked table query, you need to override the [getQuery()](#getquerywhere-protected-method) method.
 
 ### getQuery($where) protected method
 > return [yii\db\Query](http://www.yiichina.com/doc/api/2.0/yii-db-query) or [yii\db\ActiveRecord](http://www.yiichina.com/doc/api/2.0/yii-db-activerecord) 
@@ -118,7 +118,7 @@ The default Query Query object returned by $modelClass, if it is a complex query
 
 ### afterSearch(&$array) protected method
 
-Incoming query by reference [getQuery ()](#getquery($where)-protected-method) Query the data formatted as date and time:
+Incoming query by reference [getQuery ()](#getquerywhere-protected-method) Query the data formatted as date and time:
 
 ```php
     protected function afterSearch(&$array) 
