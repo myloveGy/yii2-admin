@@ -100,6 +100,9 @@ m.fn.extend({
 ## About the right side of the table operation option button configuration
 Configuration name | Types of | Defaults | Description
 :-----------------------|:-----------|:--------------------|:---------------
-operations.
+operations.bOpen        | boolean    | true                | Whether to open
+operations.bOpen        | boolean    | true                | Whether to open
+
+
 
 [←  Controller description](./controller.md)
