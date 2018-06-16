@@ -590,7 +590,7 @@
 
             // 添加字段信息
             this.options.table.aoColumns.forEach(function (k, v) {
-                if (k.data && (k.isExport === undefined)) {
+                if (k.data && (k.isExport !== true || k.bExport !== true)) {
                     html += '<input type="hidden" name="fields[' + k.data + ']" value="' + k.title + '"/>';
                 }
             });
@@ -669,7 +669,7 @@
                 if (k.edit !== undefined) form += meTables.formCreate(k, self.options.editFormParams);	// 编辑表单信息
                 if (k.search !== undefined) self.options.searchHtml += meTables.searchInputCreate(k, v, self.options.searchType);  // 搜索信息
                 if (k.defaultOrder) aOrders.push([v, k.defaultOrder]);							// 默认排序
-                if (k.isHide) aTargets.push(v);													// 是否隐藏
+                if (k.isHide || k.bHide) aTargets.push(v);													// 是否隐藏
 
                 // 判断行内编辑
                 if (self.options.editable && k.editable !== undefined) {

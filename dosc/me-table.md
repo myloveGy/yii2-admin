@@ -156,5 +156,131 @@ $(document).on('click', '.role-edit', function () {
 
 ## About the configuration of jquery.dataTables.js
 
+Configuration name | Types of | Defaults | Description
+:-----------------------|:-----------|:--------------------|:---------------
+table                   | object     |                     | Configuration of jquery.dataTables.js
 
+### Introduces the configuration of the aoColumns table column，[more](http://www.datatables.club/reference/option/)
+Configuration name | Types of | Description
+:------------|:-----------|:---------------
+title        | string     | The name of the column                 
+data         | string     | Column data field
+render       | function   | Rendering function[more description](http://www.datatables.club/reference/option/columns.render.html)         
+createdCell  | function   | Line creation processing function[more description](http://www.datatables.club/reference/option/columns.createdCell.html)
+
+Configuration example:
+```js
+var m = meTables({
+    table: {
+        aoColumns: [
+            {
+                title: "id",
+                data: "id",
+                render: function (data) {
+                    return data === 1 ? "yes" : "no";
+                }
+            },
+            {
+                title: "name",
+                data: "name",
+                createdCell: function (td, data) {
+                    $(td).html(data === 1 ? "username": "name");
+                }
+            }
+        ],
+    },
+    ...
+});
+```
+### meTable self-defined aoColumns configuration
+Configuration name | Types of |  Defaults | Description
+:------------|:----------- |:-----------|:-----------------
+bHide        | boolean     | false      | Hide and divert
+isHide       | boolean     | false      | Hide and divert(bHide Alias)        
+bExport      | boolean     | false      | Export diverted
+isExport     | boolean     | false      | Export diverted(bExport Alias)
+bViews       | boolean     | true       | Details show this line
+defaultOrder | string      | null       | Default sorting method(asc or desc)
+search       | object      | undefined  | Search processing configuration
+edit         | object      | undefined  | Edit processing configuration
+value        | object      | undefined  | Provide search and edit support data
+
+Configuration example:
+```js
+var m = meTables({
+    table: {
+        aoColumns: [
+            {
+                title: "id",
+                data: "id",
+                render: function (data) {
+                    return data === 1 ? "yes" : "no";
+                },
+                defaultOrder: "desc",
+                search: {type: "text"},
+                edit: {type: "hidden"}
+            },
+            {
+                title: "name",
+                data: "name",
+                createdCell: function (td, data) {
+                    $(td).html(data === 1 ? "username": "name");
+                },
+                
+                /**
+                 * This configuration will generate a drop-down box
+                 * <select name="username" required=true number=true>
+                 *     <option value="1">123</option>
+                 *     <option value="2">456</option>
+                 * </select>    
+                 */
+                value: {"1": "123", "2": "456"},
+                edit: {type: "select", required: true, number: true}
+            }
+        ],
+    },
+    ...
+});
+```
+
+#### About type support for search configuration in aoColumns:
+1. text
+2. select
+
+**You can also customize:**
+```js
+meTables.extend({
+    /**
+     * 定义搜索表达(函数后缀名SearchCreate)
+     * 使用配置 search: {"type": "email", "id": "search-email"}
+     * search 里面配置的信息都通过 params 传递给函数
+     */
+    "emailSearchCreate": function(params) {
+        return '<input type="text" name="' + params.name +'">';
+    }
+});
+```
+
+#### About type support for edit configuration in aoColumns:
+1. text
+2. select
+3. radio
+4. checkbox
+5. hidden
+6. file
+7. textarea
+8. password
+**You can also customize:**
+```js
+meTables.extend({
+    /**
+     * 定义编辑表单(函数后缀名Create)
+     * 使用配置 edit: {"type": "email", "id": "user-email"}
+     * edit 里面配置的信息都通过 params 传递给函数
+     */
+    "emailCreate": function(params) {
+        return '<input type="email" name="' + params.name + '"/>';
+    }
+});
+```
 [←  Controller description](./controller.md)
