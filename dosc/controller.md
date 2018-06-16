@@ -17,14 +17,14 @@ $strUploadPath|string | ./uploads/| Upload file save path
 Method           | Description          | Related service methods
 :----------------|:------------         |:----------------------------
 actionIndex()    | Display view file    |
-actionSearch()   | Search method to provide data for the front end| [where() Provide query conditions]()、[getQuery() Provide query object]()、[afterSearch() Data processing after query]()
+actionSearch()   | Search method to provide data for the front end| [where() Provide query conditions](#where()-public-method)、[getQuery() Provide query object](#getquery($where)-protected-method)、[afterSearch() Data processing after query](#aftersearch(&$array)-protected-method)
 actionCreate()   | Create data          |
 actionUpdate()   | Change the data      |
 actionDelete()   | Delete Data          |
 actionDeleteAll()| Delete multiple data |
 actionEditable() | Edit data inline     |
-actionUpload()   | File Upload          | [ afterUpload() File upload processing]()
-actionExport()   | Data output          | [where() Provide query conditions](#where)、[getQuery() Provide query object]()、[getExportHandleParams() Provide data export processing parameters ]()
+actionUpload()   | File Upload          | [ afterUpload() File upload processing](#afterupload($object,-&$strfilePath,-$strfield)-protected-method)
+actionExport()   | Data output          | [where() Provide query conditions](#where()-public-method)、[getQuery() Provide query object](#getquery($where)-protected-method)、[getExportHandleParams() Provide data export processing parameters ](#getexporthandleparams()-protected-method)
 
 ### The public method
 
@@ -118,14 +118,14 @@ The default Query Query object returned by $modelClass, if it is a complex query
 
 ### afterSearch(&$array) protected method
 
-通过引用传入查询 getQuery() 查询出来的数据比如日期时间的格式化：
+Incoming query by reference [getQuery ()](#getquery($where)-protected-method) Query the data formatted as date and time:
 
-```
+```php
     protected function afterSearch(&$array) 
     {
         foreach ($array as &$value) {
             $value['created_at']  = date('Y-m-d H:i:s', $value['created_at']);
-            $value['status_name'] = $value['status'] == 10 ? '开启' : '关闭'; 
+            $value['status_name'] = $value['status'] == 10 ? 'open' : 'close'; 
         }
         
         unset($value);
@@ -136,29 +136,29 @@ The default Query Query object returned by $modelClass, if it is a complex query
 
 > return [yii\db\ActiveRecord](http://www.yiichina.com/doc/api/2.0/yii-db-activerecord)
 
-通过请求参数查询对象，没有查询到会设置错误，返回false
+By querying the parameters of the request object, no query will set the error, return false
 
 ### afterUpload($object, &$strFilePath, $strField) protected method
 
 > return boolean
 
-文件上传之后的处理，主要是对图片的裁剪和修改
+After the file is uploaded, the processing is mainly to crop and modify the picture.
 
 ### getExportHandleParams() protected method
 > return an array
 
-主要用来对导出数据做格式化的处理(需要处理的数据)，返回一个数组：
+Mainly used to format the exported data (data that needs to be processed) and returns an array:
 
-```
+```php
     protected function getExportHandleParams()
     {
         return [
-            // 只能是需要格式化的数据，然后对应一个匿名函数处理
+            // Can only be the data that needs to be formatted, and then corresponds to an anonymous function
             'created_at' => function ($value) {
                 return date('Y-m-d H:i:s', $value);
             },
             'status' => function ($value) {
-                return $value == 10 ? '开启' : '关闭';
+                return $value == 10 ? 'open' : 'close';
             }
         ];
     }
