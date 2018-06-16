@@ -270,6 +270,7 @@ meTables.extend({
 6. file
 7. textarea
 8. password
+
 **You can also customize:**
 ```js
 meTables.extend({
@@ -281,6 +282,23 @@ meTables.extend({
     "emailCreate": function(params) {
         return '<input type="email" name="' + params.name + '"/>';
     }
+});
+```
+
+#### The editor supports the validation configuration. For details, see the configuration of [jquery.validate.js](https://jqueryvalidation.org/documentation/). You just configure the validation rules in edit.
+```js
+var m = meTables({
+    table: {
+        aoColumns: [
+            {
+                title: "id",
+                data: "id",
+                // Verification cannot be empty, between 2,100 characters in length
+                edit: {type: "text", required: true, rangelength: "[2, 100]"}
+            }
+        ],
+    },
+    ...
 });
 ```
 [←  Controller description](./controller.md)
