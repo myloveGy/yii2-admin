@@ -71,7 +71,7 @@
                     this.options.table.bServerSide = false;
                     this.options.table.lengthMenu = [100, 200, 300, 500, 1000];
                     this.options.table.pageLength = 100;
-                    this.options.operations.isOpen = false;
+                    this.options.operations.bOpen = false;
                     this.options.buttons = this.extend(this.options.buttons, {
                         "create": {bShow: false},
                         "updateAll": {bShow: false}
@@ -110,7 +110,7 @@
             }
 
             // 判断添加数据(操作选项)
-            if (this.options.operations.isOpen) {
+            if (this.options.operations.bOpen) {
                 for (var s in this.options.operations.buttons) {
                     if (this.options.operations.buttons[s]["bShow"] === false) {
                         delete this.options.operations.buttons[s];
@@ -1548,7 +1548,7 @@
 
             // 操作选项
             , operations: {
-                isOpen: true,
+                bOpen: true,
                 width: "120px",
                 // title: meTables.fn.getLanguage("sOperation"),
                 defaultContent: "",
