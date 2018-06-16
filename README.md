@@ -75,7 +75,7 @@ return [
 
 There are also some param configuration, not mandatory, with default values
 
-```
+```php
 // Need to configure params.php
 return [
     // Background prefix, used to import data, the prefix of the permission name; currently there is no good solution, all use this configuration item
@@ -98,7 +98,7 @@ return [
 
 About the configuration of permissions
 ------------------------------------------
-```
+```php
 return [
     'components' => [
         'modules' => [

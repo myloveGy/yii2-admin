@@ -26,6 +26,8 @@ actionEditable() | Edit data inline     |
 actionUpload()   | File Upload          | [ afterUpload() File upload processing](#afteruploadobject-strfilepath-strfield-protected-method)
 actionExport()   | Data output          | [where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[getExportHandleParams() Provide data export processing parameters ](#getexporthandleparams-protected-method)
 
+*About the actionSearch method, the parameters of the front-end query request need to be passed through Yii::$app->request->post('params');*
+
 ### The public method
 
 Method  | Description

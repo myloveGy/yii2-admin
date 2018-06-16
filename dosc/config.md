@@ -16,7 +16,7 @@ userLinks          | array        | [...]        | User related link group
 
 ##### Use these configurations
 
-```
+```php
 return [
     'components' => [
         'modules' => [
