@@ -301,4 +301,90 @@ var m = meTables({
     ...
 });
 ```
+## About the configuration of the event
+>Implemented by the specified method
+
+Method name                 | return value  | description
+:---------------------------|:--------------|:------------
+beforeShow(data, child)     | true          | Process before displaying the form
+afterShow(data, child)      | true          | Display the form after processing
+beforeSave(data, child)     | true          | Data processing before saving
+afterShow(data, child)      | true          | Data processing after saving
+
+>1. **beforeShow,afterShow Only triggers when creating and modifying data**
+>2. **beforeSave,afterSave Will trigger when creating data, modifying data, deleting data**
+
+All functions that return false will prevent the program from continuing
+
+```js
+meTables.fn.extend({
+    beforeShow: function(data, child) {
+        alert(this.action); // this.action Can be: "update" or "create"
+        if (this.action === "update") {
+            console.info(data);
+        }
+        return true;
+    },
+    afterShow: function(data, child) {
+        alert(this.action); // this.action Can be: "update" or "create"
+        if (this.action === "update") {
+            console.info(data); // When modified, data is the data of the table row
+        }
+        return true;
+    },
+    
+    beforeSave: function(data, child) {
+        alert(this.action); // this.action Can be: "update" or "create" or "delete"
+        return true;
+    },
+    afterSave: function(data, child) {
+        alert(this.action); // this.action Can be: "update" or "create" or "delete"
+        return true;
+    }
+});
+```
+
+## About file upload configuration
+```js
+m = meTables({
+    title: "管理员信息",
+    // The first step: need to configure fileSelector, the selector array of the file upload form
+    fileSelector: ["#file"],
+    table: {
+        aoColumns: [
+            {
+                "title": "头像",
+                "data": "face",
+                "bHide": true,
+                // Step 2: Configure Upload File Form
+                "edit": {
+                    "type": "file",
+                    options: {
+                        "id": "file",
+                        "name": "UploadForm[face]",
+                        "input-name": "face",
+                        "input-type": "ace_file",
+                        "file-name": "face"
+                    }
+                }
+            }
+            
+        ],
+    }
+});
+
+// Step 3: Reset upload when new data is configured, and upload file when modifying data
+mt.fn.extend({
+    beforeShow: function (data) {
+        $("#file").ace_file_input("reset_input");
+        // 修改复值
+        if (this.action == "update" && !empty(data.face)) {
+            $("#file").ace_file_input("show_file_list", [data.face]);
+        }
+
+        return true;
+    }
+});
+```
+
 [←  Controller description](./controller.md)
