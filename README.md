@@ -143,7 +143,7 @@ http://localhost/path/to?index.php?r=admin/default/login
 
 ## Documentation
 
-Please refer to our extensive [Module configuration description](./dosc/config.md) for more information.
+Please refer to our extensive [Module configuration description](https://github.com/myloveGy/yii2-admin/wiki/2.Module-configuration) for more information.
 
 ### Routing permission control description
 
