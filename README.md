@@ -3,15 +3,15 @@ Yii2 Ace Admin Background extension
 
 Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
 
-#### Features
+## Features
 * Use RBAC rights management, all operations based on privilege control
 * View using JS control, data display using jquery.DataTables
 * Based on the data table add, delete, change, check have package, add new data table operation is convenient
-### Installation requirements
+## Installation requirements
 * PHP >= 5.4
 * MySQL
 
-### Installation
+## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
@@ -120,19 +120,19 @@ return [
 ]
 ```
 
-### Import permission information table structure
+## Import permission information table structure
 ```
 php yii migrate --migrationPath=@yii/rbac/migrations
 ```
 
-### Importing data information such as table structure and permission configuration required in the background
+## Importing data information such as table structure and permission configuration required in the background
 ```
 php yii migrate --migrationPath=@jinxing/admin/migrations
 ```
 
-#### Now you can preview your background
-##### Default account: super
-##### Default password: admin123
+### Now you can preview your background
+### Default account: super
+### Default password: admin123
 
 ```
 
@@ -145,7 +145,7 @@ http://localhost/path/to?index.php?r=admin/default/login
 
 Please refer to our extensive [Module configuration description](https://github.com/myloveGy/yii2-admin/wiki/2.Module-configuration) for more information.
 
-### Routing permission control description
+## Routing permission control description
 
 Basic operation permissions (take administrators as an example)：
 
@@ -160,7 +160,7 @@ Basic operation permissions (take administrators as an example)：
 
 Each request corresponds to a permission, the request path is the name of the permission, and the permission validation is verified in the beforeAction method in the Module
 
-### Preview
+## Preview
 1. Login page
 ![登录页](./dosc/images/desc1.png)
 2. Data Display
