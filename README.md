@@ -131,14 +131,13 @@ php yii migrate --migrationPath=@jinxing/admin/migrations
 ```
 
 ### Now you can preview your background
-### Default account: super
-### Default password: admin123
-
+### Default super administrator: super
+### Default super administrator password: admin123
+> Default administrator: admin 
+Default administrator password: admin888
 ```
-
 // Login address
 http://localhost/path/to?index.php?r=admin/default/login
-
 ```
 
 ## Documentation
