@@ -143,7 +143,8 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo"
-                             src="<?= ArrayHelper::getValue($user, 'face', $url . '/avatars/avatar.jpg') ?>"
+                             <?php $user_avatar = ArrayHelper::getValue($user, 'face'); ?>
+                             src="<?= $user_avatar ? $user_avatar : $url . '/avatars/avatar.jpg';  ?>"
                              alt="Jason's Photo"/>
                         <span class="user-info">
                                 <small>欢迎登录</small><?= $user->username ?>
