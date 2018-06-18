@@ -53,7 +53,7 @@ return [
             'class' => '\yii\web\User',
             'identityClass' => 'jinxing\admin\models\Admin',
             'enableAutoLogin' => true,
-            'loginUrl' => ['/admin/admin/default/login'],
+            'loginUrl' => ['/admin/default/login'],
             'idParam' => '_adminId',
             'identityCookie' => ['name' => '_admin','httpOnly' => true],
         ],
@@ -79,7 +79,7 @@ There are also some param configuration, not mandatory, with default values
 // Need to configure params.php
 return [
     // Background prefix, used to import data, the prefix of the permission name; currently there is no good solution, all use this configuration item
-    'admin_rule_prefix' => 'admin/admin', 
+    'admin_rule_prefix' => 'admin', 
     
      // Login navigation menu cache time
     'cacheTime'         => 86400,    
