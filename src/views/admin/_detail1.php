@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
             <div>
                 <span class="profile-picture">
                     <img id="avatar" class="editable img-responsive editable-click editable-empty" alt="Alex's Avatar"
-                         src="<?= ArrayHelper::getValue($admin, 'face', '/public/assets/avatars/profile-pic.jpg') ?>"/>
+                         src="<?= $avatar ?>"/>
                 </span>
                 <div class="space-4"></div>
                 <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">

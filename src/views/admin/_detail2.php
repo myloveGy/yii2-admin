@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-3 center">
 							<span class="profile-picture">
-								<img src="<?= \yii\helpers\ArrayHelper::getValue($admin, 'face', '/public/assets/avatars/profile-pic.jpg') ?>"
+								<img src="<?= $avatar ?>"
                                      id="avatar2" alt="Alex's Avatar" class="editable img-responsive">
 							</span>
 

@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use jinxing\admin\AdminAsset;
 
 $this->title = '管理员个人信息';
@@ -31,6 +32,10 @@ $this->registerJsFile($url . '/js/jquery.maskedinput.min.js', $depends);
 $this->registerJsFile($url . '/js/jquery.validate.min.js', $depends);
 $this->registerJsFile($url . '/js/validate.message.js', $depends);
 
+// 头像处理
+$avatar = ArrayHelper::getValue($admin, 'face');
+$avatar = $avatar ?: $url . '/avatars/avatar.jpg';
+$renderParams = compact('address', 'china', 'logs', 'admin', 'avatar');
 ?>
 <div class="clearfix">
     <div class="pull-left alert alert-success no-margin">
@@ -64,9 +69,9 @@ $this->registerJsFile($url . '/js/validate.message.js', $depends);
 
 <div class="hr dotted"></div>
 <!-- 用户信息的显示 -->
-<?= $this->render('_detail1', ['address' => $address, 'china' => $china, 'logs' => $logs, 'admin' => $admin]) ?>
-<?= $this->render('_detail2', compact('admin')) ?>
-<?= $this->render('_detail3', compact('admin')) ?>
+<?= $this->render('_detail1', $renderParams) ?>
+<?= $this->render('_detail2', $renderParams) ?>
+<?= $this->render('_detail3', $renderParams) ?>
 <?php $this->beginBlock('javascript') ?>
 <?= $this->blocks['javascript-1'] ?>
 <?= $this->blocks['javascript-3'] ?>
