@@ -104,7 +104,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
         }
 
         #page-content {
-            overflow-y: hidden;
+            overflow: hidden;
             padding-right: 0;
             padding-bottom: 0;
             padding-left: 0
@@ -143,8 +143,8 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo"
-                             <?php $user_avatar = ArrayHelper::getValue($user, 'face'); ?>
-                             src="<?= $user_avatar ? $user_avatar : $url . '/avatars/avatar.jpg';  ?>"
+                            <?php $user_avatar = ArrayHelper::getValue($user, 'face'); ?>
+                             src="<?= $user_avatar ? $user_avatar : $url . '/avatars/avatar.jpg'; ?>"
                              alt="Jason's Photo"/>
                         <span class="user-info">
                                 <small>欢迎登录</small><?= $user->username ?>
@@ -275,6 +275,11 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                 <div class="next options hide" id="window-next">
                     <a href="#"><i class="ace-icon fa fa-forward"></i></a>
                 </div>
+                <div class="options hide" id="close-all-page">
+                    <a href="#" title="<?= Yii::t('admin', 'close all') ?>">
+                        <i class="ace-icon fa fa-times-circle bigger-150 red icon-only"></i>
+                    </a>
+                </div>
             </div>
 
             <!--搜索-->
@@ -327,9 +332,18 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
         $("#page-content").css("height", $(window).height() - $("#page-content").offset()["top"] - $(".footer").innerHeight() + "px")
     }
 
+    function removeOverlay() {
+        $divContent.find("div.widget-box-overlay").remove();
+    }
+
     function addDiv(strId, strTitle) {
         $windowDiv.find("div.active").removeClass("active");
-        if ($windowDiv.find("div:not(div.hide)").size() >= intSize) {
+        var size = $windowDiv.find("div:not(div.hide)").size();
+        if (size >= 3) {
+            $("#close-all-page").removeClass("hide");
+        }
+
+        if (size >= intSize) {
             $windowDiv.find("div:not(div.hide):first").addClass("hide");
             $("#window-prev").removeClass("hide");
         }
@@ -345,9 +359,13 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
             $divContent.find("#" + strId).addClass("active").removeClass("hide");
             $windowDiv.find("div[data-id=" + strId + "]").addClass("active");
         } else {
-            var strIframe = '<iframe id="' + strId + '" name="' + strId + '" ' + 'width="100%" class="active iframe" height="100%" src="' + strUrl + '" frameborder="0"></iframe>';
+            var strIframe = '<iframe id="' + strId + '" name="' + strId + '" '
+                + 'width="100%" class="active iframe" height="100%" src="' + strUrl + '" frameborder="0"></iframe>'
+                + '<div class="widget-box-overlay" style="background-color: white">' +
+                '<i class="' + ace.vars['icon'] +
+                'loading-icon fa fa-spinner fa-spin fa-2x orange bigger-290"></i></div>';
             addDiv(strId, $.trim(strTitle));
-            $("#page-content").append(strIframe);
+            $divContent.append(strIframe);
         }
     }
 
@@ -355,6 +373,21 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
         $(window).resize(function () {
             authHeight()
         });
+
+        // 关闭全部
+        $("#close-all-page a").click(function() {
+            $windowDiv.find("div.me-div").each(function() {
+                if($(this).hasClass("active")) {
+                    $(this).removeClass("hide");
+                } else {
+                    $("#" + $(this).data("id")).remove();
+                    $(this).remove();
+                }
+            });
+
+            $(this).parent().add("#window-next").add("#window-prev").addClass("hide");
+        });
+
         $("#window-refresh").click(function (evt) {
             evt.preventDefault();
             var objActive = $("#page-content iframe.active").get(0);
@@ -387,6 +420,10 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
             $parent.remove();
             $("#" + $parent.attr("data-id")).remove();
             var intShowDiv = $windowDiv.find("div:not(div.hide)").size();
+            if (intShowDiv <= 2) {
+                $("#close-all-page").addClass("hide");
+            }
+
             if ($windowDiv.find("div:not(div.hide):last").next("div").size() <= 0 || intShowDiv < intSize) {
                 $("#window-next").addClass("hide")
             }

@@ -94,6 +94,9 @@ list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
 </script>
 <![endif]-->
 <script type="text/javascript">
+    try {
+        window.parent.removeOverlay();
+    } catch (e) {}
     if('ontouchstart' in document.documentElement) document.write("<script src='<?=$url?>/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 </script>
 <script src="<?=$url?>/js/bootstrap.min.js"></script>
