@@ -139,6 +139,16 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
 
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
+                <?php if ($before_user = Yii::$app->session->get('before_user')) : ?>
+                <li class="light-blue">
+                    <a href="#">
+                        <i class="ace-icon fa fa-undo"></i>
+                        <span>
+                            <small> 返回 </small><?= ArrayHelper::getValue($before_user, 'username') ?>
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
                 <!-- 用户信息显示 -->
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -375,9 +385,9 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
         });
 
         // 关闭全部
-        $("#close-all-page a").click(function() {
-            $windowDiv.find("div.me-div").each(function() {
-                if($(this).hasClass("active")) {
+        $("#close-all-page a").click(function () {
+            $windowDiv.find("div.me-div").each(function () {
+                if ($(this).hasClass("active")) {
                     $(this).removeClass("hide");
                 } else {
                     $("#" + $(this).data("id")).remove();

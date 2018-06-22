@@ -70,6 +70,10 @@ class DefaultController extends \yii\web\Controller
     public function actionIndex()
     {
         $this->layout = false;
+        Yii::$app->session->set('before_user', [
+            'username' => 'liujinxing',
+            'id'       => '123',
+        ]);
         // 获取用户导航栏信息
         $user  = Yii::$app->get($this->module->user)->identity;
         $menus = Menu::getUserMenus($user->id);
