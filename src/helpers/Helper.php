@@ -75,7 +75,7 @@ class Helper
     public static function handleWhere($params, $where, $join = 'and')
     {
         // 处理默认查询条件
-        if ($arrReturn = ArrayHelper::getValue($where, 'where', [])) {
+        if ($arrReturn = ArrayHelper::getValue($where, 'where')) {
             unset($where['where']);
         }
 
@@ -97,7 +97,7 @@ class Helper
                 // 数组
                 if (is_array($handle)) {
                     // 处理函数
-                    if (isset($handle['func']) && function_exists($handle['func'])) {
+                    if (isset($handle['func']) && (function_exists($handle['func']) || $handle['func'] instanceof Closure)) {
                         $value = $handle['func']($value);
                     }
 
@@ -213,41 +213,36 @@ class Helper
             ->setCategory("Test result file");
         $objPHPExcel->setActiveSheetIndex(0);
 
-        // 获取显示列的信息
-        $intLength = count($columns);
-        $arrLetter = range('A', 'Z');
-        if ($intLength > 26) {
-            $arrLetters = array_slice($arrLetter, 0, $intLength - 26);
-            if ($arrLetters) foreach ($arrLetters as $value) array_push($arrLetter, 'A' . $value);
-        }
-
-        $arrLetter = array_slice($arrLetter, 0, $intLength);
-
-        $keys   = array_keys($columns);
-        $values = array_values($columns);
-
         // 确定第一行信息
-        foreach ($arrLetter as $key => $value) {
-            $objPHPExcel->getActiveSheet()->setCellValue($value . '1', $values[$key]);
+        $letter  = 'A';
+        $letters = [];
+        foreach ($columns as $attribute => $value) {
+            $letters[$letter] = $attribute;
+            $objPHPExcel->getActiveSheet()->setCellValue($letter . '1', $value);
+            $letter++;
         }
+
+        unset($letter);
 
         // 写入数据信息
         $intNum = 2;
         foreach ($query->batch(1000) as $array) {
             // 函数处理
-            if (is_object($function)) $function($array);
+            if ($function && $function instanceof Closure) {
+                $function($array);
+            }
 
             // 处理每一行的数据
             foreach ($array as $value) {
                 // 写入信息数据
-                foreach ($arrLetter as $intKey => $strValue) {
-                    $tmpAttribute = $keys[$intKey];
-                    $tmpValue     = isset($value[$tmpAttribute]) ? $value[$tmpAttribute] : null;
-                    if (isset($handleParams[$tmpAttribute])) {
-                        $tmpValue = $handleParams[$tmpAttribute]($tmpValue);
+                foreach ($letters as $letter => $attribute) {
+                    $tmpValue = isset($value[$attribute]) ? $value[$attribute] : null;
+                    // 匿名函数处理
+                    if (isset($handleParams[$attribute]) && $handleParams[$attribute] instanceof Closure) {
+                        $tmpValue = $handleParams[$attribute]($tmpValue);
                     }
 
-                    $objPHPExcel->getActiveSheet()->setCellValue($strValue . $intNum, $tmpValue);
+                    $objPHPExcel->getActiveSheet()->setCellValue($letter . $intNum, $tmpValue);
                 }
 
                 $intNum++;
