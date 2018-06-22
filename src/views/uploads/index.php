@@ -118,6 +118,12 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
 
             $form = $("#edit-form");
 
+            // 新版本上传修改
+            var csrfParam = $('meta[name=csrf-param]').attr('content') || "_csrf",
+                csrfToken = $('meta[name=csrf-token]').attr('content'),
+                params = {};
+            params[csrfParam] = csrfToken;
+
             Dropzone.autoDiscover = false;
 
             try {
@@ -125,9 +131,7 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
                     url: "<?=Url::toRoute(['uploads/upload', 'sField' => 'url'])?>",
                     // The name that will be used to transfer the file
                     paramName: "UploadForm[url]",
-                    params: {
-                        "_csrf": $('meta[name=csrf-token]').attr('content')
-                    },
+                    params: params,
                     maxFilesize: 2, // MB
                     addRemoveLinks: true,
                     dictDefaultMessage:
