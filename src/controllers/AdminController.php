@@ -3,6 +3,8 @@
 namespace jinxing\admin\controllers;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\image\drivers\Image;
 use jinxing\admin\models\AdminLog;
 use jinxing\admin\helpers\Helper;
@@ -34,7 +36,7 @@ class AdminController extends Controller
     public function where()
     {
         $where  = [];
-        $intUid = (int)$this->module->getUserId();
+        $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
             $where = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
         }
@@ -50,29 +52,53 @@ class AdminController extends Controller
 
     /**
      * 首页显示
+     *
      * @return string
+     *
      * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {
+        /* @var $admin \yii\web\User */
+        $admin = ArrayHelper::getValue($this->module, 'admin');
+
         // 查询用户数据
         return $this->render('index', [
             'admins'      => Admin::getAdmins(),
-            'roles'       => Admin::getArrayRole($this->module->getUserId()),      // 用户角色
-            'status'      => Admin::getArrayStatus(),    // 状态
-            'statusColor' => Admin::getStatusColor(), // 状态对应颜色,'
-            'auth'        => Auth::getDataTableAuth($this->module->user)
+            'roles'       => Admin::getArrayRole($admin->id),       // 用户角色
+            'status'      => Admin::getArrayStatus(),               // 状态
+            'statusColor' => Admin::getStatusColor(),               // 状态对应颜色
+            'auth'        => Auth::getDataTableAuth(ArrayHelper::getValue($this->module, 'user')),
+            'isSuper'     => $admin->can(Auth::SUPER_ADMIN_NAME),
+            'admin'       => ArrayHelper::getValue($this->module, 'admin.identity')
         ]);
+    }
+
+    public function afterSearch(&$array)
+    {
+        /* @var $admin \yii\web\User */
+        $admin = ArrayHelper::getValue($this->module, 'admin');
+        if ($admin->can(Auth::SUPER_ADMIN_NAME)) {
+            foreach ($array as &$user) {
+                $user['switch_user_login'] = Helper::getSwitchLoginUrl(
+                    $admin->id,
+                    $user['id'],
+                    [],
+                    Url::toRoute('default/switch-login')
+                );
+            }
+        }
     }
 
     /**
      * 查看个人信息
+     *
      * @return string
      */
     public function actionView()
     {
         $address = Yii::t('admin', 'Select county');
-        $admin   = $this->module->getUser()->identity;
+        $admin   = ArrayHelper::getValue($this->module, 'admin.identity');
         $china   = [];
         if ($admin->address) {
             $arrAddress = explode(',', $admin->address);
@@ -136,7 +162,7 @@ class AdminController extends Controller
                 $image->resize(48, 48, Image::CROP)->save();
 
                 // 管理员页面修改头像
-                $admin = Admin::findOne($this->module->getUserId());
+                $admin = ArrayHelper::getValue($this->module, 'admin.identity');
                 if ($admin && $strField === 'avatar') {
                     // 删除之前的图像信息
                     if ($admin->face && file_exists('.' . $admin->face)) {
@@ -217,7 +243,6 @@ class AdminController extends Controller
             }
         }
 
-        AdminLog::create(AdminLog::TYPE_DELETE, $ids, $this->pk . '=' . $ids);
         return $this->success($arrIds, $message);
     }
 }

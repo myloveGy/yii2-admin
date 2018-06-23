@@ -175,4 +175,14 @@ class Module extends yii\base\Module
     {
         return $this->getUser()->id;
     }
+
+    /**
+     * @return null|object
+     *
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getAdmin()
+    {
+        return $this->getUser();
+    }
 }

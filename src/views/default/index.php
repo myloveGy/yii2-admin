@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use jinxing\admin\AppAsset;
 use jinxing\admin\widgets\Nav;
+use jinxing\admin\helpers\Helper;
 
 AppAsset::register($this);
 list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
@@ -140,14 +141,19 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
                 <?php if ($before_user = Yii::$app->session->get('before_user')) : ?>
-                <li class="light-blue">
-                    <a href="#">
-                        <i class="ace-icon fa fa-undo"></i>
-                        <span>
+                    <li class="light-blue">
+                        <a href="<?= Helper::getSwitchLoginUrl(
+                            $user->id,
+                            ArrayHelper::getValue($before_user, 'id'),
+                            [],
+                            Url::toRoute('default/switch-login')
+                        ); ?>">
+                            <i class="ace-icon fa fa-undo"></i>
+                            <span>
                             <small> 返回 </small><?= ArrayHelper::getValue($before_user, 'username') ?>
                         </span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
                 <?php endif; ?>
                 <!-- 用户信息显示 -->
                 <li class="light-blue">

@@ -297,4 +297,109 @@ class Helper
 
         return $array;
     }
+
+    /**
+     * 获取登录地址
+     *
+     * @param  integer $beforeUserId
+     * @param  integer $afterUseId
+     * @param array    $params
+     * @param string   $url
+     *
+     * @return string
+     */
+    public static function getSwitchLoginUrl(
+        $beforeUserId,
+        $afterUseId,
+        $params = [],
+        $url = '/admin/admin/default/switch-login'
+    )
+    {
+        $params = array_merge([
+            'before_user_id' => $beforeUserId,
+            'after_user_id'  => $afterUseId,
+            'time'           => time(),
+        ], $params);
+
+        $params['sign'] = static::getSign($params);
+        return $url . '?token=' . base64_encode(json_encode($params));
+    }
+
+    /**
+     * 获取切换登录信息
+     *
+     * @param string $token
+     * @param array  $notEmpty
+     *
+     * @return bool|mixed
+     */
+    public static function getSwitchLoginInfo($token = '', $notEmpty = [])
+    {
+        // 验证数据
+        if (!$token || (!$array = json_decode(base64_decode($token), true))) {
+            return false;
+        }
+
+        // 验证必要参数
+        array_push($notEmpty, 'time', 'sign', 'before_user_id', 'after_user_id');
+        if (!static::validateNotEmpty($array, $notEmpty)) {
+            return false;
+        }
+
+        // 验证密钥
+        $sign = $array['sign'];
+        unset($array['sign']);
+        if ($sign !== static::getSign($array)) {
+            return false;
+        }
+
+        // 验证时间
+        if ((time() - $array['time']) > 3600) {
+            return false;
+        }
+
+        return $array;
+    }
+
+    /**
+     * 获取密钥
+     *
+     * @param array  $params
+     * @param string $salt
+     *
+     * @return string
+     */
+    public static function getSign($params = [], $salt = 'NtuGEpZiKjfS91Fy')
+    {
+        ksort($params);
+        $str = [];
+        foreach ($params as $key => $val) {
+            $str[] = "{$key}={$val}";
+        }
+
+        return md5(implode('&', $str) . $salt);
+    }
+
+    /**
+     * 验证数据中不允许为空的字段信息
+     *
+     * @param array $params       需要验证的数组
+     * @param array $needValidate 不能为空的字段
+     *
+     * @return bool
+     */
+    public static function validateNotEmpty($params = [], $needValidate = [])
+    {
+        if (empty($needValidate)) {
+            return true;
+        }
+
+        foreach ($needValidate as $key) {
+            if (empty($params[$key])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -6,7 +6,9 @@ use jinxing\admin\models\Admin;
 use jinxing\admin\models\AuthAssignment;
 use yii\helpers\Json;
 use jinxing\admin\helpers\Helper;
+use yii\helpers\ArrayHelper;
 use yii;
+
 
 /**
  * Class AuthAssignmentController 角色分配 执行操作控制器
@@ -32,12 +34,8 @@ class AuthAssignmentController extends Controller
     public function where()
     {
         return [
-            'user_id'   => function ($value) {
-                return ['in', 'user_id', $value];
-            },
-            'item_name' => function ($value) {
-                return ['in', 'item_name', $value];
-            }
+            'user_id'   => 'in',
+            'item_name' => 'in'
         ];
     }
 
@@ -48,7 +46,7 @@ class AuthAssignmentController extends Controller
     public function actionIndex()
     {
         // 查询出全部角色
-        $arrRoles = Admin::getArrayRole($this->module->getUserId());
+        $arrRoles = Admin::getArrayRole(ArrayHelper::getValue($this->module, 'userId'));
         $admins   = Admin::getAdmins();
 
         // 载入视图
@@ -110,8 +108,8 @@ class AuthAssignmentController extends Controller
         // 删除数据成功
         if ($model->delete()) {
             return $this->success($model);
-        } else {
-            return $this->error(1004, Helper::arrayToString($model->getErrors()));
         }
+
+        return $this->error(1004, Helper::arrayToString($model->getErrors()));
     }
 }

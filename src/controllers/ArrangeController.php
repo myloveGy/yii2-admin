@@ -5,6 +5,7 @@ namespace jinxing\admin\controllers;
 use Yii;
 use jinxing\admin\models\Admin;
 use jinxing\admin\models\Arrange;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ArrangeController 日程安排控制器
@@ -24,7 +25,7 @@ class ArrangeController extends Controller
      */
     public function where()
     {
-        $intUid = (int)$this->module->getUserId();
+        $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
             $where = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
         } else {
@@ -87,15 +88,12 @@ class ArrangeController extends Controller
     {
         $request = Yii::$app->request;
         // 查询条件
-        $where    = ['and', ['=', 'admin_id', $this->module->getUserId()]];
-        $strStart = $request->get('start');
-        $strEnd   = $request->get('end');
-
-        if ($strStart) {
+        $where = ['and', ['=', 'admin_id', ArrayHelper::getValue($this->module, 'userId')]];
+        if ($strStart = $request->get('start')) {
             $where[] = ['>=', 'created_at', strtotime($strStart)];
         }
 
-        if ($strEnd) {
+        if ($strEnd = $request->get('end')) {
             $where[] = ['<', 'created_at', strtotime($strEnd)];
         }
 

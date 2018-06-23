@@ -52,7 +52,7 @@ class MenuController extends Controller
             ->getTree(0, '<option value="{id}" data-pid="{pid}"> {extend_space}{menu_name} </option>');
 
         return $this->render('index', [
-            'admins' => Admin::getAdmins(),
+            'admins'  => Admin::getAdmins(),
             'options' => $strOptions,
             'parents' => Json::encode(ArrayHelper::map($parents, 'id', 'menu_name'))
         ]);
@@ -60,6 +60,7 @@ class MenuController extends Controller
 
     /**
      * 处理导出显示数据
+     *
      * @return array
      */
     public function getExportHandleParams()

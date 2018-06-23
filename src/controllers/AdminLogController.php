@@ -3,9 +3,11 @@
 namespace jinxing\admin\controllers;
 
 use jinxing\admin\models\Admin;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class AdminLogController 操作日志 执行操作控制器
+ *
  * @package backend\controllers
  */
 class AdminLogController extends Controller
@@ -29,10 +31,9 @@ class AdminLogController extends Controller
             'where'      => [],
         ];
 
-        if ($this->module->getUserId() != Admin::SUPER_ADMIN_ID) {
-            $where['where'] = [
-                ['!=', 'admin_id', Admin::SUPER_ADMIN_ID]
-            ];
+        $intUserId = ArrayHelper::getValue($this->module, 'userId');
+        if ($intUserId != Admin::SUPER_ADMIN_ID) {
+            $where['where'] = [['=', 'admin_id', $intUserId]];
         }
 
         return $where;

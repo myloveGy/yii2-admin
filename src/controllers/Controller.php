@@ -3,6 +3,7 @@
 namespace jinxing\admin\controllers;
 
 use Yii;
+use yii\base\Model;
 use yii\db\Query;
 use yii\helpers\FileHelper;
 use yii\helpers\ArrayHelper;
@@ -126,7 +127,6 @@ class Controller extends \yii\web\Controller
 
         // 查询数据
         $query = $this->getQuery(ArrayHelper::getValue($search, 'where', []));
-        if (YII_DEBUG) $this->arrJson['other'] = $query->createCommand()->getRawSql();
 
         // 查询数据条数
         if ($total = $query->count()) {
@@ -323,7 +323,6 @@ class Controller extends \yii\web\Controller
 
     /**
      * 文件上传成功的处理信息
-     * @access protected
      *
      * @param  object $object      文件上传类
      * @param  string $strFilePath 文件保存路径
@@ -358,6 +357,7 @@ class Controller extends \yii\web\Controller
 
         // 初始化上次表单model对象，并定义好验证场景
         $className = $this->uploadFromClass;
+        /* @var $model Model */
         $model     = new $className(['scenario' => $strField]);
 
         try {

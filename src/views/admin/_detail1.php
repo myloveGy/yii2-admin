@@ -209,7 +209,7 @@ use yii\helpers\ArrayHelper;
                             <?php if ($logs) : foreach ($logs as $value) : ?>
                                 <div class="profile-activity clearfix">
                                     <div>
-                                        <img class="pull-left" alt="用户头像" src="<?= $admin->face ?>"/>
+                                        <img class="pull-left" alt="用户头像" src="<?= $avatar ?>"/>
                                         <a class="user" href="#"> <?= $value['index'] ?> </a>
                                         <?= $value['request'] ?>
                                         <a href="#"><?= $value['action'] ?></a>

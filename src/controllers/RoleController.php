@@ -8,6 +8,7 @@ use jinxing\admin\helpers\Tree;
 use Yii;
 use jinxing\admin\models\Auth;
 use jinxing\admin\models\Menu;
+use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use \yii\web\UnauthorizedHttpException;
 
@@ -39,7 +40,7 @@ class RoleController extends Controller
      */
     public function where()
     {
-        $uid   = $this->module->getUserId();
+        $uid   = ArrayHelper::getValue($this->module, 'userId');
         $where = [['=', 'type', Auth::TYPE_ROLE]]; // 查询角色信息
 
         // 不是管理员
@@ -91,9 +92,9 @@ class RoleController extends Controller
         }
 
         // 判断自己是否有这个权限
-        $uid      = $this->module->getUserId();                             // 用户ID
-        $objAuth  = Yii::$app->getAuthManager();                 // 权限对象
-        $mixRoles = $objAuth->getAssignment($name, $uid);       // 获取用户是否有改权限
+        $uid      = ArrayHelper::getValue($this->module, 'userId');     // 用户ID
+        $objAuth  = Yii::$app->getAuthManager();                            // 权限对象
+        $mixRoles = $objAuth->getAssignment($name, $uid);                   // 获取用户是否有改权限
         if (!$mixRoles && $uid != Admin::SUPER_ADMIN_ID) {
             throw new UnauthorizedHttpException(Yii::t('admin', 'Sorry, you do not have permission to modify this role!'));
         }
@@ -199,8 +200,8 @@ class RoleController extends Controller
      */
     protected function getPermissions()
     {
-        $uid         = $this->module->getUserId();
-        $models      = $uid == 1 ? Auth::find()->where([
+        $uid         = ArrayHelper::getValue($this->module, 'userId');
+        $models      = $uid == Admin::SUPER_ADMIN_ID ? Auth::find()->where([
             'type' => Auth::TYPE_PERMISSION
         ])->orderBy(['name' => SORT_ASC])->all() : Yii::$app->getAuthManager()->getPermissionsByUser($uid);
         $permissions = [];
