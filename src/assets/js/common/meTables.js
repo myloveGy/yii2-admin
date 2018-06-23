@@ -1304,7 +1304,7 @@
                     html += '</tr>';
                 }
             } else {
-                html += '<tr><td width="25%">' + title + '</td><td class="views-info data-detail-' + data + '"></td></tr>';
+                html += '<tr><td class="text-right" width="25%">' + title + '</td><td class="views-info data-detail-' + data + '"></td></tr>';
             }
 
             return html;
