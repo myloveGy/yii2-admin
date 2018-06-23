@@ -63,7 +63,7 @@ class Controller extends \yii\web\Controller
         return [
             'logging' => [
                 'class' => Logging::className(),
-                'user'  => $this->module->user
+                'user'  => ArrrayHelper::getValue($this->module, 'user'),
             ],
         ];
     }
@@ -358,7 +358,7 @@ class Controller extends \yii\web\Controller
         // 初始化上次表单model对象，并定义好验证场景
         $className = $this->uploadFromClass;
         /* @var $model Model */
-        $model     = new $className(['scenario' => $strField]);
+        $model = new $className(['scenario' => $strField]);
 
         try {
             // 上传文件

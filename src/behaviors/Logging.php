@@ -32,7 +32,7 @@ class Logging extends ActionFilter
     /**
      * @var array 需要记录日志的action
      */
-    public $needLogActions = ['create', 'update', 'delete', 'delete', 'edittable', 'upload'];
+    public $needLogActions = ['create', 'update', 'delete', 'delete-all', 'editable', 'upload'];
 
     /**
      * 初始化赋值
