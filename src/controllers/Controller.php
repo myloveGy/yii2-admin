@@ -63,7 +63,7 @@ class Controller extends \yii\web\Controller
         return [
             'logging' => [
                 'class' => Logging::className(),
-                'user'  => ArrrayHelper::getValue($this->module, 'user'),
+                'user'  => ArrayHelper::getValue($this->module, 'user'),
             ],
         ];
     }
