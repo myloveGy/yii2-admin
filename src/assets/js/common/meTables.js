@@ -1298,7 +1298,7 @@
                     html += '<tr>';
                 }
 
-                html += '<td width="25%">' + title + '</td><td class="views-info data-detail-' + data + '"></td>';
+                html += '<td class="text-right" width="25%">' + title + '</td><td class="views-info data-detail-' + data + '"></td>';
 
                 if (aParams.iColsLength > 1 && iKey % aParams.iColsLength === (aParams.iColsLength - 1)) {
                     html += '</tr>';
