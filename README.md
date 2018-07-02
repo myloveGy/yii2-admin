@@ -29,7 +29,7 @@ Once the extension is installed, simply modify your application configuration as
 return [
     'modules' => [
         'admin' => [
-            'class' => 'jinxing\admin\Admin',
+            'class' => 'jinxing\admin\Module',
             
             // Make use of that kind of user
             'user' => 'admin',
@@ -103,7 +103,7 @@ return [
     'components' => [
         'modules' => [
             'admin' => [
-                'class' => 'jinxing\admin\Admin',
+                'class' => 'jinxing\admin\Module',
                 
                 // Make use of that kind of user
                 'user' => 'admin'
