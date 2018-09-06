@@ -103,7 +103,7 @@
                     "class": "center",
                     "title": '<label class="position-relative"><input type="checkbox" class="ace" /><span class="lbl"></span></label>',
                     "bViews": false,
-                    "width": "80px",
+                    "width": this.options.checkboxWidth,
                     "createdCell": function (td, data, array, row, col) {
                         $(td).html('<label class="position-relative"><input type="checkbox" value="' + row + '" class="ace" table-data="' + row + '" /><span class="lbl"></span></label>');
                     }
@@ -1371,6 +1371,7 @@
             sFormId: "#edit-form",		// 编辑表单选择器
             sMethod: "POST",			// 查询数据的请求方式
             bCheckbox: true,			// 需要多选框
+            checkboxWidth: "auto",      // 设置宽度
             params: null,				// 请求携带参数
             ajaxRequest: false,         // ajax一次性获取数据
 
