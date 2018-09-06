@@ -103,6 +103,7 @@
                     "class": "center",
                     "title": '<label class="position-relative"><input type="checkbox" class="ace" /><span class="lbl"></span></label>',
                     "bViews": false,
+                    "width": "80px",
                     "createdCell": function (td, data, array, row, col) {
                         $(td).html('<label class="position-relative"><input type="checkbox" value="' + row + '" class="ace" table-data="' + row + '" /><span class="lbl"></span></label>');
                     }
