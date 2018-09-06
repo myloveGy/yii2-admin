@@ -314,7 +314,8 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                     id="iframe-index"
                     width="100%"
                     height="100%"
-                    src="<?= Url::toRoute(['default/system']) ?>" frameborder="0"></iframe>
+                    src="<?= Url::toRoute([ArrayHelper::getValue(Yii::$app->controller->module, 'defaultAction', 'default/system')]) ?>"
+                    frameborder="0"></iframe>
         </div>
     </div>
 </div>

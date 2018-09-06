@@ -46,6 +46,11 @@ class Module extends yii\base\Module
     public $verifyAuthority = true;
 
     /**
+     * @var string 默认首页action
+     */
+    public $defaultAction = 'default/system';
+
+    /**
      * @var bool 左边头部按钮
      */
     public $leftTopButtons = [
