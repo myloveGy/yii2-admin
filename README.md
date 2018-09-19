@@ -17,7 +17,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 ```
-php composer.phar require jinxing/yii2-admin "~1.0.0"
+composer require jinxing/yii2-admin "~1.0.0"
 ```
 
 Basic Configuration
