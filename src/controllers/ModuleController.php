@@ -391,8 +391,7 @@ use jinxing\admin\widgets\MeTable;
 html;
         // 生成文件
         if (!empty($path)) {
-            $dirName = dirname($path);
-            FileHelper::createDirectory($dirName);
+            FileHelper::createDirectory(dirname($path));
             file_put_contents($path, $sHtml);
             return $strWhere;
         }
@@ -429,7 +428,7 @@ use jinxing\admin\controllers\Controller;
 
 /**
  * Class {$strName} {$title} 执行操作控制器
- * @package backend\controllers
+ * @package {$this->module->module->controllerNamespace}
  */
 class {$strName} extends Controller
 {
