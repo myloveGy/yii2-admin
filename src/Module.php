@@ -99,9 +99,9 @@ class Module extends yii\base\Module
     public function init()
     {
         parent::init();
-        
+
         // 资源处理
-        Yii::$app->assetManager->bundles     = [
+        Yii::$app->assetManager->bundles = [
             // 去掉自己的bootstrap 资源
             'yii\bootstrap\BootstrapAsset' => [
                 'css' => []
@@ -112,7 +112,7 @@ class Module extends yii\base\Module
                 'js'         => [],
             ],
         ];
-        
+
         // 设置错误处理页面
         Yii::$app->errorHandler->errorAction = $this->getUniqueId() . '/default/error';
         if (!isset(Yii::$app->i18n->translations['admin'])) {
@@ -144,16 +144,14 @@ class Module extends yii\base\Module
         }
 
         // 验证权
-        if ($this->verifyAuthority) {
-            if (!Yii::$app->get($this->user)->can($action->getUniqueId())) {
-                // 没有权限AJAX返回
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->content = Json::encode($this->error(216));
-                    return false;
-                }
-
-                throw new UnauthorizedHttpException('对不起，您现在还没获得该操作的权限!');
+        if ($this->verifyAuthority && !Yii::$app->get($this->user)->can($action->getUniqueId())) {
+            // 没有权限AJAX返回
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->content = Json::encode($this->error(216));
+                return false;
             }
+
+            throw new UnauthorizedHttpException('对不起，您现在还没获得该操作的权限!');
         }
 
         return true;
