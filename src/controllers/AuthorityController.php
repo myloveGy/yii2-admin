@@ -35,9 +35,8 @@ class AuthorityController extends RoleController
     public function actionIndex()
     {
         // 查询出全部的规则
-        $rules    = AuthRule::find()->asArray()->all();
         $arrRules = ['' => Yii::t('admin', 'please choose')];
-        if ($rules) {
+        if ($rules = AuthRule::find()->asArray()->all()) {
             foreach ($rules as $value) {
                 if ($value['data']) {
                     $tmp = unserialize($value['data']);

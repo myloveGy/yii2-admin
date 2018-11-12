@@ -98,8 +98,7 @@ class ArrangeController extends Controller
         }
 
         // 查询管理员的日程
-        $arrUserArrange = Arrange::find()->where($where)->asArray()->all();
-        if ($arrUserArrange) {
+        if ($arrUserArrange = Arrange::find()->where($where)->asArray()->all()) {
             $arrTmp = [];
             foreach ($arrUserArrange as $value) {
                 $arrTmp[] = [

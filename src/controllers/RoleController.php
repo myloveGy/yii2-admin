@@ -46,8 +46,7 @@ class RoleController extends Controller
         // 不是管理员
         if ($uid != Admin::SUPER_ADMIN_ID) {
             // 获取用户的所有角色
-            $roles = Yii::$app->authManager->getRolesByUser($uid);
-            if ($roles) {
+            if ($roles = Yii::$app->authManager->getRolesByUser($uid)) {
                 $where[] = ['in', 'name', array_keys($roles)];
             }
         }

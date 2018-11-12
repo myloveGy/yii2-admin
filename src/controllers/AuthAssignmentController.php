@@ -100,8 +100,7 @@ class AuthAssignmentController extends Controller
 
         // 通过传递过来的唯一主键值查询数据
         /* @var $model \yii\db\ActiveRecord */
-        $model = AuthAssignment::findOne(['item_name' => $data['item_name'], 'user_id' => $data['user_id']]);
-        if (empty($model)) {
+        if (!$model = AuthAssignment::findOne(['item_name' => $data['item_name'], 'user_id' => $data['user_id']])) {
             $this->error(222);
         }
 
