@@ -180,11 +180,11 @@ class Controller extends \yii\web\Controller
         }
 
         // 判断修改返回数据
-        if ($model->save()) {
-            return $this->success($model);
+        if (!$model->save()) {
+            return $this->error(1001, Helper::arrayToString($model->getErrors()));
         }
 
-        return $this->error(1001, Helper::arrayToString($model->getErrors()));
+        return $this->success($model);
     }
 
     /**
@@ -210,12 +210,12 @@ class Controller extends \yii\web\Controller
             return $this->error(205);
         }
 
-        // 修改数据成功
-        if ($model->save()) {
-            return $this->success($model);
+        // 修改数据失败
+        if (!$model->save()) {
+            return $this->error(1003, Helper::arrayToString($model->getErrors()));
         }
 
-        return $this->error(1003, Helper::arrayToString($model->getErrors()));
+        return $this->success($model);
     }
 
     /**
@@ -232,12 +232,12 @@ class Controller extends \yii\web\Controller
             return $this->returnJson();
         }
 
-        // 删除数据成功
-        if ($model->delete()) {
-            return $this->success($model);
+        // 删除数据失败
+        if (!$model->delete()) {
+            return $this->error(1004, Helper::arrayToString($model->getErrors()));
         }
 
-        return $this->error(1004, Helper::arrayToString($model->getErrors()));
+        return $this->success($model);
     }
 
     /**
@@ -280,11 +280,11 @@ class Controller extends \yii\web\Controller
 
         /* @var $model \yii\db\ActiveRecord */
         $model = $this->modelClass;
-        if ($model::deleteAll([$this->pk => $arrIds])) {
-            return $this->success($ids);
+        if (!$model::deleteAll([$this->pk => $arrIds])) {
+            return $this->error(1004);
         }
 
-        return $this->error(1004);
+        return $this->success($ids);
     }
 
     /**
@@ -314,11 +314,11 @@ class Controller extends \yii\web\Controller
 
         // 修改对应的字段
         $model->$strAttr = $mixValue;
-        if ($model->save()) {
-            return $this->success($model);
+        if (!$model->save()) {
+            return $this->error(206, Helper::arrayToString($model->getErrors()));
         }
 
-        return $this->error(206, Helper::arrayToString($model->getErrors()));
+        return $this->success($model);
     }
 
     /**
@@ -382,14 +382,14 @@ class Controller extends \yii\web\Controller
             // 生成文件随机名
             $strFilePath = $dirName . uniqid() . '.' . $objFile->extension;
             // 执行文件上传保存，并且处理自己定义上传之后的处理
-            if ($objFile->saveAs($strFilePath) && $this->afterUpload($objFile, $strFilePath, $strField)) {
-                return $this->success([
-                    'sFilePath' => trim($strFilePath, '.'),
-                    'sFileName' => $objFile->baseName . '.' . $objFile->extension,
-                ]);
+            if (!$objFile->saveAs($strFilePath) || !$this->afterUpload($objFile, $strFilePath, $strField)) {
+                return $this->error(204);
             }
 
-            return $this->error(204);
+            return $this->success([
+                'sFilePath' => trim($strFilePath, '.'),
+                'sFileName' => $objFile->baseName . '.' . $objFile->extension,
+            ]);
         } catch (\Exception $e) {
             return $this->error(203, $e->getMessage());
         }
