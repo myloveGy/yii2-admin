@@ -101,8 +101,7 @@ class AdminController extends Controller
         $admin   = ArrayHelper::getValue($this->module, 'admin.identity');
         $china   = [];
         if ($admin->address) {
-            $arrAddress = explode(',', $admin->address);
-            if ($arrAddress) {
+            if ($arrAddress = explode(',', $admin->address)) {
                 if (isset($arrAddress[2])) {
                     $address = $arrAddress[2];
                 }
