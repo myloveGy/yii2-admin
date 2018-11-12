@@ -137,43 +137,42 @@ class AdminController extends Controller
      */
     public function afterUpload($objFile, &$strFilePath, $strField)
     {
-        // 上传头像信息
-        if ($strField === 'avatar' || $strField === 'face') {
-            // 删除之前的缩略图
-            $strFace = Yii::$app->request->post('face');
-            if ($strFace) {
-                $strFace = dirname($strFace) . '/thumb_' . basename($strFace);
-                if (file_exists('.' . $strFace)) @unlink('.' . $strFace);
-            }
+        // 不是上传上传头像信息，不处理
+        if (!in_array($strField, ['avatar', 'face'])) {
+            return true;
+        }
 
-            // 处理图片
-            $strTmpPath = dirname($strFilePath) . '/thumb_' . basename($strFilePath);
+        // 删除之前的缩略图
+        if ($strFace = Yii::$app->request->post('face')) {
+            $strFace = dirname($strFace) . '/thumb_' . basename($strFace);
+            if (file_exists('.' . $strFace)) @unlink('.' . $strFace);
+        }
 
-            /* @var $imageComponent yii\image\ImageDriver */
-            $imageComponent = Yii::createObject([
-                'class'  => 'yii\image\ImageDriver',
-                'driver' => 'GD'
-            ]);
+        // 处理图片
+        $strTmpPath = dirname($strFilePath) . '/thumb_' . basename($strFilePath);
 
-            if ($imageComponent) {
-                /* @var $image yii\image\drivers\Kohana_Image_GD */
-                $image = $imageComponent->load($strFilePath);
-                $image->resize(180, 180, Image::CROP)->save($strTmpPath);
-                $image->resize(48, 48, Image::CROP)->save();
+        /* @var $imageComponent yii\image\ImageDriver */
+        if ($imageComponent = Yii::createObject([
+            'class'  => 'yii\image\ImageDriver',
+            'driver' => 'GD'
+        ])) {
+            /* @var $image yii\image\drivers\Kohana_Image_GD */
+            $image = $imageComponent->load($strFilePath);
+            $image->resize(180, 180, Image::CROP)->save($strTmpPath);
+            $image->resize(48, 48, Image::CROP)->save();
 
-                // 管理员页面修改头像
-                $admin = ArrayHelper::getValue($this->module, 'admin.identity');
-                if ($admin && $strField === 'avatar') {
-                    // 删除之前的图像信息
-                    if ($admin->face && file_exists('.' . $admin->face)) {
-                        @unlink('.' . $admin->face);
-                        @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
-                    }
-
-                    $admin->face = ltrim($strFilePath, '.');
-                    $admin->save();
-                    $strFilePath = $strTmpPath;
+            // 管理员页面修改头像
+            $admin = ArrayHelper::getValue($this->module, 'admin.identity');
+            if ($admin && $strField === 'avatar') {
+                // 删除之前的图像信息
+                if ($admin->face && file_exists('.' . $admin->face)) {
+                    @unlink('.' . $admin->face);
+                    @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
                 }
+
+                $admin->face = ltrim($strFilePath, '.');
+                $admin->save();
+                $strFilePath = $strTmpPath;
             }
         }
 
@@ -187,17 +186,20 @@ class AdminController extends Controller
      */
     public function actionAddress()
     {
-        $request    = Yii::$app->request;
-        $strName    = $request->get('query');                     // 查询参数
-        $intPid     = (int)$request->get('iPid', 0);   // 父类ID
-        $arrCountry = China::find()->select(['id', 'name as text'])
-            ->where([
-                'and',
-                ['pid' => $intPid],
-                ['>', 'id', 0]
-            ])->andFilterWhere(['like', 'name', $strName])->asArray()->all();
-
-        return $this->asJson($arrCountry);
+        $request = Yii::$app->request;
+        return $this->asJson(
+            China::find()
+                ->select(['id', 'name as text'])
+                ->where([
+                    'and',
+                    // 父类ID
+                    ['=', 'pid', (int)$request->get('iPid', 0)],
+                    ['>', 'id', 0]
+                ])
+                ->andFilterWhere(['like', 'name', $request->get('query')])
+                ->asArray()
+                ->all()
+        );
     }
 
     /**
@@ -227,10 +229,8 @@ class AdminController extends Controller
         }
 
         /* @var $model \jinxing\admin\models\Admin */
-        $model                    = $this->modelClass;
-        $this->arrJson['errCode'] = 220;
-        $admins                   = $model::findAll([$this->pk => $arrIds]);
-        if (empty($admins)) {
+        $model = $this->modelClass;
+        if (!$admins = $model::findAll([$this->pk => $arrIds])) {
             return $this->error(220);
         }
 
