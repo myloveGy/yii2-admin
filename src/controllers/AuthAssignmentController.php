@@ -104,11 +104,11 @@ class AuthAssignmentController extends Controller
             $this->error(222);
         }
 
-        // 删除数据成功
-        if ($model->delete()) {
-            return $this->success($model);
+        // 删除数据失败
+        if (!$model->delete()) {
+            return $this->error(1004, Helper::arrayToString($model->getErrors()));
         }
 
-        return $this->error(1004, Helper::arrayToString($model->getErrors()));
+        return $this->success($model);
     }
 }
