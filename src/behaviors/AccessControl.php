@@ -13,24 +13,27 @@ use Yii;
 
 /**
  * Class AccessControl 权限验证
- * 
+ *
  * @package jinxing\admin\behaviors
  */
 class AccessControl extends \yii\filters\AccessControl
 {
+    /**
+     * @var array 默认需要验证的action
+     */
+    public $defaultActions = [
+        'index', 'search', 'create',
+        'update', 'delete', 'delete-all',
+        'edit', 'editable', 'upload'
+    ];
+
     public function getRules()
     {
-        $actions = [
-            'index', 'search',
-            'create', 'update', 'delete', 'delete', 'delete-all',
-            'edit', 'editable', 'upload'
-        ];
-
         $action = Yii::$app->controller->action;
-        if (in_array($action->id, $actions)) {
+        if (in_array($action->id, $this->defaultActions)) {
             return [
                 [
-                    'actions'     => $actions,
+                    'actions'     => $this->defaultActions,
                     'allow'       => true,
                     'permissions' => [
                         $action->getUniqueId(),
@@ -42,8 +45,8 @@ class AccessControl extends \yii\filters\AccessControl
         return [
             [
                 'actions' => [$action->id],
-                'allow' => true,
-                'roles' => ['@'],
+                'allow'   => true,
+                'roles'   => ['@'],
             ],
         ];
     }
