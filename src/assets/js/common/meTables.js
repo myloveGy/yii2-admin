@@ -1101,7 +1101,7 @@
                         var obj = $(objForm[i]), tmp = data[i];
                         // 时间处理
                         if (obj.hasClass('time-format')) {
-                            tmp = mt.timeFormat(parseInt(tmp), obj.attr('time-format') ? obj.attr('time-format') : "yyyy-MM-dd hh:mm:ss");
+                            tmp = meTables.timeFormat(parseInt(tmp), obj.attr('time-format') ? obj.attr('time-format') : "yyyy-MM-dd hh:mm:ss");
                         }
                         objForm[i].value = tmp;
                     }
