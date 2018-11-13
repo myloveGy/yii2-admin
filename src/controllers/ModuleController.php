@@ -53,7 +53,7 @@ class ModuleController extends Controller
 
         // 获取表信息
         $db     = Yii::$app->db;
-        $tables = Yii::$app->db->getSchema()->getTableSchemas();
+        $tables = $db->getSchema()->getTableSchemas();
         $tables = ArrayHelper::getColumn($tables, 'name');
         if (empty($tables) || !in_array($strTable, $tables)) {
             return $this->error(217);
@@ -162,10 +162,10 @@ class ModuleController extends Controller
         }
 
         // 生成视图文件
-        $strWhere = $this->createView($attr, $title, $view_path, $primary_key);
+        $this->createView($attr, $title, $view_path, $primary_key);
 
         // 生成控制器
-        $this->createController($name, $title, $controller_path, $strWhere, $primary_key);
+        $this->createController($name, $title, $controller_path, $primary_key);
 
         // 返回数据
         return $this->success(Url::toRoute(['/' . $str_name . '/index']));
@@ -342,7 +342,7 @@ HTML;
      */
     private function createView($array, $title, $path = '', $primary_key = 'id')
     {
-        $strHtml = $strWhere = '';
+        $strHtml = '';
         if ($array) {
             foreach ($array as $key => $value) {
                 $arrayOptions = [
@@ -432,7 +432,6 @@ html;
         if (!empty($path)) {
             FileHelper::createDirectory(dirname($path));
             file_put_contents($path, $sHtml);
-            return $strWhere;
         }
 
         return $sHtml;
