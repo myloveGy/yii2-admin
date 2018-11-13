@@ -35,11 +35,11 @@ class AdminAsset extends AppAsset
 
         // 加载资源
         $resource = [
-            'js/common/meTables.js',
             'js/jquery.dataTables.min.js',
             'js/jquery.dataTables.bootstrap.js',
             'js/jquery.validate.min.js',
-            'js/validate.message.js'
+            'js/validate.message.js',
+            'js/common/meTables.js',
         ];
 
         // 注入js

@@ -118,11 +118,11 @@ class Controller extends \yii\web\Controller
         $strategy = Substance::getInstance($this->strategy);
 
         // 获取查询参数
-        $search            = $strategy->getRequest(); // 处理查询参数
-        $search['field']   = $search['field'] ?: $this->sort;
-        $search['orderBy'] = [$search['field'] => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
-        if (method_exists($this, 'where')) {
-            $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
+        $search = $strategy->getRequest();
+
+        // 方法存在，并且存在请求参数
+        if (method_exists($this, 'where') && ($filters = ArrayHelper::getValue($search, 'filters', []))) {
+            $search['where'] = Helper::handleWhere($filters, $this->where($filters));
         }
 
         // 查询数据
@@ -130,14 +130,15 @@ class Controller extends \yii\web\Controller
 
         // 查询数据条数
         if ($total = $query->count()) {
-            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($search['orderBy'])->all()) {
+            $orderBy = ArrayHelper::getValue($search, 'orderBy') ?: [$this->sort => SORT_DESC];
+            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all()) {
                 $this->afterSearch($array);
             }
         } else {
             $array = [];
         }
 
-        return $this->success($strategy->handleResponse($array, $total));
+        return $this->asJson($strategy->handleResponse($array, (int)$total));
     }
 
     /**

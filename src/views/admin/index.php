@@ -30,45 +30,50 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
             buttons: <?=Json::encode($auth['operations'])?>
         },
         table: {
-            "aoColumns": [
+            columns: [
                 {
-                    "title": "管理员ID",
-                    "data": "id",
-                    "edit": {"type": "hidden"},
-                    "search": {"type": "text"},
-                    "defaultOrder": "desc"
+                    title: "管理员ID",
+                    data: "id",
+                    edit: {type: "hidden"},
+                    search: {type: "text"},
+                    defaultOrder: "desc"
                 },
                 {
-                    "title": "管理员账号",
-                    "data": "username",
-                    "edit": {"type": "text", "required": true, "rangelength": "[2, 255]"},
-                    "search": {"type": "text"},
-                    "bSortable": false
+                    title: "管理员账号",
+                    data: "username",
+                    edit: {required: true, rangeLength: "[2, 255]"},
+                    search: {type: "text"},
+                    sortable: false
                 },
                 {
-                    "title": "密码",
-                    "data": "password",
-                    "isHide": true,
-                    "edit": {"type": "password", "rangelength": "[2, 20]"},
-                    "bSortable": false,
-                    "defaultContent": "",
-                    "bViews": false
+                    title: "密码",
+                    data: "password",
+                    hide: true,
+                    edit: {type: "password", rangeLength: "[2, 20]"},
+                    sortable: false,
+                    defaultContent: "",
+                    view: false
                 },
                 {
-                    "title": "确认密码",
-                    "data": "repassword",
-                    "isHide": true,
-                    "edit": {"type": "password", "rangelength": "[2, 20]", "equalTo": "input[name=password]:first"},
-                    "bSortable": false,
-                    "defaultContent": "",
-                    "bViews": false
+                    title: "确认密码",
+                    data: null,
+                    hide: true,
+                    edit: {
+                        type: "password",
+                        name: "repassword",
+                        rangeLength: "[2, 20]",
+                        equalTo: "input[name=password]:first"
+                    },
+                    sortable: false,
+                    defaultContent: "",
+                    view: false
                 },
                 {
-                    "title": "头像",
-                    "data": "face",
-                    "isHide": true,
-                    "edit": {
-                        "type": "file",
+                    title: "头像",
+                    data: "face",
+                    hide: true,
+                    edit: {
+                        type: "file",
                         options: {
                             "id": "file",
                             "name": "UploadForm[face]",
@@ -79,61 +84,61 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     }
                 },
                 {
-                    "title": "邮箱",
-                    "data": "email",
-                    "edit": {"type": "text", "required": true, "rangelength": "[2, 255]", "email": true},
-                    "search": {"type": "text"},
-                    "bSortable": false
+                    title: "邮箱",
+                    data: "email",
+                    edit: {required: true, rangeLength: "[2, 255]", email: true},
+                    search: {"type": "text"},
+                    sortable: false
                 },
                 {
-                    "title": "角色",
-                    "data": "role",
-                    "value": aRoles,
-                    "edit": {"type": "select", "required": true},
-                    "bSortable": false,
-                    "createdCell": function (td, data) {
-                        $(td).html(aRoles[data] ? aRoles[data] : data);
+                    title: "角色",
+                    data: "role",
+                    value: aRoles,
+                    edit: {type: "select", required: true},
+                    sortable: false,
+                    createdCell: function (td, data) {
+                        $(td).html($.getValue(aRoles, data, data));
                     }
                 },
                 {
-                    "title": "状态",
-                    "data": "status",
-                    "value": aStatus,
-                    "edit": {"type": "radio", "default": 10, "required": true, "number": true},
-                    "bSortable": false,
-                    "search": {"type": "select"},
-                    "createdCell": function (td, data) {
-                        $(td).html(mt.valuesString(aStatus, aStatusColor, data));
+                    title: "状态",
+                    data: "status",
+                    value: aStatus,
+                    edit: {type: "radio", default: 10, required: true, number: true},
+                    sortable: false,
+                    search: {type: "select"},
+                    createdCell: function (td, data) {
+                        $(td).html(MeTables.valuesString(aStatus, aStatusColor, data));
                     }
                 },
                 {
-                    "title": "创建时间",
-                    "data": "created_at",
-                    "createdCell": meTables.dateTimeString
+                    title: "创建时间",
+                    data: "created_at",
+                    createdCell: MeTables.dateTimeString
                 },
                 {
-                    "title": "创建用户",
-                    "data": "created_id",
-                    "bSortable": false,
-                    "createdCell": mt.adminString
+                    title: "创建用户",
+                    data: "created_id",
+                    sortable: false,
+                    createdCell: MeTables.adminString
                 },
                 {
-                    "title": "修改时间",
-                    "data": "updated_at",
-                    "createdCell": mt.dateTimeString
+                    title: "修改时间",
+                    data: "updated_at",
+                    createdCell: MeTables.dateTimeString
                 },
                 {
-                    "title": "修改用户",
-                    "data": "updated_id",
-                    "bSortable": false,
-                    "createdCell": mt.adminString
+                    title: "修改用户",
+                    data: "updated_id",
+                    sortable: false,
+                    createdCell: MeTables.adminString
                 },
                 {
-                    "title": "切换登录",
-                    "data": null,
-                    "bSortable": false,
-                    "bHide": bHide,
-                    "render": function (data, is_display, row) {
+                    title: "切换登录",
+                    data: null,
+                    sortable: false,
+                    hide: bHide,
+                    render: function (data, is_display, row) {
                         if (row.id != "<?=$admin->id?>" && row["switch_user_login"]) {
                             return '<a target="_parent" href="' + row["switch_user_login"] + '"><?=Yii::t('admin', '切换登录')?></a>'
                         }
@@ -144,8 +149,9 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
             ]
         }
     });
+
     var $file = null;
-    mt.fn.extend({
+    $.extend(m, {
         beforeShow: function (data) {
             $file.ace_file_input("reset_input");
             // 修改复值
