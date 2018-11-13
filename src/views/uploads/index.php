@@ -75,7 +75,7 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
         });
 
         var $form = null;
-        meTables.fn.extend({
+        $.extend(m, {
             // 显示的前置和后置操作
             afterShow: function (data, child) {
                 if (!$form) $form = $("#edit-form");
