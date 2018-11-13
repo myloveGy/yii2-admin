@@ -25,11 +25,11 @@ class JqGrid extends Strategy
 
         // 返回查询字段信息
         $this->arrRequest = [
-            'orderBy' => $orderBy,                  // 排序方式
-            'offset'  => ($page - 1) * $limit,      // 查询开始位置
-            'limit'   => $limit,                    // 查询数据条数
-            'page'    => $page,                     // 第几页
-            'filters' => $request->post('params'),  // 查询参数
+            'orderBy' => $orderBy,                   // 排序方式
+            'offset'  => ($page - 1) * $limit,       // 查询开始位置
+            'limit'   => $limit,                     // 查询数据条数
+            'page'    => $page,                      // 第几页
+            'filters' => $request->post('filters'),  // 查询参数
         ];
 
         return $this->arrRequest;

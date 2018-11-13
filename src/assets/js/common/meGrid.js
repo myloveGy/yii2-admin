@@ -529,7 +529,7 @@
         searchParams: function (params) {
             var defaultParams = {
                 "id": "search-" + params.name,
-                "name": "params[" + params.name + "]",
+                "name": "filters[" + params.name + "]",
                 // "placeholder": meGrid.fn.getLanguage("pleaseInput") + params.title,
                 "class": "form-control"
             }, defaultLabel = {
@@ -621,7 +621,6 @@
                 },
                 // 发送数据之前的处理
                 loadBeforeSend: function (response, request) {
-                    console.info(arguments);
                     var data = $(meGrid.fn.options.searchSelector).serializeArray();
                     for (var i in data) {
                         if (data[i]["value"] !== "" && data[i]["value"] !== "All") {
