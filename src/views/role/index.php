@@ -20,11 +20,11 @@ $this->title = '角色信息';
         oButtons = <?=Json::encode($auth['buttons'])?>,
         oOperationsButtons = <?=Json::encode($auth['operations'])?>;
 
-    oButtons.updateAll = {bShow: false};
-    oButtons.deleteAll = {bShow: false};
+    oButtons.updateAll = null;
+    oButtons.deleteAll = null;
     oOperationsButtons.see = {"cClass": "role-see"};
+    <?php if (Yii::$app->controller->module->getUser()->can(implode('/', $array_module) . '/edit')) : ?>
     oOperationsButtons.other = {
-        bShow: <?=Yii::$app->controller->module->getUser()->can(implode('/', $array_module) . '/edit') ? 'true' : 'false' ?>,
         "title": "编辑权限",
         "button-title": "编辑权限",
         "className": "btn-warning",
@@ -32,6 +32,7 @@ $this->title = '角色信息';
         "icon": "fa-pencil-square-o",
         "sClass": "yellow"
     };
+    <?php endif; ?>
 
     var m = mt({
         title: "角色信息",
@@ -42,55 +43,54 @@ $this->title = '角色信息';
             buttons: oOperationsButtons
         },
         table: {
-            "aoColumns": [
+            columns: [
                 {
-                    "title": "类型",
-                    "data": "type",
-                    "isHide": true,
-                    "isExport": false,
-                    "edit": {"type": "hidden", "value": iType}
+                    title: "类型",
+                    data: "type",
+                    hide: true,
+                    isExport: false,
+                    edit: {type: "hidden", value: iType}
                 },
                 {
-                    "title": "名称",
-                    "data": "name",
-                    "isHide": true,
-                    "edit": {"type": "hidden"},
-                    "search": {"type": "text"}
+                    title: "名称",
+                    data: "name",
+                    hide: true,
+                    edit: {type: "hidden"},
+                    search: {type: "text"}
                 },
                 {
-                    "title": "角色名称",
-                    "data": "name",
-                    "edit": {
-                        "type": "text",
-                        "name": "newName",
-                        "required": true,
-                        "rangelength": "[2, 64]",
+                    title: "角色名称",
+                    data: "name",
+                    edit: {
+                        name: "newName",
+                        required: true,
+                        rangeLength: "[2, 64]",
                         placeholder: "请输入英文字母、数字、_、/等字符串"
                     },
-                    "bSortable": false
+                    sortable: false
                 },
                 {
-                    "title": "说明描述",
-                    "data": "description",
-                    "edit": {
-                        "type": "text",
-                        "required": true,
-                        "rangelength": "[2, 255]",
+                    title: "说明描述",
+                    data: "description",
+                    edit: {
+                        type: "text",
+                        required: true,
+                        rangeLength: "[2, 255]",
                         placeholder: "请输入简单描述信息"
                     },
-                    "search": {"type": "text"},
-                    "bSortable": false
+                    search: {type: "text"},
+                    sortable: false
                 },
                 {
-                    "title": "创建时间",
-                    "data": "created_at",
-                    "defaultOrder": "desc",
-                    "createdCell": mt.dateTimeString
+                    title: "创建时间",
+                    data: "created_at",
+                    defaultOrder: "desc",
+                    createdCell: MeTables.dateTimeString
                 },
                 {
-                    "title": "修改时间",
-                    "data": "updated_at",
-                    "createdCell": mt.dateTimeString
+                    title: "修改时间",
+                    data: "updated_at",
+                    createdCell: MeTables.dateTimeString
                 }
             ]
         }

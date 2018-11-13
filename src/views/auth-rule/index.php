@@ -21,41 +21,41 @@ $this->title = '规则管理';
                 buttons: <?=Json::encode($auth['operations'])?>
             },
             table: {
-                "aoColumns": [
+                columns: [
                     {
-                        "title": "名称",
-                        "data": "name",
-                        "defaultOrder": "desc",
-                        "edit": {"type": "hidden"},
-                        "search": {"type": "text"}
+                        title: "名称",
+                        data: "name",
+                        defaultOrder: "desc",
+                        edit: {type: "hidden"},
+                        search: {type: "text"}
                     },
                     {
-                        "title": "名称",
-                        "data": "name",
-                        "edit": {"type": "text", "name": "newName", "required": true, "rangelength": "[2, 64]"},
-                        "isHide": true
+                        title: "名称",
+                        data: "name",
+                        edit: {type: "text", name: "newName", required: true, rangeLength: "[2, 64]"},
+                        isHide: true
                     },
                     {
-                        "title": "对应规则类",
-                        "data": "data",
-                        "edit": {"type": "text", "required": true, "rangelength": "[2, 100]"},
-                        "bSortable": false
+                        title: "对应规则类",
+                        data: "data",
+                        edit: {type: "text", required: true, rangeLength: "[2, 100]"},
+                        sortable: false
                     },
                     {
-                        "title": "创建时间",
-                        "data": "created_at",
-                        "createdCell": meTables.dateTimeString
+                        title: "创建时间",
+                        data: "created_at",
+                        createdCell: MeTables.dateTimeString
                     },
                     {
-                        "title": "修改时间",
-                        "data": "updated_at",
-                        "createdCell": meTables.dateTimeString
+                        title: "修改时间",
+                        data: "updated_at",
+                        createdCell: MeTables.dateTimeString
                     }
                 ]
             }
         });
 
-        meTables.fn.extend({
+        $.extend(m, {
             beforeShow: function (data) {
                 if (this.action === "update") {
                     data.newName = data.name;

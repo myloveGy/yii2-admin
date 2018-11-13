@@ -74,10 +74,10 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
             aAdmins = <?=Json::encode($admins)?>,
             oButtons = <?=Json::encode($auth['buttons'])?>,
             oOperationsButtons = <?=Json::encode($auth['operations'])?>;
-        oButtons.updateAll = {bShow: false};
-        oButtons.deleteAll = {bShow: false};
-        oOperationsButtons.see = {bShow: false};
-        oOperationsButtons.update = {bShow: false};
+        oButtons.updateAll = null;
+        oButtons.deleteAll = null;
+        oOperationsButtons.see = null;
+        oOperationsButtons.update = null;
 
         var m = meTables({
             searchType: "top",
@@ -92,27 +92,21 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                 buttons: oOperationsButtons
             },
             table: {
-                "order": [],
-                "aoColumns": [
+                order: [],
+                columns: [
                     {
-                        "title": "管理员",
-                        "data": "user_id",
-                        "value": aAdmins,
-                        "edit": {"type": "select", "required": true},
-                        "bSortable": false,
-                        "createdCell": mt.adminString,
-//                    "search": {
-//                        "type": "select",
-//                        "multiple": true,
-//                        "id": "search-select",
-//                        "class": "chosen-select"
-//                    }
+                        title: "管理员",
+                        data: "user_id",
+                        value: aAdmins,
+                        edit: {type: "select", required: true},
+                        sortable: false,
+                        createdCell: MeTables.adminString
                     },
                     {
-                        "title": "对应角色",
-                        "data": "item_name",
-                        "value": roles,
-                        "edit": {
+                        title: "对应角色",
+                        data: "item_name",
+                        value: roles,
+                        edit: {
                             "type": "select",
                             "multiple": true,
                             "id": "select-multiple",
@@ -120,21 +114,15 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                             "class": "tag-input-style width-100 chosen-select",
                             "data-placeholder": "请选择一个角色"
                         },
-                        "bSortable": false,
-                        "createdCell": function (td, data) {
-                            $(td).html(roles[data] ? roles[data] : data);
-                        },
-//                    "search": {
-//                        "type": "select",
-//                        "multiple": true,
-//                        "id": "search-select",
-//                        "class": "chosen-select"
-//                    }
+                        sortable: false,
+                        createdCell: function (td, data) {
+                            $(td).html($.getValue(roles, data, data));
+                        }
                     },
                     {
-                        "title": "最初分配时间",
-                        "data": "created_at",
-                        "createdCell": meTables.dateTimeString
+                        title: "最初分配时间",
+                        data: "created_at",
+                        createdCell: MeTables.dateTimeString
                     }
                 ]
             }
@@ -142,9 +130,9 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
 
         var $select = null;
 
-        meTables.fn.extend({
+        $.extend(m, {
             // 显示的前置和后置操作
-            beforeShow: function (data, child) {
+            beforeShow: function () {
                 $("#select-multiple").val([]).trigger("chosen:updated").next().css({'width': "100%"});
                 return true;
             }

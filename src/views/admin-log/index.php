@@ -23,31 +23,31 @@ $this->title = '操作日志';
                     buttons: <?=Json::encode($auth['operations'])?>
                 },
                 table: {
-                    "aoColumns": [
+                    columns: [
                         {
-                            "title": "管理员名称",
-                            "data": "admin_name",
-                            "search": {type: "text"},
-                            bSortable: false
+                            title: "管理员名称",
+                            data: "admin_name",
+                            search: {type: "text"},
+                            sortable: false
                         },
                         {
-                            "title": "操作方法",
-                            "data": "action",
-                            "search": {"type": "text"},
-                            "bSortable": false
+                            title: "操作方法",
+                            data: "action",
+                            search: {type: "text"},
+                            sortable: false
                         },
                         {
-                            "title": "唯一标识",
-                            "data": "index",
-                            "bSortable": false,
-                            "search": {"type": "text"}
+                            title: "唯一标识",
+                            data: "index",
+                            sortable: false,
+                            search: {type: "text"}
                         },
                         {
-                            "title": "请求参数",
-                            "data": "request",
-                            "bSortable": false,
-                            "isHide": true,
-                            "createdCell": function (td, data) {
+                            title: "请求参数",
+                            data: "request",
+                            sortable: false,
+                            hide: true,
+                            createdCell: function (td, data) {
                                 var json = data, x, html = "[ <br/>";
                                 try {
                                     json = JSON.parse(data);
@@ -65,15 +65,15 @@ $this->title = '操作日志';
                             }
                         },
                         {
-                            "title": "请求IP",
-                            "data": "ip",
-                            "bSortable": false
+                            title: "请求IP",
+                            data: "ip",
+                            sortable: false
                         },
                         {
-                            "title": "创建时间",
-                            "data": "created_at",
-                            "createdCell": meTables.dateTimeString,
-                            "defaultOrder": "desc"
+                            title: "创建时间",
+                            data: "created_at",
+                            createdCell: MeTables.dateTimeString,
+                            defaultOrder: "desc"
                         }
                     ]
                 }

@@ -15,45 +15,38 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
 <?php $this->beginBlock('javascript') ?>
     <script type="text/javascript">
         var myDropzone = null;
-        meTables.extend({
+        $.extend(MeTables, {
             /**
              * 定义编辑表单(函数后缀名Create)
              * 使用配置 edit: {"type": "email", "id": "user-email"}
              * edit 里面配置的信息都通过 params 传递给函数
              */
-            "dropzoneCreate": function (params) {
+            dropzoneCreate: function () {
                 return '<div id="dropzone" class="dropzone"></div>';
             }
         });
         var m = meTables({
             title: "上传文件",
-////            fileSelector: ["#file-url"],
-//                form: {
-//                    "class": "dropzone"
-//                },
             table: {
-                "aoColumns": [
+                columns: [
                     {
-                        "title": "Id",
-                        "data": "id",
-                        "sName": "id",
-                        "defaultOrder": "desc",
-                        "edit": {"type": "hidden"}
+                        title: "Id",
+                        data: "id",
+                        defaultOrder: "desc",
+                        edit: {type: "hidden"}
                     },
                     {
-                        "title": "标题",
-                        "data": "title",
-                        "sName": "title",
-                        "edit": {"type": "text", "required": true, "rangelength": "[2, 250]"},
-                        "bSortable": false
+                        title: "标题",
+                        data: "title",
+                        edit: {type: "text", required: true, rangeLength: "[2, 250]"},
+                        sortable: false
                     },
                     {
-                        "title": "文件访问地址",
-                        "data": "url",
-                        "sName": "url",
-                        "edit": {"type": "dropzone"},
-                        "bSortable": false,
-                        "createdCell": function (td, data) {
+                        title: "文件访问地址",
+                        data: "url",
+                        edit: {type: "dropzone"},
+                        sortable: false,
+                        createdCell: function (td, data) {
                             var html = '';
                             if (data) {
                                 try {
@@ -68,16 +61,14 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
                         }
                     },
                     {
-                        "title": "创建时间",
-                        "data": "created_at",
-                        "sName": "created_at",
-                        "createdCell": meTables.dateTimeString
+                        title: "创建时间",
+                        data: "created_at",
+                        createdCell: MeTables.dateTimeString
                     },
                     {
-                        "title": "修改时间",
-                        "data": "updated_at",
-                        "sName": "updated_at",
-                        "createdCell": meTables.dateTimeString
+                        title: "修改时间",
+                        data: "updated_at",
+                        createdCell: MeTables.dateTimeString
                     }
                 ]
             }

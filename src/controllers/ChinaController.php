@@ -29,11 +29,11 @@ class ChinaController extends Controller
     public function where()
     {
         return [
-            'id' => ['and' => '=', 'func' => 'intval'],
+            'id'   => ['and' => '=', 'func' => 'intval'],
             'name' => function ($value) {
                 return ['like', 'name', trim($value)];
             },
-            'pid' => '='
+            'pid'  => '='
         ];
     }
 
@@ -46,7 +46,7 @@ class ChinaController extends Controller
         $china = China::find()->where(['pid' => 0])->asArray()->all();
 
         // 加载视图
-        return $this->render('grid', [
+        return $this->render('index', [
             'parent' => ArrayHelper::map($china, 'id', 'name'),
         ]);
     }

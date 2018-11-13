@@ -23,72 +23,70 @@ $this->title = '权限信息';
                 buttons: <?=Json::encode($auth['operations'])?>
             },
             table: {
-                "aoColumns": [
+                columns: [
                     {
-                        "title": "类型",
-                        "data": "type",
-                        "isHide": true,
-                        "edit": {"type": "hidden", "value": iType}
+                        title: "类型",
+                        data: "type",
+                        hide: true,
+                        edit: {type: "hidden", value: iType}
                     },
                     {
-                        "title": "名称",
-                        "data": "name",
-                        "isHide": true,
-                        "edit": {"type": "hidden"},
-                        "search": {"type": "text"},
-                        "bSortable": false
+                        title: "名称",
+                        data: "name",
+                        hide: true,
+                        edit: {type: "hidden"},
+                        search: {type: "text"},
+                        sortable: false
                     },
                     {
-                        "title": "权限名称",
-                        "data": "name",
-                        "edit": {
-                            "type": "text",
-                            "required": true,
-                            "name": "newName",
-                            "rangelength": "[2, 64]",
+                        title: "权限名称",
+                        data: "name",
+                        edit: {
+                            required: true,
+                            name: "newName",
+                            rangeLength: "[2, 64]",
                             placeholder: "请输入英文字母、数字、_、/等字符串"
                         },
-                        "bSortable": false
+                        sortable": false
                     },
                     {
-                        "title": "说明描述",
-                        "data": "description",
-                        "edit": {
-                            "type": "text",
-                            "required": true,
-                            "rangelength": "[2, 64]",
+                        title: "说明描述",
+                        data: "description",
+                        edit: {
+                            required: true,
+                            rangeLength: "[2, 64]",
                             placeholder: "请输入简单描述信息"
                         },
-                        "search": {"type": "text"},
-                        "bSortable": false
+                        search: {"type": "text"},
+                        sortable": false
                     },
                     {
-                        "title": "使用规则",
-                        "data": "rule_name",
-                        "value": rules,
-                        "edit": {"type": "select"},
-                        "search": {"type": "text"},
-                        "bSortable": false,
-                        "createdCell": function (td, data) {
+                        title: "使用规则",
+                        data: "rule_name",
+                        value: rules,
+                        edit: {"type": "select"},
+                        search: {"type": "text"},
+                        sortable: false,
+                        createdCell: function (td, data) {
                             $(td).html(rules[data] ? rules[data] : data);
                         }
                     },
                     {
-                        "title": "创建时间",
-                        "data": "created_at",
-                        "createdCell": mt.dateTimeString,
-                        "defaultOrder": "desc"
+                        title: "创建时间",
+                        data: "created_at",
+                        createdCell: MeTables.dateTimeString,
+                        defaultOrder: "desc"
                     },
                     {
-                        "title": "修改时间",
-                        "data": "updated_at",
-                        "createdCell": mt.dateTimeString
+                        title: "修改时间",
+                        data: "updated_at",
+                        createdCell: MeTables.dateTimeString
                     }
                 ]
             }
         });
 
-        mt.fn.extend({
+        $.extend(m, {
             beforeShow: function (data) {
                 if (this.action === "update") {
                     data.newName = data.name;

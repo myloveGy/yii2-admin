@@ -46,96 +46,100 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
 //            iColsLength: 2
 //        }
             table: {
-                "aoColumns": [
+                columns: [
                     {
-                        "title": "id ",
-                        "data": "id",
-                        "edit": {"type": "hidden"},
-                        "search": {"type": "text"},
-                        "defaultOrder": "desc"
+                        title: "id ",
+                        data: "id",
+                        edit: {type: "hidden"},
+                        search: {type: "text"},
+                        defaultOrder: "desc"
                     },
                     {
-                        "title": "事件标题",
-                        "data": "title",
-                        "editable": {
+                        title: "事件标题",
+                        data: "title",
+                        editable: {
                             type: "text",
                             validate: function (x) {
                                 if (x.length > 100 || x.length < 2) return "长度必须为2到50字符";
                             }
                         },
-                        "edit": {"type": "text", "required": true, "rangelength": "[2, 100]"},
-                        "search": {"type": "text"},
-                        "bSortable": false
+                        edit: {type: "text", required: true, rangeLength: "[2, 100]"},
+                        search: {type: "text"},
+                        sortable: false
                     },
                     {
-                        "title": "事件描述",
-                        "data": "desc",
-                        "edit": {"type": "textarea", "rows": 5, "required": true, "rangelength": "[2, 255]"},
-                        "bSortable": false
+                        title: "事件描述",
+                        data: "desc",
+                        edit: {type: "textarea", rows: 5, required: true, rangeLength: "[2, 255]"},
+                        sortable: false
                     },
                     {
-                        "title": "开始时间",
-                        "data": "start_at",
-                        "edit": {"type": "dateTime", "class": "time-format", "required": true},
-                        "createdCell": mt.dateTimeString
+                        title: "开始时间",
+                        data: "start_at",
+                        edit: {type: "dateTime", class: "time-format", required: true},
+                        createdCell: MeTables.dateTimeString
                     },
                     {
-                        "title": "结束时间",
-                        "data": "end_at",
-                        "edit": {"type": "dateTime", "required": true, "class": "m-time"},
-                        "createdCell": mt.dateTimeString
+                        title: "结束时间",
+                        data: "end_at",
+                        edit: {type: "dateTime", class: "time-format m-time", required: true},
+                        createdCell: MeTables.dateTimeString
                     },
                     {
-                        "title": "日程状态",
-                        "data": "status",
-                        "value": aStatus,
-                        "edit": {"type": "radio", "default": 0, "required": true, "number": true},
-                        "search": {"type": "select"},
-                        "bSortable": false,
-                        "editable": {
-                            "type": "select"
+                        title: "日程状态",
+                        data: "status",
+                        value: aStatus,
+                        edit: {type: "radio", default: 0, required: true, number: true},
+                        search: {type: "select"},
+                        sortable: false,
+                        editable: {
+                            type: "select"
                         },
-                        "createdCell": function (td, data) {
-                            $(td).html(mt.valuesString(aStatus, aColors, data));
+                        createdCell: function (td, data) {
+                            $(td).html(MeTables.valuesString(aStatus, aColors, data));
                         }
                     },
                     {
-                        "title": "时间状态",
-                        "data": "time_status",
-                        "value": aTimeStatus,
-                        "edit": {"type": "radio", "default": 1, "required": true, "number": true},
-                        "search": {"type": "select"},
-                        "bSortable": false,
-                        "createdCell": function (td, data) {
-                            $(td).html(mt.valuesString(aTimeStatus, aTimeColors, data));
+                        title: "时间状态",
+                        data: "time_status",
+                        value: aTimeStatus,
+                        edit: {type: "radio", default: 1, required: true, number: true},
+                        search: {type: "select"},
+                        sortable: false,
+                        createdCell: function (td, data) {
+                            $(td).html(MeTables.valuesString(aTimeStatus, aTimeColors, data));
                         }
                     },
                     {
-                        "title": "处理人",
-                        "data": "admin_id",
-                        "value": aAdmins,
-                        "edit": {"type": "select", "required": true, "number": true},
-                        "search": {"type": "select"},
-                        "createdCell": mt.adminString,
-                        "bSortable": false
-                    },
-                    {"title": "创建时间", "data": "created_at", "sName": "created_at", "createdCell": mt.dateTimeString},
-                    {
-                        "title": "添加用户",
-                        "data": "created_id",
-                        "bSortable": false,
-                        "createdCell": mt.adminString
+                        title: "处理人",
+                        data: "admin_id",
+                        value: aAdmins,
+                        edit: {type: "select", "required": true, "number": true},
+                        search: {type: "select"},
+                        createdCell: MeTables.adminString,
+                        sortable: false
                     },
                     {
-                        "title": "修改时间",
-                        "data": "updated_at",
-                        "createdCell": mt.dateTimeString
+                        title: "创建时间",
+                        data: "created_at",
+                        createdCell: MeTables.dateTimeString
                     },
                     {
-                        "title": "修改用户",
-                        "data": "updated_id",
-                        "bSortable": false,
-                        "createdCell": mt.adminString
+                        title: "添加用户",
+                        data: "created_id",
+                        sortable: false,
+                        createdCell: MeTables.adminString
+                    },
+                    {
+                        title: "修改时间",
+                        data: "updated_at",
+                        createdCell: MeTables.dateTimeString
+                    },
+                    {
+                        title: "修改用户",
+                        data: "updated_id",
+                        sortable: false,
+                        createdCell: MeTables.adminString
                     }
                 ]
             }
