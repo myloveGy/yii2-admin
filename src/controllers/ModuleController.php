@@ -405,18 +405,18 @@ use jinxing\admin\widgets\MeTable;
     /**
     $.extend(m, {
         // 显示的前置和后置操作
-        beforeShow: function(data, child) {
+        beforeShow: function(data) {
             return true;
         },
-        afterShow: function(data, child) {
+        afterShow: function(data) {
             return true;
         },
         
         // 编辑的前置和后置操作
-        beforeSave: function(data, child) {
+        beforeSave: function(data) {
             return true;
         },
-        afterSave: function(data, child) {
+        afterSave: function(data) {
             return true;
         }
     });
