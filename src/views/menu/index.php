@@ -29,7 +29,7 @@ $this->title = '导航栏目信息';
             selectOptionsSearchMiddleCreate: function (params) {
                 delete params.type;
                 params.id = "search-" + params.name;
-                return '<label for="' + params.id + '"> ' + params.title + ': <select ' + mt.handleParams(params) + '>' +
+                return '<label for="' + params.id + '"> ' + params.title + ': <select ' + this.handleParams(params) + '>' +
                     '<option value="All">请选择</option>' +
                     '<option value="0">顶级分类</option>' +
                     '<?=$options?>' +
