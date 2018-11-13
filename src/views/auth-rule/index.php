@@ -20,6 +20,7 @@ $this->title = '规则管理';
             operations: {
                 buttons: <?=Json::encode($auth['operations'])?>
             },
+            number: false,
             table: {
                 columns: [
                     {

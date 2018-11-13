@@ -42,6 +42,7 @@ $this->title = '角色信息';
             width: "200px",
             buttons: oOperationsButtons
         },
+        number: false,
         table: {
             columns: [
                 {

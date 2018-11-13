@@ -27,6 +27,7 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
         });
         var m = meTables({
             title: "上传文件",
+            number: false,
             table: {
                 columns: [
                     {

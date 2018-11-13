@@ -22,6 +22,7 @@ $this->title = '操作日志';
                     width: "auto",
                     buttons: <?=Json::encode($auth['operations'])?>
                 },
+                number: false,
                 table: {
                     columns: [
                         {

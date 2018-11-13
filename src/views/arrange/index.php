@@ -34,6 +34,7 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
             title: "管理员日程安排",
             editable: true,
             editableMode: "inline",
+            number: false,
 //        oEditFormParams: {				// 编辑表单配置
 //            bMultiCols: true,          // 是否多列
 //            iColsLength: 2,             // 几列

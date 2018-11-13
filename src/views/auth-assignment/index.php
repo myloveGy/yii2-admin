@@ -84,6 +84,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
             search: {
                 render: false
             },
+            number: false,
             title: "角色分配",
             bCheckbox: false,
             buttons: oButtons,

@@ -22,6 +22,7 @@ $this->title = '权限信息';
             operations: {
                 buttons: <?=Json::encode($auth['operations'])?>
             },
+            number: false,
             table: {
                 columns: [
                     {

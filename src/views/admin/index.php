@@ -29,6 +29,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
         operations: {
             buttons: <?=Json::encode($auth['operations'])?>
         },
+        number: false,
         table: {
             columns: [
                 {
