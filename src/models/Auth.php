@@ -379,8 +379,8 @@ class Auth extends ActiveRecord
         array_pop($controller);
         $controller = implode('/', $controller) . '/';
         $arrReturn  = [
-            'buttons'    => [],
-            'operations' => [],
+            'buttons'    => ['create' => ['show' => true]],
+            'operations' => ['see' => ['show' => true]],
         ];
 
         // 添加
