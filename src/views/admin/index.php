@@ -131,6 +131,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     title: "修改用户",
                     data: "updated_id",
                     sortable: false,
+                    export: false,
                     createdCell: MeTables.adminString
                 },
                 {

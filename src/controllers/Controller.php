@@ -424,7 +424,7 @@ class Controller extends \yii\web\Controller
         $request   = Yii::$app->request;
         $arrFields = $request->post('fields');    // 字段信息
         $strTitle  = $request->post('title');     // 标题信息
-        $params    = $request->post('params');       // 查询条件信息
+        $filters   = $request->post('filters');   // 查询条件信息
 
         // 判断数据的有效性
         if (empty($arrFields) || empty($strTitle)) {
@@ -433,7 +433,7 @@ class Controller extends \yii\web\Controller
 
         // 存在查询方法
         if (method_exists($this, 'where')) {
-            $where = Helper::handleWhere($params, $this->where($params));
+            $where = Helper::handleWhere($filters, $this->where($filters));
         } else {
             $where = [];
         }

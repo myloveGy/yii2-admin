@@ -357,7 +357,7 @@
 
                 // 添加字段信息
                 this.options.table.columns.forEach(function (k, v) {
-                    if (k.data && (k.isExport !== true || k.bExport !== true || k.export !== true)) {
+                    if (k.data && k.isExport !== false && k.bExport !== false && k.export !== false) {
                         html += '<input type="hidden" name="fields[' + k.data + ']" value="' + k.title + '"/>';
                     }
                 });
@@ -366,14 +366,14 @@
                 var value = $(self.options.searchForm).serializeArray();
                 for (i in value) {
                     if (!meTables.empty(value[i]["value"]) && value[i]["value"] !== "All") {
-                        var strName = meTables.getAttributeName(value[i]["name"], "params");
+                        var strName = meTables.getAttributeName(value[i]["name"], self.options.filters);
                         html += '<input type="hidden" name="' + strName + '" value="' + value[i]["value"] + '"/>';
                     }
                 }
 
                 // 默认查询参数添加
                 for (i in this.options.params) {
-                    html += '<input type="hidden" name="params[' + i + ']" value="' + this.options.params[i] + '"/>';
+                    html += '<input type="hidden" name="' + self.options.filters + '[' + i + ']" value="' + this.options.params[i] + '"/>';
                 }
 
                 // 表单提交
