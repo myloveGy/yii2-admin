@@ -70,16 +70,29 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datepicker.min.js', $depen
 
             colModel: [
                 {
-                    name: 'id', index: 'id', title: "ID", width: 60, editable: true,
+                    name: 'id',
+                    index: 'id',
+                    title: "ID",
+                    width: 60,
+                    editable: true,
                     gridSearch: {type: "text"}
                 },
                 {
-                    name: 'name', index: 'name', title: "名称", width: 90, editable: true,
+                    name: 'name',
+                    index: 'name',
+                    title: "名称",
+                    width: 90,
+                    editable: true,
                     gridSearch: {type: "text"},
-                    editoptions: {size: "20", "minlength": "2", "maxlength": "255"}
+                    editoptions: {size: "20", minlength: "2", maxlength: "255"}
                 },
                 {
-                    name: 'pid', index: 'pid', title: "父类ID", width: 50, editable: true, value: arrParent,
+                    name: 'pid',
+                    index: 'pid',
+                    title: "父类ID",
+                    width: 50,
+                    editable: true,
+                    value: arrParent,
                     gridSearch: {type: "select"},
                     editoptions: {size: "20", maxlength: "30"}
                 }

@@ -2,8 +2,8 @@
  * Created by liujinxing on 17-4-4.
  */
 
-(function(window, $){
-    var meGrid = function(options) {
+(function (window, $) {
+    var meGrid = function (options) {
         return new meGrid.fn._construct(options);
     };
 
@@ -11,7 +11,7 @@
         constructor: meGrid,
 
         // 初始化配置信息
-        _construct: function(options) {
+        _construct: function (options) {
             // 处理配置项目
             if (options != undefined) {
                 this.extend({options: options});
@@ -85,7 +85,7 @@
             if (this.options.grid.colModel.length >= 1) {
                 this.options.colNames = [];
                 var self = this;
-                this.options.grid.colModel.forEach(function(value, key) {
+                this.options.grid.colModel.forEach(function (value, key) {
                     self.options.colNames[key] = value.title;
                     if (value.gridSearch) {
                         if (!value.gridSearch.type) {
@@ -94,7 +94,7 @@
 
                         value.gridSearch.title = value.title;
                         value.gridSearch.name = value.index;
-                        var defaultObject = value.gridSearch.type == "select" ?  {"All": self.getLanguage("all")} : null;
+                        var defaultObject = value.gridSearch.type == "select" ? {"All": self.getLanguage("all")} : null;
                         try {
                             self.options.searchHtml += meGrid[value.gridSearch.type + "Create"](value.gridSearch, value.value, defaultObject);
                         } catch (e) {
@@ -123,7 +123,7 @@
         },
 
         // 初始化处理
-        init: function(func) {
+        init: function (func) {
             // 渲染表格
             this.grid = $(this.options.gridSelector).jqGrid(this.options.grid);
 
@@ -134,7 +134,6 @@
             try {
                 $(this.options.searchSelector)[this.options.search.type](this.options.searchHtml);
             } catch (e) {
-                console.info(e);
                 $(this.options.searchSelector).append(this.options.searchHtml);
             }
 
@@ -146,10 +145,10 @@
 
             // resize on sidebar collapse/expand
             var parent_column = self.grid.closest('[class*="col-"]');
-            $(document).on('settings.ace.jqGrid' , function(ev, event_name) {
-                if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+            $(document).on('settings.ace.jqGrid', function (ev, event_name) {
+                if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
                     //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
-                    setTimeout(function() {
+                    setTimeout(function () {
                         self.grid.jqGrid('setGridWidth', parent_column.width());
                     }, 0);
                 }
@@ -163,7 +162,7 @@
 
             // 添加数据
             if (self.options.buttons.add) {
-                $(self.options.gridSelector + "-add").click(function(evt){
+                $(self.options.gridSelector + "-add").click(function (evt) {
                     evt.preventDefault();
                     self.grid.jqGrid('editGridRow', "new", self.options.createOptions);
                 });
@@ -171,9 +170,9 @@
 
             //　编辑数据
             if (self.options.buttons.edit) {
-                $(self.options.gridSelector + "-edit").click(function(evt){
+                $(self.options.gridSelector + "-edit").click(function (evt) {
                     evt.preventDefault();
-                    var gr = self.grid.jqGrid('getGridParam','selrow');
+                    var gr = self.grid.jqGrid('getGridParam', 'selrow');
                     if (gr != null) {
                         self.grid.jqGrid('editGridRow', gr, self.options.updateOptions);
                     } else {
@@ -184,7 +183,7 @@
 
             // 删除数据
             if (self.options.buttons.del) {
-                $(self.options.gridSelector + "-del").click(function() {
+                $(self.options.gridSelector + "-del").click(function () {
                     var gr = self.grid.jqGrid('getGridParam', 'selarrrow');
                     if (gr != null && gr.length >= 1) {
                         self.grid.jqGrid('delGridRow', gr, self.options.deleteOptions);
@@ -196,27 +195,27 @@
 
             // 刷新表格
             if (self.options.buttons.refresh) {
-                $(self.options.gridSelector + "-refresh").click(function(evt) {
+                $(self.options.gridSelector + "-refresh").click(function (evt) {
                     evt.preventDefault();
                     self.refresh(true);
                 });
             }
 
             // 表单搜索
-            $(self.options.searchSelector).submit(function(evt){
+            $(self.options.searchSelector).submit(function (evt) {
                 evt.preventDefault();
                 self.refresh();
             });
 
             // 数据导出
             if (self.options.buttons.export) {
-                $(document).on('click', self.options.gridSelector + "-export", function(evt){
+                $(document).on('click', self.options.gridSelector + "-export", function (evt) {
                     evt.preventDefault();
                     self.export();
                 });
             }
 
-            $(document).on('ajaxloadstart', function(e) {
+            $(document).on('ajaxloadstart', function (e) {
                 self.grid.jqGrid('GridUnload');
                 $('.ui-jqdialog').remove();
             });
@@ -227,16 +226,17 @@
         },
 
         // 数据导出
-        export: function() {
+        export: function () {
             this.action = "export";
             var self = this,
                 html = '<form action="' + this.getUrl("export") + '" target="_blank" method="POST" class="me-export" style="display:none">';
             html += '<input type="hidden" name="title" value="' + self.options.title + '"/>';
-            html += '<input type="hidden" name="_csrf" value="' + $('meta[name=csrf-token]').attr('content') + '"/>';
+            var csrf_param = $('meta[name=csrf-param]').attr('content') || "_csrf";
+            html += '<input type="hidden" name="' + csrf_param + '" value="' + $('meta[name=csrf-token]').attr('content') + '"/>';
 
             // 添加字段信息
-            this.options.grid.colModel.forEach(function(k){
-                if (k.index != null && (k.bExport == undefined)) {
+            this.options.grid.colModel.forEach(function (k) {
+                if (k.index != null && k.bExport !== false && k.isExport !== false && k.export !== false) {
                     html += '<input type="hidden" name="fields[' + k.index + ']" value="' + k.title + '"/>';
                 }
             });
@@ -244,7 +244,10 @@
             // 添加查询条件
             var value = $(self.options.searchSelector).serializeArray();
             for (var i in value) {
-                if (meTables.empty(value[i]["value"]) || value[i]["value"] == "All") continue;
+                if (!value[i]["value"] || value[i]["value"] == "All") {
+                    continue;
+                }
+
                 html += '<input type="hidden" name="' + value[i]['name'] + '" value="' + value[i]["value"] + '"/>';
             }
 
@@ -252,27 +255,27 @@
             var $form = $(html);
             $('body').append($form);
             var deferred = new $.Deferred,
-                temporary_iframe_id = 'temporary-iframe-'+(new Date()).getTime()+'-'+(parseInt(Math.random()*1000)),
-                temp_iframe = $('<iframe id="'+temporary_iframe_id+'" name="'+temporary_iframe_id+'" \
+                temporary_iframe_id = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000)),
+                temp_iframe = $('<iframe id="' + temporary_iframe_id + '" name="' + temporary_iframe_id + '" \
 								frameborder="0" width="0" height="0" src="about:blank"\
 								style="position:absolute; z-index:-1; visibility: hidden;"></iframe>')
                     .insertAfter($form);
-            $form.append('<input type="hidden" name="temporary-iframe-id" value="'+temporary_iframe_id+'" />');
-            temp_iframe.data('deferrer' , deferred);
+            $form.append('<input type="hidden" name="temporary-iframe-id" value="' + temporary_iframe_id + '" />');
+            temp_iframe.data('deferrer', deferred);
             $form.attr({
-                method:  'POST',
+                method: 'POST',
                 enctype: 'multipart/form-data',
-                target:  temporary_iframe_id //important
+                target: temporary_iframe_id //important
             });
 
             $form.get(0).submit();
-            var ie_timeout = setTimeout(function(){
+            var ie_timeout = setTimeout(function () {
                 ie_timeout = null;
                 deferred.reject($(document.getElementById(temporary_iframe_id).contentDocument).text());
                 $('.me-export').remove();
-            } , 500);
+            }, 500);
 
-            deferred.fail(function(result) {
+            deferred.fail(function (result) {
                 if (result) {
                     try {
                         result = $.parseJSON(result);
@@ -283,12 +286,14 @@
                 } else {
                     layer.msg(self.getLanguage("exportSuccess"), {icon: 6});
                 }
-            }).always(function() {clearTimeout(ie_timeout);});
+            }).always(function () {
+                clearTimeout(ie_timeout);
+            });
             deferred.promise();
         },
 
         // 刷新页面
-        refresh: function(reload, params) {
+        refresh: function (reload, params) {
             if (!params) params = {page: 1};
             if (reload && $(this.options.searchSelector).get(0)) {
                 $(this.options.searchSelector).get(0).reset();
@@ -302,7 +307,7 @@
         },
 
         // 获取语言参数
-        getLanguage: function(str, language) {
+        getLanguage: function (str, language) {
             if (!language) language = this.options.language;
             return this.language[language][str];
         }
@@ -406,16 +411,16 @@
             // 按钮选项
             buttonOptions: {
                 edit: false,
-                editicon : 'ace-icon fa fa-pencil blue',
+                editicon: 'ace-icon fa fa-pencil blue',
                 add: false,
-                addicon : 'ace-icon fa fa-plus-circle purple',
+                addicon: 'ace-icon fa fa-plus-circle purple',
                 del: false,
-                delicon : 'ace-icon fa fa-trash-o red',
+                delicon: 'ace-icon fa fa-trash-o red',
                 search: false,
                 refresh: false,
-                refreshicon : 'ace-icon fa fa-refresh green',
+                refreshicon: 'ace-icon fa fa-refresh green',
                 view: true,
-                viewicon : 'ace-icon fa fa-search-plus grey'
+                viewicon: 'ace-icon fa fa-search-plus grey'
             }
         },
 
@@ -438,7 +443,7 @@
     });
 
     meGrid.extend({
-        ajaxResponse: function(response) {
+        ajaxResponse: function (response) {
             try {
                 var jsonObject = $.parseJSON(response.responseText);
                 return [jsonObject.errCode == 0, jsonObject.errMsg];
@@ -448,8 +453,8 @@
         },
 
         // 修改表单样式
-        style_edit_form: function(form) {
-            form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+        style_edit_form: function (form) {
+            form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
                 .end().find('input[name=stock]')
                 .addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
             var buttons = form.next().find('.EditButton .fm-button');
@@ -463,7 +468,7 @@
         },
 
         // 删除表单样式
-        style_delete_form: function(form) {
+        style_delete_form: function (form) {
             var buttons = form.next().find('.EditButton .fm-button');
             buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
             buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
@@ -471,39 +476,39 @@
         },
 
         // 删除表单之前回调
-        beforeDeleteCallback: function(e) {
+        beforeDeleteCallback: function (e) {
             var form = $(e[0]);
-            if(form.data('styled')) return false;
+            if (form.data('styled')) return false;
             form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
             meGrid.style_delete_form(form);
             form.data('styled', true);
         },
 
         // 修改之前回调
-        beforeEditCallback: function(e) {
+        beforeEditCallback: function (e) {
             var form = $(e[0]);
             form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
             meGrid.style_edit_form(form);
         },
 
         // 修改分页显示
-        updatePagerIcons: function(table) {
+        updatePagerIcons: function (table) {
             var replacement = {
-                'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
-                'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
-                'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
-                'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
             };
-            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
                 var icon = $(this);
                 var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-                if ($class in replacement) icon.attr('class', 'ui-icon '+ replacement[$class]);
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
             })
         },
 
-        enableTooltips: function(table) {
-            $('.navtable .ui-pg-button').tooltip({container:'body'});
-            $(table).find('.ui-pg-div').tooltip({container:'body'});
+        enableTooltips: function (table) {
+            $('.navtable .ui-pg-button').tooltip({container: 'body'});
+            $(table).find('.ui-pg-div').tooltip({container: 'body'});
         },
 
         // 处理参数
@@ -521,7 +526,7 @@
             return other;
         },
 
-        searchParams: function(params) {
+        searchParams: function (params) {
             var defaultParams = {
                 "id": "search-" + params.name,
                 "name": "params[" + params.name + "]",
@@ -552,7 +557,7 @@
             }
         },
 
-        textCreate: function(params) {
+        textCreate: function (params) {
             // 默认赋值
             if (!params.placeholder) {
                 params.placeholder = meGrid.fn.getLanguage("pleaseInput") + params.title;
@@ -570,7 +575,7 @@
                 </div> ';
         },
 
-        selectCreate: function(params, value, defaultObject) {
+        selectCreate: function (params, value, defaultObject) {
             var options = this.searchParams(params), i = null, html = "";
 
             if (defaultObject) {
@@ -607,15 +612,15 @@
             // 表格信息
             grid: {
                 // 加载之后的处理
-                loadComplete : function() {
+                loadComplete: function () {
                     var table = this;
-                    setTimeout(function(){
+                    setTimeout(function () {
                         meGrid.updatePagerIcons(table);
                         meGrid.enableTooltips(table);
                     }, 0);
                 },
                 // 发送数据之前的处理
-                loadBeforeSend: function(response, request) {
+                loadBeforeSend: function (response, request) {
                     console.info(arguments);
                     var data = $(meGrid.fn.options.searchSelector).serializeArray();
                     for (var i in data) {
@@ -631,7 +636,7 @@
                 closeAfterAdd: true,
                 recreateForm: true,
                 viewPagerButtons: false,
-                beforeShowForm : function(e) {
+                beforeShowForm: function (e) {
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
                         .wrapInner('<div class="widget-header" />');
@@ -645,7 +650,7 @@
             updateOptions: {
                 recreateForm: true,
                 closeAfterEdit: true,
-                beforeShowForm : function(e) {
+                beforeShowForm: function (e) {
                     var form = $(e[0]);
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
                     meGrid.style_edit_form(form);
@@ -657,7 +662,7 @@
             // 删除配置选项
             deleteOptions: {
                 recreateForm: true,
-                beforeShowForm : function(e) {
+                beforeShowForm: function (e) {
                     var form = $(e[0]);
                     if (form.data('styled')) return false;
                     form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
@@ -687,7 +692,7 @@
                         afterSubmit: meGrid.ajaxResponse
                     },
 
-                    onSuccess: function(response) {
+                    onSuccess: function (response) {
                         var arr = meGrid.ajaxResponse(response);
                         layer.msg(arr[1], {icon: arr[0] ? 6 : 5});
                         return arr[0];
