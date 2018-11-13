@@ -639,6 +639,8 @@
 
             this.options.form["id"] = this.options.sFormId.replace("#", "");
 
+            // 兼容之前的代码
+            this.options.table.columns = this.options.table.columns || this.options.table.aoColumns;
 
             // 添加序号
             if (this.options.number) {
