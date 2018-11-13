@@ -24,7 +24,7 @@ $this->title = '导航栏目信息';
 
         $.extend(MeTables, {
             selectOptionsCreate: function (params) {
-                return '<select ' + mt.handleParams(params) + '><option value="0">顶级分类</option><?=$options?></select>';
+                return '<select ' + this.handleParams(params) + '><option value="0">顶级分类</option><?=$options?></select>';
             },
             selectOptionsSearchMiddleCreate: function (params) {
                 delete params.type;
@@ -88,7 +88,7 @@ $this->title = '导航栏目信息';
                         value: arrStatus,
                         edit: {type: "radio", "default": 1, required: 1, "number": 1},
                         search: {type: "select"},
-                        createdCell: mt.statusString,
+                        createdCell: MeTables.statusString,
                         sortable: false
                     },
                     {
