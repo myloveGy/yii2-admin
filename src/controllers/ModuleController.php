@@ -393,6 +393,7 @@ use jinxing\admin\widgets\MeTable;
 <script type="text/javascript">
     var m = meTables({
         title: "{$title}",
+        number: false,
         {$primary_key_config}
         table: {
             columns: [
