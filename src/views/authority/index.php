@@ -48,7 +48,7 @@ $this->title = '权限信息';
                             rangeLength: "[2, 64]",
                             placeholder: "请输入英文字母、数字、_、/等字符串"
                         },
-                        sortable": false
+                        sortable: false
                     },
                     {
                         title: "说明描述",
@@ -59,7 +59,7 @@ $this->title = '权限信息';
                             placeholder: "请输入简单描述信息"
                         },
                         search: {"type": "text"},
-                        sortable": false
+                        sortable: false
                     },
                     {
                         title: "使用规则",

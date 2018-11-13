@@ -465,8 +465,10 @@
                             }
                         };
 
+                        console.info(self.options.editable[k.editable.name])
                         // 继承修改配置参数
-                        self.options.editable[k.editable.name] = self.extend(self.options.editable[k.editable.name], k.editable);
+                        self.options.editable[k.editable.name] = $.extend(true, {}, self.options.editable[k.editable.name], k.editable);
+                        console.info(self.options.editable[k.editable.name])
                         k["class"] = "my-edit edit-" + k.editable.name;
                     }
                 });
@@ -474,6 +476,7 @@
                 // 判断添加行内编辑信息
                 if (self.options.editable) {
                     self.options.table.fnDrawCallback = function () {
+                        console.info(self.options.editable)
                         for (var key in self.options.editable) {
                             $(self.options.sTable + " tbody tr td.edit-" + key).each(function () {
                                 var data = self.table.row($(this).closest('tr')).data(), mv = {};
@@ -483,7 +486,7 @@
                                     mv['pk'] = data[self.options.pk];
                                 }
 
-                                $(this).editable(self.extend(self.options.editable[key], mv))
+                                $(this).editable($.extend(true, {}, self.options.editable[key], mv))
                             });
                         }
                     }
