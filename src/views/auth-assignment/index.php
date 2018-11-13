@@ -86,7 +86,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
             },
             number: false,
             title: "角色分配",
-            bCheckbox: false,
+            checkbox: false,
             buttons: oButtons,
             operations: {
                 "width": "auto",

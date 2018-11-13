@@ -36,7 +36,7 @@ $this->title = '角色信息';
 
     var m = mt({
         title: "角色信息",
-        bCheckbox: false,
+        checkbox: false,
         buttons: oButtons,
         operations: {
             width: "200px",
@@ -49,7 +49,7 @@ $this->title = '角色信息';
                     title: "类型",
                     data: "type",
                     hide: true,
-                    isExport: false,
+                    export: false,
                     edit: {type: "hidden", value: iType}
                 },
                 {
@@ -97,7 +97,7 @@ $this->title = '角色信息';
         }
     });
 
-    mt.fn.extend({
+    $.extend(m, {
         beforeShow: function (data) {
             if (this.action === "update") {
                 data.newName = data.name;
@@ -140,8 +140,8 @@ $this->title = '角色信息';
         m.init();
 
         // 添加查看事件
-        $(document).on('click', '.role-see', function () {
-            var data = m.table.data()[$(this).attr('table-data')];
+        $(document).on('click', '.role-see-show-table', function () {
+            var data = $.getValue(m.table.data(), $(this).data('row'));
             if (data) {
                 layerOpen(
                     "查看" + data["name"] + "(" + data["description"] + ") 详情",
@@ -151,8 +151,8 @@ $this->title = '角色信息';
         });
 
         // 添加修改权限事件
-        $(document).on('click', '.role-edit', function () {
-            var data = m.table.data()[$(this).attr('table-data')];
+        $(document).on('click', '.role-edit-show-table', function () {
+            var data = $.getValue(m.table.data(), $(this).data('row'));
             if (data) {
                 layerOpen(
                     "编辑" + data["name"] + "(" + data["description"] + ") 信息",

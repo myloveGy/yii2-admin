@@ -121,7 +121,8 @@ class Controller extends \yii\web\Controller
         $search = $strategy->getRequest();
 
         // 方法存在，并且存在请求参数
-        if (method_exists($this, 'where') && ($filters = ArrayHelper::getValue($search, 'filters', []))) {
+        if (method_exists($this, 'where')) {
+            $filters         = ArrayHelper::getValue($search, 'filters', []);
             $search['where'] = Helper::handleWhere($filters, $this->where($filters));
         }
 
