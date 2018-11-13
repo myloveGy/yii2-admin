@@ -22,21 +22,14 @@ class AdminLogController extends Controller
      *
      * @return array 返回数组
      */
-    public function where()
+    public function getDefaultWhere()
     {
-        $where = [
-            'action'     => 'like',
-            'index'      => '=',
-            'admin_name' => 'like',
-            'where'      => [],
-        ];
-
         $intUserId = ArrayHelper::getValue($this->module, 'userId');
         if ($intUserId != Admin::SUPER_ADMIN_ID) {
-            $where['where'] = [['=', 'admin_id', $intUserId]];
+            return ['admin_id' => $intUserId];
         }
 
-        return $where;
+        return [];
     }
 
     public function actionIndex()

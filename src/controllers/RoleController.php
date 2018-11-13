@@ -38,12 +38,12 @@ class RoleController extends Controller
      *
      * @return array
      */
-    public function where()
+    public function getDefaultWhere()
     {
-        $uid   = ArrayHelper::getValue($this->module, 'userId');
-        $where = [['=', 'type', Auth::TYPE_ROLE]]; // 查询角色信息
-
+        // 查询角色信息
+        $where = ['and', ['type' => Auth::TYPE_ROLE]];
         // 不是管理员
+        $uid = ArrayHelper::getValue($this->module, 'userId');
         if ($uid != Admin::SUPER_ADMIN_ID) {
             // 获取用户的所有角色
             if ($roles = Yii::$app->authManager->getRolesByUser($uid)) {
@@ -51,11 +51,7 @@ class RoleController extends Controller
             }
         }
 
-        return [
-            'name'        => 'like',
-            'description' => 'like',
-            'where'       => $where,    // 查询角色信息
-        ];
+        return $where;
     }
 
     /**

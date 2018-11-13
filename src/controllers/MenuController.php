@@ -20,23 +20,6 @@ class MenuController extends Controller
     public $modelClass = 'jinxing\admin\models\Menu';
 
     /**
-     * 查询参数配置
-     *
-     * @return array
-     */
-    public function where()
-    {
-        return [
-            'id'          => '=',
-            'menu_name'   => 'like',
-            'url'         => '=',
-            'action_name' => 'like',
-            'status'      => '=',
-            'pid'         => '='
-        ];
-    }
-
-    /**
      * 首页显示
      * @return string
      */

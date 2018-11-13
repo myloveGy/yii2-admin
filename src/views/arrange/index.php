@@ -65,7 +65,7 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                             }
                         },
                         edit: {type: "text", required: true, rangeLength: "[2, 100]"},
-                        search: {type: "text"},
+                        search: {name: "title:like"},
                         sortable: false
                     },
                     {

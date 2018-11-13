@@ -23,22 +23,14 @@ class ArrangeController extends Controller
      *
      * @return array
      */
-    public function where()
+    public function getDefaultWhere()
     {
         $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
-            $where = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
-        } else {
-            $where = [];
+            return ['or', ['id' => $intUid], ['created_id' => $intUid]];
         }
 
-        return [
-            'id'       => '=',
-            'title'    => 'like',
-            'status'   => '=',
-            'admin_id' => '=',
-            'where'    => $where
-        ];
+        return [];
     }
 
     /**

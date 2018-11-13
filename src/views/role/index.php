@@ -57,7 +57,7 @@ $this->title = '角色信息';
                     data: "name",
                     hide: true,
                     edit: {type: "hidden"},
-                    search: {type: "text"}
+                    search: {name: "name:like"}
                 },
                 {
                     title: "角色名称",
@@ -79,7 +79,7 @@ $this->title = '角色信息';
                         rangeLength: "[2, 255]",
                         placeholder: "请输入简单描述信息"
                     },
-                    search: {type: "text"},
+                    search: {name: "description:like"},
                     sortable: false
                 },
                 {

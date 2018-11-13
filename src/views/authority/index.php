@@ -36,7 +36,7 @@ $this->title = '权限信息';
                         data: "name",
                         hide: true,
                         edit: {type: "hidden"},
-                        search: {type: "text"},
+                        search: {name: "name:like"},
                         sortable: false
                     },
                     {
@@ -58,7 +58,7 @@ $this->title = '权限信息';
                             rangeLength: "[2, 64]",
                             placeholder: "请输入简单描述信息"
                         },
-                        search: {"type": "text"},
+                        search: {name: "description:like"},
                         sortable: false
                     },
                     {
@@ -66,7 +66,7 @@ $this->title = '权限信息';
                         data: "rule_name",
                         value: rules,
                         edit: {"type": "select"},
-                        search: {"type": "text"},
+                        search: {name: "rule_name:like"},
                         sortable: false,
                         createdCell: function (td, data) {
                             $(td).html(rules[data] ? rules[data] : data);

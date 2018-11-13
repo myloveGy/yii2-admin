@@ -16,6 +16,7 @@
         }
     ],
     "require": {
+        "ext-json": "*",
         "yiisoft/yii2": ">=2.0.13",
         "yurkinx/yii2-image": "^1.1",
         "phpoffice/phpexcel": "*"

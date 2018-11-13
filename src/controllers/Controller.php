@@ -131,9 +131,8 @@ class Controller extends \yii\web\Controller
         // 获取查询参数
         $search    = $strategy->getRequest();
         $condition = (new ExpressionQuery())->getFilterCondition(ArrayHelper::getValue($search, 'filters', []));
-
         // 查询数据
-        $query = $this->getQuery($condition)->where($this->getDefaultWhere());
+        $query = $this->getQuery($condition)->andWhere($this->getDefaultWhere());
 
         // 查询数据条数
         if ($total = $query->count()) {

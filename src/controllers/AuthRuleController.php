@@ -25,18 +25,6 @@ class AuthRuleController extends Controller
     public $modelClass = 'jinxing\admin\models\AuthRule';
 
     /**
-     * 查询处理
-     *
-     * @return array 返回数组
-     */
-    public function where()
-    {
-        return [
-            'name' => 'like'
-        ];
-    }
-
-    /**
      * 搜索之后的数据处理
      * @param mixed $array
      */

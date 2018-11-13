@@ -40,7 +40,8 @@ $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
                         title: "标题",
                         data: "title",
                         edit: {type: "text", required: true, rangeLength: "[2, 250]"},
-                        sortable: false
+                        sortable: false,
+                        search: {name: "title:like"}
                     },
                     {
                         title: "文件访问地址",
