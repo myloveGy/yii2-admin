@@ -241,28 +241,35 @@ class ModuleController extends Controller
 </div>';
         foreach ($array as $value) {
             $key     = $value['Field'];
-            $sTitle  = isset($value['Comment']) && !empty($value['Comment']) ? $value['Comment'] : $value['Field'];
-            $sOption = isset($value['Null']) && $value['Null'] == 'NO' ? '"required": true,' : '';
-            if (stripos($value['Type'], 'int(') !== false) $sOption .= '"number": true,';
+            $title   = ArrayHelper::getValue($value, 'Comment') ?: $value['Field'];
+            $options = [];
+            if (ArrayHelper::getValue($value, 'Null') == 'NO') {
+                $options[] = 'required: true';
+            }
+
+            if (stripos($value['Type'], 'int(') !== false) {
+                $options[] = 'number: true';
+            }
+
             if (stripos($value['Type'], 'varchar(') !== false) {
-                $sLen    = trim(str_replace('varchar(', '', $value['Type']), ')');
-                $sOption .= '"rangelength": "[2, ' . $sLen . ']"';
+                $sLen      = trim(str_replace('varchar(', '', $value['Type']), ')');
+                $options[] = 'rangeLength: "[2, ' . $sLen . ']"';
             }
 
             // 主键修改隐藏
             if ($key == $primary_key) {
-                $sOption = '';
+                $options = [];
                 $select  = '<option value="hidden" selected="selected">hidden</option>';
             } else {
                 $select = '<option value="text" selected="selected">text</option>';
             }
 
-            $sOther = stripos($value['Field'], '_at') !== false ? 'meTables.dateTimeString' : '';
-
+            $other   = stripos($value['Field'], '_at') !== false ? 'MeTables.dateTimeString' : '';
+            $options = implode(', ', $options);
             $strHtml .= <<<HTML
 <div class="alert alert-success me-alert-su">
     <span class="label label-success me-label-sp">{$key}</span>
-    <label class="me-label">标题: <input type="text" name="attr[{$key}][title]" value="{$sTitle}" required="required" /></label>
+    <label class="me-label">标题: <input type="text" name="attr[{$key}][title]" value="{$title}" required="required" /></label>
     <label class="me-label">编辑：
         <select class="is-hide" name="attr[{$key}][edit]">
             <option value="1" selected="selected">开启</option>
@@ -277,7 +284,7 @@ class ModuleController extends Controller
             <option value="password">password</option>
             <option value="textarea">textarea</option>
         </select>
-        <input type="text" name="attr[{$key}][options]" value='{$sOption}'/>
+        <input type="text" name="attr[{$key}][options]" value='{$options}'/>
     </label>
     <label class="me-label">搜索：
         <select name="attr[{$key}][search]">
@@ -289,7 +296,7 @@ class ModuleController extends Controller
         <option value="1" >开启</option>
         <option value="0" selected="selected">关闭</option>
     </select></label>
-    <label class="me-label">回调：<input type="text" name="attr[{$key}][createdCell]" value="{$sOther}" /></label>
+    <label class="me-label">回调：<input type="text" name="attr[{$key}][createdCell]" value="{$other}" /></label>
 </div>
 HTML;
         }
@@ -315,33 +322,41 @@ HTML;
         $strHtml = $strWhere = '';
         if ($array) {
             foreach ($array as $key => $value) {
-                $html = "\t\t\t{\"title\": \"{$value['title']}\", \"data\": \"{$key}\", ";
+                $arrayOptions = [
+                    "title: \"{$value['title']}\"",
+                    "data: \"{$key}\"",
+                ];
 
                 // 编辑
                 if ($value['edit'] == 1) {
-                    $html .= "\"edit\": {\"type\": \"{$value['type']}\", " . trim($value['options'], ',') . "}, ";
+                    $edit = ['type: "' . $value['type'] . '"'];
+                    if ($options = trim($value['options'], ',')) {
+                        $edit[] = $options;
+                    }
+
+                    $arrayOptions[] = 'edit: {' . implode(', ', $edit) . '}';
                 }
 
                 // 搜索
                 if ($value['search'] == 1) {
-                    $html     .= "\"search\": {\"type\": \"text\"}, ";
-                    $strWhere .= "\t\t\t'{$key}' => '=', \n";
+                    $arrayOptions[] = 'search: {type: "text"}';
                 }
 
                 // 排序
                 if ($value['bSortable'] == 0) {
-                    $html .= '"bSortable": false, ';
+                    $arrayOptions[] = 'sortable: false';
                 }
 
                 // 回调
                 if (!empty($value['createdCell'])) {
-                    $html .= '"createdCell" : ' . $value['createdCell'] . ', ';
+                    $arrayOptions[] = "createdCell: {$value['createdCell']}";
                 }
 
-                $strHtml .= trim($html, ', ') . "}, \n";
+                $strHtml .= "\n\t\t\t\t\t{\n\t\t\t\t\t\t" . trim(implode(",\n\t\t\t\t\t\t", $arrayOptions), ', ') . "\n\t\t\t\t\t},";
             }
         }
 
+        $strHtml            = trim($strHtml, ',');
         $primary_key_config = $primary_key && $primary_key != 'id' ? 'pk: "' . $primary_key . '",' : '';
         $sHtml              = <<<html
 <?php
@@ -357,14 +372,14 @@ use jinxing\admin\widgets\MeTable;
         title: "{$title}",
         {$primary_key_config}
         table: {
-            "aoColumns": [
+            columns: [
                 {$strHtml}
             ]       
         }
     });
     
     /**
-    meTables.fn.extend({
+    $.extend(m, {
         // 显示的前置和后置操作
         beforeShow: function(data, child) {
             return true;
@@ -406,12 +421,11 @@ html;
      * @param  string $name        控制器名
      * @param  string $title       标题
      * @param  string $path        文件名
-     * @param  string $where       查询条件
      * @param string  $primary_key 主键名称
      *
      * @return void
      */
-    private function createController($name, $title, $path, $where, $primary_key = 'id')
+    private function createController($name, $title, $path, $primary_key = 'id')
     {
         $strFile  = trim(strrchr($path, '/'), '/');
         $strName  = trim($strFile, '.class.php');
@@ -438,18 +452,6 @@ class {$strName} extends Controller
      * @var string 定义使用的model
      */
     public \$modelClass = '{$strModel}';
-     
-    /**
-     * 查询处理
-     * 
-     * @return array 返回数组
-     */
-    public function where()
-    {
-        return [
-            {$where}
-        ];
-    }
 }
 
 Html;
