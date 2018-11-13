@@ -171,6 +171,11 @@
 
             // 刷新
             this.refresh = function () {
+                var objectForm = $(this.options.searchForm).get(0);
+                if (objectForm) {
+                    objectForm.reset();
+                }
+
                 this.action = "refresh";
                 this.search(true);
             };
