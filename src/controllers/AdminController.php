@@ -29,25 +29,18 @@ class AdminController extends Controller
     public $strUploadPath = './uploads/avatars/';
 
     /**
-     * 搜索处理
+     * 默认查询条件
      *
      * @return array
      */
-    public function where()
+    public function getDefaultWhere()
     {
-        $where  = [];
         $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
-            $where = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
+            return ['or', ['id' => $intUid], ['created_id' => $intUid]];
         }
 
-        return [
-            'id'       => '=',
-            'username' => 'like',
-            'email'    => 'like',
-            'where'    => $where,
-            'status'   => '='
-        ];
+        return [];
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace jinxing\admin\controllers;
 
+use jinxing\admin\helpers\ExpressionQuery;
 use Yii;
 use yii\base\Model;
 use yii\db\Query;
@@ -104,6 +105,16 @@ class Controller extends \yii\web\Controller
     }
 
     /**
+     * 获取默认查询条件
+     *
+     * @return array
+     */
+    public function getDefaultWhere()
+    {
+        return [];
+    }
+
+    /**
      * 处理查询数据
      * @return mixed|string
      * @see where()
@@ -118,16 +129,11 @@ class Controller extends \yii\web\Controller
         $strategy = Substance::getInstance($this->strategy);
 
         // 获取查询参数
-        $search = $strategy->getRequest();
-
-        // 方法存在，并且存在请求参数
-        if (method_exists($this, 'where')) {
-            $filters         = ArrayHelper::getValue($search, 'filters', []);
-            $search['where'] = Helper::handleWhere($filters, $this->where($filters));
-        }
+        $search    = $strategy->getRequest();
+        $condition = (new ExpressionQuery())->getFilterCondition(ArrayHelper::getValue($search, 'filters', []));
 
         // 查询数据
-        $query = $this->getQuery(ArrayHelper::getValue($search, 'where', []));
+        $query = $this->getQuery($condition)->where($this->getDefaultWhere());
 
         // 查询数据条数
         if ($total = $query->count()) {

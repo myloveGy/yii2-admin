@@ -43,7 +43,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     title: "管理员账号",
                     data: "username",
                     edit: {required: true, rangeLength: "[2, 255]"},
-                    search: {type: "text"},
+                    search: {type: "text", name: "username:like"},
                     sortable: false
                 },
                 {
@@ -88,7 +88,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     title: "邮箱",
                     data: "email",
                     edit: {required: true, rangeLength: "[2, 255]", email: true},
-                    search: {"type": "text"},
+                    search: {name: "email:like"},
                     sortable: false
                 },
                 {
