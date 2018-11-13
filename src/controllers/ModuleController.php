@@ -239,6 +239,7 @@ class ModuleController extends Controller
     <button data-dismiss="alert" class="close" type="button">×</button>
     <strong>填写配置表格信息!</strong>
 </div>';
+        $table   = '';
         foreach ($array as $value) {
             $key     = $value['Field'];
             $title   = ArrayHelper::getValue($value, 'Comment') ?: $value['Field'];
@@ -266,11 +267,11 @@ class ModuleController extends Controller
 
             $other   = stripos($value['Field'], '_at') !== false ? 'MeTables.dateTimeString' : '';
             $options = implode(', ', $options);
-            $strHtml .= <<<HTML
-<div class="alert alert-success me-alert-su">
-    <span class="label label-success me-label-sp">{$key}</span>
-    <label class="me-label">标题: <input type="text" name="attr[{$key}][title]" value="{$title}" required="required" /></label>
-    <label class="me-label">编辑：
+            $table   .= <<<HTML
+<tr>
+    <td>{$key}</td>
+    <td><input type="text" name="attr[{$key}][title]" value="{$title}" required="required" /></td>
+    <td>
         <select class="is-hide" name="attr[{$key}][edit]">
             <option value="1" selected="selected">开启</option>
             <option value="0" >关闭</option>
@@ -285,23 +286,45 @@ class ModuleController extends Controller
             <option value="textarea">textarea</option>
         </select>
         <input type="text" name="attr[{$key}][options]" value='{$options}'/>
-    </label>
-    <label class="me-label">搜索：
+    </td>
+    <td class="text-center">
         <select name="attr[{$key}][search]">
             <option value="1">开启</option>
             <option value="0" selected="selected">关闭</option>
         </select>
-    </label>
-    <label class="me-label">排序：<select name="attr[{$key}][bSortable]">
-        <option value="1" >开启</option>
-        <option value="0" selected="selected">关闭</option>
-    </select></label>
-    <label class="me-label">回调：<input type="text" name="attr[{$key}][createdCell]" value="{$other}" /></label>
-</div>
+    </td>
+    <td class="text-center">
+        <select name="attr[{$key}][bSortable]">
+            <option value="1" >开启</option>
+            <option value="0" selected="selected">关闭</option>
+        </select>
+    </td>
+    <td class="text-center">
+        <input type="text" name="attr[{$key}][createdCell]" value="{$other}" />
+    </td>
+    <td class="text-center">
+        <button class="btn btn-danger btn-xs" type="button" onclick="$(this).parent().parent().remove()">删除</button>
+    </td>
+</tr>
 HTML;
         }
 
-        return $strHtml . '<input type="hidden" name="pk" value="' . $primary_key . '">';
+        return '<table class="table table-striped table-bordered table-hover">
+     <thead>
+     <tr>
+        <th class="text-center">字段</th>
+        <th class="text-center">标题</th>
+        <th class="text-center">编辑</th>
+        <th class="text-center">搜索</th>
+        <th class="text-center">排序</th>
+        <th class="text-center">回调</th>
+        <th class="text-center">操作</th>
+    </tr>
+    <tbody>
+    ' . $table . '
+</tbody>
+</thead>       
+</table>' . $strHtml . '<input type="hidden" name="pk" value="' . $primary_key . '">';
     }
 
     /**
