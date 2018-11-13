@@ -379,31 +379,33 @@ class Auth extends ActiveRecord
         array_pop($controller);
         $controller = implode('/', $controller) . '/';
         $arrReturn  = [
-            'buttons'    => [
-                'create' => [
-                    'bShow' => Yii::$app->get($user)->can($controller . 'create')
-                ],
-
-                'deleteAll' => [
-                    'bShow' => Yii::$app->get($user)->can($controller . 'delete-all'),
-                ],
-
-                'export' => [
-                    'bShow' => Yii::$app->get($user)->can($controller . 'export')
-                ]
-            ],
-            'operations' => [
-                'delete' => [
-                    'bShow' => Yii::$app->get($user)->can($controller . 'delete')
-                ]
-            ],
+            'buttons'    => [],
+            'operations' => [],
         ];
 
+        // 添加
+        if (!Yii::$app->get($user)->can($controller . 'create')) {
+            $arrReturn['buttons']['create'] = null;
+        }
+
+        // 删除全部
+        if (!Yii::$app->get($user)->can($controller . 'delete-all')) {
+            $arrReturn['buttons']['deleteAll'] = null;
+        }
+
+        // 导出
+        if (!Yii::$app->get($user)->can($controller . 'export')) {
+            $arrReturn['buttons']['export'] = null;
+        }
+
+        // 删除
+        if (!Yii::$app->get($user)->can($controller . 'delete')) {
+            $arrReturn['operations']['delete'] = null;
+        }
+
         // 修改
-        if (Yii::$app->get($user)->can($controller . 'update')) {
-            $arrReturn['buttons']['updateAll'] = $arrReturn['operations']['update'] = ['bShow' => true];
-        } else {
-            $arrReturn['buttons']['updateAll'] = $arrReturn['operations']['update'] = ['bShow' => false];
+        if (!Yii::$app->get($user)->can($controller . 'update')) {
+            $arrReturn['buttons']['updateAll'] = $arrReturn['operations']['update'] = null;
         }
 
         return $arrReturn;
