@@ -1059,7 +1059,7 @@
             // 添加按钮信息
             if (data !== undefined && typeof data === "object") {
                 for (var i in data) {
-                    if ($.isFunction(data[i]["show"]) && data[i]["show"](rowArray) === false) {
+                    if ($.isFunction(data[i]["show"]) && !data[i]["show"](rowArray)) {
                         continue;
                     }
 
