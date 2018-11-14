@@ -128,7 +128,7 @@
                     "title": self.getLanguage("operations"),
                     "width": self.options.operations.width,
                     "createdCell": function (td, data, rowArr, row) {
-                        $(td).html(meTables.buttonsCreate(row, self.options.operations.buttons));
+                        $(td).html(meTables.buttonsCreate(row, self.options.operations.buttons, rowArr));
                     }
                 })
             }
@@ -379,6 +379,9 @@
 
             // 添加其他字段信息
             meTables.fn.push(aoData, meTables.fn.options.params, "params");
+
+            // 选中删除
+            $(meTables.fn.options.sTable).find("input:checked").prop("checked", false);
 
             // ajax请求
             meTables.ajax({
@@ -1050,12 +1053,16 @@
             return html;
         },
 
-        buttonsCreate: function (index, data) {
+        buttonsCreate: function (index, data, rowArray) {
             var div1 = '<div class="hidden-sm hidden-xs btn-group">',
                 div2 = '<div class="hidden-md hidden-lg"><div class="inline position-relative"><button data-position="auto" data-toggle="dropdown" class="btn btn-minier btn-primary dropdown-toggle"><i class="ace-icon fa fa-cog icon-only bigger-110"></i></button><ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">';
             // 添加按钮信息
             if (data !== undefined && typeof data === "object") {
                 for (var i in data) {
+                    if ($.isFunction(data[i]["show"]) && data[i]["show"](rowArray) === false) {
+                        continue;
+                    }
+
                     div1 += ' <button class="btn ' + data[i]['className'] + ' ' + data[i]['cClass'] + ' btn-xs" table-data="' + index + '"><i class="ace-icon fa ' + data[i]["icon"] + ' bigger-120"></i> ' + (data[i]["button-title"] ? data[i]["button-title"] : '') + '</button> ';
                     div2 += '<li><a title="' + data[i]['title'] + '" data-rel="tooltip" class="tooltip-info ' + data[i]['cClass'] + '" href="javascript:;" data-original-title="' + data[i]['title'] + '" table-data="' + index + '"><span class="' + data[i]['sClass'] + '"><i class="ace-icon fa ' + data[i]['icon'] + ' bigger-120"></i></span></a></li>';
                 }
