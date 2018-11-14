@@ -374,7 +374,8 @@
             }
 
             // 添加排序字段信息
-            meTables.fn.push(aoData, {"orderBy": attributes[parseInt(aoData[mSort].value)]}, "params");
+            var field = meTables.fn.options.table.aoColumns[parseInt(aoData[mSort].value)]["data"];
+            meTables.fn.push(aoData, {"orderBy": field}, "params");
 
             // 添加其他字段信息
             meTables.fn.push(aoData, meTables.fn.options.params, "params");
