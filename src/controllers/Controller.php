@@ -117,7 +117,6 @@ class Controller extends \yii\web\Controller
     /**
      * 处理查询数据
      * @return mixed|string
-     * @see where()
      * @see getQuery()
      * @see afterSearch()
      * @throws \Exception
@@ -420,7 +419,6 @@ class Controller extends \yii\web\Controller
      * @throws \PHPExcel_Reader_Exception
      * @throws \PHPExcel_Writer_Exception
      * @throws \yii\base\ExitException
-     * @see where()
      * @see getQuery()
      * @see getExportHandleParams()
      */
