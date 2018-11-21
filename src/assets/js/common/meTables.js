@@ -935,7 +935,13 @@
                 }
                 div1 += '</button> ';
 
-                div2 += '<li><a title="' + data[i]['title'] + '" data-rel="tooltip" class="tooltip-info ' + data[i]['cClass'] + '-' + unique + '" href="javascript:;" data-original-title="' + data[i]['title'] + '" data-row="' + index + '"><span class="' + data[i]['sClass'] + '"><i class="ace-icon fa ' + data[i]['icon'] + ' bigger-120"></i></span></a></li>';
+                div2 += '<li>' +
+                    '<a title="' + data[i]['title'] + '" data-rel="tooltip" class="tooltip-info ' + data[i]['cClass'] + '-' + unique + '" href="javascript:;" data-original-title="' + data[i]['title'] + '" data-row="' + index + '">' +
+                    '<span class="' + data[i]['sClass'] + '">' +
+                    '<i class="ace-icon fa ' + (data[i]['min-icon'] ? data[i]['min-icon'] : data[i]['icon']) + ' bigger-120"></i>' +
+                    '</span>' +
+                    '</a>' +
+                    '</li>';
             }
         }
 
@@ -1510,21 +1516,24 @@
                     className: "btn-success",
                     cClass: "me-table-detail",
                     icon: "fa-search-plus",
-                    sClass: "blue"
+                    sClass: "blue",
+                    "min-icon": "fa-search-plus"
                 },
                 update: {
                     title: meTables.getLanguage("meTables", "operations_update"),
                     className: "btn-info",
                     cClass: "me-table-update",
                     icon: "fa-pencil-square-o",
-                    sClass: "green"
+                    sClass: "green",
+                    "min-icon": "fa-pencil-square-o"
                 },
                 delete: {
                     title: meTables.getLanguage("meTables", "operations_delete"),
                     className: "btn-danger",
                     cClass: "me-table-delete",
                     icon: "fa-trash-o",
-                    sClass: "red"
+                    sClass: "red",
+                    "min-icon": "fa-trash-o"
                 }
             }
         }
