@@ -1063,8 +1063,26 @@
                         continue;
                     }
 
-                    div1 += ' <button class="btn ' + data[i]['className'] + ' ' + data[i]['cClass'] + ' btn-xs" table-data="' + index + '"><i class="ace-icon fa ' + data[i]["icon"] + ' bigger-120"></i>' + (data[i]["button-title"] ? data[i]["button-title"] : '') + '</button> ';
-                    div2 += '<li><a title="' + data[i]['title'] + '" data-rel="tooltip" class="tooltip-info ' + data[i]['cClass'] + '" href="javascript:;" data-original-title="' + data[i]['title'] + '" table-data="' + index + '"><span class="' + data[i]['sClass'] + '"><i class="ace-icon fa ' + data[i]['icon'] + ' bigger-120"></i></span></a></li>';
+                    div1 += ' <button class="btn ' + data[i]['className'] + ' ' + data[i]['cClass'] + ' btn-xs" table-data="' + index + '">';
+                    // 添加icon
+                    if (data[i]["icon"]) {
+                        div1 += '<i class="ace-icon fa ' + data[i]["icon"] + ' bigger-120"></i>';
+                    }
+
+                    // 添加文字
+                    if (data[i]["button-title"]) {
+                        div1 += data[i]["button-title"];
+                    }
+
+                    div1 += '</button> ';
+
+                    div2 += '<li>' +
+                        '<a title="' + data[i]['title'] + '" data-rel="tooltip" class="tooltip-info ' + data[i]['cClass'] + '" href="javascript:;" data-original-title="' + data[i]['title'] + '" table-data="' + index + '">' +
+                        '<span class="' + data[i]['sClass'] + '">' +
+                        '<i class="ace-icon fa ' + data[i]['icon'] + ' bigger-120"></i>' +
+                        '</span>' +
+                        '</a>' +
+                        '</li>';
                 }
             }
 
