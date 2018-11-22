@@ -418,13 +418,20 @@ html;
         $strModel = str_replace('controllers', 'models', $this->module->module->controllerNamespace) . '\\' . Helper::strToUpperWords($name);
         $pk       = $primary_key && $primary_key != 'id' ? 'protected $pk = \'' . $primary_key . '\';' : '';
 
+        // 上层模块是 Application,那么只要基础module 下的基础控制器就好了
+        if ($this->module->module instanceof Application) {
+            $use = '';
+        } else {
+            $use = 'use jinxing\admin\controllers\Controller;';
+        }
+
         // 模板
         $strControllers = <<<Html
 <?php
 
 namespace {$this->module->module->controllerNamespace};
 
-use jinxing\admin\controllers\Controller;
+{$use}
 
 /**
  * Class {$strName} {$title} 执行操作控制器
