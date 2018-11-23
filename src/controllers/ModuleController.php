@@ -239,31 +239,39 @@ class ModuleController extends Controller
     <button data-dismiss="alert" class="close" type="button">×</button>
     <strong>填写配置表格信息!</strong>
 </div>';
+        $table   = '';
         foreach ($array as $value) {
             $key     = $value['Field'];
-            $sTitle  = isset($value['Comment']) && !empty($value['Comment']) ? $value['Comment'] : $value['Field'];
-            $sOption = isset($value['Null']) && $value['Null'] == 'NO' ? '"required": true,' : '';
-            if (stripos($value['Type'], 'int(') !== false) $sOption .= '"number": true,';
+            $title   = ArrayHelper::getValue($value, 'Comment') ?: $value['Field'];
+            $options = [];
+            if (ArrayHelper::getValue($value, 'Null') == 'NO') {
+                $options[] = 'required: true';
+            }
+
+            if (stripos($value['Type'], 'int(') !== false) {
+                $options[] = 'number: true';
+            }
+
             if (stripos($value['Type'], 'varchar(') !== false) {
-                $sLen    = trim(str_replace('varchar(', '', $value['Type']), ')');
-                $sOption .= '"rangelength": "[2, ' . $sLen . ']"';
+                $sLen      = trim(str_replace('varchar(', '', $value['Type']), ')');
+                $options[] = 'rangeLength: "[2, ' . $sLen . ']"';
             }
 
             // 主键修改隐藏
             if ($key == $primary_key) {
-                $sOption = '';
+                $options = [];
                 $select  = '<option value="hidden" selected="selected">hidden</option>';
             } else {
                 $select = '<option value="text" selected="selected">text</option>';
             }
 
-            $sOther = stripos($value['Field'], '_at') !== false ? 'meTables.dateTimeString' : '';
-
-            $strHtml .= <<<HTML
-<div class="alert alert-success me-alert-su">
-    <span class="label label-success me-label-sp">{$key}</span>
-    <label class="me-label">标题: <input type="text" name="attr[{$key}][title]" value="{$sTitle}" required="required" /></label>
-    <label class="me-label">编辑：
+            $other   = stripos($value['Field'], '_at') !== false ? 'meTables.dateTimeString' : '';
+            $options = implode(', ', $options);
+            $table   .= <<<HTML
+<tr>
+    <td>{$key}</td>
+    <td><input type="text" name="attr[{$key}][title]" value="{$title}" required="required" /></td>
+    <td>
         <select class="is-hide" name="attr[{$key}][edit]">
             <option value="1" selected="selected">开启</option>
             <option value="0" >关闭</option>
@@ -277,24 +285,46 @@ class ModuleController extends Controller
             <option value="password">password</option>
             <option value="textarea">textarea</option>
         </select>
-        <input type="text" name="attr[{$key}][options]" value='{$sOption}'/>
-    </label>
-    <label class="me-label">搜索：
+        <input type="text" name="attr[{$key}][options]" value='{$options}'/>
+    </td>
+    <td class="text-center">
         <select name="attr[{$key}][search]">
             <option value="1">开启</option>
             <option value="0" selected="selected">关闭</option>
         </select>
-    </label>
-    <label class="me-label">排序：<select name="attr[{$key}][bSortable]">
-        <option value="1" >开启</option>
-        <option value="0" selected="selected">关闭</option>
-    </select></label>
-    <label class="me-label">回调：<input type="text" name="attr[{$key}][createdCell]" value="{$sOther}" /></label>
-</div>
+    </td>
+    <td class="text-center">
+        <select name="attr[{$key}][bSortable]">
+            <option value="1" >开启</option>
+            <option value="0" selected="selected">关闭</option>
+        </select>
+    </td>
+    <td class="text-center">
+        <input type="text" name="attr[{$key}][createdCell]" value="{$other}" />
+    </td>
+    <td class="text-center">
+        <button class="btn btn-danger btn-xs" type="button" onclick="$(this).parent().parent().remove()">删除</button>
+    </td>
+</tr>
 HTML;
         }
 
-        return $strHtml . '<input type="hidden" name="pk" value="' . $primary_key . '">';
+        return '<table class="table table-striped table-bordered table-hover">
+     <thead>
+     <tr>
+        <th class="text-center">字段</th>
+        <th class="text-center">标题</th>
+        <th class="text-center">编辑</th>
+        <th class="text-center">搜索</th>
+        <th class="text-center">排序</th>
+        <th class="text-center">回调</th>
+        <th class="text-center">操作</th>
+    </tr>
+    <tbody>
+    ' . $table . '
+</tbody>
+</thead>       
+</table>' . $strHtml . '<input type="hidden" name="pk" value="' . $primary_key . '">';
     }
 
     /**
