@@ -18,6 +18,16 @@ use yii\web\Application;
 class ModuleController extends Controller
 {
     /**
+     * 定义使用的行为，修改行为，不记录日志
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [];
+    }
+
+    /**
      * 首页显示
      *
      * @return string
