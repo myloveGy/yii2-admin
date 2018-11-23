@@ -351,7 +351,7 @@ HTML;
                 ];
 
                 // 编辑
-                if ($value['edit'] == 1) {
+                if ($value['edit'] == 1 && !in_array($key, ['created_at', 'update_at', 'create_time', 'update_time'])) {
                     $edit = ['type: "' . $value['type'] . '"'];
                     if ($options = trim($value['options'], ',')) {
                         $edit[] = $options;
@@ -431,7 +431,6 @@ html;
         if (!empty($path)) {
             FileHelper::createDirectory(dirname($path));
             file_put_contents($path, $sHtml);
-            return $strWhere;
         }
 
         return $sHtml;
