@@ -162,10 +162,10 @@ class ModuleController extends Controller
         }
 
         // 生成视图文件
-        $strWhere = $this->createView($attr, $title, $view_path, $primary_key);
+        $this->createView($attr, $title, $view_path, $primary_key);
 
         // 生成控制器
-        $this->createController($name, $title, $controller_path, $strWhere, $primary_key);
+        $this->createController($name, $title, $controller_path, $primary_key);
 
         // 返回数据
         return $this->success(Url::toRoute(['/' . $str_name . '/index']));
@@ -444,12 +444,11 @@ html;
      * @param  string $name        控制器名
      * @param  string $title       标题
      * @param  string $path        文件名
-     * @param  string $where       查询条件
      * @param string  $primary_key 主键名称
      *
      * @return void
      */
-    private function createController($name, $title, $path, $where, $primary_key = 'id')
+    private function createController($name, $title, $path, $primary_key = 'id')
     {
         $strFile  = trim(strrchr($path, '/'), '/');
         $strName  = trim($strFile, '.class.php');
@@ -491,9 +490,8 @@ class {$strName} extends Controller
      */
     public function where()
     {
-        return [
-            {$where}
-        ];
+        // 需要自己配置查询字段对应的处理表达式 ['username' => 'like']
+        return [];
     }
 }
 
