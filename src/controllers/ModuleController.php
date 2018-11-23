@@ -342,36 +342,44 @@ HTML;
      */
     private function createView($array, $title, $path = '', $primary_key = 'id')
     {
-        $strHtml = $strWhere = '';
+        $strHtml = '';
         if ($array) {
             foreach ($array as $key => $value) {
-                $html = "\t\t\t{\"title\": \"{$value['title']}\", \"data\": \"{$key}\", ";
+                $arrayOptions = [
+                    "title: \"{$value['title']}\"",
+                    "data: \"{$key}\"",
+                ];
 
                 // 编辑
                 if ($value['edit'] == 1) {
-                    $html .= "\"edit\": {\"type\": \"{$value['type']}\", " . trim($value['options'], ',') . "}, ";
+                    $edit = ['type: "' . $value['type'] . '"'];
+                    if ($options = trim($value['options'], ',')) {
+                        $edit[] = $options;
+                    }
+
+                    $arrayOptions[] = 'edit: {' . implode(', ', $edit) . '}';
                 }
 
                 // 搜索
                 if ($value['search'] == 1) {
-                    $html     .= "\"search\": {\"type\": \"text\"}, ";
-                    $strWhere .= "\t\t\t'{$key}' => '=', \n";
+                    $arrayOptions[] = 'search: {type: "text"}';
                 }
 
                 // 排序
                 if ($value['bSortable'] == 0) {
-                    $html .= '"bSortable": false, ';
+                    $arrayOptions[] = 'sortable: false';
                 }
 
                 // 回调
                 if (!empty($value['createdCell'])) {
-                    $html .= '"createdCell" : ' . $value['createdCell'] . ', ';
+                    $arrayOptions[] = "createdCell: {$value['createdCell']}";
                 }
 
-                $strHtml .= trim($html, ', ') . "}, \n";
+                $strHtml .= "\n\t\t\t\t\t{\n\t\t\t\t\t\t" . trim(implode(",\n\t\t\t\t\t\t", $arrayOptions), ', ') . "\n\t\t\t\t\t},";
             }
         }
 
+        $strHtml            = trim($strHtml, ',');
         $primary_key_config = $primary_key && $primary_key != 'id' ? 'pk: "' . $primary_key . '",' : '';
         $sHtml              = <<<html
 <?php
@@ -387,7 +395,7 @@ use jinxing\admin\widgets\MeTable;
         title: "{$title}",
         {$primary_key_config}
         table: {
-            "aoColumns": [
+            aoColumns: [
                 {$strHtml}
             ]       
         }
