@@ -317,6 +317,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                         } else {
                             return false;
                         }
+                    } else {
+                        $('.code').parent().hide();
                     }
                 })
                 .on('finished', function (e) {
