@@ -125,7 +125,7 @@
                 this.options.table.aoColumns.push({
                     "data": null,
                     "bSortable": false,
-                    "title": self.getLanguage("operations"),
+                    "title": self.options.operations.title || self.getLanguage("operations"),
                     "width": self.options.operations.width,
                     "createdCell": function (td, data, rowArr, row) {
                         $(td).html(meTables.buttonsCreate(row, self.options.operations.buttons, rowArr));
