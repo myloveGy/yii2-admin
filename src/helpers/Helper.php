@@ -239,7 +239,7 @@ class Helper
                     $tmpValue = isset($value[$attribute]) ? $value[$attribute] : null;
                     // 匿名函数处理
                     if (isset($handleParams[$attribute]) && $handleParams[$attribute] instanceof Closure) {
-                        $tmpValue = $handleParams[$attribute]($tmpValue);
+                        $tmpValue = $handleParams[$attribute]($tmpValue, $value);
                     }
 
                     $objPHPExcel->getActiveSheet()->setCellValue($letter . $intNum, $tmpValue);
