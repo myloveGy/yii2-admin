@@ -436,17 +436,12 @@ class Controller extends \yii\web\Controller
         }
 
         // 存在查询方法
-        if (method_exists($this, 'where')) {
-            $where = Helper::handleWhere($filters, $this->where($filters));
-        } else {
-            $where = [];
-        }
-
+        $where = (new ExpressionQuery())->getFilterCondition((array)$filters);
         // 数据导出
         return Helper::excel(
             $strTitle,
             $arrFields,
-            $this->getQuery($where)->orderBy([$this->sort => SORT_DESC]),
+            $this->getQuery($where)->andWhere($this->getDefaultWhere())->orderBy([$this->sort => SORT_DESC]),
             $this->getExportHandleParams()
         );
     }
