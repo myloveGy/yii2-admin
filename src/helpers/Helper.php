@@ -101,9 +101,10 @@ class Helper
                         $value = $handle['func']($value);
                     }
 
-                    $handle['field'] = empty($handle['field']) ? $key : $handle['field'];   // 对应字段
-                    $handle['and']   = empty($handle['and']) ? '=' : $handle['and'];        // 查询连接类型
-                    $arrReturn[]     = [$where[$key]['and'], $where[$key]['field'], $value];
+                    $field      = ArrayHelper::getValue($handle, 'field', $key);    // 对应字段
+                    $expression = ArrayHelper::getValue($handle, 'and', '=');       // 查询表达式
+
+                    $arrReturn[] = [$expression, $field, $value];
                     continue;
                 }
 
