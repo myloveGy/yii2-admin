@@ -38,7 +38,7 @@ class RoleController extends Controller
      *
      * @return array
      */
-    public function getDefaultWhere()
+    public function where()
     {
         // 查询角色信息
         $where = ['and', ['type' => Auth::TYPE_ROLE]];
@@ -51,7 +51,12 @@ class RoleController extends Controller
             }
         }
 
-        return $where;
+        return [
+            'where' => [$where],
+
+            // 字段查询
+            [['name', 'description'], 'like']
+        ];
     }
 
     /**

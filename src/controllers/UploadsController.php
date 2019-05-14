@@ -14,6 +14,13 @@ class UploadsController extends Controller
      */
     public $modelClass = 'jinxing\admin\models\Uploads';
 
+    public function where()
+    {
+        return [
+            [['title'], 'like'],
+        ];
+    }
+
     /**
      * 文件导出数据格式化
      *
