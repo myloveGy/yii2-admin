@@ -82,9 +82,14 @@ class Helper
         // 请求参数和查询参数必须存在
         if ($where && $params) {
             foreach ($params as $key => $value) {
-                // 判断不能查询请求的数据不能为空，且定义了查询参数对应查询处理方式
-                if ($value === '' || !isset($where[$key])) {
+                // 判断不能查询请求的数据不能为空
+                if (static::isEmpty($value) || !isset($where[$key])) {
                     continue;
+                }
+
+                // 如果是字符串的话，去除两边空格
+                if (is_string($value)) {
+                    $value = trim($value);
                 }
 
                 // 匿名函数处理
@@ -401,5 +406,17 @@ class Helper
         }
 
         return true;
+    }
+
+    /**
+     * 验证是否为空
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    public static function isEmpty($value)
+    {
+        return $value === '' || $value === [] || $value === null || is_string($value) && trim($value) === '';
     }
 }

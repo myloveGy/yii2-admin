@@ -29,18 +29,23 @@ class AdminController extends Controller
     public $strUploadPath = './uploads/avatars/';
 
     /**
-     * 默认查询条件
+     * 处理查询条件
      *
      * @return array
      */
-    public function getDefaultWhere()
+    public function where()
     {
         $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
-        if ($intUid !== Admin::SUPER_ADMIN_ID) {
-            return ['or', ['id' => $intUid], ['created_id' => $intUid]];
-        }
+        return [
+            // 不是管理员登录的话，只能看到自己添加和自己的数据
+            'where'    => $intUid !== Admin::SUPER_ADMIN_ID ? [['or', ['id' => $intUid], ['created_id' => $intUid]]] : [],
 
-        return [];
+            // 其他查询字段信息
+            'id'       => '=',
+            'username' => 'like',
+            'email'    => 'like',
+            'status'   => '=',
+        ];
     }
 
     /**

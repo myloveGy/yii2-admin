@@ -121,7 +121,8 @@ class Controller extends \yii\web\Controller
 
         // 查询数据
         if (method_exists($this, 'where')) {
-            $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
+            $filters         = ArrayHelper::getValue($search, 'filters');
+            $search['where'] = Helper::handleWhere($filters, $this->where($filters));
         }
 
         // 查询数据
