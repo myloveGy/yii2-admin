@@ -23,14 +23,17 @@ class ArrangeController extends Controller
      *
      * @return array
      */
-    public function getDefaultWhere()
+    public function where()
     {
         $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
-        if ($intUid !== Admin::SUPER_ADMIN_ID) {
-            return ['or', ['id' => $intUid], ['created_id' => $intUid]];
-        }
+        return [
+            // 不是管理员只能看自己的数据
+            'where' => $intUid !== Admin::SUPER_ADMIN_ID ? [['or', ['id' => $intUid], ['created_id' => $intUid]]] : [],
 
-        return [];
+            // 字段信息
+            [['id', 'status', 'time_status', 'admin_id'], '='],
+            ['title', 'like'],
+        ];
     }
 
     /**

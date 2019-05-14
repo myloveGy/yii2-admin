@@ -27,12 +27,11 @@ class AdminLogController extends Controller
         $intUserId = ArrayHelper::getValue($this->module, 'userId');
         return [
             // 不是管理员默认查询条件
-            'where'      => $intUserId != Admin::SUPER_ADMIN_ID ? [['admin_id' => $intUserId]] : [],
+            'where' => $intUserId != Admin::SUPER_ADMIN_ID ? [['admin_id' => $intUserId]] : [],
 
             // 其他字段查询
-            'admin_name' => 'like',
-            'action'     => 'like',
-            'index'      => '=',
+            [['admin_name', 'action'], 'like'],
+            ['index', '='],
         ];
     }
 

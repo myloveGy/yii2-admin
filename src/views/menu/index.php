@@ -66,7 +66,7 @@ $this->title = '导航栏目信息';
                         data: "menu_name",
                         title: "栏目名称",
                         edit: {required: 1, rangeLength: "[2, 50]"},
-                        search: {name: "menu_name:like"},
+                        search: {name: "menu_name"},
                         sortable: false
                     },
                     {
@@ -79,7 +79,7 @@ $this->title = '导航栏目信息';
                         data: "url",
                         title: "访问地址",
                         edit: {rangeLength: "[2, 50]"},
-                        search: {name: "url:like"},
+                        search: {name: "url"},
                         sortable: false
                     },
                     {

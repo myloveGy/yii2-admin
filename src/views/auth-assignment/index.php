@@ -26,7 +26,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                         <label for="inputEmail3" class="col-sm-2 control-label">管理员</label>
                         <div class="col-sm-10">
                             <?= Html::dropDownList(
-                                'user_id:in',
+                                'user_id',
                                 null,
                                 $admins,
                                 [
@@ -42,7 +42,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">分配角色</label>
                         <div class="col-sm-10">
-                            <?= Html::dropDownList('item_name:in', null, $arrRoles, [
+                            <?= Html::dropDownList('item_name', null, $arrRoles, [
                                 'multiple'         => 'multiple',
                                 'class'            => 'chosen-select tag-input-style',
                                 'data-placeholder' => '请选择角色',

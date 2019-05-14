@@ -74,13 +74,17 @@ class Helper
      */
     public static function handleWhere($params, $where, $join = 'and')
     {
-        // 处理默认查询条件
-        if ($arrReturn = ArrayHelper::getValue($where, 'where')) {
+        // 默认查询
+        $arrReturn = ArrayHelper::getValue($where, 'where', []);
+
+        // 删除定义的默认条件
+        if (isset($where['where'])) {
             unset($where['where']);
         }
 
         // 请求参数和查询参数必须存在
         if ($where && $params) {
+            $where = static::arrayAssoc($where);
             foreach ($params as $key => $value) {
                 // 判断不能查询请求的数据不能为空
                 if (static::isEmpty($value) || !isset($where[$key])) {
@@ -95,7 +99,7 @@ class Helper
                 // 匿名函数处理
                 $handle = $where[$key];
                 if ($handle instanceof Closure) {
-                    $arrReturn[] = $handle($value);
+                    $arrReturn[] = $handle($value, $key);
                     continue;
                 }
 
@@ -106,9 +110,10 @@ class Helper
                         $value = $handle['func']($value);
                     }
 
-                    $handle['field'] = empty($handle['field']) ? $key : $handle['field'];   // 对应字段
-                    $handle['and']   = empty($handle['and']) ? '=' : $handle['and'];        // 查询连接类型
-                    $arrReturn[]     = [$where[$key]['and'], $where[$key]['field'], $value];
+                    $field      = ArrayHelper::getValue($handle, 'field', $key);       // 对应字段
+                    $expression = ArrayHelper::getValue($handle, 'and', '=');  // 查询连接类型
+
+                    $arrReturn[] = [$expression, $field, $value];
                     continue;
                 }
 
@@ -418,5 +423,30 @@ class Helper
     public static function isEmpty($value)
     {
         return $value === '' || $value === [] || $value === null || is_string($value) && trim($value) === '';
+    }
+
+    /**
+     * 将数组转为 key => value 模式
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    public static function arrayAssoc(array $array)
+    {
+        $handle = [];
+        foreach ($array as $k => $value) {
+            if (is_numeric($k) && is_array($value) && count($value) == 2) {
+                list($keys, $expression) = $value;
+                $keys = (array)$keys;
+                foreach ($keys as $field) {
+                    $handle[$field] = $expression;
+                }
+            } elseif (is_string($k)) {
+                $handle[$k] = $value;
+            }
+        }
+
+        return $handle;
     }
 }

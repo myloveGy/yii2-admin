@@ -26,6 +26,13 @@ class AuthAssignmentController extends Controller
      */
     public $modelClass = 'jinxing\admin\models\AuthAssignment';
 
+    public function where()
+    {
+        return [
+            [['user_id', 'item_name'], 'in']
+        ];
+    }
+
     /**
      * 显示视图
      * @return string

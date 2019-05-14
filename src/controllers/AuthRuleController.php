@@ -24,8 +24,16 @@ class AuthRuleController extends Controller
      */
     public $modelClass = 'jinxing\admin\models\AuthRule';
 
+    public function where()
+    {
+        return [
+            [['name'], 'like']
+        ];
+    }
+
     /**
      * 搜索之后的数据处理
+     *
      * @param mixed $array
      */
     public function afterSearch(&$array)

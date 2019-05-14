@@ -22,6 +22,19 @@ class ChinaController extends Controller
     public $modelClass = 'jinxing\admin\models\China';
 
     /**
+     * 处理查询条件
+     *
+     * @return array
+     */
+    public function where()
+    {
+        return [
+            [['id', 'pid'], '='],
+            ['name', 'like'],
+        ];
+    }
+
+    /**
      * 首页显示
      * @return string
      */
