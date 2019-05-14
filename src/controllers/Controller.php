@@ -2,7 +2,6 @@
 
 namespace jinxing\admin\controllers;
 
-use jinxing\admin\helpers\ExpressionQuery;
 use Yii;
 use yii\base\Model;
 use yii\db\Query;
@@ -105,16 +104,6 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * 获取默认查询条件
-     *
-     * @return array
-     */
-    public function getDefaultWhere()
-    {
-        return [];
-    }
-
-    /**
      * 处理查询数据
      * @return mixed|string
      * @see getQuery()
@@ -128,10 +117,15 @@ class Controller extends \yii\web\Controller
         $strategy = Substance::getInstance($this->strategy);
 
         // 获取查询参数
-        $search    = $strategy->getRequest();
-        $condition = (new ExpressionQuery())->getFilterCondition(ArrayHelper::getValue($search, 'filters', []));
+        $search = $strategy->getRequest();
+
         // 查询数据
-        $query = $this->getQuery($condition)->andWhere($this->getDefaultWhere());
+        if (method_exists($this, 'where')) {
+            $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
+        }
+
+        // 查询数据
+        $query = $this->getQuery(ArrayHelper::getValue($search, 'where', []));
 
         // 查询数据条数
         if ($total = $query->count()) {
@@ -328,20 +322,6 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * 文件上传成功的处理信息
-     *
-     * @param  object $object      文件上传类
-     * @param  string $strFilePath 文件保存路径
-     * @param  string $strField    上传文件表单名
-     *
-     * @return bool 上传成功返回true
-     */
-    protected function afterUpload($object, &$strFilePath, $strField)
-    {
-        return true;
-    }
-
-    /**
      * 处理文件上传操作
      * @return mixed|string
      * @see afterUpload()
@@ -387,9 +367,17 @@ class Controller extends \yii\web\Controller
 
             // 生成文件随机名
             $strFilePath = $dirName . uniqid() . '.' . $objFile->extension;
-            // 执行文件上传保存，并且处理自己定义上传之后的处理
-            if (!$objFile->saveAs($strFilePath) || !$this->afterUpload($objFile, $strFilePath, $strField)) {
+            // 执行文件上传保存，
+            if (!$objFile->saveAs($strFilePath)) {
                 return $this->error(204);
+            }
+
+            // 如果自定义了上传之后的处理, 那么执行自定义的方法
+            if (method_exists($this, 'afterUpload')) {
+                $strFilePath = $this->afterUpload($strFilePath, $strField, $objFile);
+                if (!$strFilePath) {
+                    return $this->error(204);
+                }
             }
 
             return $this->success([
@@ -435,13 +423,18 @@ class Controller extends \yii\web\Controller
             return $this->error(201);
         }
 
-        // 存在查询方法
-        $where = (new ExpressionQuery())->getFilterCondition((array)$filters);
+        // 查询条件处理
+        if (method_exists($this, 'where')) {
+            $conditions = Helper::handleWhere($filters, $this->where($filters));
+        } else {
+            $conditions = [];
+        }
+
         // 数据导出
         return Helper::excel(
             $strTitle,
             $arrFields,
-            $this->getQuery($where)->andWhere($this->getDefaultWhere())->orderBy([$this->sort => SORT_DESC]),
+            $this->getQuery($conditions)->orderBy([$this->sort => SORT_DESC]),
             $this->getExportHandleParams()
         );
     }
