@@ -28,13 +28,13 @@ $this->title = '操作日志';
                         {
                             title: "管理员名称",
                             data: "admin_name",
-                            search: {name: "admin_name:like"},
+                            search: {name: "admin_name"},
                             sortable: false
                         },
                         {
                             title: "操作方法",
                             data: "action",
-                            search: {name: "action:like"},
+                            search: {name: "action"},
                             sortable: false
                         },
                         {
