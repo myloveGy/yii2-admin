@@ -87,6 +87,15 @@
                     });
                 }
 
+                // 默认输入框回车查询
+                if (this.options.searchSelectEvent != 'keydown') {
+                    $(this.options.searchForm + ' input').on('keydown', function (evt) {
+                        if (evt.which === 13) {
+                            _self.table.draw();
+                        }
+                    });
+                }
+
                 // 搜索表单提交执行搜索
                 $(this.options.searchForm).submit(function (evt) {
                     evt.preventDefault();
@@ -1323,9 +1332,8 @@
         searchHtml: "",				// 搜索信息额外HTML
         searchType: "middle",		// 搜索表单位置
         searchForm: "#search-form",	// 搜索表单选择器
-        bEvent: true,               // 是否监听事件
-        searchInputEvent: "blur",   // 搜索表单input事件
-        searchSelectEvent: "change",// 搜索表单select事件
+        searchInputEvent: "blur",   // 搜索表单input事件,设置为空不监听
+        searchSelectEvent: "change",// 搜索表单select事件,设置为空不监听
         filters: "filters",         // 查询参数
 
         // 请求相关
