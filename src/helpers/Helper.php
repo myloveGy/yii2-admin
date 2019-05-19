@@ -160,19 +160,8 @@ class Helper
      */
     public static function strToUpperWords($strName, $and = '_')
     {
-        // 通过指定字符串拆分为数组
-        $value = explode($and, $strName);
-        if ($value) {
-            // 首字母大写，然后拼接
-            $strReturn = '';
-            foreach ($value as $val) {
-                $strReturn .= ucfirst($val);
-            }
-        } else {
-            $strReturn = ucfirst($strName);
-        }
-
-        return $strReturn;
+        $strReturn = ucwords(str_replace($and, ' ', $strName));
+        return str_replace(' ', '', $strReturn);
     }
 
     /**
