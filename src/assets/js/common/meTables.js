@@ -222,12 +222,25 @@
             }
 
             // 搜索表单的事件
-            if (this.options.bEvent) {
+            if (this.options.searchInputEvent) {
                 $(this.options.searchForm + ' input').on(this.options.searchInputEvent, function () {
                     self.table.draw();
                 });
+            }
+
+            if (this.options.searchSelectEvent) {
                 $(this.options.searchForm + ' select').on(this.options.searchSelectEvent, function () {
                     self.table.draw();
+                });
+            }
+
+
+            // 默认输入框回车查询
+            if (this.options.searchInputEvent !== 'keydown') {
+                $(this.options.searchForm + ' input').on('keydown', function (evt) {
+                    if (evt.which === 13) {
+                        self.table.draw();
+                    }
                 });
             }
 
