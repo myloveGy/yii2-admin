@@ -25,10 +25,8 @@ class AdminLogController extends Controller
     public function where()
     {
         $where = [
-            'action'     => 'like',
-            'index'      => '=',
-            'admin_name' => 'like',
-            'where'      => [],
+            [['action', 'admin_name'], 'like'],
+            [['index'], '='],
         ];
 
         $intUserId = ArrayHelper::getValue($this->module, 'userId');

@@ -35,19 +35,19 @@ class AdminController extends Controller
      */
     public function where()
     {
-        $where  = [];
+        // 处理查询表达式
+        $where = [
+            [['id', 'status'], '='],
+            [['username', 'email'], 'like']
+        ];
+
+        // 不是管理员只能看自己和自己创建的
         $intUid = (int)ArrayHelper::getValue($this->module, 'userId');
         if ($intUid !== Admin::SUPER_ADMIN_ID) {
-            $where = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
+            $where['where'] = [['or', ['id' => $intUid], ['created_id' => $intUid]]];
         }
 
-        return [
-            'id'       => '=',
-            'username' => 'like',
-            'email'    => 'like',
-            'where'    => $where,
-            'status'   => '='
-        ];
+        return $where;
     }
 
     /**
