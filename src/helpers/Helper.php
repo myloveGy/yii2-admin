@@ -18,10 +18,10 @@ class Helper
     /**
      * map() 使用ArrayHelper 处理数组, 并添加其他信息
      *
-     * @param  mixed  $array  需要处理的数据
-     * @param  string $id     键名
-     * @param  string $name   键值
-     * @param  array  $params 其他数据
+     * @param mixed  $array  需要处理的数据
+     * @param string $id     键名
+     * @param string $name   键值
+     * @param array  $params 其他数据
      *
      * @return array
      */
@@ -75,22 +75,29 @@ class Helper
     public static function handleWhere($params, $where, $join = 'and')
     {
         // 处理默认查询条件
-        if ($arrReturn = ArrayHelper::getValue($where, 'where')) {
+        $conditions = ArrayHelper::getValue($where, 'where', []);
+        if (isset($where['where'])) {
             unset($where['where']);
         }
 
-        // 请求参数和查询参数必须存在
+        // 请求参数存在且必须配置查询参数
         if ($where && $params) {
+            $where = static::arrayAssoc($where);
             foreach ($params as $key => $value) {
                 // 判断不能查询请求的数据不能为空，且定义了查询参数对应查询处理方式
-                if ($value === '' || !isset($where[$key])) {
+                if (static::isEmpty($value) || !isset($where[$key])) {
                     continue;
+                }
+
+                // 如果是字符串的话，去除两边空格
+                if (is_string($value)) {
+                    $value = trim($value);
                 }
 
                 // 匿名函数处理
                 $handle = $where[$key];
                 if ($handle instanceof Closure) {
-                    $arrReturn[] = $handle($value);
+                    $conditions[] = $handle($value, $key);
                     continue;
                 }
 
@@ -101,29 +108,28 @@ class Helper
                         $value = $handle['func']($value);
                     }
 
-                    $field      = ArrayHelper::getValue($handle, 'field', $key);    // 对应字段
-                    $expression = ArrayHelper::getValue($handle, 'and', '=');       // 查询表达式
-
-                    $arrReturn[] = [$expression, $field, $value];
-                    continue;
+                    $key        = ArrayHelper::getValue($handle, 'field', $key);
+                    $expression = ArrayHelper::getValue($handle, 'and', '=');
+                } else {
+                    $expression = (string)$handle;
                 }
 
-                $arrReturn[] = [(string)$handle, $key, $value];
+                $conditions[] = [$expression, $key, $value];
             }
         }
 
         // 存在查询条件，数组前面添加 连接类型
-        if ($arrReturn) {
-            array_unshift($arrReturn, $join);
+        if ($conditions) {
+            array_unshift($conditions, $join);
         }
 
-        return $arrReturn;
+        return $conditions;
     }
 
     /**
      * 将一个多维数组连接为一个字符串
      *
-     * @param  array $array 数组
+     * @param array $array 数组
      *
      * @return string
      */
@@ -142,28 +148,17 @@ class Helper
     /**
      * 通过指定字符串拆分数组，然后各个元素首字母，最后拼接
      *
-     * @example $strName = 'yii_user_log',$and = '_', return YiiUserLog
-     *
      * @param string $strName 字符串
      * @param string $and     拆分的字符串(默认'_')
      *
      * @return string
+     * @example $strName = 'yii_user_log',$and = '_', return YiiUserLog
+     *
      */
     public static function strToUpperWords($strName, $and = '_')
     {
-        // 通过指定字符串拆分为数组
-        $value = explode($and, $strName);
-        if ($value) {
-            // 首字母大写，然后拼接
-            $strReturn = '';
-            foreach ($value as $val) {
-                $strReturn .= ucfirst($val);
-            }
-        } else {
-            $strReturn = ucfirst($strName);
-        }
-
-        return $strReturn;
+        $strReturn = ucwords(str_replace($and, ' ', $strName));
+        return str_replace(' ', '', $strReturn);
     }
 
     /**
@@ -302,10 +297,10 @@ class Helper
     /**
      * 获取登录地址
      *
-     * @param  integer $beforeUserId
-     * @param  integer $afterUseId
-     * @param array    $params
-     * @param string   $url
+     * @param integer $beforeUserId
+     * @param integer $afterUseId
+     * @param array   $params
+     * @param string  $url
      *
      * @return string
      */
@@ -402,5 +397,42 @@ class Helper
         }
 
         return true;
+    }
+
+    /**
+     * 验证是否为空
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    public static function isEmpty($value)
+    {
+        return $value === '' || $value === [] || $value === null || is_string($value) && trim($value) === '';
+    }
+
+    /**
+     * 将数组转为 key => value 模式
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    public static function arrayAssoc(array $array)
+    {
+        $handle = [];
+        foreach ($array as $k => $value) {
+            if (is_numeric($k) && is_array($value) && count($value) == 2) {
+                list($keys, $expression) = $value;
+                $keys = (array)$keys;
+                foreach ($keys as $field) {
+                    $handle[$field] = $expression;
+                }
+            } elseif (is_string($k)) {
+                $handle[$k] = $value;
+            }
+        }
+
+        return $handle;
     }
 }

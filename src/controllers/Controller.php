@@ -106,10 +106,10 @@ class Controller extends \yii\web\Controller
     /**
      * 处理查询数据
      * @return mixed|string
-     * @see where()
+     * @throws \Exception
      * @see getQuery()
      * @see afterSearch()
-     * @throws \Exception
+     * @see where()
      */
     public function actionSearch()
     {
@@ -118,9 +118,7 @@ class Controller extends \yii\web\Controller
         $strategy = Substance::getInstance($this->strategy);
 
         // 获取查询参数
-        $search            = $strategy->getRequest(); // 处理查询参数
-        $search['field']   = $search['field'] ?: $this->sort;
-        $search['orderBy'] = [$search['field'] => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
+        $search = $strategy->getRequest(); // 处理查询参数
         if (method_exists($this, 'where')) {
             $search['where'] = Helper::handleWhere($search['params'], $this->where($search['params']));
         }
@@ -130,7 +128,9 @@ class Controller extends \yii\web\Controller
 
         // 查询数据条数
         if ($total = $query->count()) {
-            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($search['orderBy'])->all()) {
+            $field   = ArrayHelper::getValue($search, 'field', $this->sort);
+            $orderBy = [$field => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
+            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all()) {
                 $this->afterSearch($array);
             }
         } else {
@@ -144,7 +144,7 @@ class Controller extends \yii\web\Controller
      * 查询之后的数据处理函数
      * @access protected
      *
-     * @param  mixed $array 查询出来的数组对象
+     * @param mixed $array 查询出来的数组对象
      *
      * @return void  对数据进行处理
      * @see    actionSearch()
@@ -324,9 +324,9 @@ class Controller extends \yii\web\Controller
     /**
      * 文件上传成功的处理信息
      *
-     * @param  object $object      文件上传类
-     * @param  string $strFilePath 文件保存路径
-     * @param  string $strField    上传文件表单名
+     * @param object $object      文件上传类
+     * @param string $strFilePath 文件保存路径
+     * @param string $strField    上传文件表单名
      *
      * @return bool 上传成功返回true
      */
