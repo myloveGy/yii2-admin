@@ -29,11 +29,10 @@ class ChinaController extends Controller
     public function where()
     {
         return [
-            'id' => ['and' => '=', 'func' => 'intval'],
+            [['id', 'pid'], ['and' => '=', 'func' => 'intval']],
             'name' => function ($value) {
                 return ['like', 'name', trim($value)];
             },
-            'pid' => '='
         ];
     }
 

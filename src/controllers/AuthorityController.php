@@ -21,10 +21,8 @@ class AuthorityController extends RoleController
     public function where()
     {
         return [
-            'name'        => 'like',
-            'description' => 'like',
-            'rule_name'   => 'like',
-            'where'       => [['=', 'type', Auth::TYPE_PERMISSION]],
+            [['name', 'description', 'rule_name'], 'like'],
+            'where' => [['=', 'type', Auth::TYPE_PERMISSION]],
         ];
     }
 

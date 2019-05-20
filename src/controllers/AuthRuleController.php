@@ -32,7 +32,7 @@ class AuthRuleController extends Controller
     public function where()
     {
         return [
-            'name' => 'like'
+            ['name', 'like']
         ];
     }
 

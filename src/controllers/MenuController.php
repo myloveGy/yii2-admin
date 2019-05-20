@@ -27,12 +27,8 @@ class MenuController extends Controller
     public function where()
     {
         return [
-            'id'          => '=',
-            'menu_name'   => 'like',
-            'url'         => '=',
-            'action_name' => 'like',
-            'status'      => '=',
-            'pid'         => '='
+            [['id', 'status', 'pid'], '='],
+            [['menu_name', 'url'], 'like'],
         ];
     }
 

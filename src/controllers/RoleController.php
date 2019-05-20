@@ -40,6 +40,10 @@ class RoleController extends Controller
      */
     public function where()
     {
+        $where = [
+            [['name', 'description'], 'like'],
+        ];
+
         $uid   = ArrayHelper::getValue($this->module, 'userId');
         $where = [['=', 'type', Auth::TYPE_ROLE]]; // 查询角色信息
 
@@ -47,15 +51,11 @@ class RoleController extends Controller
         if ($uid != Admin::SUPER_ADMIN_ID) {
             // 获取用户的所有角色
             if ($roles = Yii::$app->authManager->getRolesByUser($uid)) {
-                $where[] = ['in', 'name', array_keys($roles)];
+                $where['where'] = ['in', 'name', array_keys($roles)];
             }
         }
 
-        return [
-            'name'        => 'like',
-            'description' => 'like',
-            'where'       => $where,    // 查询角色信息
-        ];
+        return $where;
     }
 
     /**
@@ -72,7 +72,7 @@ class RoleController extends Controller
     /**
      * 修改角色权限信息
      *
-     * @param  string $name 角色名
+     * @param string $name 角色名
      *
      * @return string|\yii\web\Response
      * @throws \yii\web\UnauthorizedHttpException
@@ -137,7 +137,7 @@ class RoleController extends Controller
     /**
      * 查看角色权限信息
      *
-     * @param  string $name 角色名称
+     * @param string $name 角色名称
      *
      * @return string
      * @throws HttpException
@@ -168,7 +168,7 @@ class RoleController extends Controller
     /**
      * 查询单个model
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return \jinxing\admin\models\Auth
      * @throws \yii\web\HttpException
@@ -214,7 +214,7 @@ class RoleController extends Controller
     /**
      * 加载权限信息
      *
-     * @param  array $post 提交参数
+     * @param array $post 提交参数
      *
      * @return array
      */
