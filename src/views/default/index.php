@@ -59,6 +59,15 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
             border-right: 1px solid #e2e2e2
         }
 
+        .me-breadcrumb #close-all-page {
+            max-height: 40px;
+        }
+
+        .me-breadcrumb #close-all-page a {
+            padding-top: 3px;
+            display: block;
+        }
+
         .me-breadcrumb div.me-window {
             padding: 0;
             border-right: none
