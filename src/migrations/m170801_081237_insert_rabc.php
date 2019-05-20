@@ -102,16 +102,18 @@ class m170801_081237_insert_rabc extends Migration
             ['uploads/upload', 2, '上传文件-文件上传', $time, $time],
         ];
 
-        if ($prefix = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', 'admin')) {
-            $prefix = trim($prefix, '/');
-            foreach ($batchInsertArray as &$value) {
-                if ($value[1] == 2) {
-                    $value[0] = $prefix . '/' . $value[0];
-                }
-            }
+        // 处理路由前缀
+        $prefix = ArrayHelper::getValue(Yii::$app->params, 'admin_rule_prefix', 'admin');
+        $prefix = $prefix = trim($prefix, '/') . '/';
 
-            unset($value);
+        foreach ($batchInsertArray as &$value) {
+            if ($value[1] == 2) {
+                $value[0] = $prefix . $value[0];
+            }
         }
+
+        unset($value);
+
 
         // 第一步写入权限
         $this->batchInsert($this->table, [
@@ -123,7 +125,7 @@ class m170801_081237_insert_rabc extends Migration
         ], $batchInsertArray);
 
         // 管理员信息
-        $admin = [
+        $admins = [
             'uploads/upload',
             'uploads/update',
             'uploads/search',
@@ -167,14 +169,20 @@ class m170801_081237_insert_rabc extends Migration
             'admin-log/index',
         ];
 
+        // 处理添加模块前缀
+        foreach ($admins as &$value) {
+            $value = $prefix . $value;
+        }
+
+        unset($value);
+
         // 第二步写入超级管理员的权限
         $all = (new Query())->from($this->table)->select('name')->where(['type' => 2])->all();
         if ($all) {
             $insert = [];
             foreach ($all as $value) {
-                $insert[]    = ['administrator', $value['name']];
-                $search_name = str_replace($prefix, '', $value['name']);
-                if (!in_array($search_name, $admin)) {
+                $insert[] = ['administrator', $value['name']];
+                if (!in_array($value['name'], $admins)) {
                     $insert[] = ['admin', $value['name']];
                 }
             }
