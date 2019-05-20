@@ -45,13 +45,13 @@ class RoleController extends Controller
         ];
 
         $uid   = ArrayHelper::getValue($this->module, 'userId');
-        $where = [['=', 'type', Auth::TYPE_ROLE]]; // 查询角色信息
+        $where['where'] = [['=', 'type', Auth::TYPE_ROLE]]; // 查询角色信息
 
         // 不是管理员
         if ($uid != Admin::SUPER_ADMIN_ID) {
             // 获取用户的所有角色
             if ($roles = Yii::$app->authManager->getRolesByUser($uid)) {
-                $where['where'] = ['in', 'name', array_keys($roles)];
+                $where['where'][] = ['in', 'name', array_keys($roles)];
             }
         }
 
