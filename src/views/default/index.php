@@ -49,6 +49,15 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
             overflow: hidden
         }
 
+        .me-breadcrumb #close-all-page {
+            max-height: 40px;
+        }
+
+        .me-breadcrumb #close-all-page a {
+            padding-top: 3px;
+            display: block;
+        }
+
         .me-breadcrumb div {
             color: #585858;
             float: left;
