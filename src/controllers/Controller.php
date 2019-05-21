@@ -320,21 +320,7 @@ class Controller extends \yii\web\Controller
 
         return $this->success($model);
     }
-
-    /**
-     * 文件上传成功的处理信息
-     *
-     * @param object $object      文件上传类
-     * @param string $strFilePath 文件保存路径
-     * @param string $strField    上传文件表单名
-     *
-     * @return bool 上传成功返回true
-     */
-    protected function afterUpload($object, &$strFilePath, $strField)
-    {
-        return true;
-    }
-
+    
     /**
      * 处理文件上传操作
      * @return mixed|string
@@ -382,8 +368,16 @@ class Controller extends \yii\web\Controller
             // 生成文件随机名
             $strFilePath = $dirName . uniqid() . '.' . $objFile->extension;
             // 执行文件上传保存，并且处理自己定义上传之后的处理
-            if (!$objFile->saveAs($strFilePath) || !$this->afterUpload($objFile, $strFilePath, $strField)) {
+            if (!$objFile->saveAs($strFilePath)) {
                 return $this->error(204);
+            }
+
+            // 定义了上传之后的处理
+            if (method_exists($this, 'afterUpload')) {
+                $strFilePath = $this->afterUpload($strFilePath, $strField, $objFile);
+                if (empty($strFilePath)) {
+                    return $this->error(204);
+                }
             }
 
             return $this->success([

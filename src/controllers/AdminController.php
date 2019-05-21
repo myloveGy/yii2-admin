@@ -126,7 +126,6 @@ class AdminController extends Controller
     /**
      * 上传文件之后的处理
      *
-     * @param object $objFile
      * @param string $strFilePath
      * @param string $strField
      *
@@ -134,11 +133,11 @@ class AdminController extends Controller
      * @throws \yii\base\ErrorException
      * @throws \yii\base\InvalidConfigException
      */
-    public function afterUpload($objFile, &$strFilePath, $strField)
+    public function afterUpload($strFilePath, $strField)
     {
         // 不是上传上传头像信息，不处理
         if (!in_array($strField, ['avatar', 'face'])) {
-            return true;
+            return $strFilePath;
         }
 
         // 删除之前的缩略图
@@ -147,35 +146,39 @@ class AdminController extends Controller
             if (file_exists('.' . $strFace)) @unlink('.' . $strFace);
         }
 
-        // 处理图片
-        $strTmpPath = dirname($strFilePath) . '/thumb_' . basename($strFilePath);
-
         /* @var $imageComponent yii\image\ImageDriver */
-        if ($imageComponent = Yii::createObject([
+        $imageComponent = Yii::createObject([
             'class'  => 'yii\image\ImageDriver',
             'driver' => 'GD'
-        ])) {
-            /* @var $image yii\image\drivers\Kohana_Image_GD */
-            $image = $imageComponent->load($strFilePath);
-            $image->resize(180, 180, Image::CROP)->save($strTmpPath);
-            $image->resize(48, 48, Image::CROP)->save();
+        ]);
 
-            // 管理员页面修改头像
-            $admin = ArrayHelper::getValue($this->module, 'admin.identity');
-            if ($admin && $strField === 'avatar') {
-                // 删除之前的图像信息
-                if ($admin->face && file_exists('.' . $admin->face)) {
-                    @unlink('.' . $admin->face);
-                    @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
-                }
-
-                $admin->face = ltrim($strFilePath, '.');
-                $admin->save();
-                $strFilePath = $strTmpPath;
-            }
+        if (!$imageComponent) {
+            return $strFilePath;
         }
 
-        return true;
+        // 处理图片
+        $strTmpPath = dirname($strFilePath) . '/thumb_' . basename($strFilePath);
+        /* @var $image yii\image\drivers\Kohana_Image_GD */
+        $image = $imageComponent->load($strFilePath);
+        $image->resize(180, 180, Image::CROP)->save($strTmpPath);
+        $image->resize(48, 48, Image::CROP)->save();
+
+        // 管理员页面修改头像
+        $admin = ArrayHelper::getValue($this->module, 'admin.identity');
+        if ($admin && $strField === 'avatar') {
+            // 删除之前的图像信息
+            if ($admin->face && file_exists('.' . $admin->face)) {
+                @unlink('.' . $admin->face);
+                @unlink('.' . dirname($admin->face) . '/thumb_' . basename($admin->face));
+            }
+
+            $admin->face = ltrim($strFilePath, '.');
+            $admin->save();
+            return $strTmpPath;
+        }
+
+
+        return $strFilePath;
     }
 
     /**
