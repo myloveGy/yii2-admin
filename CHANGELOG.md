@@ -1,10 +1,24 @@
 Yii2 Ace Admin 后台扩展更新记录
 =============================
 
-1.0.16 2019-05-20
+1.0.16 2019-05-21
 -----------------
 
-- bug: 修复数据库迁移模块前缀处理错误问题
+- change: 控制器上传文件之后处理方法改动
+    ```php
+    /**
+     * @params string              $strFilePath   上传好的文件保存路径
+     * @params string              $strFiled      上传文件字段名称
+     * @params \yii\web\UploadFile $strObject     上传文件处理类
+     * @return string 需要返回文件保存路径
+     */
+    public function afterUpload($strFilePath, $strField, $strObject)
+    {
+          return $strFilePath;
+    }
+
+    ```
+
 - change: 控制器 where 方法定义可以和 model 定义验证规则方式一致
     ```php
       
@@ -31,3 +45,6 @@ Yii2 Ace Admin 后台扩展更新记录
     }
   
     ```
+
+- bug: 修复数据库迁移模块前缀处理错误问题    
+- style: 标签关闭按钮样式修改
