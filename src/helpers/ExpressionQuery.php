@@ -1,12 +1,4 @@
 <?php
-/**
- *
- * ExpressionQuery.php
- *
- * Author: jinxing.liu@verystar.cn
- * Create: 2018/11/13 15:16
- * Editor: created by PhpStorm
- */
 
 namespace jinxing\admin\helpers;
 
