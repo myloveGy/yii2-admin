@@ -1,12 +1,4 @@
 <?php
-/**
- *
- * LoggingBehavior.php
- *
- * Author: jinxing.liu@verystar.cn
- * Create: 2018/6/6 09:38
- * Editor: created by PhpStorm
- */
 
 namespace jinxing\admin\behaviors;
 
