@@ -26,7 +26,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 ```
-composer require jinxing/yii2-admin "~1.1.0"
+composer require jinxing/yii2-admin "~1.2.0"
 ```
 ## 版本更新说明
 
