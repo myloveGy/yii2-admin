@@ -1,5 +1,14 @@
 Yii2 Ace Admin Background extension
-=======================
+===================================
+
+![Progress](http://progressed.io/bar/100?title=completed) 
+[![Latest Stable Version](https://poser.pugx.org/jinxing/yii2-admin/v/stable)](https://packagist.org/packages/jinxing/yii2-admin)
+[![Total Downloads](https://poser.pugx.org/jinxing/yii2-admin/downloads)](https://packagist.org/packages/jinxing/yii2-admin)
+[![Latest Unstable Version](https://poser.pugx.org/jinxing/yii2-admin/v/unstable)](https://packagist.org/packages/jinxing/yii2-admin)
+[![GitHub issues](https://img.shields.io/github/issues/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/issues)
+[![GitHub forks](https://img.shields.io/github/forks/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/network)
+[![GitHub stars](https://img.shields.io/github/stars/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/stargazers)
+[![GitHub license](https://img.shields.io/github/license/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/blob/master/LICENSE.md)
 
 Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
 
