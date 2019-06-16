@@ -174,7 +174,7 @@ class ModuleController extends Controller
         $viewPath       = $model->getViewPath();
         $controllerPath = $model->getControllerPath();
         $modelPath      = $model->getModelPath();
-        
+
         // 路由、菜单、视图 需要将 _ 替换为 -
         $name = str_replace('_', '-', $name);
 
@@ -239,17 +239,20 @@ class ModuleController extends Controller
      */
     private function createMenu($name, $title, $menu_name = '')
     {
-        if (Menu::findOne(['menu_name' => $title])) {
-            return true;
+        $url = $menu_name ?: $name;
+        $url = trim($url, '/') . '/index';
+
+        // 不存在创建、存在修改
+        if (!$model = Menu::findOne(['url' => $url])) {
+            $model        = new Menu();
+            $model->pid   = 0;
+            $model->icons = 'menu-icon fa fa-globe';
+            $model->url   = $url;
         }
 
-        $url              = $menu_name ?: $name;
-        $model            = new Menu();
         $model->menu_name = $title;
-        $model->pid       = 0;
-        $model->icons     = 'menu-icon fa fa-globe';
-        $model->url       = trim($url, '/') . '/index';
         $model->status    = 1;
+
         return $model->save(false);
     }
 
@@ -479,7 +482,9 @@ html;
     {
         list($className, $namespace) = $model->getControllerInfo();
         list(, , $modelNamespace) = $model->getModelInfo();
-        $pk = $model->primaryKey && $model->primaryKey != 'id' ? 'protected $pk = \'' . $model->primaryKey . '\';' : '';
+        $pk            = $model->primaryKey && $model->primaryKey != 'id' ? 'protected $pk = \'' . $model->primaryKey . '\';' : '';
+        $searchColumns = implode("', '", $model->getSearchColumns());
+
 
         // 上层模块是 Application,那么只要基础module 下的基础控制器就好了
         if ($this->module->module instanceof Application) {
@@ -508,6 +513,18 @@ class {$className} extends Controller
      * @var string 定义使用的model
      */
     public \$modelClass = '{$modelNamespace}';
+    
+    /**
+     * 需要定义where 方法，确定前端查询字段对应的查询方式
+     * 
+     * @return array 
+     */
+    public function where()
+    {
+        return [
+            [['{$searchColumns}'], '='],
+        ];
+    }
 }
 
 Html;

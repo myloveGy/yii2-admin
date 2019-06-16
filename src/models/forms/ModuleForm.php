@@ -6,6 +6,7 @@ namespace jinxing\admin\models\forms;
 
 use jinxing\admin\helpers\Helper;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class ModuleForm extends \yii\base\Model
 {
@@ -95,6 +96,18 @@ class ModuleForm extends \yii\base\Model
     public function getModelInfo()
     {
         return $this->handle($this->model);
+    }
+
+    public function getSearchColumns()
+    {
+        $columns = [];
+        foreach ($this->attr as $column => $value) {
+            if (ArrayHelper::getValue($value, 'search') == 1) {
+                $columns[] = $column;
+            }
+        }
+
+        return $columns ? $columns : [$this->primaryKey];
     }
 
     private function handle($aliasName)
