@@ -123,24 +123,38 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                         </div>
                         <form class="form-horizontal produce" action="<?= Url::toRoute('module/produce') ?>"
                               method="POST">
-                            <input type="hidden" id="input-primary-key" value="" name="primary_key"/>
+                            <input type="hidden" id="input-primary-key" value="" name="primaryKey"/>
                             <div class="form-group">
                                 <label for="input-html"
                                        class="control-label col-xs-12 col-sm-3 no-padding-right">HTML文件</label>
                                 <div class="col-xs-12 col-sm-9">
                                     <div class="clearfix">
-                                        <input type="text" class="col-xs-12 col-sm-6" id="input-html" name="html"
+                                        <input type="text" class="col-xs-12 col-sm-6" id="input-html" name="view"
                                                required="true" rangelength="[2, 200]"/>
                                         <label class="error" style="margin-left:5px;color:red"></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="input-controller" class="control-label col-xs-12 col-sm-3 no-padding-right">控制器(Controller)</label>
+                                <label for="input-controller" class="control-label col-xs-12 col-sm-3 no-padding-right">
+                                    控制器(Controller)
+                                </label>
                                 <div class="col-xs-12 col-sm-9">
                                     <div class="clearfix">
                                         <input type="text" class="col-xs-12 col-sm-6" id="input-controller"
                                                name="controller" required="true" rangelength="[2, 200]"/>
+                                        <label class="error" style="margin-left:5px;color:red"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-controller" class="control-label col-xs-12 col-sm-3 no-padding-right">
+                                    模型(Model)
+                                </label>
+                                <div class="col-xs-12 col-sm-9">
+                                    <div class="clearfix">
+                                        <input type="text" class="col-xs-12 col-sm-6" id="input-model"
+                                               name="model" required="true" rangelength="[2, 200]"/>
                                         <label class="error" style="margin-left:5px;color:red"></label>
                                     </div>
                                 </div>
@@ -237,6 +251,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
     <script type="text/javascript">
         var file = null,
             controller = null;
+        model = null;
         $(function () {
             // 选择表
             $("#select-table").chosen({allow_single_deselect: true});
@@ -299,8 +314,19 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                             $('#input-controller').next().html(' ( * 文件已经存在,需要重新定义文件名 )');
                                         }
 
+                                        // Model
+                                        $('#input-model').val(json.data.model[0]);
+                                        if (json.data.model[1] === true) {
+                                            model = json.data.model[0];
+                                            $('#input-model').next().html(' ( * 文件已经存在,需要重新定义文件名 )');
+                                        }
+
                                         // 当文件存在、不允许覆盖
-                                        if (json.data.file[1] == true || json.data.controller[1] == true) {
+                                        if (
+                                            json.data.file[1] == true ||
+                                            json.data.controller[1] == true ||
+                                            json.data.model[1] === true
+                                        ) {
                                             $("input[name='allow'][value='0']").prop("checked", true);
                                         }
 
@@ -325,7 +351,14 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                     // 初始验证
                     if ($('.produce').validate(validatorError).form()) {
                         // 自己验证
-                        if ($('input[name=allow]:checked').val() == 1 || ($('#input-html').val() != file && $('#input-controller').val() != controller)) {
+                        if (
+                            $('input[name=allow]:checked').val() == 1 ||
+                            (
+                                $('#input-html').val() != file &&
+                                $('#input-controller').val() != controller &&
+                                $("#input-model").val() != model
+                            )
+                        ) {
                             $.ajax({
                                 url: "<?=Url::toRoute('module/produce')?>",
                                 data: $('form').serialize(),

@@ -2,6 +2,7 @@
 
 namespace jinxing\admin\controllers;
 
+use jinxing\admin\models\forms\ModuleForm;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -40,7 +41,7 @@ class ModuleController extends Controller
         $tables = ArrayHelper::map($tables, 'name', 'name');
         return $this->render('index', [
             'tables'         => $tables,
-            'is_application' => $this->module->module instanceof Application
+            'is_application' => $this->module->module instanceof Application,
         ]);
     }
 
@@ -86,36 +87,55 @@ class ModuleController extends Controller
     public function actionUpdate()
     {
         // 1、获取验证参数
-        $request     = Yii::$app->request;
-        $attr        = $request->post('attr');
-        $table       = $request->post('table');
-        $primary_key = $request->post('pk');
-        if (empty($table) || empty($attr)) {
+        $request = Yii::$app->request;
+
+        $model = new ModuleForm([
+            'attr'       => $request->post('attr'),
+            'table'      => $request->post('table'),
+            'primaryKey' => $request->post('pk'),
+            'title'      => $request->post('title'),
+        ]);
+
+        if (empty($model->table) || empty($model->attr)) {
             return $this->error(201);
         }
 
-        $name = str_replace(Yii::$app->db->tablePrefix, '', $table);
+        $name = $model->getName();
         if (empty($name)) {
             return $this->error(217);
         }
 
-        // 拼接字符串
-        $strCName = Helper::strToUpperWords($name) . 'Controller.php';
-        $name     = str_replace('_', '-', $name);
+        // 类名需要处理为大驼峰法
+        $className = $model->getTableClassName();
+
+        // 路由、菜单、视图 需要将 _ 替换为 -
+        $name = str_replace('_', '-', $name);
+
+        // 命名空间
         $basePath = '@' . str_replace(['\\', '/controllers'], ['/', ''], $this->module->module->controllerNamespace);
-        $strCName = $basePath . '/controllers/' . $strCName;
-        $strVName = $basePath . '/views/' . $name . '/index.php';
+
+        // 控制器路径
+        $controllerName = $basePath . '/controllers/' . $className . 'Controller.php';
+
+        // 模型路径
+        $modelName = $basePath . '/models/' . $className . '.php';
+
+        // 视图路径
+        $viewName = $basePath . '/views/' . $name . '/index.php';
+
+        // 如果是模块的话，添加模块名称
         if (!($this->module->module instanceof Application)) {
             $name = $this->module->module->id . '/' . $name;
         }
 
         return $this->success([
-            'html'        => highlight_string($this->createView($attr, $request->post('title'), '', $primary_key), true),
-            'file'        => [$strVName, file_exists(Yii::getAlias($strCName))],
-            'controller'  => [$strCName, file_exists(Yii::getAlias($strCName))],
-            'primary_key' => $primary_key,
+            'html'        => highlight_string($this->createView($model, false), true),
+            'file'        => [$viewName, file_exists(Yii::getAlias($viewName))],
+            'controller'  => [$controllerName, file_exists(Yii::getAlias($controllerName))],
+            'model'       => [$modelName, file_exists(Yii::getAlias($modelName))],
+            'primary_key' => $model->primaryKey,
             'auth_name'   => $name,
-            'menu_name'   => $name
+            'menu_name'   => $name,
         ]);
     }
 
@@ -127,67 +147,72 @@ class ModuleController extends Controller
     public function actionProduce()
     {
         // 接收参数
-        $request     = Yii::$app->request;
-        $attr        = $request->post('attr');       // 表单信息
-        $table       = $request->post('table');      // 操作表
-        $title       = $request->post('title');      // 标题信息
-        $html        = $request->post('html');       // HTML 文件名
-        $php         = $request->post('controller'); // PHP  文件名
-        $auth        = (int)$request->post('auth');  // 生成权限
-        $menu        = (int)$request->post('menu');  // 生成导航
-        $allow       = (int)$request->post('allow'); // 允许文件覆盖
-        $primary_key = $request->post('primary_key'); // 主键
-        $auth_name   = $request->post('auth_prefix');
-        $menu_name   = $request->post('menu_prefix');
+        $request = Yii::$app->request;
 
-        // 第一步验证参数：
-        if (empty($attr) || empty($table) || empty($html) || empty($php)) {
-            return $this->error(201);
+        // 模型赋值
+        $model = new ModuleForm();
+        $model->load($request->post(), '');
+        if (!$model->validate()) {
+            return $this->error(201, Helper::arrayToString($model->getErrors()));
         }
 
+        // 其他参数
+        $auth  = (int)$request->post('auth');  // 生成权限
+        $menu  = (int)$request->post('menu');  // 生成导航
+        $allow = (int)$request->post('allow'); // 允许文件覆盖
+
+        // 前缀
+        $authName = $request->post('auth_prefix');
+        $menuName = $request->post('menu_prefix');
+
         // 表名字不能为空
-        $name = str_replace(Yii::$app->db->tablePrefix, '', $table);
-        if (empty($name)) {
+        if (!$name = $model->getName()) {
             return $this->error(217);
         }
 
-        // 获取文件目录
-        $view_path       = Yii::getAlias($html);
-        $controller_path = Yii::getAlias($php);
-        $str_name        = str_replace('_', '-', $name);
+        // 获取文路径
+        $viewPath       = $model->getViewPath();
+        $controllerPath = $model->getControllerPath();
+        $modelPath      = $model->getModelPath();
+        
+        // 路由、菜单、视图 需要将 _ 替换为 -
+        $name = str_replace('_', '-', $name);
 
         // 验证文件不存在
-        if ($allow !== 1 && (file_exists($view_path) || file_exists($controller_path))) {
+        if ($allow !== 1 && (file_exists($viewPath) || file_exists($controllerPath) || file_exists($modelPath))) {
             return $this->error(219);
         }
 
         // 生成权限
-        if ($auth == 1 && !$this->createAuth($str_name, $title, $auth_name)) {
+        if ($auth == 1 && !$this->createAuth($name, $model->title, $authName)) {
             return $this->error(223);
         }
 
         // 生成导航栏目
-        if ($menu == 1 && !$this->createMenu($str_name, $title, $menu_name)) {
+        if ($menu == 1 && !$this->createMenu($name, $model->title, $menuName)) {
             return $this->error(224);
         }
 
         // 生成视图文件
-        $this->createView($attr, $title, $view_path, $primary_key);
+        $this->createView($model);
 
         // 生成控制器
-        $this->createController($name, $title, $controller_path, $primary_key);
+        $this->createController($model);
+
+        // 生成model
+        $this->createModel($model);
 
         // 返回数据
-        return $this->success(Url::toRoute(['/' . $str_name . '/index']));
+        return $this->success(Url::toRoute(['/' . $name . '/index']));
     }
 
     /**
      * 生成权限操作
      * @access private
      *
-     * @param  string  $prefix    前缀名称
-     * @param  string  $title     标题
-     * @param   string $auth_name 权限名称
+     * @param string $prefix    前缀名称
+     * @param string $title     标题
+     * @param string $auth_name 权限名称
      *
      * @return bool
      *
@@ -206,9 +231,9 @@ class ModuleController extends Controller
      *
      * @access private
      *
-     * @param  string $name      权限名称
-     * @param  string $title     导航栏目标题
-     * @param  string $menu_name 栏目名称
+     * @param string $name      权限名称
+     * @param string $title     导航栏目标题
+     * @param string $menu_name 栏目名称
      *
      * @return bool
      */
@@ -341,20 +366,14 @@ HTML;
      * 生成预览HTML文件
      * @access private
      *
-     * @param  array  $array       接收表单配置文件
-     * @param  string $title       标题信息
-     * @param  string $path        文件地址
-     *
-     * @param string  $primary_key 主键名称
-     *
-     * @return string 返回 字符串
-     * @throws \yii\base\Exception
+     * @param ModuleForm $model
+     * @param boolean    $write
      */
-    private function createView($array, $title, $path = '', $primary_key = 'id')
+    private function createView($model, $write = true)
     {
         $strHtml = '';
-        if ($array) {
-            foreach ($array as $key => $value) {
+        if ($model->attr) {
+            foreach ($model->attr as $key => $value) {
                 $arrayOptions = [
                     "title: \"{$value['title']}\"",
                     "data: \"{$key}\"",
@@ -390,19 +409,19 @@ HTML;
         }
 
         $strHtml            = trim($strHtml, ',');
-        $primary_key_config = $primary_key && $primary_key != 'id' ? 'pk: "' . $primary_key . '",' : '';
+        $primary_key_config = $model->primaryKey && $model->primaryKey != 'id' ? 'pk: "' . $model->primaryKey . '",' : '';
         $sHtml              = <<<html
 <?php
 
 use jinxing\admin\widgets\MeTable;
 // 定义标题和面包屑信息
-\$this->title = '{$title}';
+\$this->title = '{$model->title}';
 ?>
 <?=MeTable::widget()?>
 <?php \$this->beginBlock('javascript') ?>
 <script type="text/javascript">
     var m = meTables({
-        title: "{$title}",
+        title: "{$model->title}",
         number: false,
         {$primary_key_config}
         table: {
@@ -439,7 +458,8 @@ use jinxing\admin\widgets\MeTable;
 <?php \$this->endBlock(); ?>
 html;
         // 生成文件
-        if (!empty($path)) {
+        $path = $model->getViewPath();
+        if ($write && !empty($path)) {
             FileHelper::createDirectory(dirname($path));
             file_put_contents($path, $sHtml);
         }
@@ -451,19 +471,15 @@ html;
      * 生成控制器文件
      * @access private
      *
-     * @param  string $name        控制器名
-     * @param  string $title       标题
-     * @param  string $path        文件名
-     * @param string  $primary_key 主键名称
+     * @param ModuleForm $model 处理表单
      *
      * @return void
      */
-    private function createController($name, $title, $path, $primary_key = 'id')
+    private function createController($model)
     {
-        $strFile  = trim(strrchr($path, '/'), '/');
-        $strName  = trim($strFile, '.class.php');
-        $strModel = str_replace('controllers', 'models', $this->module->module->controllerNamespace) . '\\' . Helper::strToUpperWords($name);
-        $pk       = $primary_key && $primary_key != 'id' ? 'protected $pk = \'' . $primary_key . '\';' : '';
+        list($className, $namespace) = $model->getControllerInfo();
+        list(, , $modelNamespace) = $model->getModelInfo();
+        $pk = $model->primaryKey && $model->primaryKey != 'id' ? 'protected $pk = \'' . $model->primaryKey . '\';' : '';
 
         // 上层模块是 Application,那么只要基础module 下的基础控制器就好了
         if ($this->module->module instanceof Application) {
@@ -476,26 +492,70 @@ html;
         $strControllers = <<<Html
 <?php
 
-namespace {$this->module->module->controllerNamespace};
+namespace {$namespace};
 
 {$use}
 
 /**
- * Class {$strName} {$title} 执行操作控制器
- * @package {$this->module->module->controllerNamespace}
+ * Class {$className} {$model->title} 执行操作控制器
+ * @package {$namespace}
  */
-class {$strName} extends Controller
+class {$className} extends Controller
 {
     {$pk}
     
     /**
      * @var string 定义使用的model
      */
-    public \$modelClass = '{$strModel}';
+    public \$modelClass = '{$modelNamespace}';
 }
 
 Html;
 
-        file_put_contents($path, $strControllers);
+        file_put_contents($model->getControllerPath(), $strControllers);
+    }
+
+    /**
+     * 生成 model 文件
+     *
+     * @param ModuleForm $model 模型文件名称 @backend/models/Users.php
+     *
+     * @throws \yii\base\InvalidConfigException
+     */
+    private function createModel($model)
+    {
+        // 获取 model 类名、命名空间
+        list($modelClassName, $namespace) = $model->getModelInfo();
+
+        /* @var $generator yii\gii\generators\model\Generator */
+        $generator = Yii::createObject([
+            'class' => 'yii\gii\generators\model\Generator',
+        ]);
+
+        $generator->load([
+            'tableName'                          => $model->table,
+            'modelClass'                         => $modelClassName,
+            'standardizeCapitals'                => '0',
+            'ns'                                 => $namespace,
+            'baseClass'                          => 'yii\db\ActiveRecord',
+            'db'                                 => 'db',
+            'useTablePrefix'                     => '1',
+            'generateRelations'                  => 'all',
+            'generateRelationsFromCurrentSchema' => '1',
+            'generateLabelsFromComments'         => '1',
+            'generateQuery'                      => '0',
+            'queryNs'                            => $namespace,
+            'queryBaseClass'                     => 'yii\db\ActiveQuery',
+            'enableI18N'                         => '0',
+            'messageCategory'                    => 'app',
+            'useSchemaName'                      => '1',
+            'template'                           => 'default',
+        ], '');
+
+        foreach ($generator->generate() as $f) {
+            if ($f instanceof yii\gii\CodeFile) {
+                file_put_contents($f->path, $f->content);
+            }
+        }
     }
 }
