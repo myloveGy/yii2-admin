@@ -28,9 +28,9 @@ Either run
 ```
 composer require jinxing/yii2-admin
 ```
-## 版本更新说明
+## Version update instructions
 
-[v1.1.0](./docs/v1.1.1.md)
+[Version update instructions](./CHANGELOG.md)
 
 Basic Configuration
 -------------------
