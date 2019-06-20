@@ -134,7 +134,7 @@ class DefaultController extends \yii\web\Controller
             // 登录新增用户
             $admin->login($afterUserInfo, 0);
             Menu::setNavigation($afterUserInfo->id);
-            return $this->goBack(); // 到首页去
+            return $this->redirect(['default/index']); // 到首页去
         }
 
         Yii::$app->session->setFlash('error', Yii::t('admin', '抱歉，没有权限进行该操作'));
