@@ -22,7 +22,7 @@ Yii2-admin extension Change Log
             {
                code: 0,
                msg: "success",
-               data: [],
+               data: []
             }
             ```
     
