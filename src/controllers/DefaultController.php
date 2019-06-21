@@ -38,7 +38,7 @@ class DefaultController extends \yii\web\Controller
                     [
                         'actions' => [
                             'logout', 'index', 'system',
-                            'update', 'create', 'switch-login'
+                            'update', 'create', 'switch-login',
                         ],
                         'allow'   => true,
                         'roles'   => ['@'],
@@ -92,7 +92,7 @@ class DefaultController extends \yii\web\Controller
         return $this->render('system', [
             'yii'    => 'Yii ' . Yii::getVersion(),                         // Yii 版本
             'upload' => ini_get('upload_max_filesize'),             // 上传文件大小,
-            'user'   => ArrayHelper::getValue($this->module, 'admin.identity')
+            'user'   => ArrayHelper::getValue($this->module, 'admin.identity'),
         ]);
     }
 
@@ -129,7 +129,9 @@ class DefaultController extends \yii\web\Controller
             $admin->logout();
 
             // 记录之前登录的用户
-            Yii::$app->session->set('before_user', $user->toArray(['id', 'username']));
+            if (Yii::$app->request->get('type') != 'come-back') {
+                Yii::$app->session->set('before_user', $user->toArray(['id', 'username']));
+            }
 
             // 登录新增用户
             $admin->login($afterUserInfo, 0);

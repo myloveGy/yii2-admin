@@ -28,10 +28,7 @@ trait TimestampTrait
     public function behaviors()
     {
         return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'value' => new Expression('UNIX_TIMESTAMP()'),
-            ],
+            TimestampBehavior::className(),
         ];
     }
 }

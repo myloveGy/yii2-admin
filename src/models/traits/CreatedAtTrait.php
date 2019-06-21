@@ -31,7 +31,6 @@ trait CreatedAtTrait
         return [
             'time' => [
                 'class'      => TimestampBehavior::className(),
-                'value'      => new Expression('UNIX_TIMESTAMP()'),
                 'attributes' => [
                     BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                 ],

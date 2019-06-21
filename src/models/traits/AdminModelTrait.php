@@ -11,9 +11,9 @@
 namespace jinxing\admin\models\traits;
 
 use Yii;
-use yii\db\BaseActiveRecord;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
+use jinxing\admin\behaviors\UpdateBehavior;
 
 /**
  * Trait AdminModelTrait 定义处理时间戳
@@ -31,18 +31,11 @@ trait AdminModelTrait
     {
         return [
             // 时间处理
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'value' => new Expression('UNIX_TIMESTAMP()'),
-            ],
+            TimestampBehavior::className(),
 
-            // created_id 和 update_id 修改
-            'admin'     => [
-                'class'              => TimestampBehavior::className(),
-                'value'              => Yii::$app->controller->module->getUserId(),
-                'createdAtAttribute' => 'created_id',
-                'updatedAtAttribute' => 'updated_id',
-            ],
+            // created_id 和 updated_id 字段的处理
+            UpdateBehavior::className(),
         ];
+
     }
 }

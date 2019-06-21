@@ -324,7 +324,15 @@ class Helper
         ], $params);
 
         $params['sign'] = static::getSign($params);
-        return $url . '?token=' . base64_encode(json_encode($params));
+
+        // 处理连接字符串
+        if (strrpos($url, '?') !== false) {
+            $url = rtrim($url, '&') . '&';
+        } else {
+            $url .= '?';
+        }
+
+        return $url . 'token=' . base64_encode(json_encode($params));
     }
 
     /**

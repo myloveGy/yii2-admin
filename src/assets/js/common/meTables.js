@@ -640,6 +640,18 @@
                         }
 
                         return return_object;
+                    },
+                    dataSrc: function (json) {
+                        // 验证请结果，存在错误需要提示错误信息
+                        if (!self.options.isSuccess(json) && json.draw === undefined) {
+                            layer.msg(self.options.getMessage(json), {icon: 5});
+                            json.draw = 1;
+                            json.recordsTotal = 0;
+                            json.recordsFiltered = 0;
+                            json.data = []
+                        }
+
+                        return json.data;
                     }
                 };
             }
@@ -691,7 +703,7 @@
 
             return this;
         };
-    
+
 
     /**
      * 获取字段名称

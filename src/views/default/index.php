@@ -155,7 +155,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                             $user->id,
                             ArrayHelper::getValue($before_user, 'id'),
                             [],
-                            Url::toRoute('default/switch-login')
+                            Url::toRoute(['default/switch-login', 'type' => 'come-back'])
                         ); ?>">
                             <i class="ace-icon fa fa-undo"></i>
                             <span>
@@ -254,7 +254,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                 ],
                 'labelName' => 'menu_name',
                 'items'     => $menus,
-                'itemsName' => 'child'
+                'itemsName' => 'child',
             ]);
         } catch (\Exception $e) {
 
