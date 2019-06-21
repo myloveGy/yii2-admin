@@ -2,11 +2,9 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\models\traits\TimestampTrait;
-use yii\behaviors\TimestampBehavior;
-use \yii\db\ActiveRecord;
-use yii\db\Expression;
 use yii\helpers\Json;
+use \yii\db\ActiveRecord;
+use jinxing\admin\models\traits\TimestampTrait;
 
 /**
  * This is the model class for table "{{%uploads}}".

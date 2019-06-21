@@ -2,8 +2,8 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\models\traits\AdminModelTrait;
 use yii\db\ActiveRecord;
+use jinxing\admin\models\traits\AdminModelTrait;
 
 /**
  * This is the model class for table "{{%arrange}}".
