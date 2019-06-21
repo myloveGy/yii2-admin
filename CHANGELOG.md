@@ -15,6 +15,16 @@ Yii2-admin extension Change Log
     - delete: 删除文件
         - `jinxing\admin\behaviors\UpdateBehavior`行为类删除
         - `jinxing\admin\models\AdminModel`基础后台`model`删除
+    - update: 修改地方
+        - `jinxing\admin\traits\JsonTrait`修改`json`返回格式如下
+            
+            ```json
+            {
+               code: 0,
+               msg: "success",
+               data: [],
+            }
+            ```
     
 1.2.2 2019-06-18
 ----------------

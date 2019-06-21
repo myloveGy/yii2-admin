@@ -71,7 +71,7 @@ trait JsonTrait
      *
      * @return mixed|string
      */
-    protected function success($data = [], $message = 'success')
+    protected function success($data = [], $message = '')
     {
         $code = 0;
         return $this->returnJson(compact('code', 'msg', 'data'));

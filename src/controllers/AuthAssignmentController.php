@@ -68,10 +68,10 @@ class AuthAssignmentController extends Controller
             $model->item_name = $name;
             $model->user_id   = $data['user_id'];
             if ($model->save()) {
-                $this->arrJson['errMsg'] .= $model->item_name . ':' . Yii::t('admin', 'Successfully processed');
+                $this->arrJson['msg'] .= $model->item_name . ':' . Yii::t('admin', 'Successfully processed');
             } else {
-                $this->arrJson['errMsg'] .= $model->item_name . ': ';
-                $this->arrJson['errMsg'] .= Helper::arrayToString($model->getErrors());
+                $this->arrJson['msg'] .= $model->item_name . ': ';
+                $this->arrJson['msg'] .= Helper::arrayToString($model->getErrors());
             }
         }
 
