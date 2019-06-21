@@ -199,20 +199,6 @@ class AdminController extends Controller
     }
 
     /**
-     * 导出数据显示处理
-     *
-     * @return array
-     */
-    public function getExportHandleParams()
-    {
-        $array['created_at'] = $array['updated_at'] = function ($value) {
-            return date('Y-m-d H:i:s', $value);
-        };
-
-        return $array;
-    }
-
-    /**
      * 重写批量删除处理
      *
      * @return mixed|string

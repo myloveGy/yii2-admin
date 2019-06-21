@@ -2,10 +2,10 @@
 
 namespace jinxing\admin\controllers;
 
-use jinxing\admin\models\AuthRule;
-use jinxing\admin\models\Auth;
 use Yii;
 use yii\helpers\Json;
+use jinxing\admin\models\Auth;
+use jinxing\admin\models\AuthRule;
 
 /**
  * Class AuthorityController 权限管理类

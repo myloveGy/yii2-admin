@@ -35,22 +35,14 @@ class AdminLogController extends Controller
         ];
     }
 
+    /**
+     * 首页显示
+     *
+     * @return string
+     */
     public function actionIndex()
     {
         $admins = Admin::getAdmins();
         return $this->render('index', compact('admins'));
-    }
-
-    /**
-     * 导出创建时间显示处理
-     * @return array
-     */
-    public function getExportHandleParams()
-    {
-        return [
-            'created_at' => function ($value) {
-                return date('Y-m-d H:i:s', $value);
-            }
-        ];
     }
 }

@@ -53,18 +53,4 @@ class MenuController extends Controller
             'parents' => Json::encode(ArrayHelper::map($parents, 'id', 'menu_name'))
         ]);
     }
-
-    /**
-     * 处理导出显示数据
-     *
-     * @return array
-     */
-    public function getExportHandleParams()
-    {
-        $array['created_at'] = $array['updated_at'] = function ($value) {
-            return date('Y-m-d H:i:s', $value);
-        };
-
-        return $array;
-    }
 }

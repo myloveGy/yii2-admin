@@ -224,18 +224,4 @@ class RoleController extends Controller
         return (isset($post['Auth']['_permissions']) &&
             is_array($post['Auth']['_permissions'])) ? $post['Auth']['_permissions'] : [];
     }
-
-    /**
-     * 处理导出数据显示的问题
-     *
-     * @return array $array
-     */
-    public function getExportHandleParams()
-    {
-        $array['created_at'] = $array['updated_at'] = function ($value) {
-            return date('Y-m-d H:i:s', $value);
-        };
-
-        return $array;
-    }
 }

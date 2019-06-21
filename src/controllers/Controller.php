@@ -106,9 +106,9 @@ class Controller extends \yii\web\Controller
     /**
      * 处理查询数据
      * @return mixed|string
-     * @see getQuery()
-     * @see afterSearch()
      * @throws \Exception
+     * @see afterSearch()
+     * @see getQuery()
      */
     public function actionSearch()
     {
@@ -145,7 +145,7 @@ class Controller extends \yii\web\Controller
      * 查询之后的数据处理函数
      * @access protected
      *
-     * @param  mixed $array 查询出来的数组对象
+     * @param mixed $array 查询出来的数组对象
      *
      * @return void  对数据进行处理
      * @see    actionSearch()
@@ -391,13 +391,20 @@ class Controller extends \yii\web\Controller
     }
 
     /**
-     * 导出数据的处理
+     * 导出数据的处理 默认处理时间信息
      *
      * @return array
      */
     protected function getExportHandleParams()
     {
-        return [];
+        return [
+            'created_at' => function ($value) {
+                return date('Y-m-d H:i:s', $value);
+            },
+            'updated_at' => function ($value) {
+                return date('Y-m-d H:i:s', $value);
+            },
+        ];
     }
 
     /**

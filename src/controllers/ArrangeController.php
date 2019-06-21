@@ -61,7 +61,7 @@ class ArrangeController extends Controller
         $arrArrange = Arrange::find()->where([
             'and',
             ['!=', 'status', Arrange::STATUS_DEFER],
-            ['=', 'admin_id', 0]
+            ['=', 'admin_id', 0],
         ])->orderBy(['time_status' => SORT_DESC])->all();
 
         // 载入视图
@@ -120,10 +120,8 @@ class ArrangeController extends Controller
      */
     public function getExportHandleParams()
     {
-        $array['start_at'] = $array['end_at'] = $array['created_at'] = $array['updated_at'] = function ($value) {
-            return date('Y-m-d H:i:s', $value);
-        };
-
+        $array             = parent::getExportHandleParams();
+        $array['start_at'] = $array['end_at'] = $array['created_at'];
         return $array;
     }
 }

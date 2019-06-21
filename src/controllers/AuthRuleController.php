@@ -47,17 +47,4 @@ class AuthRuleController extends Controller
             }
         }
     }
-
-    /**
-     * 导出数据显示问题(时间问题可以通过Excel自动转换)
-     * @return array $array
-     */
-    public function getExportHandleParams()
-    {
-        $array['created_at'] = $array['updated_at'] = function ($value) {
-            return date('Y-m-d H:i:s', $value);
-        };
-
-        return $array;
-    }
 }
