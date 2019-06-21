@@ -418,7 +418,7 @@
                     if (result) {
                         try {
                             result = $.parseJSON(result);
-                            layer.msg(result.errMsg, {icon: result.errCode === 0 ? 6 : 5});
+                            layer.msg(result.msg, {icon: result.code === 0 ? 6 : 5});
                         } catch (e) {
                             layer.msg(meTables.getLanguage("sServerError"), {icon: 5});
                         }
@@ -470,8 +470,8 @@
                             url: self.getUrl("editable"),
                             title: k.title,
                             success: function (response) {
-                                if (response.errCode !== 0) {
-                                    return response.errMsg;
+                                if (response.code !== 0) {
+                                    return response.msg;
                                 }
                             },
                             error: function (e) {
@@ -1313,12 +1313,12 @@
 
         // 请求相关
         isSuccess: function (json) {
-            return json.errCode === 0;
+            return json.code === 0;
         },
 
         // 获取消息
         getMessage: function (json) {
-            return json.errMsg;
+            return json.msg;
         },
 
         // 搜索信息(只对searchType !== "middle") 情况

@@ -290,8 +290,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 'type': 'POST',
                                 'dataType': 'json'
                             }).done(function (json) {
-                                layer.msg(json.errMsg, {icon: json.errCode === 0 ? 6 : 5});
-                                if (json.errCode === 0) {
+                                layer.msg(json.msg, {icon: json.code === 0 ? 6 : 5});
+                                if (json.code === 0) {
                                     // 第一步提交
                                     if (info.step === 1) {
                                         $('#my-content').html(json.data);
@@ -365,8 +365,8 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                                 dataType: "json",
                                 type: "POST"
                             }).done(function (json) {
-                                layer.msg(json.errMsg, {icon: json.errCode === 0 ? 6 : 5});
-                                if (json.errCode === 0) {
+                                layer.msg(json.msg, {icon: json.code === 0 ? 6 : 5});
+                                if (json.code === 0) {
                                     if ($('input[name=menu]:checked').val() == 1)
                                         window.location.href = json.data;
                                     else

@@ -244,8 +244,8 @@ use yii\helpers\ArrayHelper;
     var sBaseUrl = "<?=Url::toRoute(['admin/editable'])?>",                             // 行内编辑提交地址
         iUserId = <?=$admin->id?>,                                      // 用户唯一ID
         fSuccess = function (response, newValue) {// 成功执行函数
-            if (response.errCode == 0) return true;
-            layer.msg(response.errMsg, {icon: 5, time: 1000});
+            if (response.code == 0) return true;
+            layer.msg(response.msg, {icon: 5, time: 1000});
             return false;
         },
 
@@ -346,7 +346,7 @@ use yii\helpers\ArrayHelper;
                                 "value": $('#country').html() + ',' + $('#city').html()
                             }
                         }).done(function (json) {
-                            layer.msg(json.errMsg, {icon: json.errCode == 0 ? 6 : 5})
+                            layer.msg(json.msg, {icon: json.code == 0 ? 6 : 5})
                         });
                     }
                     return true;
@@ -595,10 +595,10 @@ use yii\helpers\ArrayHelper;
                     //deferred callbacks, triggered by both ajax and iframe solution
                     deferred
                         .done(function (result) {
-                            if (result.errCode == 0)
+                            if (result.code == 0)
                                 $(avatar).get(0).src = result.data.sFilePath;
                             else
-                                layer.msg(result.errMsg, {icon: 5, time: 1000})
+                                layer.msg(result.msg, {icon: 5, time: 1000})
                         })
                         .fail(function (error) {
                             layer.alert("服务器繁忙,请稍后再试...", {

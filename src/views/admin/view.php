@@ -195,7 +195,7 @@ $renderParams = compact('address', 'china', 'logs', 'admin', 'avatar');
 
                 deferred
                     .done(function (result) {// 成功
-                        if (result.errCode == 0) {
+                        if (result.code == 0) {
                             form.find('button').removeAttr('disabled');
                             form.find('input[type=file]').ace_file_input('enable');
                             form.find('.modal-body > :last-child').remove();
@@ -203,7 +203,7 @@ $renderParams = compact('address', 'china', 'logs', 'admin', 'avatar');
                             $('#avatar2').get(0).src = result.data.sFilePath;
                             working = false;
                         } else {
-                            layer.msg(result.errMsg, {icon: 5})
+                            layer.msg(result.msg, {icon: 5})
                         }
 
                     })

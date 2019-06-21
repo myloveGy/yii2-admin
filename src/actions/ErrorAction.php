@@ -2,8 +2,8 @@
 
 namespace jinxing\admin\actions;
 
-use jinxing\admin\traits\JsonTrait;
 use Yii;
+use jinxing\admin\traits\JsonTrait;
 
 class ErrorAction extends \yii\web\ErrorAction
 {

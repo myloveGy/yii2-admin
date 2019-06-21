@@ -15,12 +15,13 @@ trait JsonTrait
 {
     /**
      * 定义返回json的数据
+     *
      * @var array
      */
     protected $arrJson = [
-        'errCode' => 201,
-        'errMsg'  => '',
-        'data'    => [],
+        'code' => 201,
+        'msg'  => '',
+        'data' => [],
     ];
 
     /**
@@ -33,13 +34,15 @@ trait JsonTrait
     protected function returnJson($array = null)
     {
         // 判断是否覆盖之前的值
-        if ($array) $this->arrJson = array_merge($this->arrJson, $array);
+        if ($array && is_array($array)) {
+            $this->arrJson = array_merge($this->arrJson, $array);
+        }
 
         // 没有错误信息使用code 确定错误信息
-        if (empty($this->arrJson['errMsg']) && isset(Yii::$app->i18n->translations['admin'])) {
-            $this->arrJson['errMsg'] = ArrayHelper::getValue(
+        if (empty($this->arrJson['msg']) && isset(Yii::$app->i18n->translations['admin'])) {
+            $this->arrJson['msg'] = ArrayHelper::getValue(
                 (array)Yii::t('admin', 'error_code'),
-                $this->arrJson['errCode']
+                $this->arrJson['code']
             );
         }
 
@@ -51,56 +54,50 @@ trait JsonTrait
     /**
      * handleJson() 处理返回数据
      *
-     * @param mixed   $data    返回数据
-     * @param integer $errCode 返回状态码
-     * @param string  $errMsg  提示信息
+     * @param mixed   $data 返回数据
+     * @param integer $code 返回状态码
+     * @param string  $msg  提示信息
      */
-    protected function handleJson($data, $errCode = 0, $errMsg = '')
+    protected function handleJson($data, $code = 0, $msg = '')
     {
-        list($this->arrJson['data'], $this->arrJson['errCode'], $this->arrJson['errMsg']) = [$data, $errCode, $errMsg];
+        list($this->arrJson['data'], $this->arrJson['code'], $this->arrJson['msg']) = [$data, $code, $msg];
     }
 
     /**
      * 处理成功返回
      *
      * @param mixed  $data 返回结果信息
-     * @param string $message
+     * @param string $msg  正确信息
      *
      * @return mixed|string
      */
-    protected function success($data = [], $message = '')
+    protected function success($data = [], $message = 'success')
     {
-        return $this->returnJson([
-            'errCode' => 0,
-            'errMsg'  => $message,
-            'data'    => $data
-        ]);
+        $code = 0;
+        return $this->returnJson(compact('code', 'msg', 'data'));
     }
 
     /**
      * 处理错误返回
      *
      * @param integer $code 错误码
-     * @param string  $message
+     * @param string  $msg  错误信息
      *
      * @return mixed|string
      */
-    protected function error($code = 201, $message = '')
+    protected function error($code = 201, $msg = '')
     {
-        return $this->returnJson([
-            'errCode' => $code,
-            'errMsg'  => $message,
-        ]);
+        return $this->returnJson(compact('code', 'msg'));
     }
 
     /**
      * 设置错误码
      *
-     * @param int $errCode
+     * @param int $code 设置错误码
      */
-    public function setCode($errCode = 201)
+    public function setCode($code = 201)
     {
-        $this->arrJson['errCode'] = $errCode;
+        $this->arrJson['code'] = $code;
     }
 
     /**
@@ -110,6 +107,6 @@ trait JsonTrait
      */
     public function setMessage($message = '')
     {
-        $this->arrJson['errMsg'] = $message;
+        $this->arrJson['msg'] = $message;
     }
 }

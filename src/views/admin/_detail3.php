@@ -242,7 +242,7 @@
                     })
                     .done(function (json) {
                         self.get(0).reset();
-                        layer.msg(json.errMsg, {icon: json.errCode == 0 ? 6 : 5});
+                        layer.msg(json.msg, {icon: json.code == 0 ? 6 : 5});
                         $("div.btn-toolbar div.btn-group label:first").trigger("click")
                     })
                     .fail(function () {

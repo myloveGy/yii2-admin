@@ -279,7 +279,7 @@
                 if (result) {
                     try {
                         result = $.parseJSON(result);
-                        layer.msg(result.errMsg, {icon: result.errCode == 0 ? 6 : 5});
+                        layer.msg(result.msg, {icon: result.code == 0 ? 6 : 5});
                     } catch (e) {
                         layer.msg(self.getLanguage("responseError"), {icon: 5});
                     }
@@ -446,7 +446,7 @@
         ajaxResponse: function (response) {
             try {
                 var jsonObject = $.parseJSON(response.responseText);
-                return [jsonObject.errCode == 0, jsonObject.errMsg];
+                return [jsonObject.code == 0, jsonObject.msg];
             } catch (e) {
                 return [false, meGrid.fn.getLanguage("responseError")]
             }

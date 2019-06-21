@@ -335,8 +335,8 @@ $this->registerJsFile($url . '/js/validate.message.js', $depends);
                         dataType: 'json',
                         data: $('#editForm').serializeArray()
                     }).always(alwaysClose).done(function (json) {
-                        layer.msg(json.errMsg, {icon: json.errCode == 0 ? 6 : 5});
-                        if (json.errCode == 0) {
+                        layer.msg(json.msg, {icon: json.code == 0 ? 6 : 5});
+                        if (json.code == 0) {
                             // 开始修改数据
                             calenderCalEvent.id = json.data.id;
                             calenderCalEvent.desc = json.data.desc;
@@ -381,8 +381,8 @@ $this->registerJsFile($url . '/js/validate.message.js', $depends);
                             'actionType': 'delete'
                         }
                     }).always(alwaysClose).done(function (json) {
-                        layer.msg(json.errMsg, {icon: json.errCode == 0 ? 6 : 5});
-                        if (json.errCode == 0) {
+                        layer.msg(json.msg, {icon: json.code == 0 ? 6 : 5});
+                        if (json.code == 0) {
                             calendar.fullCalendar('removeEvents', function (ev) {
                                 return (ev._id == calenderCalEvent._id);
                             });

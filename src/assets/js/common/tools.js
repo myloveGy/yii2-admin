@@ -161,11 +161,11 @@ function aceFileUpload(select, sFileUploadUrl) {
         var deferred = aceFileInputAjax($input, sFileUploadUrl);
         // 成功执行
         deferred.done(function(json) {
-            if (json.errCode == 0) {
+            if (json.code == 0) {
                 layer.msg("上传文件的地址为：" + json.data.sFilePath, {icon: 6});
                 $file.val(json.data.sFilePath);
             } else {
-                layer.msg("上传文件出现错误Error:" + json.errMsg, {icon: 5});
+                layer.msg("上传文件出现错误Error:" + json.msg, {icon: 5});
                 $input.ace_file_input('apply_settings').ace_file_input('reset_input');
             }
         }).fail(function() {
