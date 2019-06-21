@@ -475,6 +475,7 @@ html;
 
     /**
      * 生成控制器文件
+     *
      * @access private
      *
      * @param ModuleForm $model 处理表单

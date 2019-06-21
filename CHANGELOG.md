@@ -8,6 +8,13 @@ Yii2-admin extension Change Log
 - refactor: 部分代码重构
     - 基础控制器`Controller`提供导出`created_at`、`updated_at` 字段数据格式
     - 助手类`Helper` 数据导出使用`ArrayHelper::getValue`方法获取单列中指定字段数据，支持`key`为`user.name`的语法
+    - add: 添加文件
+            - `jinxing\admin\models\traits\AdminModelTrait` 用来替代 `AdminModel`
+            - `jinxing\admin\models\traits\CreatedAtTrait` 用来处理 `created_at` 时间字段自动填充
+            - `jinxing\admin\models\traits\TimestampTrait` 用来处理 `created_at`,`updated_at` 时间字段自动填充
+    - delete: 删除文件
+        - `jinxing\admin\behaviors\UpdateBehavior`行为类删除
+        - `jinxing\admin\models\AdminModel`基础后台`model`删除
     
 1.2.2 2019-06-18
 ----------------
