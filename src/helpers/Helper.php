@@ -18,10 +18,10 @@ class Helper
     /**
      * map() 使用ArrayHelper 处理数组, 并添加其他信息
      *
-     * @param  mixed  $array  需要处理的数据
-     * @param  string $id     键名
-     * @param  string $name   键值
-     * @param  array  $params 其他数据
+     * @param mixed  $array  需要处理的数据
+     * @param string $id     键名
+     * @param string $name   键值
+     * @param array  $params 其他数据
      *
      * @return array
      */
@@ -132,7 +132,7 @@ class Helper
     /**
      * 将一个多维数组连接为一个字符串
      *
-     * @param  array $array 数组
+     * @param array $array 数组
      *
      * @return string
      */
@@ -151,12 +151,12 @@ class Helper
     /**
      * 通过指定字符串拆分数组，然后各个元素首字母，最后拼接
      *
-     * @example $strName = 'yii_user_log',$and = '_', return YiiUserLog
-     *
      * @param string $strName 字符串
      * @param string $and     拆分的字符串(默认'_')
      *
      * @return string
+     * @example $strName = 'yii_user_log',$and = '_', return YiiUserLog
+     *
      */
     public static function strToUpperWords($strName, $and = '_')
     {
@@ -226,7 +226,8 @@ class Helper
         // 写入数据信息
         $intNum = 2;
         foreach ($query->batch(1000) as $array) {
-            // 函数处理
+
+            // 函数处理，允许修改数据
             if ($function && $function instanceof Closure) {
                 $function($array);
             }
@@ -235,7 +236,9 @@ class Helper
             foreach ($array as $value) {
                 // 写入信息数据
                 foreach ($letters as $letter => $attribute) {
-                    $tmpValue = isset($value[$attribute]) ? $value[$attribute] : null;
+                    // 使用 getValue 可以支持 user.name 的语法
+                    $tmpValue = ArrayHelper::getValue($value, $attribute, null);
+
                     // 匿名函数处理
                     if (isset($handleParams[$attribute]) && $handleParams[$attribute] instanceof Closure) {
                         $tmpValue = $handleParams[$attribute]($tmpValue, $value);
@@ -300,10 +303,10 @@ class Helper
     /**
      * 获取登录地址
      *
-     * @param  integer $beforeUserId
-     * @param  integer $afterUseId
-     * @param array    $params
-     * @param string   $url
+     * @param integer $beforeUserId
+     * @param integer $afterUseId
+     * @param array   $params
+     * @param string  $url
      *
      * @return string
      */
