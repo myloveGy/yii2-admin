@@ -2,8 +2,8 @@
 
 namespace jinxing\admin\models\forms;
 
-use jinxing\admin\models\Admin;
 use Yii;
+use jinxing\admin\models\Admin;
 
 /**
  * Login form

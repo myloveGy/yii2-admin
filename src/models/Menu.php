@@ -3,8 +3,10 @@
 namespace jinxing\admin\models;
 
 use Yii;
-use jinxing\admin\helpers\Tree;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use jinxing\admin\helpers\Tree;
+use jinxing\admin\models\traits\AdminModelTrait;
 
 /**
  * This is the model class for table "{{%menu}}".
@@ -21,8 +23,10 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_at
  * @property integer $updated_id
  */
-class Menu extends AdminModel
+class Menu extends ActiveRecord
 {
+    use AdminModelTrait;
+
     // 缓存key
     const CACHE_KEY = 'navigation';
 

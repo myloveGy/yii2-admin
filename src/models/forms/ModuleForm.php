@@ -1,13 +1,16 @@
 <?php
 
-
 namespace jinxing\admin\models\forms;
 
-
-use jinxing\admin\helpers\Helper;
 use Yii;
 use yii\helpers\ArrayHelper;
+use jinxing\admin\helpers\Helper;
 
+/**
+ * Class ModuleForm 模块处理表单
+ *
+ * @package jinxing\admin\models\forms
+ */
 class ModuleForm extends \yii\base\Model
 {
     /**

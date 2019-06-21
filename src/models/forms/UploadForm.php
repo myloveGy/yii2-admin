@@ -5,11 +5,9 @@ namespace jinxing\admin\models\forms;
 use \yii\base\Model;
 
 /**
- * Class    UploadForm
- * @package backend\models
- * @Desc    文件上传类
- * @User    liujx
- * @Date    2016-4-7
+ * Class UploadForm 文件上传处理类
+ *
+ * @package jinxing\admin\models\forms
  */
 class UploadForm extends Model
 {
@@ -25,7 +23,7 @@ class UploadForm extends Model
         return [
             'avatar' => ['avatar'],
             'face'   => ['face'],
-            'url'    => ['url']
+            'url'    => ['url'],
         ];
     }
 

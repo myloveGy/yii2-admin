@@ -2,13 +2,11 @@
 
 namespace jinxing\admin\models;
 
-use jinxing\admin\behaviors\UpdateBehavior;
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\Expression;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\base\NotSupportedException;
+use jinxing\admin\models\traits\AdminModelTrait;
 
 /**
  * User model
@@ -29,13 +27,17 @@ use yii\web\IdentityInterface;
  */
 class AdminUser extends ActiveRecord implements IdentityInterface
 {
+    use AdminModelTrait;
+
     const STATUS_DELETED  = 0;
     const STATUS_INACTIVE = 20;
     const STATUS_ACTIVE   = 10;
     const ROLE_USER       = 10;
 
     /**
-     * @inheritdoc
+     * 定义表名称
+     *
+     * @return string
      */
     public static function tableName()
     {
@@ -43,21 +45,9 @@ class AdminUser extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'value' => new Expression('UNIX_TIMESTAMP()'),
-            ],
-            UpdateBehavior::className(),
-        ];
-    }
-
-    /**
-     * @inheritdoc
+     * 定义规则
+     *
+     * @return array
      */
     public function rules()
     {
@@ -70,7 +60,9 @@ class AdminUser extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * 定义字段
+     *
+     * @return array
      */
     public function attributeLabels()
     {

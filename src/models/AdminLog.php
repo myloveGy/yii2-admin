@@ -24,17 +24,11 @@ use yii\db\ActiveRecord;
  */
 class AdminLog extends ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return '{{%admin_operate_logs}}';
     }
-
-    /**
-     * @inheritdoc
-     */
+    
     public function rules()
     {
         return [
@@ -46,9 +40,6 @@ class AdminLog extends ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

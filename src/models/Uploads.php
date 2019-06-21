@@ -2,6 +2,7 @@
 
 namespace jinxing\admin\models;
 
+use jinxing\admin\models\traits\TimestampTrait;
 use yii\behaviors\TimestampBehavior;
 use \yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -18,19 +19,7 @@ use yii\helpers\Json;
  */
 class Uploads extends ActiveRecord
 {
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'value' => new Expression('UNIX_TIMESTAMP()'),
-            ],
-        ];
-    }
+    use TimestampTrait;
 
     /**
      * @inheritdoc

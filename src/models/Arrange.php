@@ -2,6 +2,9 @@
 
 namespace jinxing\admin\models;
 
+use jinxing\admin\models\traits\AdminModelTrait;
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "{{%arrange}}".
  *
@@ -17,8 +20,10 @@ namespace jinxing\admin\models;
  * @property integer $updated_at
  * @property integer $updated_id
  */
-class Arrange extends AdminModel
+class Arrange extends ActiveRecord
 {
+    use AdminModelTrait;
+    
     // 状态信息
     const STATUS_PENDING  = 0;  // 待处理
     const STATUS_DELEGATE = 1;  // 委派处理
@@ -98,7 +103,7 @@ class Arrange extends AdminModel
             self::STATUS_DELEGATE => '委派处理',
             self::STATUS_PENDING  => '待处理',
             self::STATUS_COMPLETE => '处理完成',
-            self::STATUS_DEFER    => '延期处理'
+            self::STATUS_DEFER    => '延期处理',
         ];
 
         if ($intStatus != null && isset($arrReturn[$intStatus])) {
@@ -143,7 +148,7 @@ class Arrange extends AdminModel
             self::STATUS_PENDING  => 'label-warning',
             self::STATUS_DELEGATE => 'label-info',
             self::STATUS_COMPLETE => 'label-success',
-            self::STATUS_DEFER    => 'label-danger'
+            self::STATUS_DEFER    => 'label-danger',
         ];
 
         if ($intStatus != null && isset($arrReturn[$intStatus])) {
