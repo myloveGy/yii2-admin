@@ -5,7 +5,10 @@ Yii2-admin extension Change Log
 ----------------
 
 - fix: 管理员切换跳转地址问题修复
-
+- refactor: 部分代码重构
+    - 基础控制器`Controller`提供导出`created_at`、`updated_at` 字段数据格式
+    - 助手类`Helper` 数据导出使用`ArrayHelper::getValue`方法获取单列中指定字段数据，支持`key`为`user.name`的语法
+    
 1.2.2 2019-06-18
 ----------------
 

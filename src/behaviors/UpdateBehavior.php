@@ -16,18 +16,21 @@ class UpdateBehavior extends AttributeBehavior
 {
     /**
      * 定义创建用户字段名
+     *
      * @var string
      */
     public $createdIdAttribute = 'created_id';
 
     /**
      * 定义修改用户字段名
+     *
      * @var string
      */
     public $updatedIdAttribute = 'updated_id';
 
     /**
-     * 定义只
+     * 定义值
+     *
      * @var integer
      */
     public $value;
