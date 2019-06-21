@@ -371,6 +371,9 @@ HTML;
      *
      * @param ModuleForm $model
      * @param boolean    $write
+     *
+     * @return string
+     * @throws \yii\base\Exception
      */
     private function createView($model, $write = true)
     {
