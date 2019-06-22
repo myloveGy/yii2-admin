@@ -20,7 +20,12 @@ $this->title = 'Yii2 Admin 登录信息';
             <div class="profile-info-row">
                 <div class="profile-info-name"> 角色</div>
                 <div class="profile-info-value">
-                    <span><?= $user->role ?></span>
+                    <span>
+                        <?php
+                        $roles = Yii::$app->authManager->getRolesByUser($user->id);
+                        echo implode(',', array_keys($roles));
+                        ?>
+                    </span>
                 </div>
             </div>
             <div class="profile-info-row">

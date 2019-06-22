@@ -39,7 +39,7 @@ class AdminController extends Controller
         return [
             // 不是管理员登录的话，只能看到自己添加和自己的数据
             'where' => $intUid !== Admin::SUPER_ADMIN_ID ? [
-                ['or', ['id' => $intUid], ['created_id' => $intUid]]
+                ['or', ['id' => $intUid], ['created_id' => $intUid]],
             ] : [],
 
             // 其他查询字段信息
@@ -59,7 +59,7 @@ class AdminController extends Controller
     {
         /* @var $admin \yii\web\User */
         $admin = ArrayHelper::getValue($this->module, 'admin');
-
+        
         // 查询用户数据
         return $this->render('index', [
             'admins'      => Admin::getAdmins(),
@@ -68,7 +68,7 @@ class AdminController extends Controller
             'statusColor' => Admin::getStatusColor(),               // 状态对应颜色
             'auth'        => Auth::getDataTableAuth(ArrayHelper::getValue($this->module, 'user')),
             'isSuper'     => $admin->can(Auth::SUPER_ADMIN_NAME),
-            'admin'       => ArrayHelper::getValue($this->module, 'admin.identity')
+            'admin'       => ArrayHelper::getValue($this->module->getAdmin(), 'identity'),
         ]);
     }
 
@@ -96,7 +96,7 @@ class AdminController extends Controller
     public function actionView()
     {
         $address = Yii::t('admin', 'Select county');
-        $admin   = ArrayHelper::getValue($this->module, 'admin.identity');
+        $admin   = ArrayHelper::getValue($this->module->getAdmin(), 'identity');
         $china   = [];
         if ($admin->address) {
             if ($arrAddress = explode(',', $admin->address)) {
@@ -114,7 +114,7 @@ class AdminController extends Controller
 
         // 操作日志
         $logs = AdminLog::find()->where([
-            'admin_id' => $admin->id
+            'admin_id' => $admin->id,
         ])->orderBy(['id' => SORT_DESC])->limit(100)->asArray()->all();
 
         // 载入视图文件
@@ -159,7 +159,7 @@ class AdminController extends Controller
         $image->resize(48, 48, Image::CROP)->save();
 
         // 管理员页面修改头像
-        $admin = ArrayHelper::getValue($this->module, 'admin.identity');
+        $admin = ArrayHelper::getValue($this->module->getAdmin(), 'identity');
         if ($admin && $strField === 'avatar') {
             // 删除之前的图像信息
             if ($admin->face && file_exists('.' . $admin->face)) {
@@ -190,7 +190,7 @@ class AdminController extends Controller
                     'and',
                     // 父类ID
                     ['=', 'pid', (int)$request->get('iPid', 0)],
-                    ['>', 'id', 0]
+                    ['>', 'id', 0],
                 ])
                 ->andFilterWhere(['like', 'name', $request->get('query')])
                 ->asArray()

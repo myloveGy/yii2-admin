@@ -109,7 +109,9 @@ class AdminUser extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        // 支持通过邮箱登录
+        $column = strrpos($username, '@') === false ? 'username' : 'email';
+        return static::findOne([$column => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

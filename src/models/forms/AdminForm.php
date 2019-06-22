@@ -4,6 +4,7 @@ namespace jinxing\admin\models\forms;
 
 use Yii;
 use jinxing\admin\models\Admin;
+use yii\helpers\ArrayHelper;
 
 /**
  * Login form
@@ -82,8 +83,14 @@ class AdminForm extends \yii\base\Model
      */
     public function getUser()
     {
+        // 获取设置的model
+        $modelClass = 'jinxing\admin\models\Admin';
+        if ($user = Yii::$app->get(ArrayHelper::getValue(Yii::$app, 'controller.module.user'))) {
+            $modelClass = $user->identityClass;
+        }
+
         if ($this->_user === false) {
-            $this->_user = Admin::findByUsername($this->username);
+            $this->_user = $modelClass::findByUsername($this->username);
         }
 
         return $this->_user;
