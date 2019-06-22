@@ -157,7 +157,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
                             [],
                             Url::toRoute(['default/switch-login', 'type' => 'come-back'])
                         ); ?>">
-                            <i class="ace-icon fa fa-undo"></i>
+                            <i class="ace-icon fa fa-sign-out"></i>
                             <span>
                             <small> 返回 </small><?= ArrayHelper::getValue($before_user, 'username') ?>
                         </span>

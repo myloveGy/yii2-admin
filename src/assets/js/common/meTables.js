@@ -1035,13 +1035,13 @@
         delete params.options;
         delete params.labelOptions;
 
-        defaultParams = this.extend(defaultParams, params);
+        defaultParams = $.extend(defaultParams, params);
         if (options) {
-            defaultParams = this.extend(defaultParams, options);
+            defaultParams = $.extend(defaultParams, options);
         }
 
         if (labelOptions) {
-            defaultLabel = this.extend(defaultLabel, labelOptions);
+            defaultLabel = $.extend(defaultLabel, labelOptions);
         }
 
         return {
