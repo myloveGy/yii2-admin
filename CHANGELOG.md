@@ -13,7 +13,6 @@ Yii2-admin extension Change Log
             - `jinxing\admin\models\traits\CreatedAtTrait` 用来处理 `created_at` 时间字段自动填充
             - `jinxing\admin\models\traits\TimestampTrait` 用来处理 `created_at`,`updated_at` 时间字段自动填充
     - delete: 删除文件
-        - `jinxing\admin\behaviors\UpdateBehavior`行为类删除
         - `jinxing\admin\models\AdminModel`基础后台`model`删除
     - update: 修改地方
         - `jinxing\admin\traits\JsonTrait`修改`json`返回格式如下
