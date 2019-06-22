@@ -3,15 +3,17 @@
 namespace jinxing\admin\controllers;
 
 use Yii;
-use jinxing\admin\models\Auth;
-use jinxing\admin\traits\JsonTrait;
+
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use jinxing\admin\helpers\Helper;
+use yii\helpers\ArrayHelper;
+use jinxing\admin\models\Auth;
 use jinxing\admin\models\Menu;
 use jinxing\admin\models\Admin;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\traits\JsonTrait;
 use jinxing\admin\models\forms\AdminForm;
-use yii\helpers\ArrayHelper;
+
 
 /**
  * Class DefaultController 后台首页处理
@@ -180,8 +182,9 @@ class DefaultController extends \yii\web\Controller
      */
     public function actionLogout()
     {
-        $user = $this->module->getAdmin();
-        if ($admin = ArrayHelper::getValue($user, 'identity')) {
+        $user  = $this->module->getAdmin();
+        $admin = ArrayHelper::getValue($user, 'identity');
+        if ($admin && $admin instanceof Admin) {
             $admin->last_time = time();
             $admin->last_ip   = Helper::getIpAddress();
             $admin->save();
