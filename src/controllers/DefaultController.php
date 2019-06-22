@@ -118,7 +118,7 @@ class DefaultController extends \yii\web\Controller
 
         /* @var $admin \yii\web\User */
         /* @var  $user Admin */
-        $admin = ArrayHelper::getValue($this->module, 'admin');
+        $admin = $this->module->getAdmin();
         $user  = $admin->identity;
         // 验证用户权限
         if (
@@ -154,7 +154,7 @@ class DefaultController extends \yii\web\Controller
     public function actionLogin()
     {
         $this->layout = 'login.php';
-        $user         = ArrayHelper::getValue($this->module, 'admin');
+        $user         = $this->module->getAdmin();
 
         // 不是游客直接跳转到首页
         if (!$user->isGuest) {
@@ -180,7 +180,7 @@ class DefaultController extends \yii\web\Controller
      */
     public function actionLogout()
     {
-        $user = ArrayHelper::getValue($this->module, 'admin');
+        $user = $this->module->getAdmin();
         if ($admin = ArrayHelper::getValue($user, 'identity')) {
             $admin->last_time = time();
             $admin->last_ip   = Helper::getIpAddress();

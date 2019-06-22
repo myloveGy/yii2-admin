@@ -58,8 +58,8 @@ class AdminController extends Controller
     public function actionIndex()
     {
         /* @var $admin \yii\web\User */
-        $admin = ArrayHelper::getValue($this->module, 'admin');
-        
+        $admin = $this->module->getAdmin();
+
         // 查询用户数据
         return $this->render('index', [
             'admins'      => Admin::getAdmins(),
@@ -68,14 +68,14 @@ class AdminController extends Controller
             'statusColor' => Admin::getStatusColor(),               // 状态对应颜色
             'auth'        => Auth::getDataTableAuth(ArrayHelper::getValue($this->module, 'user')),
             'isSuper'     => $admin->can(Auth::SUPER_ADMIN_NAME),
-            'admin'       => ArrayHelper::getValue($this->module->getAdmin(), 'identity'),
+            'admin'       => ArrayHelper::getValue($admin, 'identity'),
         ]);
     }
 
     public function afterSearch(&$array)
     {
         /* @var $admin \yii\web\User */
-        $admin = ArrayHelper::getValue($this->module, 'admin');
+        $admin = $this->module->getAdmin();
         if ($admin->can(Auth::SUPER_ADMIN_NAME)) {
             foreach ($array as &$user) {
                 $user['switch_user_login'] = Helper::getSwitchLoginUrl(
