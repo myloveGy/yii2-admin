@@ -20,9 +20,9 @@ Yii2-admin extension Change Log
             
             ```json
             {
-               code: 0,
-               msg: "success",
-               data: []
+               "code": 0,
+               "msg": "success",
+               "data": []
             }
             ```
     
