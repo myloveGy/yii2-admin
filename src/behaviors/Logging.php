@@ -4,7 +4,8 @@ namespace jinxing\admin\behaviors;
 
 use yii\web\User;
 use yii\di\Instance;
-use yii\base\ActionFilter;
+use yii\base\Behavior;
+use yii\base\Controller;
 use jinxing\admin\models\AdminLog;
 
 /**
@@ -12,12 +13,10 @@ use jinxing\admin\models\AdminLog;
  *
  * @package jinxing\admin\behaviors
  */
-class Logging extends ActionFilter
+class Logging extends Behavior
 {
     /**
-     * @var User|array|string|false the user object representing the authentication status or the ID of the user application component.
-     * Starting from version 2.0.2, this can also be a configuration array for creating the object.
-     * Starting from version 2.0.12, you can set it to `false` to explicitly switch this component support off for the filter.
+     * @var string 使用的用户组件
      */
     public $user = 'user';
 
@@ -26,9 +25,16 @@ class Logging extends ActionFilter
      */
     public $needLogActions = ['create', 'update', 'delete', 'delete-all', 'editable', 'upload'];
 
+    public function events()
+    {
+        return [
+            Controller::EVENT_AFTER_ACTION => 'beforeAction',
+        ];
+    }
+
     /**
      * 初始化赋值
-     * 
+     *
      * @throws \yii\base\InvalidConfigException
      */
     public function init()
@@ -50,7 +56,5 @@ class Logging extends ActionFilter
         if (in_array($action->id, $this->needLogActions)) {
             AdminLog::create($action, $this->user, $result);
         }
-
-        return parent::afterAction($action, $result);
     }
 }
