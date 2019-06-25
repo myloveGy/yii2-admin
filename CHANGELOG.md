@@ -3,8 +3,11 @@ Yii2-admin extension Change Log
 
 1.2.5 2019-06-25
 ----------------
--- refactor: meTables 编辑添加 autocompo
 
+- refactor: `meTables` 优化
+    - 编辑添加 `autocomplete` 处理表单自动填充问题
+    - 编辑和添加表单初始化的时候，重置验证信息
+- refactor: `Logging`行为优化，直接继承`yii\base\Behavior`
 
 1.2.4 2019-06-22
 ----------------
