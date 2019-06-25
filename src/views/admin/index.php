@@ -50,7 +50,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     title: "密码",
                     data: "password",
                     hide: true,
-                    edit: {type: "password", rangeLength: "[2, 20]", autocomplete: "off"},
+                    edit: {type: "password", rangeLength: "[2, 20]", autocomplete: "new-password"},
                     sortable: false,
                     defaultContent: "",
                     view: false
