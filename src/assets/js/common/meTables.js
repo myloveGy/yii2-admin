@@ -554,6 +554,14 @@
                 var f = this.options.sFormId, m = this.options.sModal, t = this.options.title;
 
                 $(m).find('h4').html(t + meTables.getLanguage(this.action === "create" ? "sCreate" : "sUpdate"));
+
+                // 重置验证信息
+                try {
+                    $(this.options.sFormId).find(".has-error").removeClass("has-error");
+                    $(this.options.sFormId).validate(this.options.formValidate).resetForm();
+                } catch (e) {
+                }
+
                 meTables.initForm(f, data);
 
                 // 显示之后的处理
