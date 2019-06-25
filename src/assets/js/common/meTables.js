@@ -1334,9 +1334,10 @@
 
         // 编辑表单信息
         form: {
-            "method": "post",
-            "class": "form-horizontal",
-            "name": "edit-form"
+            method: "post",
+            class: "form-horizontal",
+            name: "edit-form",
+            autocomplete: "off"
         },
 
         // 编辑表单验证方式
