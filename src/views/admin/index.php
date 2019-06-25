@@ -42,7 +42,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                 {
                     title: "管理员账号",
                     data: "username",
-                    edit: {required: true, rangeLength: "[2, 255]"},
+                    edit: {required: true, rangeLength: "[2, 255]", autocomplete: "off"},
                     search: {type: "text", name: "username"},
                     sortable: false
                 },
@@ -50,7 +50,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     title: "密码",
                     data: "password",
                     hide: true,
-                    edit: {type: "password", rangeLength: "[2, 20]"},
+                    edit: {type: "password", rangeLength: "[2, 20]", autocomplete: "off"},
                     sortable: false,
                     defaultContent: "",
                     view: false
