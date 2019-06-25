@@ -6,6 +6,7 @@ use yii\web\User;
 use yii\di\Instance;
 use yii\base\Behavior;
 use yii\base\Controller;
+use yii\base\ActionEvent;
 use jinxing\admin\models\AdminLog;
 
 /**
@@ -25,11 +26,14 @@ class Logging extends Behavior
      */
     public $needLogActions = ['create', 'update', 'delete', 'delete-all', 'editable', 'upload'];
 
+    /**
+     * 定义事件对应的方法
+     *
+     * @return array
+     */
     public function events()
     {
-        return [
-            Controller::EVENT_AFTER_ACTION => 'beforeAction',
-        ];
+        return [Controller::EVENT_AFTER_ACTION => 'afterAction',];
     }
 
     /**
@@ -46,15 +50,12 @@ class Logging extends Behavior
     }
 
     /**
-     * @param \yii\base\Action $action
-     * @param mixed            $result
-     *
-     * @return mixed
+     * @param ActionEvent $event
      */
-    public function afterAction($action, $result)
+    public function afterAction($event)
     {
-        if (in_array($action->id, $this->needLogActions)) {
-            AdminLog::create($action, $this->user, $result);
+        if (in_array($event->action->id, $this->needLogActions)) {
+            AdminLog::create($event->action, $this->user, $event->result);
         }
     }
 }
