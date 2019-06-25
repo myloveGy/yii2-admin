@@ -13,10 +13,13 @@ Yii2 Ace Admin Background extension
 Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
 
 ## Features
+
 * Use RBAC rights management, all operations based on privilege control
 * View using JS control, data display using jquery.DataTables
 * Based on the data table add, delete, change, check have package, add new data table operation is convenient
+
 ## Installation requirements
+
 * PHP >= 5.4
 * MySQL
 
