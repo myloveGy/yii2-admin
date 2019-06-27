@@ -1352,7 +1352,7 @@
 
         // 搜索信息
         search: {
-            render: false,
+            render: true,
 
             type: "append",
 
@@ -1361,12 +1361,12 @@
                 submit: {
                     class: "btn btn-info btn-sm",
                     icon: "ace-icon fa fa-search bigger-110",
-                    style: "margin-left: 5px;",
+                    style: "margin-left: 5px;padding-top: 1px; padding-bottom:1px",
                     text: meTables.getLanguage("search"),
                 },
                 reset: {
                     class: "btn btn-warning btn-sm",
-                    style: "margin-left: 10px",
+                    style: "margin-left: 10px;padding-top: 1px; padding-bottom:1px",
                     icon: "ace-icon fa fa-undo bigger-110",
                     text: meTables.getLanguage("reset"),
                 },
