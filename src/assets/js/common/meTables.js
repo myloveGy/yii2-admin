@@ -1350,7 +1350,8 @@
 
         // 搜索信息
         search: {
-            render: true,
+            render: false,
+            
             type: "append",
 
             // 搜索表单按钮信息
