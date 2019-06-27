@@ -76,23 +76,24 @@
 
                 // 搜索表单的事件
                 if (this.options.searchInputEvent) {
+
                     $(this.options.searchForm + ' input').on(this.options.searchInputEvent, function () {
                         _self.table.draw();
                     });
+
+                    // 默认输入框回车查询
+                    if (this.options.searchInputEvent != 'keydown') {
+                        $(this.options.searchForm + ' input').on('keydown', function (evt) {
+                            if (evt.which === 13) {
+                                _self.table.draw();
+                            }
+                        });
+                    }
                 }
 
                 if (this.options.searchSelectEvent) {
                     $(this.options.searchForm + ' select').on(this.options.searchSelectEvent, function () {
                         _self.table.draw();
-                    });
-                }
-
-                // 默认输入框回车查询
-                if (this.options.searchInputEvent != 'keydown') {
-                    $(this.options.searchForm + ' input').on('keydown', function (evt) {
-                        if (evt.which === 13) {
-                            _self.table.draw();
-                        }
                     });
                 }
 
@@ -113,23 +114,32 @@
                 this.initRender();
                 this.table = $(this.options.sTable).DataTable(this.options.table);	// 初始化主要表格
                 var self = this;
+
+                var searchButtonHtml = '';
+                // 需要添加搜索表单
+                if (this.options.search && this.options.search.render) {
+                    searchButtonHtml = meTables.createButtonHtml(this.options.search.button);
+                    this.options.searchInputEvent = false;
+                    this.options.searchSelectEvent = false;
+                }
+
                 // 判断初始化处理(搜索添加位置)
                 if (this.options.searchType === "middle") {
-                    $(this.options.sTable + "_filter").html('<form id="' +
-                        this.options.searchForm.replace("#", "") + '">' + this.options.searchHtml + '</form>');
+                    $(this.options.sTable + "_filter").html('<form id="' + this.options.searchForm.replace("#", "") + '">' +
+                        '' + this.options.searchHtml + searchButtonHtml + '' +
+                        '</form>');
+
                     $(this.options.sTable + "_wrapper div.row div.col-xs-6:first")
                         .removeClass("col-xs-6")
                         .addClass("col-xs-2")
                         .next()
                         .removeClass("col-xs-6")
-                        .addClass("col-xs-10");	// 处理搜索信息
+                        .addClass("col-xs-10");
+
                 } else {
                     // 添加搜索表单信息
                     if (this.options.search.render) {
-                        this.options.searchHtml += '<button class="' + this.options.search.button.class + '">\
-                    <i class="' + this.options.search.button.icon + '"></i>\
-                    ' + meTables.getLanguage("search") + '\
-                    </button>';
+                        this.options.searchHtml += searchButtonHtml;
                         try {
                             $(this.options.searchForm)[this.options.search.type](this.options.searchHtml);
                         } catch (e) {
@@ -1238,6 +1248,23 @@
     };
 
 
+    // 生成搜索表单
+    meTables.createButtonHtml = function (params) {
+        var html = '';
+        for (var i in params) {
+            var icon = params[i].icon, text = params[i].text;
+
+            delete params[i].icon;
+            delete params[i].text;
+
+            params[i].type = i;
+
+            html += '<button ' + meTables.handleParams(params[i]) + '><i class="' + icon + '"></i>' + text + '</button>';
+        }
+
+        return html;
+    };
+
     // 语言配置
     meTables.language = {
         // 我的信息
@@ -1271,7 +1298,8 @@
             "pleaseInput": "请输入",
             "all": "全部",
             "number": "序号",
-            "empty": "没有数据"
+            "empty": "没有数据",
+            "reset": "清除",
         },
 
         // dataTables 表格
@@ -1320,14 +1348,26 @@
             return json.msg;
         },
 
-        // 搜索信息(只对searchType !== "middle") 情况
+        // 搜索信息
         search: {
             render: true,
             type: "append",
+
+            // 搜索表单按钮信息
             button: {
-                "class": "btn btn-info btn-sm",
-                "icon": "ace-icon fa fa-search"
-            }
+                submit: {
+                    class: "btn btn-info btn-sm",
+                    icon: "ace-icon fa fa-search bigger-110",
+                    style: "margin-left: 5px;",
+                    text: meTables.getLanguage("search"),
+                },
+                reset: {
+                    class: "btn btn-warning btn-sm",
+                    style: "margin-left: 10px",
+                    icon: "ace-icon fa fa-undo bigger-110",
+                    text: meTables.getLanguage("reset"),
+                },
+            },
         },
 
         fileSelector: [],			// 上传文件选择器
