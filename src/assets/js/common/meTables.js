@@ -1252,6 +1252,10 @@
     meTables.createButtonHtml = function (params) {
         var html = '';
         for (var i in params) {
+            if (!params[i]) {
+                continue;
+            }
+            
             var icon = params[i].icon || '', text = params[i].text || '';
 
             delete params[i].icon;
