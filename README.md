@@ -1,5 +1,5 @@
-Yii2 Ace Admin Background extension
-===================================
+Yii2 Ace Admin 后台扩展模块
+==========================
 
 ![Progress](http://progressed.io/bar/100?title=completed) 
 [![Latest Stable Version](https://poser.pugx.org/jinxing/yii2-admin/v/stable)](https://packagist.org/packages/jinxing/yii2-admin)
@@ -10,60 +10,61 @@ Yii2 Ace Admin Background extension
 [![GitHub stars](https://img.shields.io/github/stars/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/stargazers)
 [![GitHub license](https://img.shields.io/github/license/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/blob/master/LICENSE.md)
 
-Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
+## 作者博客
 
-## Features
+[https://mylovegy.github.io/blog/](https://mylovegy.github.io/blog/)
 
-* Use RBAC rights management, all operations based on privilege control
-* View using JS control, data display using jquery.DataTables
-* Based on the data table add, delete, change, check have package, add new data table operation is convenient
+## 简介
 
-## Installation requirements
+使用的 [ace admin](http://ace.jeka.by/) 前端框架, 为`yii2`开发的一个后台模块; 
+对于二次开发比较方便，包含了基本的后台功能
+
+## 功能特性
+
+* 包含基本的后台功能
+    - 管理员管理: 登录、登出、修改密码等
+    - 菜单管理: 可视化动态菜单、根据权限显示菜单
+    - 权限管理: 角色、权限、用户的管理  
+    
+* 使用`yii2`自带的`RBAC`权限管理
+* 对于二次开发比较方便
+    - 定义基本控制器(封装了基本的`CURD`操作), 后续开发基于基础控制器继承修改
+    - 拥有模块生成功能(类似于`gii`), 可视化生成代码模板, 简单操作即可生成 控制器`controller`、模型`model`, 视图`views`
+        文件，提高开发效率
+
+## 安装
+
+### 安装要求
 
 * PHP >= 5.4
 * MySQL
 
-## Installation
+### 全新项目安装
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+全新项目安装可以直接使用[liujx/yii2-app-advanced](https://packagist.org/packages/liujx/yii2-app-advanced)
 
-Either run
+### 在已有项目中安装
+
+使用 `composer` 下载包文件 
+
 ```
 composer require jinxing/yii2-admin
 ```
-## Version update instructions
 
-[Version update instructions](./CHANGELOG.md)
+### 配置模块信息
 
-Basic Configuration
--------------------
-
-Once the extension is installed, simply modify your application configuration as follows:
+在你的 `main.php` 配置文件中添加下面配置
 
 ```php
 return [
     'modules' => [
         'admin' => [
             'class' => 'jinxing\admin\Module',
-            
-            // Make use of that kind of user
-            'user' => 'admin',
-            
-            // Do not verify permissions
-            'verifyAuthority' => false,
-            ...
         ]
-        ...
     ],
-    ...
     'components' => [
-        // Front desk user
-        'user' => [
-            'identityClass'   => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
         
-        // Background user
+        // 后台登录用户组件信息
         'admin' => [
             'class' => '\yii\web\User',
             'identityClass' => 'jinxing\admin\models\Admin',
@@ -73,7 +74,7 @@ return [
             'identityCookie' => ['name' => '_admin','httpOnly' => true],
         ],
         
-        // This step is not necessary, but you use it outside the module. The controller, view in the module must be added!
+        // 后台使用的语言配置信息
         'i18n' => [
             'translations' => [
                 'admin' => [
@@ -83,104 +84,78 @@ return [
                 ],
             ],
         ],
+        
+        // 配置权限使用数据库
+        'authManager'  => [
+            'class' => 'yii\rbac\DbManager',
+        ],
                 
     ]
 ];
 ```
 
-There are also some param configuration, not mandatory, with default values
+在你的 `params.php` 配置文件添加如下配置信息
 
 ```php
-// Need to configure params.php
 return [
-    // Background prefix, used to import data, the prefix of the permission name; currently there is no good solution, all use this configuration item
+    // 这个配置是为了导入权限信息需要配置的，就是配置后台模块的路径 
     'admin_rule_prefix' => 'admin', 
     
-     // Login navigation menu cache time
-    'cacheTime'         => 86400,    
-    
-    // Universal status                       
+     // 后台菜单缓存时间
+    'cacheTime'         => 86400,                         
     'status'            => ['停用', '启用'],
     
-    // Show other information
+    // 显示其他信息
     'project_open_other' => false,
-               
     'projectName'       => 'Yii2 后台管理系统',              
     'projectTitle'      => 'Yii2 后台管理系统',
     'companyName'       => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
 ];
 ```
 
-About the configuration of permissions
-------------------------------------------
-```php
-return [
-    'components' => [
-        'modules' => [
-            'admin' => [
-                'class' => 'jinxing\admin\Module',
-                
-                // Make use of that kind of user
-                'user' => 'admin'
-                ...
-            ]
-            ...
-        ],
-        // authority management
-        'authManager'  => [
-            'class' => 'yii\rbac\DbManager',
-        ],
-        ...
-    ],
-]
-```
+### 使用数据库迁移、导入后台所需的数据库信息、需要顺序执行下面命令
 
-## Import permission information table structure
+#### 导入权限表信息
 ```
 php yii migrate --migrationPath=@yii/rbac/migrations
 ```
 
-## Importing data information such as table structure and permission configuration required in the background
+#### 导入后台表信息和默认权限、菜单信息
 ```
 php yii migrate --migrationPath=@jinxing/admin/migrations
 ```
 
-### Now you can preview your background
-### Default super administrator: super
-### Default super administrator password: admin123
-> Default administrator: admin 
-Default administrator password: admin888
+### 你可以愉快的使用了
+
+访问地址
+
 ```
-// Login address
+// 登录地址、域名需要根据你的域名修改
 http://localhost/path/to?index.php?r=admin/default/login
 ```
 
-## Documentation
+#### 默认的账号和密码
 
-Please refer to our extensive [Module configuration description](https://github.com/myloveGy/yii2-admin/wiki/2.Module-configuration) for more information.
+1. 超级管理员
+    - username: super  
+    - password: admin123
 
-## Routing permission control description
+2. 普通管理员
+    - username: admin
+    - password: admin888
 
-Basic operation permissions (take administrators as an example)：
+## 使用文档
 
-* admin/index       (Display Administrator Page + Left Navigation Display)
-* admin/search      (Administrator data display form data display)
-* admin/create      (Add administrator information)
-* admin/update      (Modify administrator information)
-* admin/delete      (Delete administrator information)
-* admin/delete-all  (Batch delete administrator data)
-* admin/upload      (Upload an administrator picture)
-* admin/export      (Administrator data information export)
+请参考 [Module configuration description](https://github.com/myloveGy/yii2-admin/wiki/2.Module-configuration)
 
-Each request corresponds to a permission, the request path is the name of the permission, and the permission validation is verified in the beforeAction method in the Module
+## 后台预览
 
-## Preview
-1. Login page
+1. 登录页面
 ![登录页](./docs/images/docs-1.png)
-2. Data Display
+2. 数据显示
 ![数据显示](./docs/images/docs-2-1.png)
 ![数据显示](./docs/images/docs-2-2.png)
-3. Rights allocation
+3. 权限分配
 ![权限分配](./docs/images/docs-3.png)
-4. Module generation
+4. 模块生成(代码生成)
 ![模块生成](./docs/images/docs-4.png)
