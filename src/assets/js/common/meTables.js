@@ -1252,14 +1252,16 @@
     meTables.createButtonHtml = function (params) {
         var html = '';
         for (var i in params) {
-            var icon = params[i].icon, text = params[i].text;
+            var icon = params[i].icon || '', text = params[i].text || '';
 
             delete params[i].icon;
             delete params[i].text;
 
             params[i].type = i;
 
-            html += '<button ' + meTables.handleParams(params[i]) + '><i class="' + icon + '"></i>' + text + '</button>';
+            var iconHtml = icon ? '<i class="' + icon + '"></i>' : '';
+
+            html += '<button ' + meTables.handleParams(params[i]) + '>' + iconHtml + text + '</button>';
         }
 
         return html;
@@ -1351,7 +1353,7 @@
         // 搜索信息
         search: {
             render: false,
-            
+
             type: "append",
 
             // 搜索表单按钮信息
