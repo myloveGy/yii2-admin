@@ -27,7 +27,8 @@
     "yiisoft/yii2": ">=2.0.13",
     "yurkinx/yii2-image": "^1.1",
     "phpoffice/phpexcel": "*",
-    "bower-asset/me-tables": "*"
+    "bower-asset/jinxing-tables": "*",
+    "bower-asset/jinxing-admin": "*"
   },
   "autoload": {
     "psr-4": {
