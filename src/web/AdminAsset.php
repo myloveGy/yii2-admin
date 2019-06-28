@@ -22,6 +22,8 @@ class AdminAsset extends AppAsset
      * 注册 meTables 所需的js
      *
      * @param \yii\web\View $view 视图
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public static function meTablesRegister($view)
     {
