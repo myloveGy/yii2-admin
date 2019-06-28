@@ -101,7 +101,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                         value: aAdmins,
                         edit: {type: "select", required: true},
                         sortable: false,
-                        createdCell: MeTables.adminString
+                        render: function (data) { return $.getValue(aAdmins, data, data); }
                     },
                     {
                         title: "对应角色",

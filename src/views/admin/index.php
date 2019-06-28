@@ -122,7 +122,9 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     title: "创建用户",
                     data: "created_id",
                     sortable: false,
-                    createdCell: MeTables.adminString
+                    render: function (data) {
+                        return $.getValue(aAdmins, data, data);
+                    }
                 },
                 {
                     title: "修改时间",
@@ -134,7 +136,7 @@ $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
                     data: "updated_id",
                     sortable: false,
                     export: false,
-                    createdCell: MeTables.adminString
+                    render: function (data) { return $.getValue(aAdmins, data, data); }
                 },
                 {
                     title: "切换登录",

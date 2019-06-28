@@ -117,7 +117,7 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                         value: aAdmins,
                         edit: {type: "select", "required": true, "number": true},
                         search: {type: "select"},
-                        createdCell: MeTables.adminString,
+                        render: function (data) { return $.getValue(aAdmins, data, data); },
                         sortable: false
                     },
                     {
@@ -129,7 +129,7 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                         title: "添加用户",
                         data: "created_id",
                         sortable: false,
-                        createdCell: MeTables.adminString
+                        render: function (data) { return $.getValue(aAdmins, data, data); }
                     },
                     {
                         title: "修改时间",
@@ -140,7 +140,7 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                         title: "修改用户",
                         data: "updated_id",
                         sortable: false,
-                        createdCell: MeTables.adminString
+                        render: function (data) { return $.getValue(aAdmins, data, data); }
                     }
                 ]
             }

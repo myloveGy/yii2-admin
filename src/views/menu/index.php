@@ -117,7 +117,7 @@ $this->title = '导航栏目信息';
                     {
                         data: "created_id",
                         title: "创建用户",
-                        createdCell: MeTables.adminString,
+                        render: function (data) { return $.getValue(aAdmins, data, data); },
                         sortable: false
                     },
                     {
@@ -128,7 +128,7 @@ $this->title = '导航栏目信息';
                     {
                         data: "updated_id",
                         title: "修改用户",
-                        createdCell: MeTables.adminString,
+                        render: function (data) { return $.getValue(aAdmins, data, data); },
                         sortable: false
                     }
                 ]
