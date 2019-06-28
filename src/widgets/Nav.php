@@ -2,13 +2,10 @@
 
 namespace jinxing\admin\widgets;
 
-use http\Url;
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\UrlRule;
-
+use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 
 /**
  * Class Nav

@@ -4,7 +4,7 @@ namespace jinxing\admin\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
-use jinxing\admin\web\AdminAsset;
+use yii\web\AssetBundle;
 
 /**
  * Class MeTable meTables 的小部件信息
@@ -31,6 +31,11 @@ class MeTable extends Widget
      * @var string 表格目标
      */
     public $tableTemplate = '<table {options}></table>';
+
+    /**
+     * @var string 资源注入类名称
+     */
+    public $assetClass = 'jinxing\admin\web\TableAsset';
 
     /**
      * @var array 定义表格默认的配置信息
@@ -63,10 +68,16 @@ class MeTable extends Widget
 
     }
 
+    /**
+     * @return string
+     */
     public function run()
     {
         $view = $this->getView();
-        AdminAsset::meTablesRegister($view);
+
+        /* @var $assetClass AssetBundle */
+        $assetClass = $this->assetClass;
+        $assetClass::register($view);
 
         return str_replace('{options}', Html::renderTagAttributes($this->defaultButtons), $this->buttonsTemplate) .
             str_replace('{options}', Html::renderTagAttributes($this->defaultOptions), $this->tableTemplate);

@@ -17,19 +17,4 @@ class AdminAsset extends AppAsset
         'js/common/tools.min.js',
         'js/layer/layer.min.js',
     ];
-
-    /**
-     * 注册 meTables 所需的js
-     *
-     * @param \yii\web\View $view 视图
-     *
-     * @throws \yii\base\InvalidConfigException
-     */
-    public static function meTablesRegister($view)
-    {
-        // 加载资源
-        $view->registerAssetBundle(ValidateAsset::className());
-        $view->registerAssetBundle(DataTablesAsset::className());
-        $view->registerAssetBundle(TableAsset::className());
-    }
 }

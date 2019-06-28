@@ -2,7 +2,6 @@
 
 namespace jinxing\admin\web;
 
-use Yii;
 use yii\web\AssetBundle;
 
 /**
@@ -28,4 +27,19 @@ class TableAsset extends AssetBundle
     public $js = [
         'meTables.min.js',
     ];
+
+    /**
+     * 重写注入资源函数
+     *
+     * @param \yii\web\View $view
+     *
+     * @return void|AssetBundle
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function register($view)
+    {
+        $view->registerAssetBundle(ValidateAsset::className());
+        $view->registerAssetBundle(DataTablesAsset::className());
+        return parent::register($view);
+    }
 }
