@@ -1,6 +1,6 @@
 <?php
 
-namespace jinxing\admin;
+namespace jinxing\admin\web;
 
 use yii\web\AssetBundle;
 
@@ -12,17 +12,12 @@ class AppAsset extends AssetBundle
     /**
      * @var string 定义使用的目录路径
      */
-    public $basePath = '@jinxing/admin/assets/';
-
-    /**
-     * @var string 定义使用的地址url
-     */
-    // public $baseUrl  = '@jinxing/admin/assets/';
+    public $basePath = '@bower/jinxing-admin/';
 
     /**
      * @var string 定义使用的目录路径
      */
-    public $sourcePath = '@jinxing/admin/assets';
+    public $sourcePath = '@bower/jinxing-admin/';
 
     /**
      * @var array 加载的公共css

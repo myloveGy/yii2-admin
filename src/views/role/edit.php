@@ -1,6 +1,6 @@
 <?php
 
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use jinxing\admin\widgets\Alert;
@@ -8,7 +8,7 @@ use yii\helpers\Json;
 
 $this->title = '角色信息分配权限';
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerJsFile($url . '/js/jstree/jstree.min.js', $depends);
 $this->registerCssFile($url . '/js/jstree/default/style.css', $depends);
 

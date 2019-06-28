@@ -1,13 +1,13 @@
 <?php
 
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 use yii\helpers\Url;
 
 // 定义标题和面包屑信息
 $this->title = '我的日程管理';
 
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerCssFile($url . '/css/fullcalendar.css', $depends);
 $this->registerCssFile($url . '/css/bootstrap-datetimepicker.css', $depends);
 $this->registerJsFile($url . '/js/jquery-ui.custom.min.js', $depends);

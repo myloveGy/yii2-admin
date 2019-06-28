@@ -1,6 +1,6 @@
 <?php
 
-namespace jinxing\admin;
+namespace jinxing\admin\web;
 
 use Yii;
 
@@ -16,8 +16,8 @@ class AdminAsset extends AppAsset
     public $js = [
         'js/ace-elements.min.js',
         'js/ace.min.js',
-        'js/common/tools.js',
-        'js/layer/layer.js'
+        'js/common/tools.min.js',
+        'js/layer/layer.js',
     ];
 
     /**
@@ -38,8 +38,7 @@ class AdminAsset extends AppAsset
             'js/jquery.dataTables.min.js',
             'js/jquery.dataTables.bootstrap.js',
             'js/jquery.validate.min.js',
-            'js/validate.message.js',
-            'js/common/meTables.js',
+            'js/commmon/validate.message.min.js',
         ];
 
         // 注入js

@@ -3,12 +3,12 @@
 use yii\widgets\DetailView;
 use jinxing\admin\widgets\Alert;
 use jinxing\admin\widgets\Nestable;
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 
 $this->title = '角色信息详情';
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
 $this->registerJsFile($url . '/js/jquery.nestable.min.js', [
-    'depends' => 'jinxing\admin\AdminAsset'
+    'depends' => 'jinxing\admin\web\AdminAsset'
 ]);
 
 /* @var $model jinxing\admin\models\Auth */

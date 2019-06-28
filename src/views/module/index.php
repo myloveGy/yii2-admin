@@ -1,6 +1,6 @@
 <?php
 
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -9,7 +9,7 @@ $this->title = '模块生成';
 
 // 注入需要的JS
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerJsFile($url . '/js/fuelux/fuelux.spinner.min.js', $depends);
 $this->registerJsFile($url . '/js/fuelux/fuelux.wizard.min.js', $depends);

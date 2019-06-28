@@ -1,13 +1,13 @@
 <?php
 
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 use yii\helpers\Url;
 use jinxing\admin\widgets\MeTable;
 
 // 定义标题和面包屑信息
 $this->title = '上传文件';
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerCssFile($url . '/css/dropzone.css', $depends);
 $this->registerJsFile($url . '/js/dropzone.min.js', $depends);
 ?>

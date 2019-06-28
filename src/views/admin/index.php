@@ -1,14 +1,14 @@
 <?php
 
-use jinxing\admin\AdminAsset;
 use yii\helpers\Json;
+use jinxing\admin\web\AdminAsset;
 use jinxing\admin\widgets\MeTable;
 
 // 定义标题和面包屑信息
 $this->title = '管理员信息';
 
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerCssFile($url . '/css/chosen.css', $depends);
 $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 /* @var $admin \jinxing\admin\models\Admin */

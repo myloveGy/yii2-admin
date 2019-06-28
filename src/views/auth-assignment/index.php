@@ -1,6 +1,6 @@
 <?php
 
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use jinxing\admin\models\Auth;
@@ -13,7 +13,7 @@ $auth = Auth::getDataTableAuth(Yii::$app->controller->module->user);
 $this->title = '角色分配';
 
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 $this->registerCssFile($url . '/css/chosen.css', $depends);
 ?>

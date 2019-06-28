@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Json;
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 use jinxing\admin\widgets\MeTable;
 
 // 定义标题和面包屑信息
 $this->title = '管理员日程安排';
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerCssFile($url . '/css/jquery-ui.custom.min.css', $depends);
 $this->registerCssFile($url . '/css/bootstrap-editable.css', $depends);

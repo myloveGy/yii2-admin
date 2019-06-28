@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Json;
-use jinxing\admin\AdminAsset;
+use jinxing\admin\web\AdminAsset;
 
 $this->title = '我国省份地址信息';
 list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\AdminAsset'];
+$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerCssFile($url . '/css/ui.jqgrid.css', $depends);
 $this->registerJsFile($url . '/js/jqGrid/jquery.jqGrid.min.js', $depends);
 $this->registerJsFile($url . '/js/jqGrid/i18n/grid.locale-cn.js', $depends);
