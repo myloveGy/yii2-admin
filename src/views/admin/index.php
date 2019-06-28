@@ -3,6 +3,7 @@
 use yii\helpers\Json;
 use jinxing\admin\web\AdminAsset;
 use jinxing\admin\widgets\MeTable;
+use yii\web\AssetManager;
 
 // 定义标题和面包屑信息
 $this->title = '管理员信息';

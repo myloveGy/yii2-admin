@@ -2,15 +2,15 @@
 
 namespace jinxing\admin\widgets;
 
-use jinxing\admin\web\AdminAsset;
-use yii\helpers\Html;
 use yii\base\Widget;
+use yii\helpers\Html;
+use jinxing\admin\web\AdminAsset;
 
 /**
  * Class MeTable meTables 的小部件信息
  * @package backend\widgets
  */
-class MeTable extends  Widget
+class MeTable extends Widget
 {
     /**
      * @var array 按钮的配置
@@ -37,7 +37,7 @@ class MeTable extends  Widget
      */
     private $defaultOptions = [
         'class' => 'table table-striped table-bordered table-hover',
-        'id' => 'show-table'
+        'id'    => 'show-table',
     ];
 
     /**
@@ -68,7 +68,7 @@ class MeTable extends  Widget
         $view = $this->getView();
         AdminAsset::meTablesRegister($view);
 
-        return str_replace('{options}', Html::renderTagAttributes($this->defaultButtons), $this->buttonsTemplate).
+        return str_replace('{options}', Html::renderTagAttributes($this->defaultButtons), $this->buttonsTemplate) .
             str_replace('{options}', Html::renderTagAttributes($this->defaultOptions), $this->tableTemplate);
     }
 }
