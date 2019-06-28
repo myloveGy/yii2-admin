@@ -20,10 +20,10 @@ jQuery.extend(jQuery.validator.messages, {
     neqTo:'填写新值出现重复',
 });
 
-var isHave = false
+var isHave = false;
 var validatorError = {errorPlacement:function(error, errorPlacement) {
-    if (isHave != false) return false;
+    if (isHave !== false) return false;
     isHave = layer.tips($(error).html(), errorPlacement, {tips: [3], time:1000, end:function(){
         isHave = false;
     }})
-}}
+}};
