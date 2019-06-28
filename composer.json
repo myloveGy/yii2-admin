@@ -1,4 +1,4 @@
-{
+e{
   "name": "jinxing/yii2-admin",
   "description": "RBAC Auth manager for Yii2",
   "keywords": [
@@ -27,8 +27,8 @@
     "yiisoft/yii2": ">=2.0.13",
     "yurkinx/yii2-image": "^1.1",
     "phpoffice/phpexcel": "*",
-    "bower-asset/jinxing-tables": "*",
-    "bower-asset/jinxing-admin": "*"
+    "bower-asset/jinxing-tables": "~1.0.0",
+    "bower-asset/jinxing-admin": "~1.0.0"
   },
   "autoload": {
     "psr-4": {

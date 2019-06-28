@@ -15,7 +15,7 @@ class AdminAsset extends AppAsset
         'js/ace-elements.min.js',
         'js/ace.min.js',
         'js/common/tools.min.js',
-        'js/layer/layer.js',
+        'js/layer/layer.min.js',
     ];
 
     /**

@@ -15,12 +15,12 @@ class TableAsset extends AssetBundle
     /**
      * @var string 定义使用的目录路径
      */
-    public $basePath = '@bower/jinxing-tables/';
+    public $basePath = '@bower/jinxing-tables/dist/';
 
     /**
      * @var string 定义使用的目录路径
      */
-    public $sourcePath = '@bower/jinxing-tables/';
+    public $sourcePath = '@bower/jinxing-tables/dist/';
 
     /**
      * @var array 定义默认加载的js

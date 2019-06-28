@@ -12,12 +12,12 @@ class AppAsset extends AssetBundle
     /**
      * @var string 定义使用的目录路径
      */
-    public $basePath = '@bower/jinxing-admin/';
+    public $basePath = '@bower/jinxing-admin/dist/';
 
     /**
      * @var string 定义使用的目录路径
      */
-    public $sourcePath = '@bower/jinxing-admin/';
+    public $sourcePath = '@bower/jinxing-admin/dist/';
 
     /**
      * @var array 加载的公共css
