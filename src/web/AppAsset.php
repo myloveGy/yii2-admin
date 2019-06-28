@@ -25,7 +25,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/bootstrap.min.css',
         'css/font-awesome.min.css',
-        'css/ace-fonts.min.css',
+        'css/ace-fonts.css',
     ];
 
     /**
