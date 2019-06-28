@@ -3,32 +3,45 @@
 namespace jinxing\admin\web;
 
 use Yii;
+use yii\web\AssetBundle;
 
 /**
- * Class AdminAsset 后台资源加载类
- * @package backend\assets
+ * Class TableAsset
+ *
+ * @package jinxing\admin\web
  */
-class AdminAsset extends AppAsset
+class TableAsset extends AssetBundle
 {
+    /**
+     * @var string 定义使用的目录路径
+     */
+    public $basePath = '@bower/jinxing-tables/';
+
+    /**
+     * @var string 定义使用的目录路径
+     */
+    public $sourcePath = '@bower/jinxing-tables/';
+
     /**
      * @var array 定义默认加载的js
      */
     public $js = [
-        'js/ace-elements.min.js',
-        'js/ace.min.js',
-        'js/common/tools.min.js',
-        'js/layer/layer.js',
+        'meTables.min.js',
     ];
 
     /**
      * 注册 meTables 所需的js
      *
      * @param \yii\web\View $view 视图
+     * @param string        $url  路径
      */
-    public static function meTablesRegister($view)
+    public static function meTablesRegister($view, $url = '')
     {
+
         // 没有配置地址
-        list(, $url) = Yii::$app->assetManager->publish((new self)->sourcePath);
+        if (empty($url)) {
+            list(, $url) = Yii::$app->assetManager->publish((new self)->sourcePath);
+        }
 
         // 加载资源
         $resource = [
@@ -42,7 +55,5 @@ class AdminAsset extends AppAsset
         foreach ($resource as $value) {
             $view->registerJsFile($url . '/' . $value, ['depends' => self::className()]);
         }
-
-        $view->registerAssetBundle(TableAsset::className());
     }
 }
