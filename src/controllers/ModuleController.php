@@ -486,7 +486,26 @@ html;
     {
         list($className, $namespace) = $model->getControllerInfo();
         list(, , $modelNamespace) = $model->getModelInfo();
-        $pk            = $model->primaryKey && $model->primaryKey != 'id' ? 'protected $pk = \'' . $model->primaryKey . '\';' : '';
+
+        $pk = $sort = '';
+
+        // 主键不是ID
+        if ($model->primaryKey && $model->primaryKey) {
+            $pk = <<<html
+    /**
+     * @var string pk 定义表使用的主键名称
+     */
+    protected \$pk = '{$model->primaryKey}'; 
+html;
+
+            $sort = <<<html
+    /**
+     * @var string sort 定义默认排序字段名称
+     */
+    protected \$sort = '{$model->primaryKey}'; 
+html;
+        }
+
         $searchColumns = implode("', '", $model->getSearchColumns());
 
 
@@ -513,6 +532,8 @@ class {$className} extends Controller
 {
     {$pk}
     
+    {$sort}
+   
     /**
      * @var string 定义使用的model
      */
@@ -549,28 +570,25 @@ Html;
         list($modelClassName, $namespace) = $model->getModelInfo();
 
         /* @var $generator yii\gii\generators\model\Generator */
-        $generator = Yii::createObject([
-            'class' => 'yii\gii\generators\model\Generator',
-        ]);
-
+        $generator = Yii::createObject(['class' => 'yii\gii\generators\model\Generator']);
         $generator->load([
-            'tableName'                          => $model->table,
-            'modelClass'                         => $modelClassName,
-            'standardizeCapitals'                => '0',
-            'ns'                                 => $namespace,
-            'baseClass'                          => 'yii\db\ActiveRecord',
-            'db'                                 => 'db',
-            'useTablePrefix'                     => '1',
-            'generateRelations'                  => 'all',
-            'generateRelationsFromCurrentSchema' => '1',
-            'generateLabelsFromComments'         => '1',
-            'generateQuery'                      => '0',
-            'queryNs'                            => $namespace,
-            'queryBaseClass'                     => 'yii\db\ActiveQuery',
-            'enableI18N'                         => '0',
-            'messageCategory'                    => 'app',
-            'useSchemaName'                      => '1',
-            'template'                           => 'default',
+            'tableName'           => $model->table,
+            'modelClass'          => $modelClassName,
+            'standardizeCapitals' => '0',
+            'ns'                  => $namespace,
+            'baseClass'           => 'yii\db\ActiveRecord',
+            'db'                  => 'db',
+            'useTablePrefix'      => '1',
+//            'generateRelations'                  => 'all',
+//            'generateRelationsFromCurrentSchema' => '1',
+//            'generateLabelsFromComments' => '1',
+            'generateQuery'       => '0',
+            'queryNs'             => $namespace,
+            'queryBaseClass'      => 'yii\db\ActiveQuery',
+            'enableI18N'          => '0',
+            'messageCategory'     => 'app',
+            'useSchemaName'       => '1',
+            'template'            => 'default',
         ], '');
 
         foreach ($generator->generate() as $f) {
