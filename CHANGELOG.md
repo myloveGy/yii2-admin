@@ -4,6 +4,7 @@ Yii2-admin extension Change Log
 1.2.6 2019-06-27
 ----------------
 - refactor: 资源管理优化；项目里面不再包含前端资源，前端资源使用`bower` 管理
+- refactor: 菜单信息不在缓存到本地
 - refactor: `meTables` 优化
     - 添加可以配置搜索表单按钮选项
     
