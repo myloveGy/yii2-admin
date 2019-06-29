@@ -46,3 +46,37 @@ $config = [
 ## 其他配置说明
 
 ### `$user` 的说明
+
+### `$leftTopButtons` 的说明
+
+![leftTopButtons配置说明](./images/left-top-buttons.png)
+
+不需要的话，配置为空数组
+
+```php
+$config = [
+    'modules' => [
+        'admin' => [
+            'class'          => 'jinxing\admin\Module',
+            'leftTopButtons' => [],
+        ],
+    ],
+];
+```
+
+### `$userLinks` 的说明
+
+![userLinks配置说明](./images/user-links.png)
+
+不需要的话，配置为空数组
+
+```php
+$config = [
+    'modules' => [
+        'admin' => [
+            'class'     => 'jinxing\admin\Module',
+            'userLinks' => [],
+        ],
+    ],
+];
+```
