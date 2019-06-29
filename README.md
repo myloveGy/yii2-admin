@@ -68,12 +68,12 @@ return [
         
         // 后台登录用户组件信息
         'admin' => [
-            'class' => '\yii\web\User',
-            'identityClass' => 'jinxing\admin\models\Admin',
+            'class'           => 'yii\web\User',
+            'identityClass'   => 'jinxing\admin\models\Admin',
             'enableAutoLogin' => true,
-            'loginUrl' => ['/admin/default/login'],
-            'idParam' => '_adminId',
-            'identityCookie' => ['name' => '_admin','httpOnly' => true],
+            'loginUrl'        => ['/admin/admin/default/login'],
+            'idParam'         => '_adminId',
+            'identityCookie'  => ['name' => '_admin', 'httpOnly' => true],
         ],
         
         // 后台使用的语言配置信息
