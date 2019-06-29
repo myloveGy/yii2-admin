@@ -42,7 +42,7 @@ $this->title = 'Yii2 Admin 登录信息';
             </div>
         </div>
         <div class="hr hr16 dotted"></div>
-        <?php if (ArrayHelper::getValue(Yii::$app->params, 'project_open_other')) : ?>
+        <?php if (ArrayHelper::getValue(Yii::$app->params, 'projectOpenOther')) : ?>
             <h4 class="blue">
                 <span class="middle"><i class="fa fa-desktop light-blue bigger-110"></i></span>
                 其他信息

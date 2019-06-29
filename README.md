@@ -104,10 +104,10 @@ return [
     'admin_rule_prefix' => 'admin',                        
 
     // 显示其他信息
-    'project_open_other' => false,
-    'projectName'       => 'Yii2 后台管理系统',              
-    'projectTitle'      => 'Yii2 后台管理系统',
-    'companyName'       => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
+    'projectOpenOther' => false,
+    'projectName'      => 'Yii2 后台管理系统',              
+    'projectTitle'     => 'Yii2 后台管理系统',
+    'companyName'      => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
 ];
 ```
 
