@@ -1,5 +1,6 @@
 <?php
 
+use Yii;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -7,21 +8,25 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model jinxing\admin\models\LoginForm */
 
-$this->title = Yii::t('admin', 'Login');
+$this->title                   = Yii::t('admin', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $form = ActiveForm::begin(); ?>
 <fieldset>
     <label class="block clearfix">
         <span class="block input-icon input-icon-right">
-            <?= $form->field($model, 'username')->textInput(['placeholder' => $model->getAttributeLabel('username')])->label(false) ?>
+            <?= $form->field($model, 'username')
+                ->textInput(['placeholder' => Yii::t('admin', 'loginUsernamePlaceholder')])
+                ->label(false) ?>
             <i class="ace-icon fa fa-user"></i>
         </span>
     </label>
 
     <label class="block clearfix">
         <span class="block input-icon input-icon-right">
-            <?= $form->field($model, 'password')->passwordInput(['placeholder' => $model->getAttributeLabel('password')])->label(false) ?>
+            <?= $form->field($model, 'password')
+                ->passwordInput(['placeholder' => Yii::t('admin', 'loginPasswordPlaceholder')])
+                ->label(false) ?>
             <i class="ace-icon fa fa-lock"></i>
         </span>
     </label>
