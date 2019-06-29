@@ -146,7 +146,9 @@ http://localhost/path/to?index.php?r=admin/default/login
 
 ## 使用文档
 
-请参考 [Module configuration description](https://github.com/myloveGy/yii2-admin/wiki/2.Module-configuration)
+### [模块配置说明](./docs/module.md)
+### [控制器配置说明](./docs/controller.md)
+### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables)
 
 ## 后台预览
 
