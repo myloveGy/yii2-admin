@@ -4,7 +4,7 @@ use yii\helpers\Json;
 use jinxing\admin\web\AdminAsset;
 
 $this->title = '我国省份地址信息';
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url = Helper::getAssetUrl();
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerCssFile($url . '/css/ui.jqgrid.css', $depends);
 $this->registerJsFile($url . '/js/jqGrid/jquery.jqGrid.min.js', $depends);

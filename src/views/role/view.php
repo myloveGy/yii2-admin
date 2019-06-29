@@ -6,7 +6,7 @@ use jinxing\admin\widgets\Nestable;
 use jinxing\admin\web\AdminAsset;
 
 $this->title = '角色信息详情';
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url = Helper::getAssetUrl();
 $this->registerJsFile($url . '/js/jquery.nestable.min.js', [
     'depends' => 'jinxing\admin\web\AdminAsset'
 ]);

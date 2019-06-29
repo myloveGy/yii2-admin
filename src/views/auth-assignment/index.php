@@ -12,8 +12,9 @@ $auth = Auth::getDataTableAuth(Yii::$app->controller->module->user);
 // 定义标题和面包屑信息
 $this->title = '角色分配';
 
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url     = Helper::getAssetUrl();
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
+
 $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 $this->registerCssFile($url . '/css/chosen.css', $depends);
 ?>

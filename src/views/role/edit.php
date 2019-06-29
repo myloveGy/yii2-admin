@@ -7,7 +7,7 @@ use jinxing\admin\widgets\Alert;
 use yii\helpers\Json;
 
 $this->title = '角色信息分配权限';
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url = Helper::getAssetUrl();
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerJsFile($url . '/js/jstree/jstree.min.js', $depends);
 $this->registerCssFile($url . '/js/jstree/default/style.css', $depends);

@@ -6,8 +6,8 @@ use jinxing\admin\widgets\MeTable;
 
 // 定义标题和面包屑信息
 $this->title = '管理员日程安排';
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
-$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
+$url         = Helper::getAssetUrl();
+$depends     = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerCssFile($url . '/css/jquery-ui.custom.min.css', $depends);
 $this->registerCssFile($url . '/css/bootstrap-editable.css', $depends);
@@ -117,7 +117,9 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                         value: aAdmins,
                         edit: {type: "select", "required": true, "number": true},
                         search: {type: "select"},
-                        render: function (data) { return $.getValue(aAdmins, data, data); },
+                        render: function (data) {
+                            return $.getValue(aAdmins, data, data);
+                        },
                         sortable: false
                     },
                     {
@@ -129,7 +131,9 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                         title: "添加用户",
                         data: "created_id",
                         sortable: false,
-                        render: function (data) { return $.getValue(aAdmins, data, data); }
+                        render: function (data) {
+                            return $.getValue(aAdmins, data, data);
+                        }
                     },
                     {
                         title: "修改时间",
@@ -140,7 +144,9 @@ $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $d
                         title: "修改用户",
                         data: "updated_id",
                         sortable: false,
-                        render: function (data) { return $.getValue(aAdmins, data, data); }
+                        render: function (data) {
+                            return $.getValue(aAdmins, data, data);
+                        }
                     }
                 ]
             }

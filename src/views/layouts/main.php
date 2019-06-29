@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 AdminAsset::register($this);
-list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url = Helper::getAssetUrl();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
