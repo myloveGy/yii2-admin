@@ -31,7 +31,8 @@ $config = [
 |:--------|:-----|:----|:------|
 |`$user`|`string`|`admin`|使用的登录用户组件名称|
 |`$allowControllers`|`array`|`['default']`|不需要验证权限的控制器|
-|`$frameNumberSize`|`int`|8|后台界面允许开启iframe的个数,超过会隐藏|
+|`$frameNumberSize`|`int`|8|后台界面允许开启`iframe`的个数,超过会隐藏|
+|`$frameNumbershowClose`|`int`|3|后台界面开启多少个`iframe`显示关闭全部按钮|
 |`$verifyAuthority`|`boolean`|`true`|是否需要验证权限|
 |`$defaultAction`|`string`|`default/system`|登录成功欢迎页面的路由|
 |`$leftTopButtons`|`array`| `[...]`|后台界面左侧按钮配置 |
