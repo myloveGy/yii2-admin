@@ -2,10 +2,11 @@
 
 namespace jinxing\admin\helpers;
 
-use yii\base\Module;
-use yii\helpers\ArrayHelper;
+use Yii;
 use Closure;
+use yii\base\Module;
 use yii\web\Application;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Helper
@@ -448,5 +449,20 @@ class Helper
         }
 
         return $handle;
+    }
+
+    /**
+     * 获取资源路径地址
+     *
+     * @param string $assetClass 资源类名称
+     *
+     * @return string 资源地址
+     *
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function getAssetUrl($assetClass = 'jinxing\admin\web\AdminAsset')
+    {
+        list(, $url) = Yii::$app->assetManager->publish((new $assetClass())->sourcePath);
+        return $url;
     }
 }

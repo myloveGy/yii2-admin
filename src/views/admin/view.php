@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\ArrayHelper;
-use jinxing\admin\web\AdminAsset;
+use jinxing\admin\web\ValidateAsset;
+use jinxing\admin\helpers\Helper;
 
 $this->title = '管理员个人信息';
 
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url     = Helper::getAssetUrl();
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerCssFile($url . '/css/bootstrap-editable.css', $depends);
@@ -29,13 +30,13 @@ $this->registerJsFile($url . '/js/fuelux/fuelux.spinner.min.js', $depends);
 $this->registerJsFile($url . '/js/x-editable/bootstrap-editable.min.js', $depends);
 $this->registerJsFile($url . '/js/x-editable/ace-editable.min.js', $depends);
 $this->registerJsFile($url . '/js/jquery.maskedinput.min.js', $depends);
-$this->registerJsFile($url . '/js/jquery.validate.min.js', $depends);
-$this->registerJsFile($url . '/js/validate.message.js', $depends);
+
+ValidateAsset::register($this);
 
 // 头像处理
-$avatar = ArrayHelper::getValue($admin, 'face');
-$avatar = $avatar ?: $url . '/avatars/avatar.jpg';
-$renderParams = compact('address', 'china', 'logs', 'admin', 'avatar');
+$avatar       = ArrayHelper::getValue($admin, 'face');
+$avatar       = $avatar ?: $url . '/avatars/avatar.jpg';
+$renderParams = compact('address', 'china', 'logs', 'admin', 'avatar', 'url');
 ?>
 <div class="clearfix">
     <div class="pull-left alert alert-success no-margin">
@@ -165,8 +166,7 @@ $renderParams = compact('address', 'china', 'logs', 'admin', 'avatar');
                         data: formData_object
                     })
 
-                }
-                else {
+                } else {
                     deferred = new $.Deferred;
                     var temporary_iframe_id = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
                     var temp_iframe =

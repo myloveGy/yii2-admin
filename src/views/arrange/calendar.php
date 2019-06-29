@@ -1,12 +1,14 @@
 <?php
 
-use jinxing\admin\web\AdminAsset;
+
 use yii\helpers\Url;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\web\ValidateAsset;
 
 // 定义标题和面包屑信息
 $this->title = '我的日程管理';
 
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+$url     = Helper::getAssetUrl();
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerCssFile($url . '/css/fullcalendar.css', $depends);
 $this->registerCssFile($url . '/css/bootstrap-datetimepicker.css', $depends);
@@ -16,8 +18,7 @@ $this->registerJsFile($url . '/js/date-time/moment.min.js', $depends);
 $this->registerJsFile($url . '/js/date-time/bootstrap-datetimepicker.min.js', $depends);
 $this->registerJsFile($url . '/js/fuelux/fuelux.spinner.min.js', $depends);
 $this->registerJsFile($url . '/js/fullcalendar.min.js', $depends);
-$this->registerJsFile($url . '/js/jquery.validate.min.js', $depends);
-$this->registerJsFile($url . '/js/validate.message.js', $depends);
+ValidateAsset::register($this);
 ?>
     <div class="row">
         <div class="col-sm-9">
@@ -72,7 +73,8 @@ $this->registerJsFile($url . '/js/validate.message.js', $depends);
                     <form method="post" id="editForm" class="form-horizontal" name="editForm" action="update">
                         <input type="hidden" name="actionType" value="insert"/>
                         <input type="hidden" name="id" value=""/>
-                        <input type="hidden" name="admin_id" value="<?= \Yii::$app->controller->module->getUserId() ?>"/>
+                        <input type="hidden" name="admin_id"
+                               value="<?= \Yii::$app->controller->module->getUserId() ?>"/>
                         <fieldset>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="input-title"> 事件标题 </label>

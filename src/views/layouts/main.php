@@ -26,6 +26,10 @@ list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
         .dataTables_filter > form > button {
             margin-top: -3px;
         }
+
+        .dataTables_filter > form > button:last-child {
+            margin-left: 8px !important;
+        }
     </style>
     <!-- ace styles -->
     <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
@@ -70,7 +74,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
         <div class="footer-inner">
             <div class="footer-content">
                 <span
-                    class="bigger-120"><?= ArrayHelper::getValue(Yii::$app->params, 'companyName', '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018') ?></span>
+                        class="bigger-120"><?= ArrayHelper::getValue(Yii::$app->params, 'companyName', '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018') ?></span>
             </div>
         </div>
     </div>
