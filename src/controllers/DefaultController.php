@@ -129,7 +129,6 @@ class DefaultController extends \yii\web\Controller
             $admin->can(Auth::SUPER_ADMIN_NAME) // 拥有超级管理员权限
         ) {
             // 退出当前用户
-            Yii::$app->cache->delete(Menu::CACHE_KEY . $user->id);
             $admin->logout();
 
             // 记录之前登录的用户
