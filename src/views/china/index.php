@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Json;
-use jinxing\admin\web\AdminAsset;
 use jinxing\admin\helpers\Helper;
 
 $this->title = '我国省份地址信息';

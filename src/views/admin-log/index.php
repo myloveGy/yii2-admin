@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Json;
-use jinxing\admin\models\AdminLog;
 use jinxing\admin\models\Auth;
 use jinxing\admin\widgets\MeTable;
 

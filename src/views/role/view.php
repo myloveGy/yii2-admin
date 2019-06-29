@@ -3,7 +3,6 @@
 use yii\widgets\DetailView;
 use jinxing\admin\widgets\Alert;
 use jinxing\admin\widgets\Nestable;
-use jinxing\admin\web\AdminAsset;
 use jinxing\admin\helpers\Helper;
 
 $this->title = '角色信息详情';

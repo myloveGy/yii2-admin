@@ -1,6 +1,5 @@
 <?php
 
-use jinxing\admin\web\AdminAsset;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use jinxing\admin\models\Auth;

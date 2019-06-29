@@ -1,6 +1,5 @@
 <?php
 
-use jinxing\admin\web\AdminAsset;
 use yii\helpers\Url;
 use jinxing\admin\widgets\MeTable;
 use jinxing\admin\helpers\Helper;

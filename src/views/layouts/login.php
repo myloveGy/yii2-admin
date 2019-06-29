@@ -6,7 +6,6 @@
  */
 
 use \yii\helpers\ArrayHelper;
-use jinxing\admin\web\AppAsset;
 use jinxing\admin\helpers\Helper;
 
 $url = Helper::getAssetUrl();

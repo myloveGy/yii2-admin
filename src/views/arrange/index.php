@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Json;
-use jinxing\admin\web\AdminAsset;
 use jinxing\admin\widgets\MeTable;
 use jinxing\admin\helpers\Helper;
 
