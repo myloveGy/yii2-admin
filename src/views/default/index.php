@@ -352,7 +352,8 @@ $url = Helper::getAssetUrl();
     authHeight();
     var $windowDiv = $("#me-window"),
         $divContent = $("#page-content"),
-        intSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberSize', 10)?>;
+        intSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberSize', 10)?>,
+        showCloseSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumbershowClose', 3)?>;
 
     function authHeight() {
         $("#page-content").css("height", $(window).height() - $("#page-content").offset()["top"] - $(".footer").innerHeight() + "px")
@@ -365,7 +366,7 @@ $url = Helper::getAssetUrl();
     function addDiv(strId, strTitle) {
         $windowDiv.find("div.active").removeClass("active");
         var size = $windowDiv.find("div:not(div.hide)").size();
-        if (size >= 3) {
+        if (size >= showCloseSize) {
             $("#close-all-page").removeClass("hide");
         }
 
@@ -446,7 +447,7 @@ $url = Helper::getAssetUrl();
             $parent.remove();
             $("#" + $parent.attr("data-id")).remove();
             var intShowDiv = $windowDiv.find("div:not(div.hide)").size();
-            if (intShowDiv <= 2) {
+            if (intShowDiv <= showCloseSize) {
                 $("#close-all-page").addClass("hide");
             }
 

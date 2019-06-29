@@ -36,9 +36,14 @@ class Module extends yii\base\Module
     public $allowControllers = ['default'];
 
     /**
-     * @var int 允许开启iFrame 个数
+     * @var int 允许开启 iFrame 个数
      */
     public $frameNumberSize = 8;
+
+    /**
+     * @var int 开启多少个 iFrame 显示关闭按钮
+     */
+    public $frameNumbershowClose = 3;
 
     /**
      * @var bool 权限验证
@@ -59,29 +64,29 @@ class Module extends yii\base\Module
             'url'       => 'arrange/calendar',
             'title'     => '我的日程',
             'icon'      => 'fa fa-calendar',
-            'btn-class' => 'btn-success'
+            'btn-class' => 'btn-success',
         ],
         [
             'id'        => '',
             'url'       => '',
             'title'     => '',
             'icon'      => 'fa fa-pencil',
-            'btn-class' => 'btn-info'
+            'btn-class' => 'btn-info',
         ],
         [
             'id'        => 'my-info',
             'url'       => 'admin/view',
             'title'     => '个人信息',
             'icon'      => 'glyphicon glyphicon-user',
-            'btn-class' => 'btn-warning'
+            'btn-class' => 'btn-warning',
         ],
         [
             'id'        => 'index',
             'url'       => 'default/system',
             'title'     => '登录信息',
             'icon'      => 'fa fa-cogs',
-            'btn-class' => 'btn-danger'
-        ]
+            'btn-class' => 'btn-danger',
+        ],
     ];
 
     /**
@@ -90,7 +95,7 @@ class Module extends yii\base\Module
     public $userLinks = [
         ['title' => '登录信息', 'id' => 'index', 'url' => 'default/system', 'icon' => 'fa fa-desktop'],
         ['title' => '个人信息', 'id' => 'my-info', 'url' => 'admin/view', 'icon' => 'fa fa-user'],
-        ['title' => '我的日程', 'id' => 'my-arrange', 'url' => 'arrange/calendar', 'icon' => 'fa fa-calendar']
+        ['title' => '我的日程', 'id' => 'my-arrange', 'url' => 'arrange/calendar', 'icon' => 'fa fa-calendar'],
     ];
 
     /**
@@ -104,7 +109,7 @@ class Module extends yii\base\Module
         Yii::$app->assetManager->bundles = [
             // 去掉自己的bootstrap 资源
             'yii\bootstrap\BootstrapAsset' => [
-                'css' => []
+                'css' => [],
             ],
             // 去掉自己加载的Jquery
             'yii\web\JqueryAsset'          => [
@@ -119,7 +124,7 @@ class Module extends yii\base\Module
             Yii::$app->i18n->translations['admin'] = [
                 'class'          => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath'       => '@jinxing/admin/messages'
+                'basePath'       => '@jinxing/admin/messages',
             ];
         }
     }
