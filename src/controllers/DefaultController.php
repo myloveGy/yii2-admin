@@ -139,7 +139,6 @@ class DefaultController extends \yii\web\Controller
 
             // 登录新增用户
             $admin->login($afterUserInfo, 0);
-            Menu::setNavigation($afterUserInfo->id);
             return $this->redirect(['default/index']); // 到首页去
         }
 
@@ -156,23 +155,18 @@ class DefaultController extends \yii\web\Controller
     public function actionLogin()
     {
         $this->layout = 'login.php';
-        $user         = $this->module->getAdmin();
 
         // 不是游客直接跳转到首页
-        if (!$user->isGuest) {
+        if (!$this->module->getAdmin()->isGuest) {
             return $this->goHome();
         }
 
         $model = new AdminForm();
         if ($model->load(Yii::$app->request->post()) && $model->login(ArrayHelper::getValue($this->module, 'user'))) {
-            // 生成缓存导航栏文件
-            Menu::setNavigation($user->id);
             return $this->goBack(); // 到首页去
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('login', compact('model'));
     }
 
     /**
@@ -190,7 +184,6 @@ class DefaultController extends \yii\web\Controller
             $admin->save();
         }
 
-        Yii::$app->cache->delete(Menu::CACHE_KEY . $user->id);
         $user->logout();
         return $this->goHome();
     }
