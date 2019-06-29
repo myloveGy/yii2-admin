@@ -65,7 +65,7 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
     <!-- 表格数据 -->
 <?= MeTable::widget([
     'buttons' => [
-        'id' => 'me-buttons'
+        'id' => 'me-buttons',
     ],
 ]) ?>
 <?php $this->beginBlock('javascript') ?>
@@ -101,7 +101,9 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
                         value: aAdmins,
                         edit: {type: "select", required: true},
                         sortable: false,
-                        render: function (data) { return $.getValue(aAdmins, data, data); }
+                        render: function (data) {
+                            return $.getValue(aAdmins, data, data);
+                        }
                     },
                     {
                         title: "对应角色",
@@ -146,6 +148,10 @@ $this->registerCssFile($url . '/css/chosen.css', $depends);
             $select = $(".chosen-select").chosen({
                 allow_single_deselect: false,
                 width: "100%"
+            });
+
+            $(document).on('reset', "#search-form", function () {
+                $select.val([]).trigger("chosen:updated").next().css({'width': "100%"});
             });
         });
     </script>

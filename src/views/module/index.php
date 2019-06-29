@@ -1,6 +1,6 @@
 <?php
 
-use jinxing\admin\web\AdminAsset;
+use jinxing\admin\web\ValidateAsset;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -8,18 +8,16 @@ use yii\helpers\Html;
 $this->title = '模块生成';
 
 // 注入需要的JS
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new AdminAsset())->sourcePath);
+list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new ValidateAsset())->sourcePath);
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerJsFile($url . '/js/fuelux/fuelux.spinner.min.js', $depends);
 $this->registerJsFile($url . '/js/fuelux/fuelux.wizard.min.js', $depends);
 $this->registerJsFile($url . '/js/bootstrap-wysiwyg.min.js', $depends);
 $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
-$this->registerJsFile($url . '/js/jquery.validate.min.js', $depends);
-$this->registerJsFile($url . '/js/validate.message.js', $depends);
 $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 $this->registerCssFile($url . '/css/chosen.css', $depends);
-
+ValidateAsset::register($this);
 ?>
     <div class="widget-box widget-color-blue">
         <div class="widget-header widget-header-blue  widget-header-flat">
