@@ -1,8 +1,9 @@
 <?php
 
-use jinxing\admin\web\AdminAsset;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use jinxing\admin\web\AdminAsset;
+use jinxing\admin\helpers\Helper;
 
 AdminAsset::register($this);
 $url = Helper::getAssetUrl();

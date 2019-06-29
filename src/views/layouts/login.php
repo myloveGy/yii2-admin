@@ -7,8 +7,9 @@
 
 use \yii\helpers\ArrayHelper;
 use jinxing\admin\web\AppAsset;
+use jinxing\admin\helpers\Helper;
 
-list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
+$url = Helper::getAssetUrl();
 ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -19,12 +20,12 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <title><?= ArrayHelper::getValue(Yii::$app->params, 'projectTitle', 'Yii2 Admin') ?></title>
     <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="<?=$url?>/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<?=$url?>/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/font-awesome.min.css"/>
     <!-- text fonts -->
-    <link rel="stylesheet" href="<?=$url?>/css/ace-fonts.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace-fonts.css"/>
     <!-- ace styles -->
-    <link rel="stylesheet" href="<?=$url?>/css/ace.min.css" id="main-ace-style"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="<?=$url?>/css/ace-part2.min.css"/>
     <![endif]-->
@@ -33,7 +34,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
     <![endif]-->
     <!-- inline styles related to this page -->
     <!-- ace settings handler -->
-    <script src="<?=$url?>/js/ace-extra.min.js"></script>
+    <script src="<?= $url ?>/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
     <script src="<?=$url?>/js/html5shiv.min.js"></script>
@@ -54,7 +55,7 @@ list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
     <script type="text/javascript">
         if ('ontouchstart' in document.documentElement) document.write("<script src='<?=$url?>/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
-    <script src="<?=$url?>/js/bootstrap.min.js"></script>
+    <script src="<?= $url ?>/js/bootstrap.min.js"></script>
     <!--[if lte IE 8]>
     <script src="<?=$url?>/js/excanvas.min.js"></script>
     <![endif]-->

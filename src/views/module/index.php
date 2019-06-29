@@ -1,14 +1,15 @@
 <?php
 
-use jinxing\admin\web\ValidateAsset;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\web\ValidateAsset;
 
 // 定义标题和面包屑信息
 $this->title = '模块生成';
 
 // 注入需要的JS
-list(, $url) = list(, $url) = Yii::$app->assetManager->publish((new ValidateAsset())->sourcePath);
+$url     = Helper::getAssetUrl();
 $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerJsFile($url . '/js/fuelux/fuelux.spinner.min.js', $depends);

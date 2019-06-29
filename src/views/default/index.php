@@ -8,7 +8,7 @@ use jinxing\admin\widgets\Nav;
 use jinxing\admin\helpers\Helper;
 
 AppAsset::register($this);
-list(, $url) = Yii::$app->assetManager->publish((new AppAsset())->sourcePath);
+$url = Helper::getAssetUrl();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

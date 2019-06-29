@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use jinxing\admin\models\Auth;
 use jinxing\admin\widgets\MeTable;
+use jinxing\admin\helpers\Helper;
 
 // 获取权限
 $auth = Auth::getDataTableAuth(Yii::$app->controller->module->user);

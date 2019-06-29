@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use jinxing\admin\widgets\Alert;
 use yii\helpers\Json;
+use jinxing\admin\helpers\Helper;
 
 $this->title = '角色信息分配权限';
 $url = Helper::getAssetUrl();
