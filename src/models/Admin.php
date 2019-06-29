@@ -9,27 +9,27 @@ use yii\helpers\ArrayHelper;
  * User model
  *
  * @property integer $id
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
- * @property string $face
- * @property string $auth_key
+ * @property string  $username
+ * @property string  $password_hash
+ * @property string  $password_reset_token
+ * @property string  $email
+ * @property string  $face
+ * @property string  $auth_key
  * @property integer $role
  * @property integer $status
- * @property string $address
+ * @property string  $address
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $updated_id
  * @property integer $created_id
  * @property integer $last_time
- * @property string $last_ip
- * @property string $password write-only password
+ * @property string  $last_ip
+ * @property string  $password write-only password
  */
 class Admin extends AdminUser
 {
-    public $password;
-    public $repassword;
+    public  $password;
+    public  $repassword;
     private $_roleLabel;
 
     /**
@@ -39,15 +39,17 @@ class Admin extends AdminUser
 
     /**
      * getArrayStatus() 获取状态说明信息
+     *
      * @param integer|null $intStatus
+     *
      * @return array|string
      */
     public static function getArrayStatus($intStatus = null)
     {
         $array = [
-            self::STATUS_ACTIVE => Yii::t('admin', 'STATUS_ACTIVE'),
+            self::STATUS_ACTIVE   => Yii::t('admin', 'STATUS_ACTIVE'),
             self::STATUS_INACTIVE => Yii::t('admin', 'STATUS_INACTIVE'),
-            self::STATUS_DELETED => Yii::t('admin', 'STATUS_DELETED'),
+            self::STATUS_DELETED  => Yii::t('admin', 'STATUS_DELETED'),
         ];
 
         if ($intStatus !== null && isset($array[$intStatus])) {
@@ -59,15 +61,17 @@ class Admin extends AdminUser
 
     /**
      * getStatusColor() 获取状态值对应颜色信息
+     *
      * @param null $intStatus
+     *
      * @return array|mixed
      */
     public static function getStatusColor($intStatus = null)
     {
         $array = [
-            self::STATUS_ACTIVE => 'label-success',
+            self::STATUS_ACTIVE   => 'label-success',
             self::STATUS_INACTIVE => 'label-warning',
-            self::STATUS_DELETED => 'label-danger',
+            self::STATUS_DELETED  => 'label-danger',
         ];
 
         if ($intStatus !== null && isset($array[$intStatus])) {
@@ -100,7 +104,7 @@ class Admin extends AdminUser
     public function getRoleLabel()
     {
         if ($this->_roleLabel === null) {
-            $roles = self::getArrayRole(Yii::$app->controller->module->getUserId());
+            $roles            = self::getArrayRole(Yii::$app->controller->module->getUserId());
             $this->_roleLabel = $roles[$this->role];
         }
         return $this->_roleLabel;
@@ -138,8 +142,8 @@ class Admin extends AdminUser
     {
         return [
             'default' => ['username', 'email', 'password', 'repassword', 'status', 'role', 'face'],
-            'create' => ['username', 'email', 'password', 'repassword', 'status', 'role', 'face'],
-            'update' => ['username', 'email', 'password', 'repassword', 'status', 'role', 'face', 'address']
+            'create'  => ['username', 'email', 'password', 'repassword', 'status', 'role', 'face'],
+            'update'  => ['username', 'email', 'password', 'repassword', 'status', 'role', 'face', 'address'],
         ];
     }
 
@@ -151,10 +155,10 @@ class Admin extends AdminUser
         return array_merge(
             $labels,
             [
-                'face' => '头像信息',
-                'last_time' => '上一次登录时间',
-                'last__ip' => '上一次登录的IP',
-                'password' => '密码',
+                'face'       => '头像信息',
+                'last_time'  => '上一次登录时间',
+                'last__ip'   => '上一次登录的IP',
+                'password'   => '密码',
                 'repassword' => '确认密码',
             ]
         );
@@ -163,7 +167,7 @@ class Admin extends AdminUser
     /**
      * 新增之前的处理
      *
-     * @param  bool $insert 是否是新增数据
+     * @param bool $insert 是否是新增数据
      *
      * @return bool 处理是否成功
      * @throws \yii\base\Exception
@@ -192,7 +196,7 @@ class Admin extends AdminUser
     {
         // 只有在新增或者修改了角色信息，那么才要修改角色信息
         if ($insert || !empty($changedAttributes['role'])) {
-            $auth = Yii::$app->authManager;
+            $auth     = Yii::$app->authManager;
             $isInsert = true;
             // 修改了角色信息，删除之前的角色信息
             if (!empty($changedAttributes['role'])) {
@@ -246,7 +250,7 @@ class Admin extends AdminUser
 
     /**
      * 获取管理员信息
-     * 
+     *
      * @return array
      */
     public static function getAdmins()

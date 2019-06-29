@@ -101,12 +101,8 @@ return [
 ```php
 return [
     // 这个配置是为了导入权限信息需要配置的，就是配置后台模块的路径 
-    'admin_rule_prefix' => 'admin', 
-    
-     // 后台菜单缓存时间
-    'cacheTime'         => 86400,                         
-    'status'            => ['停用', '启用'],
-    
+    'admin_rule_prefix' => 'admin',                        
+
     // 显示其他信息
     'project_open_other' => false,
     'projectName'       => 'Yii2 后台管理系统',              
