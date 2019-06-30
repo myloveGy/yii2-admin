@@ -165,14 +165,16 @@ $url = Helper::getAssetUrl();
 
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="text" class="form-control" placeholder="用户名"/>
+                                                    <input type="text" class="form-control" placeholder="用户名"
+                                                           autocomplete="off"/>
                                                     <i class="ace-icon fa fa-user"></i>
                                                 </span>
                                             </label>
 
                                             <label class="block clearfix">
                                                 <span class="block input-icon input-icon-right">
-                                                    <input type="password" class="form-control" placeholder="密码"/>
+                                                    <input type="password" class="form-control" placeholder="密码"
+                                                           autocomplete="new-password"/>
                                                     <i class="ace-icon fa fa-lock"></i>
                                                 </span>
                                             </label>

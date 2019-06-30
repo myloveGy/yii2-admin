@@ -103,8 +103,10 @@ return [
     // 这个配置是为了导入权限信息需要配置的，就是配置后台模块的路径 
     'admin_rule_prefix' => 'admin',                        
 
-    // 显示其他信息
+    // 登录成功首页是否需要显示其他信息
     'projectOpenOther' => true,
+    
+    // 项目信息
     'projectName'      => 'Yii2 后台管理系统',              
     'projectTitle'     => 'Yii2 后台管理系统',
     'companyName'      => '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018',  
@@ -144,7 +146,9 @@ http://localhost/path/to?index.php?r=admin/default/login
 
 ## 使用文档
 
-请参考 [Module configuration description](https://github.com/myloveGy/yii2-admin/wiki/2.Module-configuration)
+### [模块配置说明](./docs/module.md)
+### [控制器配置说明](./docs/controller.md)
+### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables)
 
 ## 后台预览
 

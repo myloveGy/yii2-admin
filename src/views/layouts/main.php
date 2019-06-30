@@ -31,6 +31,19 @@ $url = Helper::getAssetUrl();
         .dataTables_filter > form > button:last-child {
             margin-left: 8px !important;
         }
+
+        ::-webkit-scrollbar-track {
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #bbd4e5;
+        }
     </style>
     <!-- ace styles -->
     <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
@@ -83,20 +96,6 @@ $url = Helper::getAssetUrl();
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
-    <style>
-        ::-webkit-scrollbar-track {
-            background-color: #F5F5F5;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            background-color: #F5F5F5;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: #bbd4e5;
-        }
-    </style>
 </div>
 <!-- 公共的JS文件 -->
 <!-- basic scripts -->
