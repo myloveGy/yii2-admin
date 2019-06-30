@@ -8,8 +8,8 @@ use jinxing\admin\widgets\Nav;
 use jinxing\admin\helpers\Helper;
 
 AppAsset::register($this);
-$url = Helper::getAssetUrl();
 
+$url            = Helper::getAssetUrl();
 $userLinks      = Yii::$app->controller->module->userLinks;
 $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
 ?>
