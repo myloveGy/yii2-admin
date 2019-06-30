@@ -113,8 +113,8 @@ return [
 ];
 ```
 
-#### [高级版本配置参考](./docs/module.md#yii2高级版后台配置模板)
-#### [基础版本配置参考](./docs/module.md#yii2基础版后台配置模板)
+#### [高级版本配置参考](./docs/module.md#yii2高级版后台配置模板, '高级版本配置参考')
+#### [基础版本配置参考](./docs/module.md#yii2基础版后台配置模板, '基础版本配置参考')
 
 ### 使用数据库迁移、导入后台所需的数据库信息、需要顺序执行下面命令
 
@@ -169,7 +169,7 @@ http://localhost/path/to?index.php?r=admin/default/login
 
 ### [模块配置说明](./docs/module.md)
 ### [控制器配置说明](./docs/controller.md)
-### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables)
+### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables?_blank)
 
 ## 后台预览
 
