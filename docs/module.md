@@ -238,6 +238,8 @@ return [
 ];
 ```
 
+将配置配置好，在使用数据库迁移功能
+
 ### 参考项目
 
 - [考试系统](https://github.com/myloveGy/examination)
