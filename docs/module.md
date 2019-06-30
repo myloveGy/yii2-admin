@@ -338,3 +338,5 @@ $config = [
     ],
 ];
 ```
+
+ [ 关于 controller 配置 →](./controller.md)
