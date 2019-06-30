@@ -9,6 +9,9 @@ use jinxing\admin\helpers\Helper;
 
 AppAsset::register($this);
 $url = Helper::getAssetUrl();
+
+$userLinks      = Yii::$app->controller->module->userLinks;
+$leftTopButtons = Yii::$app->controller->module->leftTopButtons;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -178,19 +181,21 @@ $url = Helper::getAssetUrl();
                     </a>
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <?php foreach (Yii::$app->controller->module->userLinks as $link) : ?>
-                            <li>
-                                <a class="window-iframe"
-                                   data-id="<?= ArrayHelper::getValue($link, 'id') ?>"
-                                   title="<?= ArrayHelper::getValue($link, 'title') ?>"
-                                   data-url="<?= Url::toRoute([ArrayHelper::getValue($link, 'url')]) ?>"
-                                >
-                                    <i class="ace-icon <?= ArrayHelper::getValue($link, 'icon') ?>"></i>
-                                    <?= ArrayHelper::getValue($link, 'title') ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                        <li class="divider"></li>
+                        <?php if ($userLinks) : ?>
+                            <?php foreach ($userLinks as $link) : ?>
+                                <li>
+                                    <a class="window-iframe"
+                                       data-id="<?= ArrayHelper::getValue($link, 'id') ?>"
+                                       title="<?= ArrayHelper::getValue($link, 'title') ?>"
+                                       data-url="<?= Url::toRoute([ArrayHelper::getValue($link, 'url')]) ?>"
+                                    >
+                                        <i class="ace-icon <?= ArrayHelper::getValue($link, 'icon') ?>"></i>
+                                        <?= ArrayHelper::getValue($link, 'title') ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                            <li class="divider"></li>
+                        <?php endif; ?>
                         <li>
                             <?= Html::beginForm(['default/logout'], 'post'); ?>
                             <?= Html::submitButton(
@@ -224,10 +229,10 @@ $url = Helper::getAssetUrl();
             }
         </script>
 
-        <?php if (Yii::$app->controller->module->leftTopButtons) : ?>
+        <?php if ($leftTopButtons) : ?>
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
                 <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                    <?php foreach (Yii::$app->controller->module->leftTopButtons as $button) : ?>
+                    <?php foreach ($leftTopButtons as $button) : ?>
                         <button class="btn <?= ArrayHelper::getValue($button, 'btn-class') ?> window-iframe"
                                 title="<?= ArrayHelper::getValue($button, 'title') ?>"
                                 data-id="<?= ArrayHelper::getValue($button, 'id') ?>"
