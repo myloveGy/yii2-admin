@@ -115,6 +115,24 @@ return [
 
 ### 使用数据库迁移、导入后台所需的数据库信息、需要顺序执行下面命令
 
+#### 需要配置 `console`
+
+在 `console` 配置中的 `components` 组件中加入权限配置信息
+
+```php
+return [
+    'components' => [
+        // 权限配置
+        'authManager'  => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+    ],
+];
+``` 
+
+- 高级版本的配置文件在 `console/config/main.php`中
+- 基础版本的配置文件在 `config/console.php`中
+
 #### 导入权限表信息
 ```
 php yii migrate --migrationPath=@yii/rbac/migrations
