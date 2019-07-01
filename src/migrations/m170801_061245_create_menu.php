@@ -72,7 +72,7 @@ class m170801_061245_create_menu extends Migration
         $this->batchInsert($this->table, $insertKey, [
             [$intPid, '管理员信息', '', $prefix . 'admin/index', 1, $time, 1, $time, 1],
             [$intPid, '导航栏目', '', $prefix . 'menu/index', 2, $time, 1, $time, 1],
-            [$intPid, '模块生成', '', $prefix . 'module/index', 3, $time, 1, $time, 1],
+            [$intPid, '代码生成', '', $prefix . 'module/index', 3, $time, 1, $time, 1],
             [$intPid, '操作日志', '', $prefix . 'admin-log/index', 4, $time, 1, $time, 1]
         ]);
 
