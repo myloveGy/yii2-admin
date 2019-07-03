@@ -71,21 +71,20 @@ return [
         'errorHandler' => [
             'errorAction' => 'admin/default/error',
         ],
-
+        
         // 权限配置使用 db
         'authManager'  => [
             'class' => 'yii\rbac\DbManager',
         ],
-
+        
         // 路由美化配置，建议单非必要配置
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [
-
             ],
         ],
-
+        
         // 资源管理，一定要配置， Yii2 默认使用的jquery 版本 和 使用的 ace admin jquery 有冲突
         'assetManager' => [
             'bundles' => [
@@ -100,7 +99,7 @@ return [
                 ],
             ],
         ],
-
+        
         // 使用语言配置信息
         'i18n' => [
             'translations' => [
@@ -265,7 +264,7 @@ $config = [
             'loginUrl'        => ['/'],
             'identityCookie'  => ['name' => '_user', 'httpOnly' => true],
         ],
-
+        
         // 后台登录用户
         'admin' => [
             'class'           => 'yii\web\User',
