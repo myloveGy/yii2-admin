@@ -164,6 +164,107 @@ http://localhost/path/to?index.php?r=admin/default/login
 2. 普通管理员
     - username: admin
     - password: admin888
+    
+## 在自己模块中使用
+
+### `Yii2` 高级版本中使用
+
+定义一个基础控制，其他控制器都继承基础控制器
+
+1. 控制器继承`jinxing\admin\controllers\Controller` 
+    - 定义控制器使用的布局文件为 `@jinxing/admin/views/layouts/main`
+    - 定义上传文件表单类使用自己的 ，例如：`backend\models\forms\UploadForm`
+2. 如果要记录操作日志和权限验证，定义行
+    - 记录日志行为类： `jinxing\admin\behaviors\Logging` 
+    
+        默认只会记录： create, update, delete, delete-all, editable, upload 操作的日志，
+        需要添加或者修改，定义`needLogActions` 属性
+    
+    - 权限验证行为类： `yii\filters\AccessControl` [类的属性和配置参考](https://www.yiichina.com/doc/api/2.0/yii-filters-accesscontrol)
+
+例子：
+```php
+namespace backend\controllers;
+
+use jinxing\admin\behaviors\Logging;
+use jinxing\admin\controllers\Controller as BaseController;
+use yii\filters\AccessControl;
+
+/**
+ * Class Controller 后台的基础控制器
+ * @package backend\controllers
+ */
+class Controller extends BaseController
+{
+    /**
+     * @var string 使用 yii2-admin 的布局
+     */
+    public $layout = '@jinxing/admin/views/layouts/main';
+    
+    /**
+     * @var string 使用自己定义的上传文件处理表单
+     */
+    public $uploadFromClass = 'backend\models\forms\UploadForm';
+    
+    /**
+     * 定义使用的行为
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow'       => true,
+                        'permissions' => [$this->action->getUniqueId()],
+                    ],
+                ],
+            ],
+            
+            'logging' => [
+                'class' => Logging::className(),
+            ],
+        ];
+    }
+}
+```
+
+### `Yii2` 基础版本中使用
+
+`yii2` 基础版本需要为后台定义一个模块，这个模块可以直接继承`jinxing\admin\Module`
+
+例子：
+```php
+namespace app\modules\admin;
+
+use Yii;
+use jinxing\admin\Module;
+
+/**
+ * admin module definition class
+ */
+class Admin extends Module
+{
+    /**
+     * {@inheritdoc}
+     */
+    public $controllerNamespace = 'app\modules\admin\controllers';
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        parent::init();
+        Yii::$app->errorHandler->errorAction = $this->getUniqueId() . '/admin/default/error';
+    }
+}
+```
+
+>如果不使用模块继承方式，配置参考高级版本
 
 ## 使用文档
 
