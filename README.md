@@ -174,7 +174,7 @@ http://localhost/path/to?index.php?r=admin/default/login
 1. 控制器继承`jinxing\admin\controllers\Controller` 
     - 定义控制器使用的布局文件为 `@jinxing/admin/views/layouts/main`
     - 定义上传文件表单类使用自己的 ，例如：`backend\models\forms\UploadForm`
-2. 如果要记录操作日志和权限验证，定义行
+2. 如果要记录操作日志和权限验证，定义行为
     - 记录日志行为类： `jinxing\admin\behaviors\Logging` 
     
         默认只会记录： create, update, delete, delete-all, editable, upload 操作的日志，
