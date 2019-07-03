@@ -275,11 +275,12 @@ class Admin extends Module
 ## 后台预览
 
 1. 登录页面
-![登录页](./docs/images/docs-1.png)
+![登录页](./docs/images/docs-login.png)
 2. 数据显示
-![数据显示](./docs/images/docs-2-1.png)
-![数据显示](./docs/images/docs-2-2.png)
-3. 权限分配
-![权限分配](./docs/images/docs-3.png)
-4. 模块生成(代码生成)
-![模块生成](./docs/images/docs-4.png)
+![数据显示](./docs/images/docs-data.png)
+3. 数据编辑
+![数据显示](./docs/images/docs-update.png)
+4. 权限分配
+![权限分配](./docs/images/docs-auth.png)
+5. 代码生成
+![代码生成](./docs/images/docs-code.png)

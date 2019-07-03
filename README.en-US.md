@@ -175,12 +175,14 @@ Basic operation permissions (take administrators as an example)：
 Each request corresponds to a permission, the request path is the name of the permission, and the permission validation is verified in the beforeAction method in the Module
 
 ## Preview
-1. Login page
-![登录页](./docs/images/docs-1.png)
+
+1. Login Page
+![登录页](./docs/images/docs-login.png)
 2. Data Display
-![数据显示](./docs/images/docs-2-1.png)
-![数据显示](./docs/images/docs-2-2.png)
-3. Rights allocation
-![权限分配](./docs/images/docs-3.png)
-4. Module generation
-![模块生成](./docs/images/docs-4.png)
+![数据显示](./docs/images/docs-data.png)
+3. Data Edit
+![数据显示](./docs/images/docs-update.png)
+4. Rights Allocation
+![权限分配](./docs/images/docs-auth.png)
+5. Code Generation
+![模块生成](./docs/images/docs-code.png)
