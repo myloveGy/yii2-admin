@@ -6,7 +6,7 @@ use jinxing\admin\helpers\Helper;
 use jinxing\admin\web\ValidateAsset;
 
 // 定义标题和面包屑信息
-$this->title = '模块生成';
+$this->title = '代码生成';
 
 // 注入需要的JS
 $url     = Helper::getAssetUrl();
@@ -22,7 +22,7 @@ ValidateAsset::register($this);
 ?>
     <div class="widget-box widget-color-blue">
         <div class="widget-header widget-header-blue  widget-header-flat">
-            <h4 class="widget-title lighter">模块生成自动向导</h4>
+            <h4 class="widget-title lighter">代码生成自动向导</h4>
             <div class="widget-toolbar">
                 <a data-action="reload" href="#">
                     <i class="ace-icon fa fa-refresh"></i>
