@@ -44,5 +44,6 @@ foreach ($files as $file) {
         continue;
     }
 
-    var_dump($file);
+    unlink('./' . $file);
+    echo "删除文件: {$file} \n";
 }

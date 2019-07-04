@@ -2,7 +2,7 @@
   "code": 10000,
   "data": {
     "title": "jinxing/yii2-admin 文档系统",
-    "home": "https://github.com/myloveGy/yii2-admin",
+    "home": "/yii2-admin/",
     "top_menus": [
       {
         "title": "文档首页",
