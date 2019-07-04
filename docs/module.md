@@ -1,6 +1,8 @@
 模块配置说明
 ==========
 
+[TOC]
+
 ## 模块 `jinxing\admin\Module`类的可配置项
 
 [可以直接参考类文件](https://github.com/myloveGy/yii2-admin/blob/master/src/Module.php)

@@ -1,6 +1,8 @@
 关于控制说明
 ===========
 
+[TOC]
+
 基础控制 `jinxing\admin\controllers\Controller` 
 继承自 [yii\web\Controller](http://www.yiichina.com/doc/api/2.0/yii-web-controller), 
 所有父类的方法，都可以使用
