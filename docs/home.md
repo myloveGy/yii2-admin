@@ -10,7 +10,7 @@ Yii2 Ace Admin 后台扩展模块
 [![GitHub stars](https://img.shields.io/github/stars/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/stargazers)
 [![GitHub license](https://img.shields.io/github/license/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/blob/master/LICENSE.md)
 
-[change to English](/README.en-US.md)
+[change to English](https://github.com/myloveGy/yii2-admin/blob/master/README.en-US.md)
 
 ## 作者博客
 
@@ -268,19 +268,19 @@ class Admin extends Module
 
 ## 使用文档
 
-### [模块配置说明](/yii2-admin/document/module)
-### [控制器配置说明](/yii2-admin/document/controller)
+### [模块配置说明](https://mylovegy.github.io/yii2-admin/docs/module.html)
+### [控制器配置说明](https://mylovegy.github.io/yii2-admin/docs/controller.html)
 ### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables?_blank)
 
 ## 后台预览
 
 1. 登录页面
-![登录页](/yii2-admin/docs/images/docs-login.png)
+![登录页](https://mylovegy.github.io/yii2-admin/docs/images/docs-login.png)
 2. 数据显示
-![数据显示](/yii2-admin/docs/images/docs-data.png)
+![数据显示](https://mylovegy.github.io/yii2-admin/docs/images/docs-data.png)
 3. 数据编辑
-![数据显示](/yii2-admin/docs/images/docs-update.png)
+![数据显示](https://mylovegy.github.io/yii2-admin/docs/images/docs-update.png)
 4. 权限分配
-![权限分配](/yii2-admin/docs/images/docs-auth.png)
+![权限分配](https://mylovegy.github.io/yii2-admin/docs/images/docs-auth.png)
 5. 代码生成
-![代码生成](/yii2-admin/docs/images/docs-code.png)
+![代码生成](https://mylovegy.github.io/yii2-admin/docs/images/docs-code.png)
