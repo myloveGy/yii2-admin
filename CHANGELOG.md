@@ -1,5 +1,10 @@
 Yii2-admin extension Change Log
 ===============================
+1.2.7 2019-07-04
+----------------
+
+- refactor: 删除`docs`目录
+    - [说明文档](https://mylovegy.github.io/yii2-admin/)
 
 1.2.6 2019-06-27
 ----------------
@@ -15,7 +20,7 @@ Yii2-admin extension Change Log
         }
     }
     ```
-    ![搜索添加按钮](./docs/images/metable-search.png)
+    ![搜索添加按钮](https://mylovegy.github.io/yii2-admin/docs/images/metable-search.png)
     - 搜索表单回车事件优化
 
 1.2.5 2019-06-25

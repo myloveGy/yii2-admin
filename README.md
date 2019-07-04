@@ -14,12 +14,14 @@ Yii2 Ace Admin 后台扩展模块
 
 ## 作者博客
 
-[https://mylovegy.github.io/blog/](https://mylovegy.github.io/blog/)
+[作者博客](https://mylovegy.github.io/blog/)
 
 ## 简介
 
 使用的 [ace admin](http://ace.jeka.by/) 前端框架, 为`yii2`开发的一个后台模块; 
 对于二次开发比较方便，包含了基本的后台功能
+
+[说明文档](https://mylovegy.github.io/yii2-admin/)
 
 ## 功能特性
 
