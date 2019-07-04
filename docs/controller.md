@@ -18,7 +18,7 @@
 
 ## 请求公共的方法
 
-方法名称           | 说明          | 相关方法|
+|方法名称           | 说明          | 相关方法|
 |:----------------|:------------|:----------------------------|
 |`actionIndex()`    | 显示视图页面      |
 |`actionSearch()`   | 为视图文件提供数据 |[where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[afterSearch() Data processing after query](#aftersearcharray-protected-method)|
