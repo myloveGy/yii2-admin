@@ -7,28 +7,28 @@
 
 ## 受保护属性，子类需要根据实际情况重写
 
-|属性名称 | 类型 | 默认值 | 说明
-|:----------|:---------|:---------|:-----------
-|`$modelClass`| `string`   | `\jinxing\admin\models\Admin`  | [数据使用的 model](http://www.yiichina.com/doc/api/2.0/yii-db-activerecord)  
-|`$pk`        | `string`   | `id`       | `model` 查询使用的主键 `key`
-|`$sort`      | `string`   | `id`       | 默认排序使用的字段名称
-|`$strategy`  | `string`   | `DataTables` or `JqGrid`| 使用DataTables 显示数据还是JqGrid 使用数据，根据模板视图使用的 js 修改
-|`$uploadFromClass`|`string`| `jinxing\admin\models\forms\UploadForm`| 上传使用表单验证类(UploadForm 中需要定义上传文件字段和验证类型)
-|`$strUploadPath`|`string` | `./uploads/`| 上传文件保存文件地址
+|属性名称 | 类型 | 默认值 | 说明|
+|:----------|:---------|:---------|:-----------|
+|`$modelClass`| `string`   | `\jinxing\admin\models\Admin`  | [数据使用的 model](http://www.yiichina.com/doc/api/2.0/yii-db-activerecord)|  
+|`$pk`        | `string`   | `id`       | `model` 查询使用的主键 `key`|
+|`$sort`      | `string`   | `id`       | 默认排序使用的字段名称|
+|`$strategy`  | `string`   | `DataTables` or `JqGrid`| 使用DataTables 显示数据还是JqGrid 使用数据，根据模板视图使用的 js 修改|
+|`$uploadFromClass`|`string`| `jinxing\admin\models\forms\UploadForm`| 上传使用表单验证类(UploadForm 中需要定义上传文件字段和验证类型)|
+|`$strUploadPath`|`string` | `./uploads/`| 上传文件保存文件地址|
 
 ## 请求公共的方法
 
-方法名称           | 说明          | 相关方法
-|:----------------|:------------         |:----------------------------
+方法名称           | 说明          | 相关方法|
+|:----------------|:------------|:----------------------------|
 |`actionIndex()`    | 显示视图页面      |
-|`actionSearch()`   | 为视图文件提供数据 |[where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[afterSearch() Data processing after query](#aftersearcharray-protected-method)
-|`actionCreate()`   | 创建数据         |
-|`actionUpdate()`   | 修改数据         |
-|`actionDelete()`   | 删除数据         |
-|`actionDeleteAll()`| 删除多条数据      |
-|`actionEditable()` | 行内编辑         |
-|`actionUpload()`   | 上传文件         | [ afterUpload() File upload processing](#afteruploadfilepath-field-object-protected-method)
-|`actionExport()`   | 导出数据         | [where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[getExportHandleParams() Provide data export processing parameters ](#getexporthandleparams-protected-method)
+|`actionSearch()`   | 为视图文件提供数据 |[where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[afterSearch() Data processing after query](#aftersearcharray-protected-method)|
+|`actionCreate()`   | 创建数据         |--|
+|`actionUpdate()`   | 修改数据         |--|
+|`actionDelete()`   | 删除数据         |--|
+|`actionDeleteAll()`| 删除多条数据      |--|
+|`actionEditable()` | 行内编辑         |--|
+|`actionUpload()`   | 上传文件         | [ afterUpload() File upload processing](#afteruploadfilepath-field-object-protected-method)|
+|`actionExport()`   | 导出数据         | [where() Provide query conditions](#where-public-method)、[getQuery() Provide query object](#getquerywhere-protected-method)、[getExportHandleParams() Provide data export processing parameters ](#getexporthandleparams-protected-method)|
 
 ## 其他方法
 

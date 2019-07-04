@@ -13,19 +13,19 @@
 
 ## 关于请求地址配置说明
 
-配置名称 | 配置类型 | 默认值 | 说明信息
-:------------------|:-----------|:-----------|:---------------
-urlPrefix          | string     |            | 请求路由前缀
-urlSuffix          | string     |            | 请求路由后缀
-url                | object     |            | 请求地址信息
-url.search         | string     | search     | 查询数据请求地址
-url.create         | string     | create     | 创建数据请求地址
-url.update         | string     | update     | 修改数据请求地址
-url.delete         | string     | delete     | 删除数据请求地址
-url.export         | string     | export     | 导出数据请求地址
-url.upload         | string     | upload     | 上传文件请求地址
-url.editable       | string     | editable   | 行内编辑请求地址
-url.deleteAll      | string     | delete-all | 批量删除请求地址
+配置名称 | 配置类型 | 默认值 | 说明信息|
+:------------------|:-----------|:-----------|:---------------|
+urlPrefix          | string     |            | 请求路由前缀|
+urlSuffix          | string     |            | 请求路由后缀|
+url                | object     |            | 请求地址信息|
+url.search         | string     | search     | 查询数据请求地址|
+url.create         | string     | create     | 创建数据请求地址|
+url.update         | string     | update     | 修改数据请求地址|
+url.delete         | string     | delete     | 删除数据请求地址|
+url.export         | string     | export     | 导出数据请求地址|
+url.upload         | string     | upload     | 上传文件请求地址|
+url.editable       | string     | editable   | 行内编辑请求地址|
+url.deleteAll      | string     | delete-all | 批量删除请求地址|
 
 如果需要修改某一个地址配置，如下配置:
 

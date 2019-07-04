@@ -1,0 +1,48 @@
+{
+  "code": 10000,
+  "data": {
+    "title": "jinxing/yii2-admin 文档系统",
+    "home": "https://github.com/myloveGy/yii2-admin",
+    "top_menus": [
+      {
+        "title": "文档首页",
+        "url": "/?page=home"
+      },
+      {
+        "title": "GitHub",
+        "url": "https://github.com/myloveGy/yii2-admin"
+      },
+      {
+        "title": "Composer",
+        "url": "https://packagist.org/packages/jinxing/yii2-admin"
+      },
+      {
+        "title": "作者博客",
+        "url": "https://mylovegy.github.io/blog/"
+      }
+    ],
+    "menus": [
+      {
+        "title": "文档首页",
+        "url": "/?page=home"
+      },
+      {
+        "title": "模块配置说明",
+        "url": "/?page=module"
+      },
+      {
+        "title": "控制器配置说明",
+        "url": "/?page=controller"
+      },
+      {
+        "title": "MeTable配置说明",
+        "url": "/?page=me-table"
+      },
+      {
+        "title": "常见问题说明",
+        "url": "/?page=faq"
+      }
+    ]
+  },
+  "msg": "ok"
+}
