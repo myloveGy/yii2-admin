@@ -113,8 +113,8 @@ return [
 ];
 ```
 
-#### [高级版本配置参考](./docs/module.md#yii2高级版后台配置模板, '高级版本配置参考')
-#### [基础版本配置参考](./docs/module.md#yii2基础版后台配置模板, '基础版本配置参考')
+#### [高级版本配置参考](/yii2-admin/document/module#yii2高级版后台配置模板, '高级版本配置参考')
+#### [基础版本配置参考](/yii2-admin/document/module#yii2基础版后台配置模板, '基础版本配置参考')
 
 ### 使用数据库迁移、导入后台所需的数据库信息、需要顺序执行下面命令
 
@@ -268,19 +268,19 @@ class Admin extends Module
 
 ## 使用文档
 
-### [模块配置说明](./docs/module.md)
-### [控制器配置说明](./docs/controller.md)
+### [模块配置说明](/yii2-admin/document/module)
+### [控制器配置说明](/yii2-admin/document/controller)
 ### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables?_blank)
 
 ## 后台预览
 
 1. 登录页面
-![登录页](./docs/images/docs-login.png)
+![登录页](/yii2-admin/docs/images/docs-login.png)
 2. 数据显示
-![数据显示](./docs/images/docs-data.png)
+![数据显示](/yii2-admin/docs/images/docs-data.png)
 3. 数据编辑
-![数据显示](./docs/images/docs-update.png)
+![数据显示](/yii2-admin/docs/images/docs-update.png)
 4. 权限分配
-![权限分配](./docs/images/docs-auth.png)
+![权限分配](/yii2-admin/docs/images/docs-auth.png)
 5. 代码生成
-![代码生成](./docs/images/docs-code.png)
+![代码生成](/yii2-admin/docs/images/docs-code.png)
