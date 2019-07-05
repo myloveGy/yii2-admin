@@ -39,19 +39,19 @@
         "url": "/?page=home"
       },
       {
-        "title": "模块配置说明",
+        "title": "模块配置",
         "url": "/?page=module"
       },
       {
-        "title": "控制器配置说明",
+        "title": "控制器配置",
         "url": "/?page=controller"
       },
       {
-        "title": "MeTable配置说明",
+        "title": "MeTable配置",
         "url": "/?page=me-table"
       },
       {
-        "title": "常见问题说明",
+        "title": "常见问题",
         "url": "/?page=faq"
       },
       {
