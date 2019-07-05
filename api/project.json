@@ -9,6 +9,10 @@
         "url": "/?page=home"
       },
       {
+        "title": "English Document",
+        "url": "/?page=home.en-us"
+      },
+      {
         "title": "GitHub",
         "url": "https://github.com/myloveGy/yii2-admin"
       },
@@ -26,6 +30,10 @@
       }
     ],
     "menus": [
+      {
+        "title": "English Document",
+        "url": "/?page=home.en-us"
+      },
       {
         "title": "文档首页",
         "url": "/?page=home"

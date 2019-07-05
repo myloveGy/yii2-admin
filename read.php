@@ -16,7 +16,7 @@ if (isset($params['read']) && in_array($params['read'], ['true', '1'])) {
     $data = [
         'code' => 10000,
         'data' => [
-            'change' => file_get_contents(GITHUB_URL),
+            'change' => "[TOC]\n" . file_get_contents(GITHUB_URL),
         ],
         'msg'  => 'ok',
     ];
