@@ -308,7 +308,7 @@ $config = [
 
 ### `$leftTopButtons` 的说明
 
-![leftTopButtons配置说明](./images/left-top-buttons.png)
+![leftTopButtons配置说明](https://mylovegy.github.io/yii2-admin/docs/images/left-top-buttons.png)
 
 不需要的话，配置为空数组
 
@@ -325,7 +325,7 @@ $config = [
 
 ### `$userLinks` 的说明
 
-![userLinks配置说明](./images/user-links.png)
+![userLinks配置说明](https://mylovegy.github.io/yii2-admin/docs/images/user-links.png)
 
 不需要的话，配置为空数组
 
@@ -340,4 +340,4 @@ $config = [
 ];
 ```
 
- [ 关于 controller 配置 →](./controller.md)
+ [ 关于 controller 配置 →](https://mylovegy.github.io/yii2-admin/?page=controller)
