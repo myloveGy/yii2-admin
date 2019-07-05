@@ -191,4 +191,4 @@ protected function where()
     }
 ```
 
-[←  关于 module 配置数据](./module.md) | [ 关于 meTables 配置数据 →](https://github.com/myloveGy/jinxing-tables?_blank)
+[←  关于 module 配置数据](https://mylovegy.github.io/yii2-admin/?page=module) | [ 关于 meTables 配置数据 →](https://mylovegy.github.io/yii2-admin/?page=me-table)

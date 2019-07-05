@@ -268,8 +268,8 @@ class Admin extends Module
 
 ## 使用文档
 
-### [模块配置说明](https://mylovegy.github.io/yii2-admin/docs/module.html)
-### [控制器配置说明](https://mylovegy.github.io/yii2-admin/docs/controller.html)
+### [模块配置说明](https://mylovegy.github.io/yii2-admin/?page=module)
+### [控制器配置说明](https://mylovegy.github.io/yii2-admin/?page=controller)
 ### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables?_blank)
 
 ## 后台预览

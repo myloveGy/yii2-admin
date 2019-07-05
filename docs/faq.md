@@ -16,7 +16,7 @@ FAQ
    
 ### 安装完成，报目录不存在错误
 
-![登录页](./images/asset-error.png)
+![登录页](https://mylovegy.github.io/yii2-admin/docs/images/asset-error.png)
 
 直接`cp` `vendor`目录下 `bower` 目录更名为 `bower-asset`
 
@@ -106,13 +106,13 @@ $.extend(m, {
 `show`函数接受一个参数`rows`(这一行的数据)，需要返回`true`来确定显示
 
 ```js
-var m = meTables({
+meTables({
     operations: {
         buttons: {
             // 配置show，根据情况显示删除 rows 表示这一行的数据
             delete: {
                 show: function (rows) {
-                    return rows.status == 1;
+                    return rows.status === 1;
                 }
             }
         }
@@ -125,7 +125,7 @@ var m = meTables({
 配置那一列的`value`，数据格式为 `object` `{value1:label1, value2: label2}`
 
 ```js
-m = meTables({
+meTables({
     title: "用户信息",
     table: {
         columns: [
@@ -146,7 +146,7 @@ m = meTables({
 
 ```
 
-[更多`meTabls`说明>>](./metables.md)
+[更多`meTabls`说明>>](https://mylovegy.github.io/yii2-admin/?page=me-table)
 
 ## 五 控制器相关问题
 
