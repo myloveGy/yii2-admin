@@ -191,4 +191,4 @@ protected function where()
     }
 ```
 
-[←  关于 module 配置数据](https://mylovegy.github.io/yii2-admin/?page=module) | [ 关于 meTables 配置数据 →](https://mylovegy.github.io/yii2-admin/?page=me-table)
+[←  关于 module 配置数据](./module.html) | [ 关于 meTables 配置数据 →](./me-table.html)

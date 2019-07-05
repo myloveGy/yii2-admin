@@ -1,6 +1,6 @@
 <?php
 /**
- * 执行命令：php ./read.php --read=true --delete=true
+ * 执行命令：php ./read.php --read=true --delete=true --change=true
  *
  * @param bool read 是否重新读取
  * @param bool delete 是否删除多余文件
@@ -9,17 +9,34 @@
 define('PATH_NAME', '/yii2-admin/');
 define('GITHUB_URL', 'https://raw.githubusercontent.com/myloveGy/yii2-admin/master/CHANGELOG.md');
 
-$params = getopt('', ['read:', 'delete:']);
+/**
+ * 是否设置了选项
+ *
+ * @param array  $params     全部设置数组
+ * @param string $name       设置项名称
+ * @param array  $allowValue 允许设置的值
+ *
+ * @return bool
+ */
+function is_setting($params, $name, $allowValue = ['true', '1'])
+{
+    return isset($params[$name]) && in_array($params[$name], $allowValue);
+}
+
+
+$params = getopt('', ['read:', 'delete:', 'change:']);
 
 // 重新读取文件
-if (isset($params['read']) && in_array($params['read'], ['true', '1'])) {
+if (is_setting($params, 'read')) {
     $data = [
         'code' => 10000,
-        'data' => [
-            'change' => "[TOC]\n" . file_get_contents(GITHUB_URL),
-        ],
+        'data' => [],
         'msg'  => 'ok',
     ];
+
+    if (is_setting($params, 'change')) {
+        $data['data']['change'] = "[TOC]\n" . file_get_contents(GITHUB_URL);
+    }
 
     $dir = './docs';
 
@@ -34,7 +51,9 @@ if (isset($params['read']) && in_array($params['read'], ['true', '1'])) {
             $path = $dir . '/' . $file;
             if (is_file($path) && $str == '.md') {
                 $index                = str_replace('.md', '', $file);
-                $data['data'][$index] = file_get_contents($path);
+                $content              = file_get_contents($path);
+                $content              = preg_replace('/\(.\/(.*?)\.html\)/', '(/?page=${1})', $content);
+                $data['data'][$index] = $content;
             }
         }
     }
