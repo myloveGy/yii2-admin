@@ -1,6 +1,8 @@
 模块配置说明
 ==========
 
+[←  文档首页](./home.html) | [控制器配置 →](./controller.html)
+ 
 [TOC]
 
 ## 模块 `jinxing\admin\Module`类的可配置项
@@ -121,7 +123,7 @@ return [
 
 ### 参考项目
 
-- [Yii2 Ace Admin](https://github.com/myloveGy/yii2-ace-admin)
+- [Yii2 Ace Admin 项目GitHub](https://github.com/myloveGy/yii2-ace-admin)
 - [Yii2 Ace Admin 项目预览](https://yii2.sh-jinger.com)
 
 - 账号: admin 密码： admin888
@@ -243,7 +245,7 @@ return [
 
 ### 参考项目
 
-- [考试系统](https://github.com/myloveGy/examination)
+- [考试系统GitHub](https://github.com/myloveGy/examination)
 - [考试系统预览](https://examination.sh-jinger.com/admin)
 
 - 账号: admin 密码：admin123
@@ -340,4 +342,4 @@ $config = [
 ];
 ```
 
- [ 关于 controller 配置 →](https://mylovegy.github.io/yii2-admin/?page=controller)
+[←  文档首页](./home.html) | [控制器配置 →](./controller.html)

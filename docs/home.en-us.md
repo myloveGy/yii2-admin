@@ -12,6 +12,8 @@ Yii2 Ace Admin Background extension
 
 Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
 
+[切换中文](./home.html)
+
 ## Features
 
 * Use RBAC rights management, all operations based on privilege control
@@ -33,7 +35,7 @@ composer require jinxing/yii2-admin
 ```
 ## Version update instructions
 
-[Version update instructions](https://mylovegy.github.io/yii2-admin/?page=change)
+[Version update instructions](/?page=change)
 
 Basic Configuration
 -------------------

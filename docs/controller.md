@@ -1,10 +1,12 @@
 关于控制说明
 ===========
 
+[← `module` 配置](./module.html) | [`meTables` 配置 →](./me-table.html)
+
 [TOC]
 
 基础控制 `jinxing\admin\controllers\Controller` 
-继承自 [yii\web\Controller](http://www.yiichina.com/doc/api/2.0/yii-web-controller), 
+继承自 [yii\web\Controller](http://www.yiichina.com/doc/api/2.0/yii-web-controller)
 所有父类的方法，都可以使用
 
 ## 受保护属性，子类需要根据实际情况重写
@@ -191,4 +193,4 @@ protected function where()
     }
 ```
 
-[←  关于 module 配置数据](./module.html) | [ 关于 meTables 配置数据 →](./me-table.html)
+[← `module` 配置](./module.html) | [`meTables` 配置 →](./me-table.html)

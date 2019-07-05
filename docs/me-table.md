@@ -1,6 +1,8 @@
 关于 meTables 配置说明
 ====================
 
+[← 控制器配置](./controller.html) | [常见问题 →](./faq.html)
+
 [TOC]
 
 ## 基础配置项
@@ -196,7 +198,9 @@ $(document).on('click', '.role-edit-show-table', function () {
 table              | object     |            | 就是 jquery.dataTables.js 的配置信息
 
 
-### 使用的 `jquery.datatables.js` 中 `columns` 的配置都支持，下面只说几个常用的；[更多信息](http://www.datatables.club/reference/option/)
+### 使用的 `jquery.datatables.js` 中 `columns` 的配置
+
+[更多信息](http://www.datatables.club/reference/option/)
 
 配置名称 | 配置类型 | 说明信息
 :------------------|:-----------|:---------------
@@ -328,7 +332,8 @@ $.extend(MeTables, {
 });
 ```
 
-#### edit 和 search 里面配置的字段信息，都会通过html 属性字段生成到对应表单上面，edit 中可以定义验证字段信息，具体可以查看 [jquery.validate.js的配置信息](https://jqueryvalidation.org/documentation/). .
+#### edit 和 search 里面配置的字段信息，都会通过html 属性字段生成到对应表单上面，
+edit 中可以定义验证字段信息，具体可以查看 [jquery.validate.js的配置信息](https://jqueryvalidation.org/documentation/)
 ```js
 var m = meTables({
     table: {
@@ -343,6 +348,7 @@ var m = meTables({
     }
 });
 ```
+
 ### 说明： 
 1. edit 和 search 中的 name 如果没有定义的化，会通过外层配置的 data 属性决定，所以一般可以不用写
 2. edit 和 search 中的 type 默认为 text, 如果类型需要为 text 的话，可以省略不写
@@ -468,4 +474,4 @@ $.extend(m, {
 });
 ```
 
-[←  关于控制器说明](https://mylovegy.github.io/yii2-admin/?page=controller)
+[← 控制器配置](./controller.html) | [常见问题 →](./faq.html)

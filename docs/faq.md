@@ -3,6 +3,8 @@ FAQ
 
 [TOC]
 
+[← `meTables` 配置](./me-table.html) | [更新日志 →](/?page=change)
+
 以下整理了一些常见的问题，在提问之前建议找找有没有类似的问题。
 
 ## 一 `composer` 安装问题(安装慢、或者有错误)
@@ -198,3 +200,5 @@ public function where()
     ];
 }
 ```
+
+[← `meTables` 配置](./me-table.html) | [更新日志 →](/?page=change)

@@ -10,7 +10,9 @@ Yii2 Ace Admin 后台扩展模块
 [![GitHub stars](https://img.shields.io/github/stars/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/stargazers)
 [![GitHub license](https://img.shields.io/github/license/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/blob/master/LICENSE.md)
 
-[change to English](https://github.com/myloveGy/yii2-admin/blob/master/README.en-US.md)
+[change to English](./home.en-us.html)
+
+[TOC]
 
 ## 作者博客
 
@@ -113,8 +115,8 @@ return [
 ];
 ```
 
-#### [高级版本配置参考](/yii2-admin/document/module#yii2高级版后台配置模板, '高级版本配置参考')
-#### [基础版本配置参考](/yii2-admin/document/module#yii2基础版后台配置模板, '基础版本配置参考')
+#### [高级版本配置参考](/?page=module#yii2高级版后台配置模板)
+#### [基础版本配置参考](/?page=module#yii2基础版后台配置模板)
 
 ### 使用数据库迁移、导入后台所需的数据库信息、需要顺序执行下面命令
 
@@ -268,9 +270,11 @@ class Admin extends Module
 
 ## 使用文档
 
-### [模块配置说明](https://mylovegy.github.io/yii2-admin/?page=module)
-### [控制器配置说明](https://mylovegy.github.io/yii2-admin/?page=controller)
-### [前端`MeTables`配置说明](https://github.com/myloveGy/jinxing-tables?_blank)
+#### [模块配置](./module.html)
+#### [控制器配置](./controller.html)
+#### [`MeTables`配置](./me-table.html)
+
+[ 关于 module 配置数据 →](./module.html)
 
 ## 后台预览
 
