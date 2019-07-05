@@ -10,7 +10,7 @@ Yii2 Ace Admin 后台扩展模块
 [![GitHub stars](https://img.shields.io/github/stars/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/stargazers)
 [![GitHub license](https://img.shields.io/github/license/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/blob/master/LICENSE.md)
 
-[change to English](/README.en-US.md)
+[change to English](https://mylovegy.github.io/yii2-admin/?page=home.en-us)
 
 ## 作者博客
 
