@@ -260,7 +260,7 @@ class Controller extends \yii\web\Controller
         // 通过传递过来的唯一主键值查询数据
         /* @var $model \yii\db\ActiveRecord */
         $model = $this->modelClass;
-        if (!$model = $model::findOne($data[$this->pk])) {
+        if (!$model = $model::findOne([$this->pk => $data[$this->pk]])) {
             $this->setCode(220);
             return false;
         }
