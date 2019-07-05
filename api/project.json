@@ -45,6 +45,10 @@
       {
         "title": "常见问题说明",
         "url": "/?page=faq"
+      },
+      {
+        "title": "更新日志",
+        "url": "/?page=change"
       }
     ]
   },

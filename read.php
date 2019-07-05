@@ -6,13 +6,18 @@
  * @param bool delete 是否删除多余文件
  */
 
+define('PATH_NAME', '/yii2-admin/');
+define('GITHUB_URL', 'https://raw.githubusercontent.com/myloveGy/yii2-admin/master/CHANGELOG.md');
+
 $params = getopt('', ['read:', 'delete:']);
 
 // 重新读取文件
 if (isset($params['read']) && in_array($params['read'], ['true', '1'])) {
     $data = [
         'code' => 10000,
-        'data' => [],
+        'data' => [
+            'change' => file_get_contents(GITHUB_URL),
+        ],
         'msg'  => 'ok',
     ];
 
@@ -49,17 +54,21 @@ if (isset($params['delete']) && in_array($params['delete'], ['true', '1'])) {
     foreach ($files as $file) {
         // 先排除特殊 和 不需要删除的 . 开头的 .md 结尾的
         if (
-            in_array($file, ['.', '..', 'docs', 'api', 'read.php', '_config.yml', 'asset-manifest.json']) ||
-            in_array('/yii2-admin/' . $file, $values) ||
+            in_array($file, ['.', '..', 'docs', 'api', 'read.php', 'vendor', 'node_modules', '_config.yml', 'asset-manifest.json']) ||
+            in_array(PATH_NAME . $file, $values) ||
             substr($file, 0, 1) === '.' ||
             substr($file, -3) === '.md'
         ) {
             continue;
         }
 
-        unlink('./' . $file);
-        echo "删除文件: {$file} \n";
-        $number++;
+        $path = './' . $file;
+        if (is_file($path)) {
+            unlink('./' . $file);
+            echo "删除文件: {$file} \n";
+            $number++;
+        }
+
     }
 
     echo date('Y-m-d H:i:s') . " 删除文件成功，删除文件数: {$number} \n";
