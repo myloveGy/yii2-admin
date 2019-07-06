@@ -193,4 +193,70 @@ protected function where()
     }
 ```
 
+## 文件上传
+
+[前端配置参考](./me-table.html#文件上传)
+
+为当前控制器配置文件上传处理类
+
+```php
+public $uploadFromClass = '\backend\models\form\UploadForm';
+```
+
+在 `\backend\models\form\UploadForm` 中定义上传文件字段、验证规则、验证场景
+
+```php
+
+class UploadForm extend yii\base\Model
+{
+    /**
+     * @var \yii\web\UploadFile 对应前端配制的上传文件 input name = UploadForm[file]
+     */
+    public $file;
+    
+    /**
+     * @var \yii\web\UploadFile 对应前端配制的上传文件 input name = UploadForm[excel]
+     */
+    public $execl;
+    
+    /**
+     * 定义验证场景
+     *
+     * @return array
+     */
+    public function scenarios()
+    {
+        return [
+            // 目前一个字段一个场景
+            'file'  => ['file'],
+            'excel' => ['excel'],
+        ];
+    }
+    
+    /**
+     * 定义验证规则
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['file'], 'image', 'extensions' => ['png', 'jpg', 'gif', 'jpeg'], 'on' => 'file'],
+            [
+                ['excel'], 
+                'file', 
+                'extensions'               => ['xls', 'xlsx'],
+                'checkExtensionByMimeType' => false
+                'on'                       => 'excel',
+            ]
+        ];
+    }
+}
+
+```
+
+>目前使用的一个上传处理表单类`UploadForm`，所以需要一个上传文件定义一个字段、场景、验证规则；当然也可以
+一个上传文件一个上传表单类，但个人觉得没有这个必须
+
+
 [← 模块配置](./module.html) | [`meTables` 配置 →](./me-table.html)
