@@ -121,7 +121,7 @@ return [
 ];
 ```
 
-### 参考项目
+### 高级版参考项目
 
 - [Yii2 Ace Admin 项目GitHub](https://github.com/myloveGy/yii2-ace-admin)
 - [Yii2 Ace Admin 项目预览](https://yii2.sh-jinger.com)
@@ -243,7 +243,7 @@ return [
 
 将配置配置好， 再使用数据库迁移功能
 
-### 参考项目
+### 基础版参考项目
 
 - [考试系统GitHub](https://github.com/myloveGy/examination)
 - [考试系统预览](https://examination.sh-jinger.com/admin)
