@@ -10,7 +10,7 @@ Yii2 Ace Admin 后台扩展模块
 [![GitHub stars](https://img.shields.io/github/stars/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/stargazers)
 [![GitHub license](https://img.shields.io/github/license/myloveGy/yii2-admin.svg)](https://github.com/myloveGy/yii2-admin/blob/master/LICENSE.md)
 
-[change to English](./home.en-us.html)
+[change to English](./home.en-us.html) | [模块配置](./module.html)
 
 [TOC]
 
@@ -272,7 +272,7 @@ class Admin extends Module
 
 #### [模块配置](./module.html)
 #### [控制器配置](./controller.html)
-#### [`MeTables`配置](./me-table.html)
+#### [`meTables`配置](./me-table.html)
 
 [ 关于 module 配置数据 →](./module.html)
 

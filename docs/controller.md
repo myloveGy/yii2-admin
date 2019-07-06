@@ -1,7 +1,7 @@
 关于控制说明
 ===========
 
-[← `module` 配置](./module.html) | [`meTables` 配置 →](./me-table.html)
+[← 模块配置](./module.html) | [`meTables` 配置 →](./me-table.html)
 
 [TOC]
 
@@ -193,4 +193,4 @@ protected function where()
     }
 ```
 
-[← `module` 配置](./module.html) | [`meTables` 配置 →](./me-table.html)
+[← 模块配置](./module.html) | [`meTables` 配置 →](./me-table.html)

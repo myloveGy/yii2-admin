@@ -12,7 +12,7 @@ Yii2 Ace Admin Background extension
 
 Extensions developed for yii2, ace admin for background templates. For general background development, it is more convenient; CURL operations for data tables are encapsulated, and all operations have permission control
 
-[切换中文](./home.html)
+[切换中文](./home.html) | [Documentation](https://github.com/myloveGy/yii2-admin/wiki)
 
 ## Features
 
