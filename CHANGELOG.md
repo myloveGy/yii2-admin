@@ -1,5 +1,17 @@
 Yii2-admin extension Change Log
 ===============================
+1.2.9 2019-07-06
+
+- refactor: `controller` 代码优化
+    - `findOne` 优化 查询使用数组, 允许设置`$pk` 为 `model` 的唯一索引字段
+    
+    ```php
+    $model = model::findOne([$this->pk => $data[$this->pk]);
+    
+    // 之前 $model = model::findOne($data[$this->>pk]);
+    ```
+    - `actionUpload` 优化，`UploadForm` 存在指定字段验证场景，才设置验证场景
+
 1.2.8 2019-07-05
 ----------------
 
