@@ -345,7 +345,11 @@ class Controller extends \yii\web\Controller
         // 初始化上次表单model对象，并定义好验证场景
         $className = $this->uploadFromClass;
         /* @var $model Model */
-        $model = new $className(['scenario' => $strField]);
+        $model = new $className();
+        // 判断是否存在指定的验证场景，有则使用，没有默认
+        if (ArrayHelper::getValue($model->scenarios(), $strField)) {
+            $model->scenario = $strField;
+        }
 
         try {
             // 上传文件
