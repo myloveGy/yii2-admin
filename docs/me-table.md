@@ -478,4 +478,258 @@ $.extend(m, {
 });
 ```
 
+## 全局配置修改
+
+```js
+MeTables.defaultOptions.title = "测试"; // 修改标题 
+```
+
+参考所有配置项
+
+## 所有配置项
+
+```js
+// 设置默认配置信息
+  meTables.defaultOptions = {
+    title: '',                  // 表格的标题
+    language: 'zh-cn',          // 使用语言
+    pk: 'id',		            // 行内编辑pk索引值
+    sModal: '#table-modal',     // 编辑Modal选择器
+    sTable: '#show-table', 	// 显示表格选择器
+    sFormId: '#edit-form',		// 编辑表单选择器
+    sMethod: 'POST',			// 查询数据的请求方式
+    params: null,				// 请求携带参数
+    searchHtml: '',				// 搜索信息额外HTML
+    searchType: 'middle',		// 搜索表单位置
+    searchForm: '#search-form',	// 搜索表单选择器
+    searchInputEvent: 'blur',   // 搜索表单input事件,设置为空不监听
+    searchSelectEvent: 'change',// 搜索表单select事件,设置为空不监听
+    filters: 'filters',         // 查询参数
+
+    // 请求相关
+    isSuccess: function (json) {
+      return json.code === 0
+    },
+
+    // 获取消息
+    getMessage: function (json) {
+      return json.msg
+    },
+
+    // 搜索信息
+    search: {
+      render: true,
+
+      type: 'append',
+
+      // 搜索表单按钮信息
+      button: {
+        submit: {
+          class: 'btn btn-info btn-sm',
+          icon: 'ace-icon fa fa-search bigger-110',
+          style: 'margin-left: 5px;padding-top: 1px; padding-bottom:1px',
+          text: meTables.getLanguage('search'),
+        },
+        reset: {
+          class: 'btn btn-warning btn-sm',
+          style: 'margin-left: 10px;padding-top: 1px; padding-bottom:1px',
+          icon: 'ace-icon fa fa-undo bigger-110',
+          text: meTables.getLanguage('reset'),
+        },
+      },
+    },
+
+    fileSelector: [],			// 上传文件选择器
+
+    // 编辑表单信息
+    form: {
+      method: 'post',
+      class: 'form-horizontal',
+      name: 'edit-form',
+      autocomplete: 'off',
+    },
+
+    // 编辑表单验证方式
+    formValidate: {
+      errorElement: 'div',
+      errorClass: 'help-block',
+      focusInvalid: false,
+      highlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-info').addClass('has-error')
+      },
+      success: function (e) {
+        $(e).closest('.form-group').removeClass('has-error')//.addClass('has-info');
+        $(e).remove()
+      },
+    },
+
+    // 表单编辑其他信息
+    editFormParams: {				// 编辑表单配置
+      bMultiCols: false,          // 是否多列
+      iColsLength: 1,             // 几列
+      aCols: [3, 9],              // label 和 input 栅格化设置
+      sModalClass: '',			// 弹出模块框配置
+      sModalDialogClass: '',		// 弹出模块的class
+    },
+
+    // 关于详情的配置
+    bViewFull: false, // 详情打开的方式 1 2 打开全屏
+    oViewConfig: {
+      type: 1,
+      shade: 0.3,
+      shadeClose: true,
+      maxmin: true,
+      area: ['50%', 'auto'],
+    },
+
+    detailTable: {                   // 查看详情配置信息
+      bMultiCols: false,
+      iColsLength: 1,
+    },
+
+    // 关于地址配置信息
+    urlPrefix: '',
+    urlSuffix: '',
+    url: {
+      search: 'search',
+      create: 'create',
+      update: 'update',
+      delete: 'delete',
+      export: 'export',
+      upload: 'upload',
+      editable: 'editable',
+      deleteAll: 'delete-all',
+    },
+
+    // dataTables 表格默认配置对象信息
+    table: {
+      // "fnServerData": fnServerData,		// 获取数据的处理函数
+      // "sAjaxSource":      "search",		// 获取数据地址
+      'bLengthChange': true, 			// 是否可以调整分页
+      'bAutoWidth': false,           	// 是否自动计算列宽
+      'bPaginate': true,			    // 是否使用分页
+      'iDisplayStart': 0,
+      'iDisplayLength': 10,
+      'bServerSide': true,		 	// 是否开启从服务器端获取数据
+      'bRetrieve': true,
+      'bDestroy': true,
+      // "processing": true,		    // 是否使用加载进度条
+      // "searching": false,
+      'sPaginationType': 'full_numbers',     // 分页样式
+      // "order": [[1, "desc"]]       // 默认排序，
+      // sDom: "t<'row'<'col-xs-6'li><'col-xs-6'p>>"
+    },
+
+    // 开启行处理
+    editable: null,
+    editableMode: 'inline',
+
+    // 默认按钮信息
+    buttonHtml: '',
+    // 按钮添加容器
+    buttonSelector: '#me-table-buttons',
+    // 按钮添加方式
+    buttonType: 'append',
+    // 默认按钮信息
+    buttons: {
+      create: {
+        'data-func': 'create',
+        text: meTables.getLanguage('create'),
+        icon: 'ace-icon fa fa-plus-circle blue',
+        className: 'btn btn-white btn-primary btn-bold',
+      },
+      updateAll: {
+        'data-func': 'updateAll',
+        text: meTables.getLanguage('updateAll'),
+        icon: 'ace-icon fa fa-pencil-square-o orange',
+        className: 'btn btn-white btn-info btn-bold',
+      },
+      deleteAll: {
+        'data-func': 'deleteAll',
+        text: meTables.getLanguage('deleteAll'),
+        icon: 'ace-icon fa fa-trash-o red',
+        className: 'btn btn-white btn-danger btn-bold',
+      },
+      refresh: {
+        'data-func': 'refresh',
+        text: meTables.getLanguage('refresh'),
+        icon: 'ace-icon fa  fa-refresh',
+        className: 'btn btn-white btn-success btn-bold',
+      },
+      export: {
+        'data-func': 'export',
+        text: meTables.getLanguage('export'),
+        icon: 'ace-icon glyphicon glyphicon-export',
+        className: 'btn btn-white btn-warning btn-bold',
+      },
+    }
+
+    // 需要序号
+    , number: {
+      title: meTables.getLanguage('meTables', 'number'),
+      data: null,
+      view: false,
+      render: function (data, type, row, meta) {
+        if (!meta || $.isEmptyObject(meta)) {
+          return false
+        }
+
+        return meta.row + 1 + meta.settings._iDisplayStart
+      },
+      sortable: false,
+    }
+
+    // 需要多选框
+    , checkbox: {
+      data: null,
+      sortable: false,
+      class: 'center text-center',
+      title: '<label class="position-relative">' +
+        '<input type="checkbox" class="ace" /><span class="lbl"></span></label>',
+      view: false,
+      createdCell: function (td, data, array, row) {
+        $(td).html('<label class="position-relative">' +
+          '<input type="checkbox" class="ace" data-row="' + row + '" value="' + row + '"/>' +
+          '<span class="lbl"></span>' +
+          '</label>')
+      },
+    }
+
+    // 操作选项
+    , operations: {
+      title: meTables.getLanguage('meTables', 'operations'),
+      width: '120px',
+      defaultContent: '',
+      sortable: false,
+      data: null,
+      buttons: {
+        see: {
+          title: meTables.getLanguage('meTables', 'operations_see'),
+          className: 'btn-success',
+          cClass: 'me-table-detail',
+          icon: 'fa-search-plus',
+          sClass: 'blue',
+          'min-icon': 'fa-search-plus',
+        },
+        update: {
+          title: meTables.getLanguage('meTables', 'operations_update'),
+          className: 'btn-info',
+          cClass: 'me-table-update',
+          icon: 'fa-pencil-square-o',
+          sClass: 'green',
+          'min-icon': 'fa-pencil-square-o',
+        },
+        delete: {
+          title: meTables.getLanguage('meTables', 'operations_delete'),
+          className: 'btn-danger',
+          cClass: 'me-table-delete',
+          icon: 'fa-trash-o',
+          sClass: 'red',
+          'min-icon': 'fa-trash-o',
+        },
+      },
+    },
+};
+```
+
 [← 控制器配置](./controller.html) | [常见问题 →](./faq.html)
