@@ -9,7 +9,7 @@
         "url": "/?page=home"
       },
       {
-        "title": "English Document",
+        "title": "Documentation",
         "url": "/?page=home.en-us"
       },
       {
@@ -31,7 +31,7 @@
     ],
     "menus": [
       {
-        "title": "English Document",
+        "title": "Documentation",
         "url": "/?page=home.en-us"
       },
       {
