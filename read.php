@@ -53,6 +53,11 @@ if (is_setting($params, 'read')) {
                 $index                = str_replace('.md', '', $file);
                 $content              = file_get_contents($path);
                 $content              = preg_replace('/\(.\/(.*?)\.html\)/', '(/?page=${1})', $content);
+                // 图片处理
+                if (substr($index, 0, 4) === 'home') {
+                    $content = preg_replace('/\)\n\[/', ')[', $content);
+                }
+
                 $data['data'][$index] = $content;
             }
         }

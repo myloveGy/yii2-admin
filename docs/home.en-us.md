@@ -1,7 +1,7 @@
 Yii2 Ace Admin Background extension
 ===================================
 
-![Progress](http://progressed.io/bar/100?title=completed) 
+![Progress](http://progressed.io/bar/100?title=completed&class=images)
 [![Latest Stable Version](https://poser.pugx.org/jinxing/yii2-admin/v/stable)](https://packagist.org/packages/jinxing/yii2-admin)
 [![Total Downloads](https://poser.pugx.org/jinxing/yii2-admin/downloads)](https://packagist.org/packages/jinxing/yii2-admin)
 [![Latest Unstable Version](https://poser.pugx.org/jinxing/yii2-admin/v/unstable)](https://packagist.org/packages/jinxing/yii2-admin)
