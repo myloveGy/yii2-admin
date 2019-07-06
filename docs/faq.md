@@ -148,7 +148,7 @@ meTables({
 
 ```
 
-[更多`meTabls`说明>>](https://mylovegy.github.io/yii2-admin/?page=me-table)
+[更多`meTabls`说明>>](./me-table.html)
 
 ## 五 控制器相关问题
 
