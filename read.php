@@ -50,9 +50,10 @@ if (is_setting($params, 'read')) {
             $str  = substr($file, -3);
             $path = $dir . '/' . $file;
             if (is_file($path) && $str == '.md') {
-                $index                = str_replace('.md', '', $file);
-                $content              = file_get_contents($path);
-                $content              = preg_replace('/\(.\/(.*?)\.html\)/', '(/?page=${1})', $content);
+                $index   = str_replace('.md', '', $file);
+                $content = file_get_contents($path);
+                $content = preg_replace('/\(.\/(.*?)\.html\)/', '(/?page=${1})', $content);
+                $content = preg_replace('/\(.\/(.*?)\.html#(.*?)\)/', '(/?page=${1}#${2})', $content);
                 // 图片处理
                 if (substr($index, 0, 4) === 'home') {
                     $content = preg_replace('/\)\n\[/', ')[', $content);

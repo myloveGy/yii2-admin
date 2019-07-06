@@ -433,6 +433,8 @@ $.extend(m, {
 
 ## 文件上传
 
+[后端控制器配置参考](./controller.html#文件上传)
+
 ```js
 var m = meTables({
     title: "管理员信息",
