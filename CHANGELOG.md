@@ -9,7 +9,7 @@ Yii2-admin extension Change Log
     ```php
     $model = model::findOne([$this->pk => $data[$this->pk]);
     
-    // 之前 $model = model::findOne($data[$this->>pk]);
+    // 之前 $model = model::findOne($data[$this->pk]);
     ```
     - `actionUpload` 优化，`UploadForm` 存在指定字段验证场景，才设置验证场景
 
