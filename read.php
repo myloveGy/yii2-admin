@@ -36,6 +36,9 @@ if (is_setting($params, 'read')) {
 
     if (is_setting($params, 'change')) {
         $data['data']['change'] = "[TOC]\n" . file_get_contents(GITHUB_URL);
+    } else {
+        $old                    = json_decode(file_get_contents('./api/content.json'), true);
+        $data['data']['change'] = !empty($old['data']) && !empty($old['data']['change']) ? $old['data']['change'] : '';
     }
 
     $dir = './docs';
