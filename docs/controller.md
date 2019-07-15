@@ -99,27 +99,27 @@ protected function where()
 
 `[字段, 表达式]`
 
-    ```php
-        protected function where()
-        {
-            return [
-                // 简单处理
-                [['id', 'type'], '=']
-    
-                // 复杂处理, 使用数组
-                ['email', [
-                    'field' => 'user.email', // 修改字段
-                    'func'  => 'trim',       // 使用函数处理值
-                    'and'   => 'like',       // 使用的连接表达式   
-                ]],
-            
-                // 复杂处理，使用匿名函数
-                [['username', 'nickname', 'name'], function ($value, $key) {
-                    return ['like', $key, $value];
-                }],
-            ];
-        }
-    ```
+```php
+    protected function where()
+    {
+        return [
+            // 简单处理
+            [['id', 'type'], '=']
+
+            // 复杂处理, 使用数组
+            ['email', [
+                'field' => 'user.email', // 修改字段
+                'func'  => 'trim',       // 使用函数处理值
+                'and'   => 'like',       // 使用的连接表达式   
+            ]],
+        
+            // 复杂处理，使用匿名函数
+            [['username', 'nickname', 'name'], function ($value, $key) {
+                return ['like', $key, $value];
+            }],
+        ];
+    }
+```
 #### 定义默认查询条件,指定字段`where`，必须为二维数组`array`
 
 ```php
