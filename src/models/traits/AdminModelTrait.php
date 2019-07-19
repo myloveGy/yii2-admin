@@ -10,8 +10,6 @@
 
 namespace jinxing\admin\models\traits;
 
-use Yii;
-use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 use jinxing\admin\behaviors\UpdateBehavior;
 
