@@ -115,8 +115,8 @@ return [
 ];
 ```
 
-#### [高级版本配置参考](https://mylovegy.github.io/yii2-admin/docs/module.md#yii2高级版后台配置模板, '高级版本配置参考')
-#### [基础版本配置参考](https://mylovegy.github.io/yii2-admin/docs/module.md#yii2基础版后台配置模板, '基础版本配置参考')
+#### [高级版本配置参考](https://mylovegy.github.io/yii2-admin/?page=module#%3Ccode%3Eyii2%3C/code%3E%E9%AB%98%E7%BA%A7%E7%89%88%E5%90%8E%E5%8F%B0%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%9D%BF)
+#### [基础版本配置参考](https://mylovegy.github.io/yii2-admin/?page=module#%3Ccode%3Eyii2%3C/code%3E%E5%9F%BA%E7%A1%80%E7%89%88%E5%90%8E%E5%8F%B0%E9%85%8D%E7%BD%AE%E6%A8%A1%E6%9D%BF)
 
 ### 使用数据库迁移、导入后台所需的数据库信息、需要顺序执行下面命令
 
