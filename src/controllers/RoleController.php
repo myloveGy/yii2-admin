@@ -55,7 +55,7 @@ class RoleController extends Controller
             'where' => [$where],
 
             // 字段查询
-            [['name', 'description'], 'like']
+            [['name', 'description'], 'like'],
         ];
     }
 
@@ -66,14 +66,14 @@ class RoleController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-            'type' => Auth::TYPE_ROLE
+            'type' => Auth::TYPE_ROLE,
         ]);
     }
 
     /**
      * 修改角色权限信息
      *
-     * @param  string $name 角色名
+     * @param string $name 角色名
      *
      * @return string|\yii\web\Response
      * @throws \yii\web\UnauthorizedHttpException
@@ -122,15 +122,15 @@ class RoleController extends Controller
         $trees = (new Tree([
             'parentIdName' => 'pid',
             'childrenName' => 'children',
-            'array'        => Menu::getMenusByPermissions($permissions)
+            'array'        => Menu::getMenusByPermissions($permissions),
         ]))->getTreeArray(0);
 
         $trees = Menu::getJsMenus($trees, $model->_permissions);
-
+        
         // 加载视图返回
         return $this->render('edit', [
             'model'       => $model,              // 模型对象
-            'permissions' => $permissions,  // 权限信息
+            'permissions' => $this->handlePermissionGroups($permissions),  // 权限信息
             'trees'       => $trees,              // 导航栏树,
         ]);
     }
@@ -138,7 +138,7 @@ class RoleController extends Controller
     /**
      * 查看角色权限信息
      *
-     * @param  string $name 角色名称
+     * @param string $name 角色名称
      *
      * @return string
      * @throws HttpException
@@ -156,7 +156,7 @@ class RoleController extends Controller
         $tree = new Tree([
             'parentIdName' => 'pid',
             'childrenName' => 'child',
-            'array'        => Menu::getMenusByPermissions($permissions)
+            'array'        => Menu::getMenusByPermissions($permissions),
         ]);
 
         return $this->render('view', [
@@ -169,7 +169,7 @@ class RoleController extends Controller
     /**
      * 查询单个model
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return \jinxing\admin\models\Auth
      * @throws \yii\web\HttpException
@@ -200,22 +200,20 @@ class RoleController extends Controller
      */
     protected function getPermissions()
     {
-        $uid         = ArrayHelper::getValue($this->module, 'userId');
-        $models      = $uid == Admin::SUPER_ADMIN_ID ? Auth::find()->where([
-            'type' => Auth::TYPE_PERMISSION
+        $uid    = ArrayHelper::getValue($this->module, 'userId');
+        $models = $uid == Admin::SUPER_ADMIN_ID ? Auth::find()->where([
+            'type' => Auth::TYPE_PERMISSION,
         ])->orderBy(['name' => SORT_ASC])->all() : Yii::$app->getAuthManager()->getPermissionsByUser($uid);
-        $permissions = [];
-        foreach ($models as $model) {
-            $permissions[$model->name] = $model->name . ' (' . $model->description . ')';
-        }
 
-        return $permissions;
+        return ArrayHelper::map($models, 'name', function ($model) {
+            return $model->name . ' (' . $model->description . ')';
+        });
     }
 
     /**
      * 加载权限信息
      *
-     * @param  array $post 提交参数
+     * @param array $post 提交参数
      *
      * @return array
      */
@@ -223,5 +221,25 @@ class RoleController extends Controller
     {
         return (isset($post['Auth']['_permissions']) &&
             is_array($post['Auth']['_permissions'])) ? $post['Auth']['_permissions'] : [];
+    }
+
+    /**
+     * @param $permissions
+     */
+    protected function handlePermissionGroups($permissions)
+    {
+        $items = [];
+        foreach ($permissions as $name => $value) {
+            $names = explode('/', $name);
+            array_pop($names);
+            $index = implode('/', $names);
+            if (!isset($items[$index])) {
+                $items[$index] = [];
+            }
+
+            $items[$index][$name] = $value;
+        }
+
+        return $items;
     }
 }

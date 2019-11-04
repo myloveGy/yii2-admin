@@ -7,8 +7,8 @@ use jinxing\admin\widgets\Alert;
 use jinxing\admin\helpers\Helper;
 
 $this->title = '角色信息分配权限';
-$url = Helper::getAssetUrl();
-$depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
+$url         = Helper::getAssetUrl();
+$depends     = ['depends' => 'jinxing\admin\web\AdminAsset'];
 $this->registerJsFile($url . '/js/jstree/jstree.min.js', $depends);
 $this->registerCssFile($url . '/js/jstree/default/style.css', $depends);
 
@@ -44,7 +44,7 @@ $this->registerCssFile($url . '/js/jstree/default/style.css', $depends);
                     echo $form->field($model, 'name')->textInput($model->isNewRecord ? [] : ['disabled' => 'disabled']) .
                         $form->field($model, 'description')->textarea(['style' => 'height: 100px']) .
                         Html::submitButton($model->isNewRecord ? Yii::t('admin', 'Save') : Yii::t('admin', 'Update'), [
-                            'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'
+                            'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
                         ]);
                     ?>
                 </div>
@@ -103,30 +103,56 @@ $this->registerCssFile($url . '/js/jstree/default/style.css', $depends);
         </div>
 
         <div class="widget-body">
-            <div class="widget-main">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="checkbox col-sm-10" style="padding:5px;">
-                            <label>
-                                <input class="ace ace-checkbox-2 allChecked" type="checkbox"/>
-                                <span class="lbl">  全部选择 </span>
+            <div class="widget-main no-padding">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th width="20%" class="text-center">分组</th>
+                        <th class="text-center">权限</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <label style="margin: 5px;">
+                                <input class="ace ace-checkbox-2 all-checked" type="checkbox"/>
+                                <span class="lbl" style="padding-left: 3px;">
+                                        全选
+                                </span>
                             </label>
-                        </div>
-                        <?php foreach ($permissions as $key => $value) : ?>
-                            <div class="checkbox col-sm-4" style="padding:5px;">
-                                <label>
-                                    <input class="ace ace-checkbox-2"
-                                           type="checkbox"
-                                           name="Auth[_permissions][]"
-                                           value="<?= $key ?>"
-                                        <?= in_array($key, $model->_permissions) ? 'checked="checked"' : '' ?>
-                                    />
-                                    <span class="lbl"> <?= $value ?></span>
+                        </td>
+                    </tr>
+                    <?php foreach ($permissions as $key => $children) : ?>
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                <label style="margin: 5px;">
+                                    <input class="ace ace-checkbox-2 parent-checkbox" type="checkbox"
+                                           value="<?= $key ?>"/>
+                                    <span class="lbl" style="padding-left: 3px;">
+                                        <?= $key ?>
+                                    </span>
                                 </label>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+                            </td>
+                            <td>
+                                <?php foreach ($children as $name => $child) : ?>
+                                    <label style="margin: 5px;">
+                                        <input class="ace ace-checkbox-2 children-checkbox"
+                                               type="checkbox"
+                                               name="Auth[_permissions][]"
+                                               value="<?= $name ?>"
+                                            <?= in_array($name, $model->_permissions) ? 'checked="checked"' : '' ?>
+                                        />
+                                        <span class="lbl" style="padding-left: 3px;">
+                                            <?php echo $child; ?>
+                                        </span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -175,8 +201,20 @@ $this->registerCssFile($url . '/js/jstree/default/style.css', $depends);
             }
         });
 
+        // 分组选择
+        $(".parent-checkbox").click(function () {
+            $(this).parent().parent().next("td").find("input[type=checkbox]").prop("checked", this.checked);
+        });
+
+        // 分组下面的子项选择
+        $(".children-checkbox").click(function () {
+            var $parent = $(this).parent().parent();
+            var checked = this.checked ? $parent.find("input[type=checkbox]").length == $parent.find("input[type=checkbox]:checked").length : false;
+            $parent.prev("td").find("input[type=checkbox]").prop("checked", checked);
+        })
+
         // 全部选择
-        $(".allChecked").click(function () {
+        $(".all-checked").click(function () {
             $("input[type=checkbox]").prop("checked", this.checked);
         });
     });
