@@ -3,14 +3,20 @@
 namespace jinxing\admin\models\forms;
 
 use Yii;
-use jinxing\admin\models\Admin;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use jinxing\admin\models\Admin;
 
 /**
  * Login form
  */
 class AdminForm extends \yii\base\Model
 {
+    /**
+     * @var 验证码字段
+     */
+    public $verifyCode;
+
     public $username;
     public $password;
     public $rememberMe = true;
@@ -22,9 +28,25 @@ class AdminForm extends \yii\base\Model
      */
     public function rules()
     {
+        // 验证码
+        $codeWhen = function () {
+            return Yii::$app->session->get('validateCode');
+        };
+
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
+
+            // 验证码验证
+            [['verifyCode'], 'required', 'when' => $codeWhen],
+            [['verifyCode'], 'captcha',
+                'when'          => $codeWhen,
+                'captchaAction' => Url::toRoute('default/captcha'),
+                // 前端js 验证什么时候生效
+                'whenClient'    => "function(attribute, value) {
+                    return false;
+                }",
+            ],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
