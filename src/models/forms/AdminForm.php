@@ -63,6 +63,7 @@ class AdminForm extends \yii\base\Model
             'username'   => '管理员账号',
             'password'   => '管理员密码',
             'rememberMe' => '记住登录',
+            'verifyCode' => '验证码',
         ];
     }
 
