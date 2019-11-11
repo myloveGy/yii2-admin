@@ -64,6 +64,10 @@ return [
     'modules' => [
         'admin' => [
             'class' => 'jinxing\admin\Module',
+            // Make use of that kind of user
+            'user' => 'user',
+            // 配置退出登录地址
+            'logout_url' => '/default/logout'
         ]
     ],
     'components' => [

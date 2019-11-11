@@ -193,4 +193,8 @@ class Module extends yii\base\Module
     {
         return $this->getUser();
     }
+
+
+    /***退出地址****/
+    public $logout_url = "/default/logout";
 }
