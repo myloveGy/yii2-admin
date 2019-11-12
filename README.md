@@ -67,7 +67,7 @@ return [
             // Make use of that kind of user
             'user' => 'user',
             // 配置退出登录地址
-            'logout_url' => '/default/logout'
+            'logoutUrl' => 'default/logout'
         ]
     ],
     'components' => [
