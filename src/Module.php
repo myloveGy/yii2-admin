@@ -65,31 +65,31 @@ class Module extends yii\base\Module
      */
     public $leftTopButtons = [
         [
-            'id'        => 'my-arrange',
-            'url'       => 'arrange/calendar',
-            'title'     => '我的日程',
-            'icon'      => 'fa fa-calendar',
+            'id' => 'my-arrange',
+            'url' => 'arrange/calendar',
+            'title' => '我的日程',
+            'icon' => 'fa fa-calendar',
             'btn-class' => 'btn-success',
         ],
         [
-            'id'        => '',
-            'url'       => '',
-            'title'     => '',
-            'icon'      => 'fa fa-pencil',
+            'id' => '',
+            'url' => '',
+            'title' => '',
+            'icon' => 'fa fa-pencil',
             'btn-class' => 'btn-info',
         ],
         [
-            'id'        => 'my-info',
-            'url'       => 'admin/view',
-            'title'     => '个人信息',
-            'icon'      => 'glyphicon glyphicon-user',
+            'id' => 'my-info',
+            'url' => 'admin/view',
+            'title' => '个人信息',
+            'icon' => 'glyphicon glyphicon-user',
             'btn-class' => 'btn-warning',
         ],
         [
-            'id'        => 'index',
-            'url'       => 'default/system',
-            'title'     => '登录信息',
-            'icon'      => 'fa fa-cogs',
+            'id' => 'index',
+            'url' => 'default/system',
+            'title' => '登录信息',
+            'icon' => 'fa fa-cogs',
             'btn-class' => 'btn-danger',
         ],
     ];
@@ -117,9 +117,9 @@ class Module extends yii\base\Module
                 'css' => [],
             ],
             // 去掉自己加载的Jquery
-            'yii\web\JqueryAsset'          => [
+            'yii\web\JqueryAsset' => [
                 'sourcePath' => null,
-                'js'         => [],
+                'js' => [],
             ],
         ];
 
@@ -127,9 +127,9 @@ class Module extends yii\base\Module
         Yii::$app->errorHandler->errorAction = $this->getUniqueId() . '/default/error';
         if (!isset(Yii::$app->i18n->translations['admin'])) {
             Yii::$app->i18n->translations['admin'] = [
-                'class'          => 'yii\i18n\PhpMessageSource',
+                'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en',
-                'basePath'       => '@jinxing/admin/messages',
+                'basePath' => '@jinxing/admin/messages',
             ];
         }
     }
@@ -198,4 +198,7 @@ class Module extends yii\base\Module
     {
         return $this->getUser();
     }
+
+
+
 }
