@@ -56,6 +56,11 @@ class Module extends yii\base\Module
     public $defaultAction = 'default/system';
 
     /**
+     * @var string 退出地址
+     */
+    public $logoutUrl = 'default/logout';
+
+    /**
      * @var bool 左边头部按钮
      */
     public $leftTopButtons = [
@@ -193,8 +198,4 @@ class Module extends yii\base\Module
     {
         return $this->getUser();
     }
-
-
-    /***退出地址****/
-    public $logout_url = "/default/logout";
 }
