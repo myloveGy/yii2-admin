@@ -9,8 +9,8 @@ use jinxing\admin\helpers\Helper;
 
 AppAsset::register($this);
 
-$url = Helper::getAssetUrl();
-$userLinks = Yii::$app->controller->module->userLinks;
+$url            = Helper::getAssetUrl();
+$userLinks      = Yii::$app->controller->module->userLinks;
 $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
 ?>
 <?php $this->beginPage() ?>
@@ -197,7 +197,7 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
                             <li class="divider"></li>
                         <?php endif; ?>
                         <li>
-                            <?= Html::beginForm([Yii::$app->controller->module->logout_url], 'post'); ?>
+                            <?= Html::beginForm([Yii::$app->controller->module->logoutUrl], 'post'); ?>
                             <?= Html::submitButton(
                                 '<i class="ace-icon fa fa-power-off"></i> 退出登录 ',
                                 ['class' => 'btn btn-link logout']
@@ -253,12 +253,12 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
         <?php
         try {
             echo Nav::widget([
-                'options' => [
-                    'id' => 'nav-list-main',
+                'options'   => [
+                    'id'    => 'nav-list-main',
                     'class' => 'nav nav-list',
                 ],
                 'labelName' => 'menu_name',
-                'items' => $menus,
+                'items'     => $menus,
                 'itemsName' => 'child',
             ]);
         } catch (\Exception $e) {
@@ -358,7 +358,7 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
     var $windowDiv = $("#me-window"),
         $divContent = $("#page-content"),
         intSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberSize', 10)?>,
-        showCloseSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumbershowClose', 3)?>;
+        showCloseSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberShowClose', 3)?>;
 
     function authHeight() {
         $("#page-content").css("height", $(window).height() - $("#page-content").offset()["top"] - $(".footer").innerHeight() + "px")
