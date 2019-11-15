@@ -15,7 +15,7 @@ $this->title = '导航栏目信息';
     <script type="text/javascript">
         var aAdmins = <?=Json::encode($admins)?>,
             aParents = <?= $parents ?>,
-            arrStatus = <?=Json::encode(ArrayHelper::getValue(Yii::$app->params, 'status', ['停用', '启用']))?>;
+            arrStatus = <?=Json::encode(ArrayHelper::getValue(Yii::$app->params, 'status', ['禁用', '启用']))?>;
 
         // 显示上级分类
         function parentStatus(td, data) {
