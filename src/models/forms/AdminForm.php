@@ -13,7 +13,7 @@ use jinxing\admin\models\Admin;
 class AdminForm extends \yii\base\Model
 {
     /**
-     * @var 验证码字段
+     * @var string 验证码字段
      */
     public $verifyCode;
 
