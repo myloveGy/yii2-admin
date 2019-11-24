@@ -35,6 +35,8 @@ return [
     'close all'                                              => '关闭全部',
     'loginUsernamePlaceholder'                               => '请输入管理员账号或者邮箱',
     'loginPasswordPlaceholder'                               => '请输入管理员密码',
+    'Permissions'                                            => '权限列表',
+    'Role'                                                   => '角色信息',
     'error_code'                                             => [
         // 1- 200 返回正确信息
         0   => '操作成功',

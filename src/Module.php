@@ -43,7 +43,7 @@ class Module extends yii\base\Module
     /**
      * @var int 开启多少个 iFrame 显示关闭按钮
      */
-    public $frameNumbershowClose = 3;
+    public $frameNumberShowClose = 3;
 
     /**
      * @var bool 权限验证
@@ -54,6 +54,11 @@ class Module extends yii\base\Module
      * @var string 默认首页action
      */
     public $defaultAction = 'default/system';
+
+    /**
+     * @var string 退出地址
+     */
+    public $logoutUrl = 'default/logout';
 
     /**
      * @var bool 左边头部按钮

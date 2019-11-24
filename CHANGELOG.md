@@ -1,7 +1,20 @@
 Yii2-admin extension Change Log
 ===============================
 
+1.2.11 2019-11-12
+-----------------
+
+- feat: 添加退出页面可以在模块中配置 `logoutUrl`
+
+1.2.10 2019-11-04
+-----------------
+
+- refactor: 优化角色分配权限信息页面
+- refactor: 管理员登录、密码错误一次、后面需要输入验证码
+
+
 1.2.9 2019-07-06
+----------------
 
 - refactor: `controller` 代码优化
     - `findOne` 优化 查询使用数组, 允许设置`$pk` 为 `model` 的唯一索引字段
@@ -9,7 +22,7 @@ Yii2-admin extension Change Log
     ```php
     $model = model::findOne([$this->pk => $data[$this->pk]);
     
-    // 之前 $model = model::findOne($data[$this->>pk]);
+    // 之前 $model = model::findOne($data[$this->pk]);
     ```
     - `actionUpload` 优化，`UploadForm` 存在指定字段验证场景，才设置验证场景
 

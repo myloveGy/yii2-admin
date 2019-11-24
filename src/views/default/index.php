@@ -197,7 +197,7 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
                             <li class="divider"></li>
                         <?php endif; ?>
                         <li>
-                            <?= Html::beginForm(['default/logout'], 'post'); ?>
+                            <?= Html::beginForm([Yii::$app->controller->module->logoutUrl], 'post'); ?>
                             <?= Html::submitButton(
                                 '<i class="ace-icon fa fa-power-off"></i> 退出登录 ',
                                 ['class' => 'btn btn-link logout']
@@ -358,7 +358,7 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
     var $windowDiv = $("#me-window"),
         $divContent = $("#page-content"),
         intSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberSize', 10)?>,
-        showCloseSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumbershowClose', 3)?>;
+        showCloseSize = <?=ArrayHelper::getValue(Yii::$app->controller->module, 'frameNumberShowClose', 3)?>;
 
     function authHeight() {
         $("#page-content").css("height", $(window).height() - $("#page-content").offset()["top"] - $(".footer").innerHeight() + "px")

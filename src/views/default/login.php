@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -9,6 +10,16 @@ use yii\bootstrap\ActiveForm;
 
 $this->title                   = Yii::t('admin', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerCss('div.field-adminform-verifycode {
+            width: 50%;
+            float: left;
+            margin-bottom: 0;
+        }
+
+        .image-code {
+            float: right;
+            display: block;
+        }');
 ?>
 <?php $form = ActiveForm::begin(); ?>
 <fieldset>
@@ -29,6 +40,30 @@ $this->params['breadcrumbs'][] = $this->title;
             <i class="ace-icon fa fa-lock"></i>
         </span>
     </label>
+    <?php if (Yii::$app->session->get('validateCode')) : ?>
+        <label class="block clearfix">
+        <span class="block input-icon input-icon-right">
+            <?= $form->field($model, 'verifyCode')
+                ->textInput([
+                    'placeholder' => Yii::t('admin', '验证码'),
+                    'class'       => 'input-code',
+                ])
+                ->label(false) ?>
+            <?= Captcha::widget([
+                'name'          => 'verify-code',
+                'captchaAction' => 'default/captcha',
+                'imageOptions'  => [
+                    'id'    => 'verify-code',
+                    'title' => '换一个',
+                    'alt'   => '换一个',
+                    'class' => 'image-code',
+                    'style' => 'cursor:pointer;',
+                ],
+                'template'      => '{image}',
+            ]) ?>
+        </span>
+        </label>
+    <?php endif; ?>
     <div class="space"></div>
     <div class="clearfix">
         <label class="inline">
@@ -39,3 +74,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="space-4"></div>
 </fieldset>
 <?php ActiveForm::end(); ?>
+<?php $this->beginBlock('javascript'); ?>
+<script>
+    $(function () {
+        $("#verify-code").trigger('click')
+    })
+</script>
+<?php $this->endBlock(); ?>

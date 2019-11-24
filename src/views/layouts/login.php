@@ -5,11 +5,16 @@
  * Time: 19:17
  */
 
+use yii\helpers\Html;
 use \yii\helpers\ArrayHelper;
 use jinxing\admin\helpers\Helper;
+use jinxing\admin\web\AppAsset;
+
+AppAsset::register($this);
 
 $url = Helper::getAssetUrl();
 ?>
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
@@ -18,11 +23,8 @@ $url = Helper::getAssetUrl();
     <meta name="description" content="overview &amp; stats"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <title><?= ArrayHelper::getValue(Yii::$app->params, 'projectTitle', 'Yii2 Admin') ?></title>
-    <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="<?= $url ?>/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<?= $url ?>/css/font-awesome.min.css"/>
-    <!-- text fonts -->
-    <link rel="stylesheet" href="<?= $url ?>/css/ace-fonts.css"/>
+    <?= Html::csrfMetaTags() ?>
+    <?php $this->head(); ?>
     <!-- ace styles -->
     <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
     <!--[if lte IE 9]>
@@ -60,6 +62,7 @@ $url = Helper::getAssetUrl();
     <![endif]-->
 </head>
 <body class="login-layout light-login">
+<?php $this->beginBody() ?>
 <div class="main-container">
     <div class="main-content">
         <div class="row">
@@ -271,7 +274,12 @@ $url = Helper::getAssetUrl();
             $('#id-company-text').attr('class', 'light-blue');
             e.preventDefault();
         });
+
+
     });
 </script>
+<?php $this->endBody() ?>
+<?= $this->blocks['javascript'] ?>
 </body>
 </html>
+<?php $this->endPage() ?>

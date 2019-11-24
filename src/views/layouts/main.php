@@ -44,6 +44,16 @@ $url = Helper::getAssetUrl();
         ::-webkit-scrollbar-thumb {
             background-color: #bbd4e5;
         }
+
+        label.required:before {
+            display: inline-block;
+            margin-right: 4px;
+            color: #f5222d;
+            font-size: 14px;
+            font-family: SimSun, sans-serif;
+            line-height: 1;
+            content: "*";
+        }
     </style>
     <!-- ace styles -->
     <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>

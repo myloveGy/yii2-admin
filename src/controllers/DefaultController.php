@@ -34,7 +34,7 @@ class DefaultController extends \yii\web\Controller
                 'user'  => ArrayHelper::getValue($this->module, 'user'),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'captcha'],
                         'allow'   => true,
                     ],
                     [
@@ -62,8 +62,18 @@ class DefaultController extends \yii\web\Controller
     public function actions()
     {
         return [
-            'error' => [
+            'error'   => [
                 'class' => 'jinxing\admin\actions\ErrorAction',
+            ],
+            'captcha' => [
+                'class'           => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'maxLength'       => 4,           // 最大显示个数
+                'minLength'       => 4,           // 最少显示个数
+                'padding'         => 5,           // 间距
+                'height'          => 34,          // 高度
+                'width'           => 130,         // 宽度
+                'offset'          => 4,           // 设置字符偏移量 有效果
             ],
         ];
     }
@@ -161,10 +171,15 @@ class DefaultController extends \yii\web\Controller
         }
 
         $model = new AdminForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login(ArrayHelper::getValue($this->module, 'user'))) {
-            return $this->goBack(); // 到首页去
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->login(ArrayHelper::getValue($this->module, 'user'))) {
+                Yii::$app->session->remove('validateCode');
+                return $this->goBack(); // 到首页去
+            } else {
+                Yii::$app->session->set('validateCode', true);
+            }
         }
-
+        
         return $this->render('login', compact('model'));
     }
 
