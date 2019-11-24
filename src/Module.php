@@ -140,6 +140,7 @@ class Module extends yii\base\Module
      * @return bool|\yii\console\Response|\yii\web\Response
      * @throws UnauthorizedHttpException
      * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\ForbiddenHttpException
      */
     public function beforeAction($action)
     {
@@ -148,14 +149,16 @@ class Module extends yii\base\Module
             return parent::beforeAction($action);
         }
 
+        /* @var $webUser \yii\web\User */
+        $webUser = Yii::$app->get($this->user);
         // 验证用户登录
-        if (Yii::$app->get($this->user)->isGuest) {
-            Yii::$app->get($this->user)->loginRequired();
+        if ($webUser->isGuest) {
+            $webUser->loginRequired();
             return false;
         }
 
         // 验证权
-        if ($this->verifyAuthority && !Yii::$app->get($this->user)->can($action->getUniqueId())) {
+        if ($this->verifyAuthority && !$webUser->can($action->getUniqueId())) {
             // 没有权限AJAX返回
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->content = Json::encode($this->error(216));
