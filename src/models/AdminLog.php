@@ -72,7 +72,7 @@ class AdminLog extends ActiveRecord
         $log->request    = Json::encode(Yii::$app->request->post());
         $log->response   = Json::encode($result);
         $log->action     = $action->getUniqueId();
-        $log->admin_id   = ArrayHelper::getValue($user, 'id');
+        $log->admin_id   = ArrayHelper::getValue($user, 'id', 0);
         $log->admin_name = ArrayHelper::getValue($user, 'identity.username', '');
         $log->ip         = Helper::getIpAddress();
         $log->created_at = new Expression('UNIX_TIMESTAMP()');
