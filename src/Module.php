@@ -139,7 +139,6 @@ class Module extends yii\base\Module
             return parent::beforeAction($action);
         }
 
-
         /* @var $webUser \yii\web\User */
         $webUser = Yii::$app->get($this->user);
         // 验证用户登录
