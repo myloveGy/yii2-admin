@@ -128,7 +128,7 @@ class Controller extends \yii\web\Controller
 
         // 查询数据条数
         if ($total = $query->count()) {
-            $field   = ArrayHelper::getValue($search, 'field', $this->sort);
+            $field   = ArrayHelper::getValue($search, 'field', $this->sort) ?: $this->sort;
             $orderBy = [$field => $search['sort'] == 'asc' ? SORT_ASC : SORT_DESC];
             if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all()) {
                 $this->afterSearch($array);
@@ -320,7 +320,7 @@ class Controller extends \yii\web\Controller
 
         return $this->success($model);
     }
-    
+
     /**
      * 处理文件上传操作
      * @return mixed|string
