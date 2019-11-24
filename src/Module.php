@@ -4,9 +4,8 @@ namespace jinxing\admin;
 
 use Yii;
 use yii\helpers\Json;
-use yii\helpers\Url;
-use yii\web\UnauthorizedHttpException;
 use jinxing\admin\traits\JsonTrait;
+use yii\web\UnauthorizedHttpException;
 
 /**
  * admin module definition class
