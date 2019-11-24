@@ -145,7 +145,8 @@ class Module extends yii\base\Module
 
         // 验证用户登录
         if (Yii::$app->get($this->user)->isGuest) {
-            return Yii::$app->response->redirect(Url::toRoute('default/login'));
+            Yii::$app->get($this->user)->loginRequired();
+            return false;
         }
 
         // 验证权
