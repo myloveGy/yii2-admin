@@ -360,6 +360,21 @@ var m = meTables({
 1. edit 和 search 中的 name 如果没有定义的化，会通过外层配置的 data 属性决定，所以一般可以不用写
 2. edit 和 search 中的 type 默认为 text, 如果类型需要为 text 的话，可以省略不写
 
+## meTables常用方法
+>可以在外部使用`var table = meTables({})`实例化后的对象直接调用，例如：`table.search()`
+
+|方法名称|说明|
+|-------|----|
+|`search(params)`|刷新表格，调用的是`dataTables.draw()`方法，`params`表示是否重新计算分页,默认`false`|
+|`refresh()`|将表单重置`form.reset()`、然后调用`search(true)`|
+|`create()`|弹出创建表单`modal`|
+|`update(row)`|编辑行,弹出编辑表单`modal`,`row`哪行，行编号重0开始|
+|`updateAll()`|弹出修改多行表单`modal`,需要有勾选行|
+|`delete(row)`|删除行,`row`哪行，行编号重0开始|
+|`deleteAll()`|删除多行、需要有勾选行|
+|`detail(row)`|查看行详情,`row`哪行，行编号重0开始|
+|`export()`|导出当前数据|
+
 ## 事件配置
 
 |事件函数名称            | 说明|
@@ -367,7 +382,7 @@ var m = meTables({
 |`beforeShow(data)`     | 在弹出 modal 之前触发|
 |`afterShow(data)`      | 在弹出 modal 之后触发|
 |`beforeSave(data)`     | 在编辑之前触发|
-|`afterShow(data)`      | 在编辑之后触发|
+|`afterSave(data)`      | 在编辑之后触发|
 
 1. **`beforeShow`,`afterShow` 事件，只有在修改的情况下 data 数据为编辑的数据**
 2. **`beforeSave`,`afterSave` 事件，在创建、修改、删除、多删除 data 数据为对应的表单数据**
