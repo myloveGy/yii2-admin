@@ -373,7 +373,7 @@ var m = meTables({
 |`delete(row)`|删除行,`row`哪行，行编号重0开始|
 |`deleteAll()`|删除多行、需要有勾选行|
 |`detail(row)`|查看行详情,`row`哪行，行编号重0开始|
-|`export()`|导出当前数据|
+|`export()`|导出数据|
 
 ## 事件配置
 
