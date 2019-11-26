@@ -368,11 +368,11 @@ var m = meTables({
 |`search(params)`|刷新表格，调用的是`dataTables.draw()`方法，`params`表示是否重新计算分页,默认`false`|
 |`refresh()`|将表单重置`form.reset()`、然后调用`search(true)`|
 |`create()`|弹出创建表单`modal`|
-|`update(row)`|编辑行,弹出编辑表单`modal`,`row`哪行，行编号重0开始|
+|`update(row)`|编辑行,弹出编辑表单`modal`,`row`哪行，行编号从0开始|
 |`updateAll()`|弹出修改多行表单`modal`,需要有勾选行|
-|`delete(row)`|删除行,`row`哪行，行编号重0开始|
+|`delete(row)`|删除行,`row`哪行，行编号从0开始|
 |`deleteAll()`|删除多行、需要有勾选行|
-|`detail(row)`|查看行详情,`row`哪行，行编号重0开始|
+|`detail(row)`|查看行详情,`row`哪行，行编号从0开始|
 |`export()`|导出数据|
 
 ## 事件配置
