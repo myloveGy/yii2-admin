@@ -255,9 +255,24 @@ isViews      | boolean     | true       | 这一列是否在详情里面显示�
 defaultOrder | string      | null       | 默认排序方式 (asc or desc)
 search       | object      | undefined  | 搜索表单配置信息
 edit         | object      | undefined  | 编辑表单配置信息
-value        | object      | undefined  | 为搜索和编辑表单提供数据支持
+value        | object|array      | undefined  | 为搜索和编辑表单提供数据支持
 
-Configuration example:
+#### value 支持的数据格式
+
+1. 对象
+```json
+{"0": "请选择", "1": "测试1", "2": "测试2"}
+```
+2. 数组
+```json
+[
+  {"label": "请选择", "value": "0"}, 
+  {"label": "测试1", "value": "1"}, 
+  {"label": "测试2", "value": "2"}
+]
+```
+
+#### Configuration example:
 ```js
 var m = meTables({
     table: {
@@ -583,8 +598,8 @@ MeTables.defaultOptions.title = "测试"; // 修改标题
       bMultiCols: false,          // 是否多列
       iColsLength: 1,             // 几列
       aCols: [3, 9],              // label 和 input 栅格化设置
-      sModalClass: '',			// 弹出模块框配置
-      sModalDialogClass: '',		// 弹出模块的class
+      modalClass: '',			// 弹出模块框配置
+      modalDialogClass: '',		// 弹出模块的class
     },
 
     // 关于详情的配置

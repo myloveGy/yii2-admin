@@ -126,6 +126,21 @@ meTables({
 
 配置那一列的`value`，数据格式为 `object` `{value1:label1, value2: label2}`
 
+#### value 支持的数据格式
+
+1. 对象
+```json
+{"0": "请选择", "1": "测试1", "2": "测试2"}
+```
+2. 数组
+```json
+[
+  {"label": "请选择", "value": "0"}, 
+  {"label": "测试1", "value": "1"}, 
+  {"label": "测试2", "value": "2"}
+]
+```
+
 ```js
 meTables({
     title: "用户信息",
