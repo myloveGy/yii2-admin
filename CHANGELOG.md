@@ -1,6 +1,6 @@
 Yii2-admin extension Change Log
 ===============================
-1.2.13 2019-11-25
+1.2.13 2019-11-28
 -----------------
 
 - refactor: 添加`captchaAction`配置选项，配置验证码验证`action`地址
