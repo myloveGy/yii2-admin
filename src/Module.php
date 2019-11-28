@@ -61,6 +61,11 @@ class Module extends yii\base\Module
     public $logoutUrl = 'default/logout';
 
     /**
+     * @var string 验证码地址
+     */
+    public $captchaAction = null;
+
+    /**
      * @var bool 左边头部按钮
      */
     public $leftTopButtons = [

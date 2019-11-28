@@ -33,6 +33,13 @@ class AdminForm extends \yii\base\Model
             return Yii::$app->session->get('validateCode');
         };
 
+        // 因为项目可能配置在二级目录下面，需要允许配置验证码地址
+        if (Yii::$app->controller->module->captchaAction) {
+            $captchaAction = Yii::$app->controller->module->captchaAction;
+        } else {
+            $captchaAction = Url::toRoute('default/captcha');
+        }
+
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
@@ -41,7 +48,7 @@ class AdminForm extends \yii\base\Model
             [['verifyCode'], 'required', 'when' => $codeWhen],
             [['verifyCode'], 'captcha',
                 'when'          => $codeWhen,
-                'captchaAction' => Url::toRoute('default/captcha'),
+                'captchaAction' => $captchaAction,
                 // 前端js 验证什么时候生效
                 'whenClient'    => "function(attribute, value) {
                     return false;
@@ -64,7 +71,7 @@ class AdminForm extends \yii\base\Model
             'password'   => '管理员密码',
             'rememberMe' => '记住登录',
             'verifyCode' => '验证码',
-        ]; 
+        ];
     }
 
     /**
