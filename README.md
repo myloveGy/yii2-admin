@@ -64,10 +64,12 @@ return [
     'modules' => [
         'admin' => [
             'class' => 'jinxing\admin\Module',
-            // Make use of that kind of user
-            'user' => 'user',
+            // 使用的登录用户组件
+            'user' => 'admin',
             // 配置退出登录地址
-            'logoutUrl' => 'default/logout'
+            'logoutUrl' => 'default/logout', // 默认就是default/logout
+            // 验证码验证地址
+            'captchaAction' => 'default/captcha', // 默认值为null 使用的就是default/captcha
         ]
     ],
     'components' => [
