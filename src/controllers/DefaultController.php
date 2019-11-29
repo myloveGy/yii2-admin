@@ -68,12 +68,12 @@ class DefaultController extends \yii\web\Controller
             'captcha' => [
                 'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                'maxLength'       => 4,           // 最大显示个数
+                'maxLength'       => 6,           // 最大显示个数
                 'minLength'       => 4,           // 最少显示个数
                 'padding'         => 5,           // 间距
                 'height'          => 34,          // 高度
                 'width'           => 130,         // 宽度
-                'offset'          => 4,           // 设置字符偏移量 有效果
+                'offset'          => 10,          // 设置字符偏移量 有效果
             ],
         ];
     }
@@ -179,7 +179,7 @@ class DefaultController extends \yii\web\Controller
                 Yii::$app->session->set('validateCode', true);
             }
         }
-        
+
         return $this->render('login', compact('model'));
     }
 
