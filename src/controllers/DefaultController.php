@@ -72,7 +72,7 @@ class DefaultController extends \yii\web\Controller
                 'padding'   => 2,           // 间距
                 'height'    => 34,          // 高度
                 'width'     => 130,         // 宽度
-                'offset'    => 10,          // 设置字符偏移量 有效果
+                'offset'    => 8,           // 设置字符偏移量 有效果
             ],
         ];
     }
