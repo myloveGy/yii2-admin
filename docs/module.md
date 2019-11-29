@@ -41,6 +41,10 @@ $config = [
 |`$frameNumbershowClose`|`int`|3|后台界面开启多少个`iframe`显示关闭全部按钮|
 |`$leftTopButtons`|`array`| `[...]`|后台界面左侧按钮配置 |
 |`$userLinks`|`array`|`[...]`|后台界面登录用户右侧按钮配置|
+|`$logoutUrl`|`string`|`default/logout`|用户退出提交地址(修改后需要自己处理用户退出)|
+|`$captchaAction`|`string|null`|null|验证码model验证的地址(默认为null 使用的是模块下的default/captcha)|
+
+>验证码说明：用户在登录失败后，会要求用户输入验证码进行验证，如果是二级目录部署项目的话，需要自己配置model验证码验证规则中的验证码生成地址
 
 
 ## `Yii2`高级版后台配置模板
