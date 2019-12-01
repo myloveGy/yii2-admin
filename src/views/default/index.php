@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use jinxing\admin\web\AppAsset;
 use jinxing\admin\widgets\Nav;
+use jinxing\admin\web\AppAsset;
 use jinxing\admin\helpers\Helper;
 
 AppAsset::register($this);
