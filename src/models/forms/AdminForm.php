@@ -3,8 +3,8 @@
 namespace jinxing\admin\models\forms;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 use jinxing\admin\models\Admin;
 
 /**
@@ -110,6 +110,7 @@ class AdminForm extends \yii\base\Model
 
     /**
      * @return bool|Admin|null
+     * @throws \yii\base\InvalidConfigException
      */
     public function getUser()
     {
