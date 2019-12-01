@@ -1,5 +1,48 @@
 Yii2-admin extension Change Log
 ===============================
+1.2.14 2019-12-01
+-----------------
+
+- refactor: `Nav`小部件是`url`使用绝对路径，并且添加 `Yii::$app->getRequest()->getBaseUrl()`配置的前缀
+>目的是为了项目使用二级目录配置的时候，不需要关注菜单路径、和权限，权限和菜单添加的时候，不需要添加二级目录的前缀
+>和单域名部署添加方式保持一致；如下：
+
+1. 单独域名部署访问地址: `http://localhost/admin/menu/index`
+2. 二级目录部署(/admin)访问地址: `http://localhost/admin/admin/menu/index`
+
+二级目录部署需要配置
+
+项目配置(只是request部分)：
+```php
+'components' => [
+    'request' => [
+        'csrfParam' => '_csrf-backend',
+        'baseUrl'   => '/admin',
+    ],
+]
+```
+
+nginx配置(这里给出的只是路由重写部分配置):
+```
+location /admin {
+    try_files $uri $uri/ /backend/web/index.php$is_args$args;
+}
+
+location ~ ^/admin/(.+\.(html|js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar|woff2|woff|ttf))$ {
+    access_log  off;
+    expires  360d;
+
+    rewrite  ^/admin/(.+)$  /backend/web/$1 break;
+    rewrite  ^/admin/(.+)/(.+)$  /backend/web/$1/$2 break;
+    try_files  $uri =404;
+}
+```
+
+上面两种配置对应的权限和名称都为：
+
+1. 菜单地址：`admin/menu/index`
+2. 权限名称：`admin/menu/index`
+
 1.2.13 2019-11-28
 -----------------
 
