@@ -4,8 +4,7 @@ Yii2-admin extension Change Log
 -----------------
 
 - refactor: `Nav`小部件的`url`使用绝对路径，并且添加 `Yii::$app->getRequest()->getBaseUrl()`配置的前缀
->目的是为了项目使用二级目录配置的时候，不需要关注菜单路径、和权限，权限和菜单添加的时候，不需要添加二级目录的前缀
->和单域名部署添加方式保持一致；如下：
+>目的是为了项目使用二级目录配置的时候，不需要关注菜单路径、和权限；权限和菜单添加的时候，不需要添加二级目录的前缀，和单域名部署添加方式保持一致；如下：
 
 1. 单独域名部署访问地址: `http://localhost/admin/menu/index`
 2. 二级目录部署(/admin)访问地址: `http://localhost/admin/admin/menu/index`
