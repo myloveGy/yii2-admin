@@ -1,5 +1,11 @@
 Yii2-admin extension Change Log
 ===============================
+
+1.2.15 2019-12-05
+-----------------
+
+fix: 修复当iframe页面session过期后，主页面没有刷新问题
+
 1.2.14 2019-12-01
 -----------------
 
@@ -13,12 +19,14 @@ Yii2-admin extension Change Log
 
 项目配置(只是request部分)：
 ```php
-'components' => [
-    'request' => [
-        'csrfParam' => '_csrf-backend',
-        'baseUrl'   => '/admin',
-    ],
-]
+$config = [
+    'components' => [
+        'request' => [
+            'csrfParam' => '_csrf-backend',
+            'baseUrl'   => '/admin',
+        ],
+    ]
+];
 ```
 
 nginx配置(这里给出的只是路由重写部分配置):

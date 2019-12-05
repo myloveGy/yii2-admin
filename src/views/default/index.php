@@ -34,7 +34,12 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
     <![endif]-->
     <script type="text/javascript">
         if (window.parent && window.parent.addIframe && window.parent.authHeight && typeof window.parent.addIframe === "function") {
-            window.parent.location.reload()
+            try {
+                // 这种写法是为了兼容火狐浏览器
+                window.parent.parent.location.href = window.parent.location.href
+            } catch (e) {
+                window.parent.location.reload()
+            }
         }
     </script>
     <!-- inline styles related to this page -->
