@@ -27,18 +27,23 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
     <!-- ace styles -->
     <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="<?=$url?>/css/ace-part2.min.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace-part2.min.css"/>
     <![endif]-->
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="<?=$url?>/css/ace-ie.min.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace-ie.min.css"/>
     <![endif]-->
+    <script type="text/javascript">
+        if (window.parent && window.parent.addIframe && window.parent.authHeight && typeof window.parent.addIframe === "function") {
+            window.parent.location.reload()
+        }
+    </script>
     <!-- inline styles related to this page -->
     <!-- ace settings handler -->
     <script src="<?= $url ?>/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
-    <script src="<?=$url?>/js/html5shiv.min.js"></script>
-    <script src="<?=$url?>/js/respond.min.js"></script>
+    <script src="<?= $url ?>/js/html5shiv.min.js"></script>
+    <script src="<?= $url ?>/js/respond.min.js"></script>
     <![endif]-->
     <style>
         body {
@@ -342,7 +347,7 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
 <!-- <![endif]-->
 <!--[if IE]>
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='<?=$url?>/js/jquery1x.min.js'>" + "<" + "/script>");
+    window.jQuery || document.write("<script src='<?= $url ?>/js/jquery1x.min.js'>" + "<" + "/script>");
 </script>
 <![endif]-->
 <script type="text/javascript">
@@ -350,7 +355,7 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
 </script>
 <script src="<?= $url ?>/js/bootstrap.min.js"></script>
 <!--[if lte IE 8]>
-<script src="<?=$url?>/js/excanvas.min.js"></script>
+<script src="<?= $url ?>/js/excanvas.min.js"></script>
 <![endif]-->
 <?php $this->endBody() ?>
 <script type="text/javascript">
