@@ -4,7 +4,7 @@ Yii2-admin extension Change Log
 1.2.15 2019-12-05
 -----------------
 
-fix: 修复当iframe页面session过期后，主页面没有刷新问题
+- 🛠 修复当iframe页面session过期后，主页面没有刷新问题
 
 1.2.14 2019-12-01
 -----------------
