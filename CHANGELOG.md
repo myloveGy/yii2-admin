@@ -29,9 +29,9 @@ Yii2-admin extension Change Log
     - `findOne` 优化 查询使用数组, 允许设置`$pk` 为 `model` 的唯一索引字段
     
     ```php
-    $model = model::findOne([$this->pk => $data[$this->pk]);
+    $model = \yii\db\ActiveRecord::findOne([$this->pk => $data[$this->pk]]);
     
-    // 之前 $model = model::findOne($data[$this->pk]);
+    // 之前 $model = \yii\db\ActiveRecord::findOne($data[$this->pk]);
     ```
     - `actionUpload` 优化，`UploadForm` 存在指定字段验证场景，才设置验证场景
 
