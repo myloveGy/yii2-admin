@@ -572,23 +572,23 @@ Html;
         /* @var $generator yii\gii\generators\model\Generator */
         $generator = Yii::createObject(['class' => 'yii\gii\generators\model\Generator']);
         $generator->load([
-            'tableName'           => $model->table,
-            'modelClass'          => $modelClassName,
-            'standardizeCapitals' => '0',
-            'ns'                  => $namespace,
-            'baseClass'           => 'yii\db\ActiveRecord',
-            'db'                  => 'db',
-            'useTablePrefix'      => '1',
+            'tableName'                  => $model->table,
+            'modelClass'                 => $modelClassName,
+            'standardizeCapitals'        => '0',
+            'ns'                         => $namespace,
+            'baseClass'                  => 'yii\db\ActiveRecord',
+            'db'                         => 'db',
+            'useTablePrefix'             => '1',
 //            'generateRelations'                  => 'all',
 //            'generateRelationsFromCurrentSchema' => '1',
-//            'generateLabelsFromComments' => '1',
-            'generateQuery'       => '0',
-            'queryNs'             => $namespace,
-            'queryBaseClass'      => 'yii\db\ActiveQuery',
-            'enableI18N'          => '0',
-            'messageCategory'     => 'app',
-            'useSchemaName'       => '1',
-            'template'            => 'default',
+            'generateLabelsFromComments' => '1',
+            'generateQuery'              => '0',
+            'queryNs'                    => $namespace,
+            'queryBaseClass'             => 'yii\db\ActiveQuery',
+            'enableI18N'                 => '0',
+            'messageCategory'            => 'app',
+            'useSchemaName'              => '1',
+            'template'                   => 'default',
         ], '');
 
         foreach ($generator->generate() as $f) {

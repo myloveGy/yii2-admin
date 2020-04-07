@@ -2,6 +2,7 @@
 
 namespace jinxing\admin\widgets;
 
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
@@ -114,11 +115,20 @@ class Nav extends Widget
         $a           .= $isRenderSpan ? Html::tag('span', $label, ['class' => 'menu-text']) : $label;
         $options     = ArrayHelper::getValue($item, 'options', []);
         $items       = ArrayHelper::getValue($item, $this->itemsName);
-        $url         = ArrayHelper::getValue($item, 'url', '#');
         $linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
         $id          = ArrayHelper::getValue($item, 'id');
         if ($id) {
             $linkOptions['data-id'] = $id;
+        }
+
+        // url 跳转地址, 使用的是绝对路径跳转
+        $url = ArrayHelper::getValue($item, 'url');
+        if ($url) {
+            // 存在url,那么使用绝对路径，存在BaseUrl 那么使用BaseUrl
+            $prefix = Yii::$app->getRequest()->getBaseUrl();
+            $url    = $prefix . '/' . ltrim($url, '/');
+        } else {
+            $url = '#';
         }
 
         if (empty($items)) {
@@ -134,7 +144,7 @@ class Nav extends Widget
             }
         }
 
-        return Html::tag('li', Html::a($a, $url ? '/' . trim($url, '/') : '#', $linkOptions) . $items, $options);
+        return Html::tag('li', Html::a($a, $url, $linkOptions) . $items, $options);
     }
 
     /**

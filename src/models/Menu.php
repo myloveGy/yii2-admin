@@ -131,7 +131,7 @@ class Menu extends ActiveRecord
 
         // 没有菜单返回空
         if (!isset($menus) || empty($menus)) {
-            return $menus;
+            return [];
         }
 
         // 生成导航信息

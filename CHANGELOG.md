@@ -1,5 +1,66 @@
 Yii2-admin extension Change Log
 ===============================
+
+1.2.17 2020-02-14
+-----------------
+
+- 🌟 使用代码生成的model的label默认使用db的comments
+
+1.2.16 2019-12-09
+-----------------
+
+- 🛠 修复查询菜单为空报的Notice的错误bug
+
+
+1.2.15 2019-12-05
+-----------------
+
+- 🛠 修复当iframe页面session过期后，主页面没有刷新问题
+
+1.2.14 2019-12-01
+-----------------
+
+- refactor: `Nav`小部件的`url`使用绝对路径，并且添加 `Yii::$app->getRequest()->getBaseUrl()`配置的前缀
+>目的是为了项目使用二级目录配置的时候，不需要关注菜单路径、和权限；权限和菜单添加的时候，不需要添加二级目录的前缀，和单域名部署添加方式保持一致；如下：
+
+1. 单独域名部署访问地址: `http://localhost/admin/menu/index`
+2. 二级目录部署(/admin)访问地址: `http://localhost/admin/admin/menu/index`
+
+二级目录部署需要配置
+
+项目配置(只是request部分)：
+```php
+$config = [
+    'components' => [
+        'request' => [
+            'csrfParam' => '_csrf-backend',
+            'baseUrl'   => '/admin',
+        ],
+    ]
+];
+```
+
+nginx配置(这里给出的只是路由重写部分配置):
+```
+location /admin {
+    try_files $uri $uri/ /backend/web/index.php$is_args$args;
+}
+
+location ~ ^/admin/(.+\.(html|js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar|woff2|woff|ttf))$ {
+    access_log  off;
+    expires  360d;
+
+    rewrite  ^/admin/(.+)$  /backend/web/$1 break;
+    rewrite  ^/admin/(.+)/(.+)$  /backend/web/$1/$2 break;
+    try_files  $uri =404;
+}
+```
+
+上面两种配置对应的权限和名称都为：
+
+1. 菜单地址：`admin/menu/index`
+2. 权限名称：`admin/menu/index`
+
 1.2.13 2019-11-28
 -----------------
 
