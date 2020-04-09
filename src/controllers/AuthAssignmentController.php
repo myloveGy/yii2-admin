@@ -2,13 +2,12 @@
 
 namespace jinxing\admin\controllers;
 
-use jinxing\admin\models\Admin;
-use jinxing\admin\models\AuthAssignment;
-use yii\helpers\Json;
-use jinxing\admin\helpers\Helper;
-use yii\helpers\ArrayHelper;
 use yii;
-
+use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
+use jinxing\admin\models\Admin;
+use jinxing\admin\helpers\Helper;
+use jinxing\admin\models\AuthAssignment;
 
 /**
  * Class AuthAssignmentController 角色分配 执行操作控制器
@@ -28,8 +27,12 @@ class AuthAssignmentController extends Controller
 
     public function where()
     {
+        $intUserId = ArrayHelper::getValue($this->module, 'userId');
         return [
-            [['user_id', 'item_name'], 'in']
+            // 不是管理员默认查询条件
+            'where' => $intUserId != Admin::SUPER_ADMIN_ID ? [['user_id' => $intUserId]] : [],
+
+            [['user_id', 'item_name'], 'in'],
         ];
     }
 
@@ -91,9 +94,8 @@ class AuthAssignmentController extends Controller
         if (empty($data['item_name']) || empty($data['user_id'])) {
             return $this->error(201);
         }
-
+        
         // 通过传递过来的唯一主键值查询数据
-        /* @var $model \yii\db\ActiveRecord */
         if (!$model = AuthAssignment::findOne(['item_name' => $data['item_name'], 'user_id' => $data['user_id']])) {
             $this->error(222);
         }
