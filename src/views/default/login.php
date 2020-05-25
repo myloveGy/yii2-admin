@@ -71,7 +71,6 @@ $this->registerCss('div.field-adminform-verifycode {
         </label>
         <?= Html::submitButton('登录', ['class' => 'btn bg-olive btn-block width-35 pull-right btn btn-sm btn-primary']) ?>
     </div>
-    <div class="space-4"></div>
 </fieldset>
 <?php ActiveForm::end(); ?>
 <?php $this->beginBlock('javascript'); ?>
