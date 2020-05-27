@@ -3,7 +3,32 @@ Yii2-admin extension Change Log
 1.2.19 2020-05-25
 -----------------
 
-- 💄 添加是否需要注册页面，以及注册
+- 💄 添加`loginOtherRenderPaths` 配置登录页面，渲染注册管理员、忘记密码页面地址
+```php
+    /**
+     * @var string[] 登录视图中需要引入其他页面的路径配置
+     */
+    $loginOtherRenderPaths = [
+        // 注册管理员
+        'register' => '/default/register',
+
+        // 忘记密码
+        'forgot'   => '/default/forgot',
+    ];
+```
+
+如果不需要注册、忘记密码
+```php
+return [
+    'modules'             => [
+        'admin' => [
+            'class'                 => 'jinxing\admin\Module',
+            'user'                  => 'user',
+            'loginOtherRenderPaths' => [],
+        ],
+    ],
+];
+```
 
 1.2.18 2020-04-09
 -----------------
