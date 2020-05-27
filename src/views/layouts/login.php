@@ -146,39 +146,46 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
     </div><!-- /.main-content -->
 </div><!-- /.main-container -->
 
+<script src="<?= $url ?>/js/jquery.cookie.js"></script>
 <script type="text/javascript">
     jQuery(function ($) {
+
         $(document).on('click', '.toolbar a[data-target]', function (e) {
             e.preventDefault();
             var target = $(this).data('target');
             $('.widget-box.visible').removeClass('visible');//hide others
             $(target).addClass('visible');//show target
         });
-    });
 
-    //you don't need this, just used for changing background
-    jQuery(function ($) {
         $('#btn-login-dark').on('click', function (e) {
+            console.info(theme, "123")
             $('body').attr('class', 'login-layout');
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'blue');
+            $.cookie("login-theme", "login-dark", {expires: 365})
             e.preventDefault();
         });
 
         $('#btn-login-light').on('click', function (e) {
+            console.info(theme, "123")
             $('body').attr('class', 'login-layout light-login');
             $('#id-text2').attr('class', 'grey');
             $('#id-company-text').attr('class', 'blue');
+            $.cookie("login-theme", "login-light", {expires: 365})
             e.preventDefault();
         });
+
         $('#btn-login-blur').on('click', function (e) {
+            console.info(theme, "123")
             $('body').attr('class', 'login-layout blur-login');
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'light-blue');
+            $.cookie("login-theme", "login-blur", {expires: 365})
             e.preventDefault();
         });
 
-
+        var theme = $.cookie("login-theme") || "light-login"
+        $("#btn-" + theme).trigger("click")
     });
 </script>
 <?php $this->endBody() ?>
