@@ -58,18 +58,18 @@ $url = Helper::getAssetUrl();
     <!-- ace styles -->
     <link rel="stylesheet" href="<?= $url ?>/css/ace.min.css" id="main-ace-style"/>
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="<?=$url?>/css/ace-part2.min.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace-part2.min.css"/>
     <![endif]-->
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="<?=$url?>/css/ace-ie.min.css"/>
+    <link rel="stylesheet" href="<?= $url ?>/css/ace-ie.min.css"/>
     <![endif]-->
     <!-- inline styles related to this page -->
     <!-- ace settings handler -->
     <script src="<?= $url ?>/js/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
-    <script src="<?=$url?>/js/html5shiv.min.js"></script>
-    <script src="<?=$url?>/js/respond.min.js"></script>
+    <script src="<?= $url ?>/js/html5shiv.min.js"></script>
+    <script src="<?= $url ?>/js/respond.min.js"></script>
     <![endif]-->
 </head>
 <body class="no-skin">
@@ -97,8 +97,9 @@ $url = Helper::getAssetUrl();
     <div class="footer">
         <div class="footer-inner">
             <div class="footer-content">
-                <span
-                        class="bigger-120"><?= ArrayHelper::getValue(Yii::$app->params, 'companyName', '<span class="blue bolder"> Liujinxing </span> Yii2 Admin 项目 &copy; 2016-2018') ?></span>
+                <span class="bigger-120">
+                    <?= ArrayHelper::getValue(Yii::$app->params, 'companyName', '<span class="bolder"> jinxing.liu@qq.com </span> <a href="https://github.com/myloveGy/yii2-ace-admin" target="_blank">Yii2 Admin</a> 项目 &copy; 2016-2020') ?>
+                </span>
             </div>
         </div>
     </div>
@@ -116,7 +117,7 @@ $url = Helper::getAssetUrl();
 <!-- <![endif]-->
 <!--[if IE]>
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='<?=$url?>/js/jquery1x.min.js'>" + "<" + "/script>");
+    window.jQuery || document.write("<script src='<?= $url ?>/js/jquery1x.min.js'>" + "<" + "/script>");
 </script>
 <![endif]-->
 <script type="text/javascript">
@@ -129,7 +130,7 @@ $url = Helper::getAssetUrl();
 <script src="<?= $url ?>/js/bootstrap.min.js"></script>
 <!-- page specific plugin scripts -->
 <!--[if lte IE 8]>
-<script src="<?=$url?>/js/excanvas.min.js"></script>
+<script src="<?= $url ?>/js/excanvas.min.js"></script>
 <![endif]-->
 <?php $this->endBody() ?>
 <?= $this->blocks['javascript'] ?>

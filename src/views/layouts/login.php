@@ -66,8 +66,53 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
     <!--[if lte IE 8]>
     <script src="<?= $url ?>/js/excanvas.min.js"></script>
     <![endif]-->
+
+    <style>
+        body {
+            background: radial-gradient(200% 100% at bottom center, #f7f7b6, #e96f92, #75517d, #1b2947);
+            background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+            }
+            100% {
+                transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+            }
+        }
+
+        .stars {
+            transform: perspective(500px);
+            transform-style: preserve-3d;
+            position: absolute;
+            bottom: 0;
+            perspective-origin: 50% 100%;
+            left: 50%;
+            animation: rotate 90s infinite linear;
+        }
+
+        .star {
+            width: 2px;
+            height: 2px;
+            background: #F7F7B6;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0 -300px;
+            transform: translate3d(0, 0, -300px);
+            backface-visibility: hidden;
+        }
+
+        .login-layout .widget-box {
+            background: none;
+        }
+    </style>
 </head>
 <body class="login-layout light-login">
+<div class="stars"></div>
 <?php $this->beginBody() ?>
 <div class="main-container">
     <div class="main-content">
@@ -76,8 +121,13 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
                 <div class="login-container">
                     <div class="center">
                         <h1>
-                            <span class="red"><?= ArrayHelper::getValue(Yii::$app->params, 'projectName', 'Yii2 Admin') ?></span>
+                            <span class="white" id="id-text2">
+                                <?= ArrayHelper::getValue(Yii::$app->params, 'projectName', 'Yii2 Admin') ?>
+                            </span>
                         </h1>
+                        <h4 class="blue" id="id-company-text">
+                            <?= ArrayHelper::getValue(Yii::$app->params, 'loginCompanyName', 'jinxing.liu@qq.com Yii2 Admin 项目') ?>
+                        </h4>
                     </div>
 
                     <div class="space-6"></div>
@@ -129,7 +179,7 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
                     <div class="navbar-fixed-top align-right">
                         <br/>
                         &nbsp;
-                        <a id="btn-login-dark" href="#">暗黑</a>
+                        <a id="btn-login-dark" class="active" href="#">星空</a>
                         &nbsp;
                         <span class="blue">/</span>
                         &nbsp;
@@ -163,15 +213,17 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'blue');
             $.cookie("login-theme", "login-dark", {expires: 365})
+            $(".stars").show();
             e.preventDefault();
         });
 
         $('#btn-login-light').on('click', function (e) {
             console.info(theme, "123")
             $('body').attr('class', 'login-layout light-login');
-            $('#id-text2').attr('class', 'grey');
+            $('#id-text2').attr('class', 'red');
             $('#id-company-text').attr('class', 'blue');
             $.cookie("login-theme", "login-light", {expires: 365})
+            $(".stars").hide();
             e.preventDefault();
         });
 
@@ -181,11 +233,30 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'light-blue');
             $.cookie("login-theme", "login-blur", {expires: 365})
+            $(".stars").show();
             e.preventDefault();
         });
 
         var theme = $.cookie("login-theme") || "light-login"
         $("#btn-" + theme).trigger("click")
+
+        var stars = 900; /*星星的密集程度，数字越大越多*/
+        var $stars = $(".stars");
+        var r = 800; /*星星的看起来的距离,值越大越远,可自行调制到自己满意的样子*/
+        for (var i = 0; i < stars; i++) {
+            var $star = $("<div/>").addClass("star");
+            $stars.append($star);
+        }
+
+        $(".star").each(function () {
+            var cur = $(this);
+            var s = 0.2 + (Math.random() * 1);
+            var curR = r + (Math.random() * 300);
+            cur.css({
+                transformOrigin: "0 0 " + curR + "px",
+                transform: " translate3d(0,0,-" + curR + "px) rotateY(" + (Math.random() * 360) + "deg) rotateX(" + (Math.random() * -50) + "deg) scale(" + s + "," + s + ")"
+            })
+        })
     });
 </script>
 <?php $this->endBody() ?>

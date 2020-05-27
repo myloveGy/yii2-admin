@@ -105,6 +105,12 @@ class Module extends yii\base\Module
         ['title' => '登录信息', 'id' => 'index', 'url' => 'default/system', 'icon' => 'fa fa-desktop'],
         ['title' => '个人信息', 'id' => 'my-info', 'url' => 'admin/view', 'icon' => 'fa fa-user'],
         ['title' => '我的日程', 'id' => 'my-arrange', 'url' => 'arrange/calendar', 'icon' => 'fa fa-calendar'],
+        [
+            'title'  => '帮助文档',
+            'href'   => 'https://mylovegy.github.io/yii2-admin/?page=home',
+            'icon'   => 'fa fa-external-link',
+            'target' => '_blank',
+        ],
     ];
 
     /**

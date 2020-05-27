@@ -194,14 +194,18 @@ $leftTopButtons = Yii::$app->controller->module->leftTopButtons;
                         <?php if ($userLinks) : ?>
                             <?php foreach ($userLinks as $link) : ?>
                                 <li>
+                                    <?php if (ArrayHelper::getValue($link, 'id') && ArrayHelper::getValue($link, 'url')) : ?>
                                     <a class="window-iframe"
                                        data-id="<?= ArrayHelper::getValue($link, 'id') ?>"
                                        title="<?= ArrayHelper::getValue($link, 'title') ?>"
                                        data-url="<?= Url::toRoute([ArrayHelper::getValue($link, 'url')]) ?>"
                                     >
-                                        <i class="ace-icon <?= ArrayHelper::getValue($link, 'icon') ?>"></i>
-                                        <?= ArrayHelper::getValue($link, 'title') ?>
-                                    </a>
+                                        <?php else : ?>
+                                        <a <?= Html::renderTagAttributes($link) ?>>
+                                            <?php endif; ?>
+                                            <i class="ace-icon <?= ArrayHelper::getValue($link, 'icon') ?>"></i>
+                                            <?= ArrayHelper::getValue($link, 'title') ?>
+                                        </a>
                                 </li>
                             <?php endforeach; ?>
                             <li class="divider"></li>
