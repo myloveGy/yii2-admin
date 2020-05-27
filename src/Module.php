@@ -108,6 +108,17 @@ class Module extends yii\base\Module
     ];
 
     /**
+     * @var string[] 登录视图中需要引入其他页面的路径配置
+     */
+    public $loginOtherRenderPaths = [
+        // 注册管理员
+        'register' => '/default/register',
+
+        // 忘记密码
+        'forgot'   => '/default/forgot',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function init()
