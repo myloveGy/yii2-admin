@@ -121,7 +121,7 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
                 <div class="login-container">
                     <div class="center">
                         <h1>
-                            <span class="white" id="id-text2">
+                            <span class="red" id="id-text2">
                                 <?= ArrayHelper::getValue(Yii::$app->params, 'projectName', 'Yii2 Admin') ?>
                             </span>
                         </h1>
@@ -208,7 +208,6 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
         });
 
         $('#btn-login-dark').on('click', function (e) {
-            console.info(theme, "123")
             $('body').attr('class', 'login-layout');
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'blue');
@@ -218,7 +217,6 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
         });
 
         $('#btn-login-light').on('click', function (e) {
-            console.info(theme, "123")
             $('body').attr('class', 'login-layout light-login');
             $('#id-text2').attr('class', 'red');
             $('#id-company-text').attr('class', 'blue');
@@ -228,7 +226,6 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
         });
 
         $('#btn-login-blur').on('click', function (e) {
-            console.info(theme, "123")
             $('body').attr('class', 'login-layout blur-login');
             $('#id-text2').attr('class', 'white');
             $('#id-company-text').attr('class', 'light-blue');
@@ -237,7 +234,7 @@ $renderPaths = Yii::$app->controller->module->loginOtherRenderPaths;
             e.preventDefault();
         });
 
-        var theme = $.cookie("login-theme") || "light-login"
+        var theme = $.cookie("login-theme") || "login-light"
         $("#btn-" + theme).trigger("click")
 
         var stars = 900; /*星星的密集程度，数字越大越多*/
