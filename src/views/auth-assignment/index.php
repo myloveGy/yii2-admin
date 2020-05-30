@@ -17,52 +17,51 @@ $depends = ['depends' => 'jinxing\admin\web\AdminAsset'];
 
 $this->registerJsFile($url . '/js/chosen.jquery.min.js', $depends);
 $this->registerCssFile($url . '/css/chosen.css', $depends);
+$this->registerCss('
+.col-md-4>.input-group {
+    line-height: 32px;
+    height: 32px;
+}
+');
 ?>
-
-    <div class="well">
-        <form id="search-form">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">管理员</label>
-                        <div class="col-sm-10">
-                            <?= Html::dropDownList(
-                                'user_id',
-                                null,
-                                $admins,
-                                [
-                                    'multiple'         => 'multiple',
-                                    'class'            => 'chosen-select tag-input-style',
-                                    'data-placeholder' => '请选择管理员',
-                                ]
-                            ) ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">分配角色</label>
-                        <div class="col-sm-10">
-                            <?= Html::dropDownList('item_name', null, $arrRoles, [
-                                'multiple'         => 'multiple',
-                                'class'            => 'chosen-select tag-input-style',
-                                'data-placeholder' => '请选择角色',
-                            ]) ?>
-                        </div>
-                    </div>
-                </div>
+<form id="search-form">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    管理员
+                </span>
+                <?= Html::dropDownList(
+                    'user_id',
+                    null,
+                    $admins,
+                    [
+                        'multiple'         => 'multiple',
+                        'class'            => 'chosen-select tag-input-style',
+                        'data-placeholder' => '请选择管理员',
+                    ]
+                ) ?>
             </div>
-            <div class="row">
-                <div class="col-xs-12 pull-right" style="margin-top: 10px;">
-                    <div class="pull-right" id="me-table-buttons">
-                        <button class="btn btn-info btn-sm">
-                            <i class="ace-icon fa fa-search"></i> 搜索
-                        </button>
-                    </div>
-                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    分配角色
+                </span>
+                <?= Html::dropDownList('item_name', null, $arrRoles, [
+                    'multiple'         => 'multiple',
+                    'class'            => 'chosen-select tag-input-style',
+                    'data-placeholder' => '请选择角色',
+                ]) ?>
             </div>
-        </form>
+        </div>
+        <div class="col-md-4" id="me-table-buttons">
+            <button class="btn btn-info btn-sm">
+                <i class="ace-icon fa fa-search"></i> 搜索
+            </button>
+        </div>
     </div>
+</form>
     <!-- 表格数据 -->
 <?= MeTable::widget([
     'buttons' => [
