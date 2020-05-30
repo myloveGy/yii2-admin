@@ -32,6 +32,11 @@ $url = Helper::getAssetUrl();
             margin-left: 8px !important;
         }
 
+        form div.table-search-col {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
         ::-webkit-scrollbar-track {
             background-color: #F5F5F5;
         }
