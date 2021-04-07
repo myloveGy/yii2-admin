@@ -54,7 +54,7 @@ return [
             // Do not verify permissions
             'verifyAuthority' => false,
             ...
-        ]
+        ],
         ...
     ],
     ...
@@ -123,9 +123,9 @@ return [
                 'class' => 'jinxing\admin\Module',
                 
                 // Make use of that kind of user
-                'user' => 'admin'
+                'user' => 'admin',
                 ...
-            ]
+            ],
             ...
         ],
         // authority management
@@ -134,7 +134,7 @@ return [
         ],
         ...
     ],
-]
+];
 ```
 
 ## Import permission information table structure
