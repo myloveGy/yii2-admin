@@ -138,7 +138,7 @@ $url = Helper::getAssetUrl();
 <script src="<?= $url ?>/js/excanvas.min.js"></script>
 <![endif]-->
 <?php $this->endBody() ?>
-<?= $this->blocks['javascript'] ?>
+<?= isset($this->blocks['javascript']) ? $this->blocks['javascript'] : '' ?>
 </body>
 </html>
 <?php $this->endPage() ?>
