@@ -186,9 +186,9 @@ class Helper
      * @throws \PHPExcel_Writer_Exception
      * @throws \yii\base\ExitException
      */
-    public static function excel($title, $columns, $query, $handleParams = [], $function = null)
+    public static function excel($title, $columns, $query, $model, $handleParams = [], $function = null)
     {
-        $intCount = $query->count();
+        $intCount = $query->count('*', $model::getDb());
         // 判断数据是否存在
         if ($intCount <= 0) {
             return;
@@ -226,7 +226,11 @@ class Helper
 
         // 写入数据信息
         $intNum = 2;
-        foreach ($query->batch(1000) as $array) {
+        $order = [];
+        foreach ($model::primaryKey() as $val) {
+            $order[$val] = SORT_DESC;
+        }
+        foreach ($query->orderBy($order)->batch(1000, $model::getDb()) as $array) {
 
             // 函数处理，允许修改数据
             if ($function && $function instanceof Closure) {
