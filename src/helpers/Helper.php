@@ -229,7 +229,7 @@ class Helper
         foreach ($query->batch(1000) as $array) {
 
             // 函数处理，允许修改数据
-            if ($function && $function instanceof Closure) {
+            if ($function instanceof Closure) {
                 $function($array);
             }
 
