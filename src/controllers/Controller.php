@@ -100,7 +100,7 @@ class Controller extends \yii\web\Controller
     {
         /* @var $model \yii\db\ActiveRecord */
         $model = $this->modelClass;
-        return (new Query())->from($model::tableName())->where($where);
+        return $model::find()->where($where)->asArray();
     }
 
     /**
@@ -129,9 +129,9 @@ class Controller extends \yii\web\Controller
         $query = $this->getQuery(ArrayHelper::getValue($search, 'where', []));
 
         // 查询数据条数
-        if ($total = $query->count('*', $this->modelClass::getDb())) {
+        if ($total = $query->count()) {
             $orderBy = ArrayHelper::getValue($search, 'orderBy') ?: [$this->sort => SORT_DESC];
-            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all($this->modelClass::getDb())) {
+            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all()) {
                 $this->afterSearch($array);
             }
         } else {
@@ -331,7 +331,7 @@ class Controller extends \yii\web\Controller
     {
         // 接收参数
         $request  = Yii::$app->request;
-        $strField = $request->get('sField');    // 上传文件表单名称
+        $strField = $request->get('sField');            // 上传文件表单名称
         if (empty($strField)) {
             return $this->error(201);
         }
@@ -447,7 +447,6 @@ class Controller extends \yii\web\Controller
             $strTitle,
             $arrFields,
             $this->getQuery($conditions)->orderBy([$this->sort => SORT_DESC]),
-            $this->modelClass,
             $this->getExportHandleParams()
         );
     }
