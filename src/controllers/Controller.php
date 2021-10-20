@@ -129,9 +129,9 @@ class Controller extends \yii\web\Controller
         $query = $this->getQuery(ArrayHelper::getValue($search, 'where', []));
 
         // 查询数据条数
-        if ($total = $query->count()) {
+        if ($total = $query->count('*', $this->modelClass::getDb())) {
             $orderBy = ArrayHelper::getValue($search, 'orderBy') ?: [$this->sort => SORT_DESC];
-            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all()) {
+            if ($array = $query->offset($search['offset'])->limit($search['limit'])->orderBy($orderBy)->all($this->modelClass::getDb())) {
                 $this->afterSearch($array);
             }
         } else {
@@ -447,6 +447,7 @@ class Controller extends \yii\web\Controller
             $strTitle,
             $arrFields,
             $this->getQuery($conditions)->orderBy([$this->sort => SORT_DESC]),
+            $this->modelClass,
             $this->getExportHandleParams()
         );
     }
